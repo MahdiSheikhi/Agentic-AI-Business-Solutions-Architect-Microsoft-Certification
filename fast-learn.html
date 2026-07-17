@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fast Learn — AB-100 Rapid-Review Flashcards</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --accent:#0f6cbd; --soft:#e8f1fa; --dark:#0b2a4a;
+  --plan:#0e7490; --plan-soft:#ecfeff; --design:#7c3aed; --design-soft:#f5f3ff;
+  --deploy:#b45309; --deploy-soft:#fffbeb; --core:#475569; --core-soft:#f1f5f9;
+  --good:#1a7f37; --good-soft:#e7f4ea; --again:#b45309; --again-soft:#fdf0e3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#0f6cbd 130%);color:#fff;padding:26px 20px 20px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:720px;margin-left:auto;margin-right:auto}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--accent);border-bottom-color:var(--accent)}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 70px}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.chip{border:1px solid var(--line);background:#fff;color:#33475c;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.toolbar .right{margin-left:auto;display:flex;gap:8px}
+.tbtn{border:1px solid var(--line);background:#fff;color:#33475c;border-radius:9px;padding:6px 13px;font-size:13px;font-weight:600;cursor:pointer}
+.tbtn:hover{border-color:var(--accent);color:var(--accent)}
+
+.progress{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.ptext{font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap}
+.meter{flex:1;height:8px;background:#e8edf3;border-radius:99px;overflow:hidden}
+.meter div{height:100%;width:0;background:var(--good);border-radius:99px;transition:width .3s}
+
+.stage{perspective:1400px;margin-bottom:14px}
+.fcard{position:relative;width:100%;min-height:260px;cursor:pointer;transition:transform .5s;transform-style:preserve-3d}
+.fcard.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 2px 10px rgba(15,40,70,.08);padding:26px 30px;display:flex;flex-direction:column}
+.face.back{transform:rotateY(180deg);background:#fbfdff}
+.face .tags{display:flex;gap:8px;margin-bottom:14px}
+.tag{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;border-radius:999px;padding:3px 10px}
+.t-plan{background:var(--plan-soft);color:var(--plan)} .t-design{background:var(--design-soft);color:var(--design)}
+.t-deploy{background:var(--deploy-soft);color:var(--deploy)} .t-core{background:var(--core-soft);color:var(--core)}
+.t-cat{background:var(--soft);color:var(--accent)}
+.face .qtext{flex:1;display:flex;align-items:center;font-size:19px;font-weight:600;color:#12293f;line-height:1.45}
+.face.back .qtext{font-size:15.5px;font-weight:400;color:var(--ink)}
+.face.back .qtext b,.face.back .qtext strong{color:#12293f}
+.face .hint{font-size:12px;color:#93a3b3;text-align:center;margin-top:12px}
+.actions{display:flex;gap:10px;justify-content:center;margin-bottom:8px}
+.abtn{border:0;border-radius:11px;padding:12px 26px;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.abtn.know{background:var(--good-soft);color:var(--good)} .abtn.know:hover{background:#d5ecd9}
+.abtn.again{background:var(--again-soft);color:var(--again)} .abtn.again:hover{background:#f8e3c8}
+.abtn.skip{background:#eef2f6;color:#51616f} .abtn.skip:hover{background:#e2e9ef}
+.keys{text-align:center;font-size:12px;color:#93a3b3;margin-bottom:26px}
+.keys kbd{background:#fff;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 7px;font-family:inherit;font-size:11.5px}
+
+.donebox{background:var(--good-soft);border:1px solid #bfdec6;border-radius:14px;padding:24px;text-align:center;font-size:16px;font-weight:600;color:var(--good);margin-bottom:26px;display:none}
+.donebox p{font-weight:400;font-size:13.5px;color:#3c6947;margin-top:6px}
+
+h2.browse{font-size:18px;color:var(--dark);margin:8px 0 4px}
+p.bsub{font-size:13px;color:var(--muted);margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.mini{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--mc,var(--core));border-radius:11px;padding:13px 15px;cursor:pointer;transition:box-shadow .15s}
+.mini:hover{box-shadow:0 3px 10px rgba(15,40,70,.1)}
+.mini .mq{font-size:13.6px;font-weight:600;color:#22354a}
+.mini .ma{display:none;font-size:13.2px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+.mini.open .ma{display:block}
+.mini .st{float:right;font-size:11px;font-weight:700;color:var(--good)}
+@media (max-width:640px){.face{padding:20px}.face .qtext{font-size:16.5px}}
+@media print{nav.bar,.toolbar,.actions,.keys,.progress{display:none}.mini .ma{display:block}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Fast Learn</div>
+  <h1>Rapid-Review Flashcards</h1>
+  <p class="sub">The highest-yield exam facts as flip cards. Flip, mark what you know, and the deck keeps serving what you don't — until nothing is left.</p>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="fast-learn.html" class="here">⚡ Fast Learn</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="AB-100-Study-Guide-Modules/24-cheatsheet.html">Cheat sheet</a>
+  <a href="AB-100-Study-Guide-Modules/practice-exam.html">Practice exam</a>
+</nav>
+<div class="wrap">
+
+  <div class="toolbar" id="chips"></div>
+
+  <div class="progress">
+    <span class="ptext" id="ptext"></span>
+    <div class="meter"><div id="pbar"></div></div>
+  </div>
+
+  <div class="stage">
+    <div class="fcard" id="fcard" onclick="flip()">
+      <div class="face front"><div class="tags" id="tagsF"></div><div class="qtext" id="qF"></div><div class="hint">Click or press Space to reveal the answer</div></div>
+      <div class="face back"><div class="tags" id="tagsB"></div><div class="qtext" id="qB"></div><div class="hint">← Review again &nbsp;·&nbsp; → Got it</div></div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="abtn again" onclick="grade(false)">↺ Review again</button>
+    <button class="abtn skip" onclick="nextCard()">Skip</button>
+    <button class="abtn know" onclick="grade(true)">✓ Got it</button>
+  </div>
+  <div class="keys"><kbd>Space</kbd> flip · <kbd>→</kbd> got it · <kbd>←</kbd> review again · <kbd>↓</kbd> skip</div>
+
+  <div class="donebox" id="done">🎉 Deck cleared — you marked every card as known.<p>Switch category, hit Reset progress to run it again, or go take the practice exam.</p></div>
+
+  <h2 class="browse">Browse all cards</h2>
+  <p class="bsub">Click any card to peek at its answer. ✓ marks cards you've cleared in the player above.</p>
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+const CARDS = [
+ // Exam basics
+ {c:"Exam basics",d:"core",q:"Passing score — and how do you keep the certification active?",a:"<b>700 / 1000</b> to pass. Renew <b>every 12 months</b> with a free online renewal assessment on Microsoft Learn."},
+ {c:"Exam basics",d:"core",q:"The three AB-100 domains and their weights?",a:"<b>Plan 25–30%</b> · <b>Design 25–30%</b> · <b>Deploy 40–45%</b> — Deploy is the biggest area."},
+ {c:"Exam basics",d:"core",q:"What prerequisite does the Agentic AI Business Solutions Architect Expert cert require?",a:"One associate certification: <b>Dynamics 365</b>, <b>Power Platform</b>, or <b>Azure AI Engineer Associate</b>."},
+ // Naming decoder
+ {c:"Naming decoder",d:"core",q:"“Microsoft Foundry” was formerly called…?",a:"<b>Azure AI Foundry</b>, and before that <b>Azure AI Studio</b>. Foundry Tools = former Azure AI services; Foundry Models = the model catalog."},
+ {c:"Naming decoder",d:"core",q:"What replaced “messages” as Copilot Studio's billing unit?",a:"<b>Copilot Credits</b> (renamed 2025-09-01)."},
+ {c:"Naming decoder",d:"core",q:"The Agent Framework merges which two Microsoft projects?",a:"<b>Semantic Kernel + AutoGen</b> — the full-code framework for multi-agent orchestration."},
+ {c:"Naming decoder",d:"core",q:"What is Agent 365?",a:"The <b>agent control plane</b> — org-wide inventory, governance, and lifecycle management of agents. (Foundry IQ / Fabric IQ / Work IQ are the knowledge layers.)"},
+ {c:"Naming decoder",d:"core",q:"Copilot connectors were formerly known as…?",a:"<b>Microsoft Graph connectors</b> — they index external content for grounding."},
+ // Agent fundamentals
+ {c:"Agent fundamentals",d:"plan",q:"The five core agent components (CAF)?",a:"<b>1. Generative model</b> (reasoning engine) · <b>2. Instructions</b> (scope &amp; boundaries) · <b>3. Knowledge / retrieval</b> (grounding) · <b>4. Tools / actions</b> · <b>5. Memory</b> (history &amp; state)."},
+ {c:"Agent fundamentals",d:"plan",q:"The agent spectrum, in increasing autonomy?",a:"<b>Retrieval</b> agents (find &amp; synthesize) → <b>Task</b> agents (defined actions) → <b>Autonomous</b> agents (multi-step, trigger-driven, minimal oversight — need the most governance)."},
+ {c:"Agent fundamentals",d:"plan",q:"When should you NOT use an agent?",a:"Structured, predictable, rules-based work → <b>code / Power Automate / nongenerative AI</b>. Static Q&amp;A over a fixed document set → <b>classic RAG</b>. Agents fit ambiguous, multi-step work needing reasoning + tools."},
+ {c:"Agent fundamentals",d:"plan",q:"Agent vs plain RAG — the key difference?",a:"RAG runs a <b>deterministic retrieval pipeline</b>; an agent uses the model to <b>choose knowledge/tools at each step</b> — more capable, but non-deterministic, so it needs testing and governance."},
+ {c:"Agent fundamentals",d:"plan",q:"Agent flows vs cloud flows — licensing and behavior?",a:"Agent flows are <b>deterministic</b> and billed in <b>Copilot Credits</b> (no Power Automate license). Cloud flows need Power Automate licensing. Conversion cloud → agent flow is <b>one-way</b>."},
+ {c:"Agent fundamentals",d:"plan",q:"The grounding-data quality criteria?",a:"<b>Accuracy · relevance · timeliness (freshness) · completeness</b> — review data against these before wiring it to an agent."},
+ // Platform choice
+ {c:"Platform choice",d:"design",q:"A prebuilt SaaS agent covers the need. What do you recommend?",a:"<b>Configure, don't build.</b> Use the prebuilt D365/M365 agent and customize only where needed."},
+ {c:"Platform choice",d:"design",q:"Team Q&A over M365 content, no-code. Which tool?",a:"<b>Microsoft 365 agent builder or a SharePoint agent</b> — declarative, no-code, stays inside M365 governance."},
+ {c:"Platform choice",d:"design",q:"Departmental business process, low-code, DLP-governed. Which platform?",a:"<b>Copilot Studio</b> — low-code agents with topics, tools, agent flows, and Power Platform governance (DLP, environments)."},
+ {c:"Platform choice",d:"design",q:"You need model choice, custom orchestration, evaluations, CI/CD. Which platform?",a:"<b>Microsoft Foundry</b> — prompt agents vs <b>hosted</b> agents, full model catalog, evals, agents-as-code."},
+ {c:"Platform choice",d:"design",q:"Full code control of multi-agent graphs — tool and its five patterns?",a:"<b>Agent Framework</b>: Sequential · Concurrent · Group chat · Handoff · <b>Magentic</b>."},
+ {c:"Platform choice",d:"design",q:"Legacy app with no API — and when is RPA still right?",a:"No API → <b>computer use</b> (production = bring-your-own machine). Stable UI + fixed rules + high volume → classic <b>RPA</b>."},
+ // Protocols
+ {c:"Protocols",d:"design",q:"MCP vs A2A vs child agent — one-liner each?",a:"Agent ↔ <b>tools/knowledge</b> = <b>MCP</b>. Agent ↔ <b>agent across boundaries</b> (org/platform) = <b>A2A</b>. Same team, same platform = <b>child agent</b> — no protocol needed."},
+ {c:"Protocols",d:"design",q:"Which MCP transport is current — and which is dead?",a:"<b>Streamable HTTP</b> only. <b>SSE transport is dead since Aug 2025</b>."},
+ {c:"Protocols",d:"design",q:"How does an A2A agent advertise its capabilities?",a:"Via its <b>agent card</b> — a JSON manifest served at <code>/.well-known/agent-card.json</code>."},
+ // Numbers
+ {c:"Numbers",d:"design",q:"Copilot Credits: classic answer · generative answer · agent action · graph grounding?",a:"<b>1 · 2 · 5 · 10</b>. Also: agent flows <b>13 per 100 actions</b> · AI tools 1/15/100 · voice 10/35/75 per min · computer use 5 (15) per step."},
+ {c:"Numbers",d:"design",q:"The Copilot Credit capacity pack — size and rules?",a:"<b>25,000 credits/month</b>, tenant-pooled, <b>no carryover</b>. Overage grace <b>125%</b> for agents; agent <b>flows block instantly</b> when credits run out."},
+ {c:"Numbers",d:"design",q:"Do M365 Copilot-licensed users consume credits on agents?",a:"<b>No credit charge</b> for listed features — but <b>computer use is excluded</b> (always billed)."},
+ {c:"Numbers",d:"design",q:"Copilot Studio limits: knowledge sources, topics, trigger phrases, file size?",a:"<b>500</b> knowledge sources · <b>1,000</b> topics · <b>200</b> trigger phrases/topic · <b>512 MB</b> files · 25 websites/SharePoint URLs · 15 tables per Dataverse source · <b>128</b> topics+tools per orchestration."},
+ {c:"Numbers",d:"design",q:"Copilot Studio fallback behavior?",a:"Ask the user to rephrase <b>×2</b>, then <b>escalate</b>."},
+ {c:"Numbers",d:"deploy",q:"Foundry monitoring alert defaults?",a:"Alert when <b>latency &gt; 10 s</b> or <b>run success &lt; 95%</b>. Continuous evaluation samples ~<b>100 runs/hour</b>."},
+ {c:"Numbers",d:"deploy",q:"Evaluator scales: quality, harm severity, content filter levels?",a:"Quality <b>1–5</b> (pass ≥ threshold, default <b>3</b>) · harm severity <b>0–7</b> · filters safe/low/medium/high (default <b>medium</b>)."},
+ {c:"Numbers",d:"deploy",q:"AI Builder model grades — what does a D mean?",a:"Grades <b>A–D</b>. <b>D = worse than random, or ~100% accuracy (data leakage!)</b>. Classification uses precision / recall / F1."},
+ {c:"Numbers",d:"deploy",q:"Copilot adoption metrics: habit and power user?",a:"Habit = active <b>3 days/week (12 of 28)</b>. Power user = <b>≥15 actions/week</b> in <b>≥75% of weeks</b>."},
+ {c:"Numbers",d:"deploy",q:"Test set limits: agent evaluation, conversational, prompt library?",a:"Agent evaluation ≤ <b>100 cases</b> (conversational sets ≤ <b>20</b>). Org prompt library ≤ <b>1,000 prompts</b>, pin <b>4</b>."},
+ // Deployment & residency
+ {c:"Deployment",d:"deploy",q:"Where does data at rest live — and the three processing options?",a:"At rest: always the <b>resource geography</b>. Processing: <b>Global</b> (anywhere) · <b>Data Zone</b> (US / EU / APAC) · <b>Regional</b>."},
+ {c:"Deployment",d:"deploy",q:"Batch deployment and PTU in one line each?",a:"<b>Batch ≈ 50% off, 24-hour</b> turnaround. <b>PTU = reserved throughput</b>, fungible across Azure Direct models, with <b>spillover</b> to standard."},
+ {c:"Deployment",d:"deploy",q:"Model router: its three modes and its context window?",a:"<b>Balanced / Cost / Quality</b>. Effective context = the <b>smallest underlying model</b>. Claude targets are deployed separately."},
+ {c:"Deployment",d:"deploy",q:"The compliance caveat of Grounding with Bing?",a:"Queries <b>leave the Microsoft compliance boundary</b> — call it out in any regulated-industry design."},
+ // Security
+ {c:"Security",d:"deploy",q:"UPIA vs XPIA — and the defense for each?",a:"<b>UPIA</b> = user-typed jailbreak → <b>Prompt Shields (user)</b>. <b>XPIA</b> = instructions hidden in content → <b>Prompt Shields (documents)</b> + <b>spotlighting</b> + least privilege + human-in-the-loop. Purview flags <code>XPIADetected</code>."},
+ {c:"Security",d:"deploy",q:"Entra Agent ID: how do attended vs autonomous agents authenticate?",a:"Attended = <b>on-behalf-of (OBO)</b> — the user's identity. Autonomous = <b>client credentials</b> — the agent's own credential-less service principal (blueprint holds the credentials)."},
+ {c:"Security",d:"deploy",q:"What approval is needed to turn content filters off or annotate-only?",a:"<b>Limited Access approval</b> from Microsoft. Protected-material detection is <b>on by default</b>."},
+ {c:"Security",d:"deploy",q:"What happens when a customer-managed key (CMK) is revoked?",a:"<b>No new training or deployments</b> — but <b>already-deployed models keep serving</b>."},
+ {c:"Security",d:"deploy",q:"Purview vs Defender for Cloud for AI — who does what?",a:"<b>Purview</b>: <code>CopilotInteraction</code> audit events, <b>DSPM for AI</b> posture + oversharing assessments. <b>Defender for Cloud</b>: runtime AI threat protection alerts."},
+ // ALM
+ {c:"ALM",d:"deploy",q:"What is NOT solution-aware in Copilot Studio?",a:"<b>App Insights settings · manual authentication · web-channel security · channels · sharing</b> — reconfigure these per environment after deployment."},
+ {c:"ALM",d:"deploy",q:"A topic refuses to export. Likely cause?",a:"A <b>period (.) in the topic name</b> blocks export. Component collections = reusable topic/tool sets."},
+ {c:"ALM",d:"deploy",q:"Foundry ALM in three artifacts?",a:"<b>Agents-as-code</b> definitions · <code>azd pipeline config</code> for CI/CD · <b>evaluation GitHub Action as a release gate</b>. Custom models add MLOps/GenAIOps + progressive exposure + drift monitoring."},
+ // Analytics
+ {c:"Analytics",d:"deploy",q:"When does Copilot Studio count a session as “Resolved”?",a:"<b>Confirmed</b> (user says yes to “did that answer?”) or <b>implied</b> resolution. Abandon = engaged, unresolved, timed out. CSAT = 1–5 survey."},
+ {c:"Analytics",d:"deploy",q:"The three Foundry agent-specific evaluators?",a:"<b>Intent Resolution · Task Adherence · Tool Call Accuracy</b>."},
+ {c:"Analytics",d:"deploy",q:"What metric does AI red teaming report?",a:"<b>Attack Success Rate (ASR)</b> — the share of adversarial attempts that got through."},
+ {c:"Analytics",d:"deploy",q:"Analytics retention: dashboards, session details, transcripts?",a:"Analytics <b>360 days</b> · in-product session details <b>28 days</b> · Dataverse transcripts ~<b>30-day default</b> (extendable) · reactions 28 days."},
+ // D365 & M365
+ {c:"D365 & M365",d:"design",q:"How do you teach D365 Sales Copilot your business vocabulary?",a:"<b>Glossary/synonyms in Copilot Studio (SalesSpecificQnA)</b> — shared with the M365 Sales agent."},
+ {c:"D365 & M365",d:"design",q:"Minimum data for a Customer Service case summary?",a:"<b>≥ 50 tokens</b> of case data — below that, no summary."},
+ {c:"D365 & M365",d:"design",q:"Contact Center: standalone vs embedded — and intent routing?",a:"<b>Standalone</b> = keep your existing CRM; <b>embedded</b> = inside D365. Intent-driven unified routing via the <b>Customer Intent Agent</b>; handoff passes <b>context variables</b>; voice context via <b>SIP UUI / X-headers</b>."},
+ {c:"D365 & M365",d:"design",q:"F&O chat-with-data — the mechanism to remember?",a:"<b><code>mserp_</code> virtual entities</b>, shared across in-app, custom, and M365 agents. Prereq: <b>Power Platform Integration</b>. F&amp;O agents deploy via the <b>PPAC agent deployment wizard</b> with a dedicated agent identity user."},
+ {c:"D365 & M365",d:"design",q:"The four M365 prebuilt agents to know?",a:"<b>Researcher</b> (deep research) · <b>Analyst</b> (data analysis) · <b>Facilitator</b> (meetings) · <b>SharePoint agents</b> (site Q&amp;A)."},
+ // Responsible AI
+ {c:"Responsible AI",d:"deploy",q:"Microsoft's six Responsible AI principles?",a:"<b>Fairness · reliability &amp; safety · privacy &amp; security · inclusiveness · transparency · accountability</b>. Standard v2 turns them into <b>14 goals</b> with requirements, impact assessments, and transparency notes."},
+ {c:"Responsible AI",d:"deploy",q:"Shared responsibility: SaaS vs PaaS agents?",a:"SaaS (M365 Copilot) → <b>Microsoft</b> owns most layers. PaaS (Foundry) → <b>you</b> own the system message, grounding, and content filters."},
+ // Dates
+ {c:"Dates",d:"deploy",q:"Retirement dates: Foundry classic agents, Assistants API, CLU?",a:"Foundry classic agents <b>2027-03-31</b> · Azure OpenAI Assistants API <b>2026-08-26</b> · CLU <b>2029-03-31</b> (LUIS/QnA Maker already retired) · RSAT unsupported after 2027-05-15."},
+];
+
+const DK = 'ab100-fastlearn-known';
+let known = new Set(JSON.parse(localStorage.getItem(DK) || '[]'));
+let filter = 'All';
+let queue = [], cur = -1, flipped = false;
+
+const cats = ['All', ...new Set(CARDS.map(c => c.c))];
+const domName = {core:'Core', plan:'Plan', design:'Design', deploy:'Deploy'};
+
+function buildChips(){
+  document.getElementById('chips').innerHTML =
+    cats.map(c => `<button class="chip ${c===filter?'on':''}" onclick="setFilter('${c}')">${c}</button>`).join('') +
+    `<span class="right"><button class="tbtn" onclick="shuffleDeck()">🔀 Shuffle</button><button class="tbtn" onclick="resetProgress()">Reset progress</button></span>`;
+}
+function pool(){ return CARDS.map((c,i)=>i).filter(i => filter==='All' || CARDS[i].c===filter); }
+function rebuildQueue(){
+  queue = pool().filter(i => !known.has(i));
+  cur = -1;
+  nextCard();
+}
+function setFilter(c){ filter = c; buildChips(); rebuildQueue(); renderGrid(); }
+function shuffleDeck(){
+  for (let i = queue.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [queue[i],queue[j]] = [queue[j],queue[i]]; }
+  cur = -1; nextCard();
+}
+function resetProgress(){ known.clear(); persist(); rebuildQueue(); renderGrid(); }
+function persist(){ localStorage.setItem(DK, JSON.stringify([...known])); }
+
+function tags(i){
+  const c = CARDS[i];
+  return `<span class="tag t-${c.d}">${domName[c.d]}</span><span class="tag t-cat">${c.c}</span>`;
+}
+function showCard(i){
+  flipped = false;
+  document.getElementById('fcard').classList.remove('flip');
+  setTimeout(()=>{
+    document.getElementById('tagsF').innerHTML = tags(i);
+    document.getElementById('tagsB').innerHTML = tags(i);
+    document.getElementById('qF').textContent = CARDS[i].q;
+    document.getElementById('qB').innerHTML = CARDS[i].a;
+  }, flipped ? 250 : 0);
+}
+function updateProgress(){
+  const p = pool(), done = p.filter(i=>known.has(i)).length;
+  document.getElementById('ptext').textContent = `${done} / ${p.length} known`;
+  document.getElementById('pbar').style.width = p.length ? (100*done/p.length)+'%' : '0%';
+  const finished = done === p.length;
+  document.getElementById('done').style.display = finished ? 'block' : 'none';
+  document.querySelector('.stage').style.display = finished ? 'none' : '';
+  document.querySelector('.actions').style.display = finished ? 'none' : '';
+}
+function nextCard(){
+  updateProgress();
+  if (!queue.length) return;
+  cur = (cur + 1) % queue.length;
+  showCard(queue[cur]);
+}
+function flip(){ flipped = !flipped; document.getElementById('fcard').classList.toggle('flip', flipped); }
+function grade(gotIt){
+  if (cur < 0 || !queue.length) return;
+  const i = queue[cur];
+  if (gotIt){ known.add(i); persist(); queue.splice(cur,1); cur--; renderGrid(); }
+  nextCard();
+}
+
+function renderGrid(){
+  const colors = {core:'var(--core)', plan:'var(--plan)', design:'var(--design)', deploy:'var(--deploy)'};
+  document.getElementById('grid').innerHTML = pool().map(i => {
+    const c = CARDS[i];
+    return `<div class="mini" style="--mc:${colors[c.d]}" onclick="this.classList.toggle('open')">
+      ${known.has(i)?'<span class="st">✓ known</span>':''}
+      <div class="mq">${c.q}</div><div class="ma">${c.a}</div></div>`;
+  }).join('');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.code === 'Space'){ e.preventDefault(); flip(); }
+  else if (e.key === 'ArrowRight'){ grade(true); }
+  else if (e.key === 'ArrowLeft'){ grade(false); }
+  else if (e.key === 'ArrowDown'){ nextCard(); }
+});
+
+buildChips(); rebuildQueue(); renderGrid();
+</script>
+</body>
+</html>

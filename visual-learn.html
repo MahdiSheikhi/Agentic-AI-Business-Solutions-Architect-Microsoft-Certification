@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Learn — AB-100 Concepts in Pictures</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --accent:#0f6cbd; --soft:#e8f1fa; --dark:#0b2a4a;
+  --plan:#0891b2; --plan-ink:#0e7490; --plan-soft:#ecfeff;
+  --design:#7c3aed; --design-soft:#f5f3ff;
+  --deploy:#b45309; --deploy-soft:#fffbeb;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#7c3aed 160%);color:#fff;padding:26px 20px 20px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:720px;margin-left:auto;margin-right:auto}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--accent);border-bottom-color:var(--accent)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+section.fig h2{font-size:18.5px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+
+/* exam anatomy */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:18px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:24px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.wbar{display:flex;height:46px;border-radius:10px;overflow:hidden;gap:2px}
+.wseg{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px}
+.wkey{display:flex;gap:20px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:#33475c}
+.wkey i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+/* RAI grid */
+.rai{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+.rai div{border:1px solid var(--line);border-left:4px solid var(--good);border-radius:10px;padding:12px 15px;background:#fbfdfb;font-size:13.6px}
+.rai b{display:block;color:#12293f;margin-bottom:3px;font-size:14px}
+
+/* tooltip */
+#tip{position:fixed;display:none;background:#0f172a;color:#e2e8f0;font-size:12.5px;padding:7px 11px;border-radius:8px;pointer-events:none;z-index:99;max-width:260px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+@media print{nav.bar{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Visual Learn</div>
+  <h1>The Exam in Pictures</h1>
+  <p class="sub">The concepts that transfer fastest as images — decision flows, anatomies, spectrums, and the numbers that matter, each one built to be remembered.</p>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="fast-learn.html">⚡ Fast Learn</a>
+  <a href="visual-learn.html" class="here">🎨 Visual Learn</a>
+  <a href="AB-100-Study-Guide-Modules/24-cheatsheet.html">Cheat sheet</a>
+  <a href="AB-100-Study-Guide-Modules/practice-exam.html">Practice exam</a>
+</nav>
+<div class="wrap">
+
+<!-- 1. Exam anatomy -->
+<section class="fig">
+  <h2>1 · Anatomy of the exam</h2>
+  <p class="cap">Deploy is nearly half the exam — weight your study time the way Microsoft weights the questions.</p>
+  <div class="tiles">
+    <div class="tile"><b>700</b><span>score to pass (of 1000)</span></div>
+    <div class="tile"><b>3</b><span>skill areas</span></div>
+    <div class="tile"><b>74</b><span>skills measured</span></div>
+    <div class="tile"><b>12 mo</b><span>renewal cycle (free online)</span></div>
+  </div>
+  <div class="wbar" role="img" aria-label="Domain weights: Plan 25 to 30 percent, Design 25 to 30 percent, Deploy 40 to 45 percent">
+    <div class="wseg" style="flex:27.5;background:var(--plan)">25–30%</div>
+    <div class="wseg" style="flex:27.5;background:var(--design)">25–30%</div>
+    <div class="wseg" style="flex:42.5;background:var(--deploy)">40–45%</div>
+  </div>
+  <div class="wkey">
+    <span><i style="background:var(--plan)"></i>Domain 1 · Plan</span>
+    <span><i style="background:var(--design)"></i>Domain 2 · Design</span>
+    <span><i style="background:var(--deploy)"></i>Domain 3 · Deploy</span>
+  </div>
+</section>
+
+<!-- 2. Agent anatomy -->
+<section class="fig">
+  <h2>2 · Anatomy of an agent — the 5 core components (CAF)</h2>
+  <p class="cap">Every agent question comes back to these five parts. The model reasons; the other four give it scope, facts, hands, and history.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 330">
+    <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <!-- spokes -->
+    <line x1="380" y1="165" x2="150" y2="70"  stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="165" x2="610" y2="70"  stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="165" x2="150" y2="262" stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="165" x2="610" y2="262" stroke="#c8d4e0" stroke-width="2"/>
+    <!-- center -->
+    <rect x="255" y="123" width="250" height="84" rx="14" fill="#0b2a4a"/>
+    <text x="380" y="158" text-anchor="middle" fill="#fff" font-size="16.5" font-weight="700">Generative model</text>
+    <text x="380" y="180" text-anchor="middle" fill="#c9d8ea" font-size="12.5">the reasoning engine — decides what to do</text>
+    <!-- satellites -->
+    <g>
+      <rect x="40" y="30" width="220" height="80" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="150" y="58" text-anchor="middle" fill="#5b21b6" font-size="14" font-weight="700">Instructions</text>
+      <text x="150" y="78" text-anchor="middle" fill="#5b6b7b" font-size="12">scope, rules &amp; boundaries —</text>
+      <text x="150" y="94" text-anchor="middle" fill="#5b6b7b" font-size="12">what it may and may not do</text>
+    </g>
+    <g>
+      <rect x="500" y="30" width="220" height="80" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="610" y="58" text-anchor="middle" fill="#0e7490" font-size="14" font-weight="700">Knowledge / retrieval</text>
+      <text x="610" y="78" text-anchor="middle" fill="#5b6b7b" font-size="12">grounding data — accurate,</text>
+      <text x="610" y="94" text-anchor="middle" fill="#5b6b7b" font-size="12">relevant, fresh, complete</text>
+    </g>
+    <g>
+      <rect x="40" y="222" width="220" height="80" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="150" y="250" text-anchor="middle" fill="#92400e" font-size="14" font-weight="700">Tools / actions</text>
+      <text x="150" y="270" text-anchor="middle" fill="#5b6b7b" font-size="12">functions, APIs, connectors —</text>
+      <text x="150" y="286" text-anchor="middle" fill="#5b6b7b" font-size="12">how it acts on the world</text>
+    </g>
+    <g>
+      <rect x="500" y="222" width="220" height="80" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="610" y="250" text-anchor="middle" fill="#166534" font-size="14" font-weight="700">Memory</text>
+      <text x="610" y="270" text-anchor="middle" fill="#5b6b7b" font-size="12">conversation history &amp; state —</text>
+      <text x="610" y="286" text-anchor="middle" fill="#5b6b7b" font-size="12">context across steps &amp; sessions</text>
+    </g>
+  </svg>
+  </div>
+</section>
+
+<!-- 3. Autonomy spectrum -->
+<section class="fig">
+  <h2>3 · The agent autonomy spectrum</h2>
+  <p class="cap">More autonomy = more value <em>and</em> more governance. Exam questions often hinge on picking the right point on this line.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 240">
+    <defs>
+      <linearGradient id="spec" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#0891b2"/><stop offset=".5" stop-color="#7c3aed"/><stop offset="1" stop-color="#b45309"/>
+      </linearGradient>
+      <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker>
+    </defs>
+    <rect x="60" y="106" width="640" height="8" rx="4" fill="url(#spec)"/>
+    <g text-anchor="middle">
+      <circle cx="120" cy="110" r="11" fill="#0891b2" stroke="#fff" stroke-width="3"/>
+      <text x="120" y="62" font-size="14.5" font-weight="700" fill="#0e7490">Retrieval</text>
+      <text x="120" y="80" font-size="12" fill="#5b6b7b">find &amp; synthesize info</text>
+      <text x="120" y="145" font-size="11.5" fill="#5b6b7b">Q&amp;A · knowledge mgmt</text>
+      <circle cx="380" cy="110" r="11" fill="#7c3aed" stroke="#fff" stroke-width="3"/>
+      <text x="380" y="62" font-size="14.5" font-weight="700" fill="#6d28d9">Task</text>
+      <text x="380" y="80" font-size="12" fill="#5b6b7b">defined actions in workflows</text>
+      <text x="380" y="145" font-size="11.5" fill="#5b6b7b">create ticket · update record</text>
+      <circle cx="640" cy="110" r="11" fill="#b45309" stroke="#fff" stroke-width="3"/>
+      <text x="640" y="62" font-size="14.5" font-weight="700" fill="#92400e">Autonomous</text>
+      <text x="640" y="80" font-size="12" fill="#5b6b7b">multi-step, trigger-driven</text>
+      <text x="640" y="145" font-size="11.5" fill="#5b6b7b">run / stop / escalate on its own</text>
+    </g>
+    <line x1="60" y1="185" x2="700" y2="185" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr2)"/>
+    <text x="380" y="212" text-anchor="middle" font-size="12.5" fill="#5b6b7b" font-weight="600">autonomy · complexity · governance rigor all increase →</text>
+  </svg>
+  </div>
+  <p class="note"><b>Before any of these:</b> if the process is fixed and rules-based → Power Automate / code. If it's static Q&amp;A over fixed documents → classic RAG. Agents earn their cost only on ambiguous, multi-step work.</p>
+</section>
+
+<!-- 4. Platform decision flow -->
+<section class="fig">
+  <h2>4 · The platform decision flow</h2>
+  <p class="cap">The single most-tested design judgment: which platform for which need. Read top to bottom — first “yes” wins.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 560">
+    <defs><marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="13.5">
+      <!-- Q1 -->
+      <rect x="60" y="20" width="380" height="58" rx="12" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="250" y="45" text-anchor="middle" font-weight="700" fill="#0b2a4a">Does a prebuilt SaaS agent meet the need?</text>
+      <text x="250" y="64" text-anchor="middle" fill="#5b6b7b" font-size="12">D365 agents · M365 Researcher / Analyst / Facilitator</text>
+      <line x1="440" y1="49" x2="520" y2="49" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr3)"/>
+      <text x="478" y="42" text-anchor="middle" fill="#1a7f37" font-weight="700" font-size="12">yes</text>
+      <rect x="525" y="24" width="210" height="50" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="630" y="45" text-anchor="middle" font-weight="700" fill="#166534">Configure, don't build</text>
+      <text x="630" y="63" text-anchor="middle" fill="#3c6947" font-size="12">customize the prebuilt agent</text>
+      <line x1="250" y1="78" x2="250" y2="118" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr3)"/>
+      <text x="262" y="103" fill="#c62828" font-weight="700" font-size="12">no</text>
+      <!-- Q2 -->
+      <rect x="60" y="122" width="380" height="58" rx="12" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="250" y="147" text-anchor="middle" font-weight="700" fill="#0b2a4a">Team Q&amp;A over M365 content, no-code?</text>
+      <text x="250" y="166" text-anchor="middle" fill="#5b6b7b" font-size="12">grounded in SharePoint / Teams / OneDrive</text>
+      <line x1="440" y1="151" x2="520" y2="151" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr3)"/>
+      <text x="478" y="144" text-anchor="middle" fill="#1a7f37" font-weight="700" font-size="12">yes</text>
+      <rect x="525" y="126" width="210" height="50" rx="10" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="630" y="147" text-anchor="middle" font-weight="700" fill="#334155">Agent builder /</text>
+      <text x="630" y="165" text-anchor="middle" font-weight="700" fill="#334155">SharePoint agent</text>
+      <line x1="250" y1="180" x2="250" y2="220" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr3)"/>
+      <text x="262" y="205" fill="#c62828" font-weight="700" font-size="12">no</text>
+      <!-- Q3 -->
+      <rect x="60" y="224" width="380" height="58" rx="12" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="250" y="249" text-anchor="middle" font-weight="700" fill="#0b2a4a">Departmental process, low-code, DLP-governed?</text>
+      <text x="250" y="268" text-anchor="middle" fill="#5b6b7b" font-size="12">business automation with Power Platform guardrails</text>
+      <line x1="440" y1="253" x2="520" y2="253" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr3)"/>
+      <text x="478" y="246" text-anchor="middle" fill="#1a7f37" font-weight="700" font-size="12">yes</text>
+      <rect x="525" y="228" width="210" height="50" rx="10" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="630" y="257" text-anchor="middle" font-weight="700" fill="#0e7490">Copilot Studio</text>
+      <line x1="250" y1="282" x2="250" y2="322" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr3)"/>
+      <text x="262" y="307" fill="#c62828" font-weight="700" font-size="12">no</text>
+      <!-- Q4 -->
+      <rect x="60" y="326" width="380" height="58" rx="12" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="250" y="351" text-anchor="middle" font-weight="700" fill="#0b2a4a">Model choice, custom orchestration, evals, CI/CD?</text>
+      <text x="250" y="370" text-anchor="middle" fill="#5b6b7b" font-size="12">pro-code control over models &amp; pipelines</text>
+      <line x1="440" y1="355" x2="520" y2="355" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr3)"/>
+      <text x="478" y="348" text-anchor="middle" fill="#1a7f37" font-weight="700" font-size="12">yes</text>
+      <rect x="525" y="330" width="210" height="50" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="630" y="351" text-anchor="middle" font-weight="700" fill="#5b21b6">Microsoft Foundry</text>
+      <text x="630" y="369" text-anchor="middle" fill="#5b6b7b" font-size="12">prompt vs hosted agents</text>
+      <line x1="250" y1="384" x2="250" y2="424" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr3)"/>
+      <text x="262" y="409" fill="#c62828" font-weight="700" font-size="12">no</text>
+      <!-- Q5 -->
+      <rect x="60" y="428" width="380" height="58" rx="12" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="250" y="453" text-anchor="middle" font-weight="700" fill="#0b2a4a">Full code control of multi-agent graphs?</text>
+      <text x="250" y="472" text-anchor="middle" fill="#5b6b7b" font-size="12">Sequential · Concurrent · Group chat · Handoff · Magentic</text>
+      <line x1="440" y1="457" x2="520" y2="457" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr3)"/>
+      <text x="478" y="450" text-anchor="middle" fill="#1a7f37" font-weight="700" font-size="12">yes</text>
+      <rect x="525" y="432" width="210" height="50" rx="10" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="630" y="461" text-anchor="middle" font-weight="700" fill="#92400e">Agent Framework</text>
+      <!-- edge notes -->
+      <text x="380" y="522" text-anchor="middle" fill="#5b6b7b" font-size="12.5">Edge cases: legacy UI with no API → <tspan font-weight="700" fill="#1a2733">computer use</tspan> (production = bring-your-own machine)</text>
+      <text x="380" y="542" text-anchor="middle" fill="#5b6b7b" font-size="12.5">stable UI + fixed rules + high volume → classic <tspan font-weight="700" fill="#1a2733">RPA</tspan></text>
+    </g>
+  </svg>
+  </div>
+</section>
+
+<!-- 5. Protocols -->
+<section class="fig">
+  <h2>5 · Who talks to whom — MCP vs A2A vs child agent</h2>
+  <p class="cap">One picture worth three exam questions: tools use MCP, foreign agents use A2A, teammates are just child agents.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 330">
+    <defs><marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <!-- your agent -->
+    <rect x="40" y="120" width="200" height="90" rx="14" fill="#0b2a4a"/>
+    <text x="140" y="158" text-anchor="middle" fill="#fff" font-size="15.5" font-weight="700">Your agent</text>
+    <text x="140" y="180" text-anchor="middle" fill="#c9d8ea" font-size="12">Copilot Studio or Foundry</text>
+    <!-- MCP -->
+    <line x1="240" y1="140" x2="500" y2="70" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arr4)" marker-start="url(#arr4)"/>
+    <rect x="330" y="76" width="66" height="24" rx="12" fill="#ecfeff" stroke="#0891b2"/>
+    <text x="363" y="93" text-anchor="middle" fill="#0e7490" font-size="12.5" font-weight="800">MCP</text>
+    <rect x="505" y="30" width="215" height="80" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+    <text x="612" y="58" text-anchor="middle" fill="#0e7490" font-size="14" font-weight="700">Tools &amp; knowledge</text>
+    <text x="612" y="77" text-anchor="middle" fill="#5b6b7b" font-size="12">MCP servers — Streamable HTTP</text>
+    <text x="612" y="93" text-anchor="middle" fill="#5b6b7b" font-size="12">(SSE transport dead since Aug 2025)</text>
+    <!-- A2A -->
+    <line x1="240" y1="190" x2="500" y2="260" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arr4)" marker-start="url(#arr4)"/>
+    <rect x="330" y="230" width="66" height="24" rx="12" fill="#f5f3ff" stroke="#7c3aed"/>
+    <text x="363" y="247" text-anchor="middle" fill="#6d28d9" font-size="12.5" font-weight="800">A2A</text>
+    <rect x="505" y="220" width="215" height="80" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+    <text x="612" y="248" text-anchor="middle" fill="#5b21b6" font-size="14" font-weight="700">External agent</text>
+    <text x="612" y="267" text-anchor="middle" fill="#5b6b7b" font-size="12">other org or platform — discovered via</text>
+    <text x="612" y="283" text-anchor="middle" fill="#5b6b7b" font-size="12">agent card at /.well-known/agent-card.json</text>
+    <!-- child -->
+    <line x1="140" y1="210" x2="140" y2="262" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arr4)"/>
+    <rect x="60" y="266" width="160" height="46" rx="10" fill="#f1f5f9" stroke="#d8e0e8"/>
+    <text x="140" y="285" text-anchor="middle" fill="#334155" font-size="13" font-weight="700">Child agent</text>
+    <text x="140" y="302" text-anchor="middle" fill="#5b6b7b" font-size="11.5">same team — no protocol</text>
+  </svg>
+  </div>
+</section>
+
+<!-- 6. Copilot Credits chart -->
+<section class="fig">
+  <h2>6 · What a Copilot Credit buys</h2>
+  <p class="cap">Credits per event, from cheapest to priciest. Hover a bar for what triggers the charge.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 250" id="credits">
+    <g font-size="13">
+      <!-- rows: label x=210 right-aligned; bars x=220; scale: 10 credits = 460px → 46px/credit -->
+      <g class="crow" data-tip="A classic (non-generative) answer from a topic — 1 credit per response">
+        <text x="210" y="34" text-anchor="end" fill="#33475c">Classic answer</text>
+        <path d="M220 20 h42 a4 4 0 0 1 4 4 v12 a4 4 0 0 1 -4 4 h-42 z" fill="#0891b2"/>
+        <text x="274" y="34" fill="#1a2733" font-weight="700">1</text>
+      </g>
+      <g class="crow" data-tip="A generative AI answer over knowledge sources — 2 credits per response">
+        <text x="210" y="76" text-anchor="end" fill="#33475c">Generative answer</text>
+        <path d="M220 62 h88 a4 4 0 0 1 4 4 v12 a4 4 0 0 1 -4 4 h-88 z" fill="#0891b2"/>
+        <text x="320" y="76" fill="#1a2733" font-weight="700">2</text>
+      </g>
+      <g class="crow" data-tip="Each autonomous agent action (tool call) — 5 credits">
+        <text x="210" y="118" text-anchor="end" fill="#33475c">Agent action</text>
+        <path d="M220 104 h226 a4 4 0 0 1 4 4 v12 a4 4 0 0 1 -4 4 h-226 z" fill="#0891b2"/>
+        <text x="458" y="118" fill="#1a2733" font-weight="700">5</text>
+      </g>
+      <g class="crow" data-tip="Each computer-use step (15 with advanced reasoning) — never free, even for M365 Copilot-licensed users">
+        <text x="210" y="160" text-anchor="end" fill="#33475c">Computer use / step</text>
+        <path d="M220 146 h226 a4 4 0 0 1 4 4 v12 a4 4 0 0 1 -4 4 h-226 z" fill="#0891b2"/>
+        <text x="458" y="160" fill="#1a2733" font-weight="700">5 <tspan fill="#5b6b7b" font-weight="400">(15 adv.)</tspan></text>
+      </g>
+      <g class="crow" data-tip="Grounding an answer in tenant Graph data (work scenario) — 10 credits">
+        <text x="210" y="202" text-anchor="end" fill="#33475c">Graph grounding</text>
+        <path d="M220 188 h456 a4 4 0 0 1 4 4 v12 a4 4 0 0 1 -4 4 h-456 z" fill="#0891b2"/>
+        <text x="688" y="202" fill="#1a2733" font-weight="700">10</text>
+      </g>
+      <line x1="220" y1="12" x2="220" y2="216" stroke="#c8d4e0" stroke-width="1.5"/>
+      <text x="220" y="238" font-size="11.5" fill="#93a3b3">0</text>
+      <text x="680" y="238" font-size="11.5" fill="#93a3b3" text-anchor="end">credits per event</text>
+    </g>
+  </svg>
+  </div>
+  <p class="note"><b>Different units, so not on the chart:</b> agent flows = <b>13 credits per 100 actions</b> · AI tools in flows = 1/15/100 · voice = 10/35/75 per minute. Capacity pack = <b>25,000 credits/month</b>, tenant-pooled, no carryover, 125% overage grace (flows block instantly). M365 Copilot-licensed users: <b>no charge</b> on listed features — computer use excluded.</p>
+</section>
+
+<!-- 7. Security -->
+<section class="fig">
+  <h2>7 · Two ways to attack an agent — and the defense for each</h2>
+  <p class="cap">UPIA comes from the user; XPIA hides inside content the agent reads. Different doors, different locks.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 330">
+    <defs><marker id="arrR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#c62828"/></marker></defs>
+    <!-- attackers -->
+    <rect x="30" y="40" width="190" height="70" rx="12" fill="#fdecea" stroke="#f2c4c0"/>
+    <text x="125" y="66" text-anchor="middle" fill="#c62828" font-size="13.5" font-weight="700">⚠ UPIA</text>
+    <text x="125" y="84" text-anchor="middle" fill="#7a3b36" font-size="12">user types a jailbreak</text>
+    <text x="125" y="99" text-anchor="middle" fill="#7a3b36" font-size="12">into the chat</text>
+    <rect x="30" y="220" width="190" height="70" rx="12" fill="#fdecea" stroke="#f2c4c0"/>
+    <text x="125" y="246" text-anchor="middle" fill="#c62828" font-size="13.5" font-weight="700">⚠ XPIA</text>
+    <text x="125" y="264" text-anchor="middle" fill="#7a3b36" font-size="12">instructions hidden in email /</text>
+    <text x="125" y="279" text-anchor="middle" fill="#7a3b36" font-size="12">doc / web content the agent reads</text>
+    <!-- attack arrows -->
+    <line x1="220" y1="75" x2="300" y2="75" stroke="#c62828" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#arrR)"/>
+    <line x1="220" y1="255" x2="300" y2="255" stroke="#c62828" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#arrR)"/>
+    <!-- shields -->
+    <rect x="305" y="35" width="190" height="80" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+    <text x="400" y="61" text-anchor="middle" fill="#166534" font-size="13" font-weight="700">🛡 Prompt Shields (user)</text>
+    <text x="400" y="80" text-anchor="middle" fill="#3c6947" font-size="12">jailbreak detection on</text>
+    <text x="400" y="95" text-anchor="middle" fill="#3c6947" font-size="12">the user's own prompt</text>
+    <rect x="305" y="205" width="190" height="100" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+    <text x="400" y="229" text-anchor="middle" fill="#166534" font-size="13" font-weight="700">🛡 Prompt Shields (documents)</text>
+    <text x="400" y="248" text-anchor="middle" fill="#3c6947" font-size="12">+ spotlighting (mark external text)</text>
+    <text x="400" y="263" text-anchor="middle" fill="#3c6947" font-size="12">+ least-privilege tools</text>
+    <text x="400" y="278" text-anchor="middle" fill="#3c6947" font-size="12">+ human-in-the-loop for actions</text>
+    <text x="400" y="296" text-anchor="middle" fill="#3c6947" font-size="11.5" font-style="italic">Purview flag: XPIADetected</text>
+    <!-- protected agent -->
+    <rect x="540" y="115" width="185" height="100" rx="14" fill="#0b2a4a"/>
+    <text x="632" y="155" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">Protected agent</text>
+    <text x="632" y="177" text-anchor="middle" fill="#c9d8ea" font-size="11.5">filters default: medium</text>
+    <text x="632" y="193" text-anchor="middle" fill="#c9d8ea" font-size="11.5">harm severity scale 0–7</text>
+    <line x1="495" y1="75" x2="560" y2="120" stroke="#1a7f37" stroke-width="2.5"/>
+    <line x1="495" y1="255" x2="560" y2="210" stroke="#1a7f37" stroke-width="2.5"/>
+  </svg>
+  </div>
+</section>
+
+<!-- 8. ALM pipeline -->
+<section class="fig">
+  <h2>8 · ALM — how an agent travels to production</h2>
+  <p class="cap">Solutions carry the agent; pipelines move it; an evaluation gate decides if it ships.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 240">
+    <defs><marker id="arr5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle">
+      <rect x="30" y="60" width="180" height="86" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="120" y="88" fill="#0e7490" font-size="14.5" font-weight="700">DEV</text>
+      <text x="120" y="108" fill="#5b6b7b" font-size="12">build in unmanaged solution</text>
+      <text x="120" y="124" fill="#5b6b7b" font-size="12">env vars + connection refs</text>
+      <line x1="210" y1="103" x2="285" y2="103" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arr5)"/>
+      <text x="247" y="93" font-size="11.5" fill="#5b6b7b">export</text>
+      <text x="247" y="120" font-size="11" fill="#5b6b7b" font-weight="700">managed</text>
+      <rect x="290" y="60" width="180" height="86" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="380" y="88" fill="#92400e" font-size="14.5" font-weight="700">TEST</text>
+      <text x="380" y="108" fill="#5b6b7b" font-size="12">evaluations run here —</text>
+      <text x="380" y="124" fill="#5b6b7b" font-size="12">quality 1–5 · red teaming (ASR)</text>
+      <line x1="470" y1="103" x2="545" y2="103" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arr5)"/>
+      <rect x="480" y="76" width="56" height="22" rx="11" fill="#e7f4ea" stroke="#1a7f37"/>
+      <text x="508" y="91" font-size="10.5" fill="#166534" font-weight="800">GATE ✓</text>
+      <rect x="550" y="60" width="180" height="86" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="640" y="88" fill="#166534" font-size="14.5" font-weight="700">PROD</text>
+      <text x="640" y="108" fill="#5b6b7b" font-size="12">managed solution only —</text>
+      <text x="640" y="124" fill="#5b6b7b" font-size="12">monitor · alerts · drift</text>
+      <text x="380" y="180" fill="#5b6b7b" font-size="12.5">Pipelines target <tspan font-weight="700" fill="#1a2733">managed environments</tspan> (no cross-tenant) · Foundry: agents-as-code + <tspan font-weight="700" fill="#1a2733">evaluation GitHub Action as the release gate</tspan></text>
+      <text x="380" y="205" fill="#5b6b7b" font-size="12.5">Re-configure per environment (not solution-aware): <tspan font-weight="700" fill="#1a2733">App Insights · manual auth · web-channel security · channels · sharing</tspan></text>
+    </g>
+  </svg>
+  </div>
+</section>
+
+<!-- 9. Deprecation timeline -->
+<section class="fig">
+  <h2>9 · The retirement timeline</h2>
+  <p class="cap">Dates the exam loves. Anchor them to the July 2026 skills refresh (star) and remember what's already gone.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 780 300">
+    <!-- axis: 2025.5 → 2029.5 mapped to x 50 → 710 (165 px / yr) -->
+    <line x1="50" y1="160" x2="730" y2="160" stroke="#c8d4e0" stroke-width="2"/>
+    <g font-size="12" fill="#93a3b3" text-anchor="middle">
+      <line x1="132" y1="155" x2="132" y2="165" stroke="#c8d4e0" stroke-width="2"/><text x="132" y="182">2026</text>
+      <line x1="297" y1="155" x2="297" y2="165" stroke="#c8d4e0" stroke-width="2"/><text x="297" y="182">2027</text>
+      <line x1="462" y1="155" x2="462" y2="165" stroke="#c8d4e0" stroke-width="2"/><text x="462" y="182">2028</text>
+      <line x1="627" y1="155" x2="627" y2="165" stroke="#c8d4e0" stroke-width="2"/><text x="627" y="182">2029</text>
+    </g>
+    <g font-size="11.8" text-anchor="middle">
+      <!-- above axis -->
+      <line x1="78" y1="160" x2="78" y2="60" stroke="#d8e0e8"/><circle cx="78" cy="160" r="6" fill="#c62828"/>
+      <text x="78" y="42" fill="#c62828" font-weight="700">Aug 2025</text><text x="78" y="56" fill="#5b6b7b">MCP SSE transport dead</text>
+      <line x1="153" y1="160" x2="153" y2="110" stroke="#d8e0e8"/><circle cx="153" cy="160" r="6" fill="#b45309"/>
+      <text x="153" y="92" fill="#92400e" font-weight="700">2026-02-02</text><text x="153" y="106" fill="#5b6b7b">no Copilot control in new canvas apps</text>
+      <line x1="243" y1="160" x2="243" y2="60" stroke="#d8e0e8"/><circle cx="243" cy="160" r="6" fill="#b45309"/>
+      <text x="243" y="42" fill="#92400e" font-weight="700">2026-08-26</text><text x="243" y="56" fill="#5b6b7b">Azure OpenAI Assistants API retires</text>
+      <line x1="359" y1="160" x2="359" y2="110" stroke="#d8e0e8"/><circle cx="359" cy="160" r="6" fill="#b45309"/>
+      <text x="359" y="92" fill="#92400e" font-weight="700">2027-05-15</text><text x="359" y="106" fill="#5b6b7b">RSAT unsupported</text>
+      <line x1="669" y1="160" x2="669" y2="110" stroke="#d8e0e8"/><circle cx="669" cy="160" r="6" fill="#b45309"/>
+      <text x="669" y="92" fill="#92400e" font-weight="700">2029-03-31</text><text x="669" y="106" fill="#5b6b7b">CLU retires</text>
+      <!-- below axis -->
+      <line x1="91" y1="160" x2="91" y2="228" stroke="#d8e0e8"/><circle cx="91" cy="160" r="6" fill="#475569"/>
+      <text x="91" y="246" fill="#334155" font-weight="700">2025-09-01</text><text x="91" y="260" fill="#5b6b7b">credits replace “messages”</text>
+      <line x1="230" y1="160" x2="230" y2="198" stroke="#d8e0e8"/><circle cx="230" cy="160" r="7" fill="#0f6cbd"/>
+      <text x="230" y="216" fill="#0b2a4a" font-weight="800">★ 2026-07-22 skills refresh</text>
+      <text x="230" y="230" fill="#5b6b7b">(+ 07-31: Restricted SharePoint Search blocked)</text>
+      <line x1="339" y1="160" x2="339" y2="264" stroke="#d8e0e8"/><circle cx="339" cy="160" r="6" fill="#c62828"/>
+      <text x="339" y="282" fill="#c62828" font-weight="700">2027-03-31 · Foundry classic agents retire</text>
+    </g>
+    <text x="730" y="220" text-anchor="end" font-size="11.5" fill="#93a3b3">already retired: LUIS · QnA Maker</text>
+  </svg>
+  </div>
+</section>
+
+<!-- 10. Responsible AI -->
+<section class="fig">
+  <h2>10 · The six Responsible AI principles</h2>
+  <p class="cap">Standard v2 turns these into 14 goals with requirements — plus impact assessments and transparency notes. Memorize all six by name.</p>
+  <div class="rai">
+    <div><b>⚖ Fairness</b>treat all groups equitably — test for bias across demographics</div>
+    <div><b>🛡 Reliability &amp; safety</b>perform safely under expected and unexpected conditions</div>
+    <div><b>🔒 Privacy &amp; security</b>protect data and resist misuse — DLP, labels, least privilege</div>
+    <div><b>🤝 Inclusiveness</b>empower everyone — accessibility is a design requirement</div>
+    <div><b>🔍 Transparency</b>people know they're talking to AI — transparency notes, citations</div>
+    <div><b>👤 Accountability</b>humans stay answerable — named owners, oversight, audit trail</div>
+  </div>
+  <p class="note"><b>Shared responsibility:</b> SaaS agents (M365 Copilot) → Microsoft owns most layers. PaaS agents (Foundry) → <b>you</b> own the system message, grounding, and content filters.</p>
+</section>
+
+</div>
+<div id="tip"></div>
+<script>
+const tip = document.getElementById('tip');
+document.querySelectorAll('.crow').forEach(g => {
+  g.addEventListener('mousemove', e => {
+    tip.textContent = g.dataset.tip;
+    tip.style.display = 'block';
+    tip.style.left = Math.min(e.clientX + 14, window.innerWidth - 280) + 'px';
+    tip.style.top = (e.clientY + 16) + 'px';
+  });
+  g.addEventListener('mouseleave', () => tip.style.display = 'none');
+});
+</script>
+</body>
+</html>
