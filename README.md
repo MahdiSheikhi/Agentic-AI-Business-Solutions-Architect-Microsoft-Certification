@@ -15,7 +15,7 @@ Everything is plain, self-contained HTML — no build step, no dependencies. Rea
 | [Modular Study Guide](https://mahdisheikhi.github.io/Agentic-AI-Business-Solutions-Architect-Microsoft-Certification/AB-100-Study-Guide-Modules/index.html) | 25 pages | The guide split into standalone modules grouped by exam domain, plus a 48-question practice exam |
 | [Complete Guide — Single Page](https://mahdisheikhi.github.io/Agentic-AI-Business-Solutions-Architect-Microsoft-Certification/Agentic%20AI%20Business%20Solutions%20Architect%20Microsoft%20Certification.html) | One document | The entire guide as one continuous, print-friendly page |
 | [Fast Learn](https://mahdisheikhi.github.io/Agentic-AI-Business-Solutions-Architect-Microsoft-Certification/fast-learn.html) | Flashcards | The highest-yield facts as flip cards with progress tracking — the deck keeps serving what you don't know yet |
-| [Visual Learn](https://mahdisheikhi.github.io/Agentic-AI-Business-Solutions-Architect-Microsoft-Certification/visual-learn.html) | Infographics | Ten visual explainers: agent anatomy, autonomy spectrum, platform decision flow, protocols, credit costs, security, ALM, retirement timeline |
+| [Visual Learn](https://mahdisheikhi.github.io/Agentic-AI-Business-Solutions-Architect-Microsoft-Certification/visual-learn.html) | Infographics | 24 visual explainers organized by exam domain, each with memory hooks — CAF phases, agent anatomy, decision flows, orchestration, deployment matrix, analytics funnel, testing ladder, and a final numbers wall |
 
 ### Deep-dive notes by skill area
 
