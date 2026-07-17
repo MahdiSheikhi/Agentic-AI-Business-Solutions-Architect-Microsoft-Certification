@@ -1,0 +1,197 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Copilot Studio: Core — AB-100 Study Guide</title><style>
+  :root{
+    --bg:#f5f6fa; --panel:#ffffff; --ink:#1e2a3b; --muted:#5b6b80; --border:#e3e8f0;
+    --brand:#4338ca; --brand-ink:#3730a3;
+    --plan:#0e7490; --plan-soft:#ecfeff; --design:#7c3aed; --design-soft:#f5f3ff;
+    --deploy:#b45309; --deploy-soft:#fffbeb; --start:#475569; --start-soft:#f1f5f9;
+    --final:#166534; --final-soft:#f0fdf4; --good:#16a34a; --bad:#dc2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;font-size:15.5px}
+  .topbar{position:sticky;top:0;z-index:20;background:#0f172a;color:#e2e8f0;padding:10px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .topbar .home{color:#f8fafc;font-weight:700;text-decoration:none;border:0;font-size:14.5px;white-space:nowrap}
+  .topbar .home span{color:#818cf8}
+  .topbar select{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:6px 8px;font-size:13px;max-width:340px;flex:1;min-width:180px}
+  .topbar .pn{margin-left:auto;display:flex;gap:8px}
+  .topbar .pn a{color:#cbd5e1;border:1px solid #334155;background:#1e293b;border-radius:8px;padding:6px 12px;font-size:13px;text-decoration:none;white-space:nowrap}
+  .topbar .pn a:hover{background:#334155;color:#fff}
+  .wrap{max-width:940px;margin:0 auto;padding:30px 22px 70px}
+  article{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:30px 38px 26px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+  .b-start{background:var(--start-soft);color:var(--start)} .b-plan{background:var(--plan-soft);color:var(--plan)}
+  .b-design{background:var(--design-soft);color:var(--design)} .b-deploy{background:var(--deploy-soft);color:var(--deploy)}
+  .b-final{background:var(--final-soft);color:var(--final)}
+  h1{font-size:27px;line-height:1.25;margin:10px 0 14px;color:#111c30;letter-spacing:-.01em}
+  h2{font-size:19.5px;margin:30px 0 10px;color:#1c2942;padding-left:12px;border-left:4px solid var(--brand);line-height:1.3}
+  h3{font-size:16px;margin:22px 0 8px;color:#243352}
+  p{margin:9px 0}
+  a{color:var(--brand-ink);text-decoration:none;border-bottom:1px solid #c7d2fe}
+  a:hover{border-bottom-color:var(--brand-ink)}
+  ul,ol{padding-left:24px;margin:9px 0} li{margin:4px 0} strong{color:#0f1c33}
+  code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:1px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.87em;color:#334155}
+  blockquote{margin:16px 0;padding:13px 17px;background:#fffbeb;border:1px solid #fde68a;border-left:5px solid #f59e0b;border-radius:10px;color:#57430d}
+  blockquote p{margin:0} blockquote strong{color:#78350f}
+  .twrap{overflow-x:auto;margin:14px 0;border:1px solid var(--border);border-radius:10px}
+  table{border-collapse:collapse;width:100%;font-size:13.8px}
+  th{background:#f8fafc;text-align:left;font-weight:700;color:#334155;white-space:nowrap}
+  th,td{padding:9px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+  td:first-child{font-weight:600;color:#1e293b} tr:last-child td{border-bottom:none} tbody tr:hover{background:#fafbfe}
+  .footnav{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
+  .footnav a{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:14px;flex:1;max-width:48%}
+  .footnav a:hover{border-color:#a5b4fc}
+  .footnav .dir{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  /* index page */
+  .hero{margin:6px 0 22px} .hero h1{font-size:30px;margin:6px 0}
+  .hero p{color:var(--muted);max-width:640px}
+  .ggrid{display:grid;grid-template-columns:1fr;gap:18px}
+  .gcard{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .gcard h2{border:0;padding:0;margin:0 0 10px;font-size:16px;letter-spacing:.02em}
+  .mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+  .mlist a{display:flex;gap:10px;align-items:baseline;padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:#fdfdfe;font-size:14px}
+  .mlist a:hover{border-color:#a5b4fc;background:#fafaff}
+  .mnum{font-size:11.5px;font-weight:800;color:#94a3b8;min-width:22px}
+  /* quiz */
+  .quiz-toolbar{position:sticky;top:52px;z-index:5;background:var(--panel);padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:16px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .chip{border:1px solid var(--border);background:#f8fafc;color:#334155;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer}
+  .chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .scorebar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .score-text{font-size:13.5px;color:var(--muted);font-weight:600}
+  .meter{flex:1;min-width:160px;height:8px;background:#eef1f6;border-radius:99px;overflow:hidden}
+  .meter div{height:100%;width:0;background:var(--good);border-radius:99px;transition:width .3s}
+  .reset-btn{border:1px solid var(--border);background:#fff;color:#475569;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer}
+  .qcard{border:1px solid var(--border);border-radius:13px;padding:18px 20px;margin:14px 0;background:#fdfdfe}
+  .qcard .qmeta{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+  .qnum{font-size:12px;font-weight:800;color:#94a3b8}
+  .qtext{font-weight:600;color:#16233a;margin-bottom:12px}
+  .opt{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:14px;color:#1e293b;cursor:pointer;line-height:1.5;font-family:inherit}
+  .opt:hover{border-color:#a5b4fc;background:#fafaff}
+  .opt.correct{border-color:var(--good);background:#f0fdf4;color:#14532d;font-weight:600}
+  .opt.wrong{border-color:var(--bad);background:#fef2f2;color:#7f1d1d}
+  .opt.reveal{border-color:var(--good);background:#f0fdf4}
+  .expl{display:none;margin-top:10px;padding:12px 15px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;font-size:13.6px;color:#334155}
+  .expl.show{display:block} .expl .verdict{font-weight:800;margin-right:6px}
+  .quiz-note{font-size:12.8px;color:var(--muted)}
+  @media print{.topbar,.footnav,.quiz-toolbar{display:none!important}.wrap{padding:0}article{border:0;box-shadow:none}.expl{display:block}body{background:#fff}}
+</style></head><body><div class="topbar"><a class="home" href="index.html"><span>AB-100</span> Study Guide</a><select onchange="location=this.value"><option value="index.html">Index</option><option value="00-overview.html">Exam Overview & Study Plan</option><option value="01-ai-strategy-caf.html">AI Strategy & CAF</option><option value="02-agent-types-decisions.html">Agent Types & Key Decisions</option><option value="03-data-grounding.html">Data & Grounding Readiness</option><option value="04-coe-prompts.html">CoE, Prompt Library & Engineering</option><option value="05-roi-tco.html">ROI, TCO & the Cost Model</option><option value="06-platform-decision.html">Platform Decision Framework</option><option value="07-copilot-studio-core.html" selected>Copilot Studio: Core</option><option value="08-copilot-studio-tools.html">Copilot Studio: Tools & Flows</option><option value="09-copilot-studio-advanced.html">Copilot Studio: Advanced</option><option value="10-foundry-models.html">Foundry: Models & Router</option><option value="11-foundry-tools-agents.html">Foundry: Tools & Agent Service</option><option value="12-d365-ce-service.html">D365: CE, Service & Contact Center</option><option value="13-d365-fo-m365.html">D365: F&SCM & M365 Agents</option><option value="14-power-platform-ai.html">Power Platform AI</option><option value="15-protocols.html">Protocols: MCP & A2A</option><option value="19-monitoring.html">Monitoring & Telemetry</option><option value="20-testing.html">Testing & Validation</option><option value="21-alm.html">ALM for Agentic Solutions</option><option value="22-environments.html">Environment Strategy</option><option value="16-security.html">Security for Agents & Models</option><option value="17-governance-residency-audit.html">Governance, Residency & Audit</option><option value="18-responsible-ai.html">Responsible AI</option><option value="23-adoption.html">Adoption & AI-Forward</option><option value="24-cheatsheet.html">Quick-Review Cheat Sheet</option><option value="practice-exam.html">Practice Exam (48 Qs)</option></select><div class="pn"><a href="06-platform-decision.html">← Prev</a><a href="08-copilot-studio-tools.html">Next →</a></div></div><div class="wrap"><article><span class="badge b-design">Domain 2 · Design</span><h1>Copilot Studio I — Anatomy, Orchestration, Topics &amp; Knowledge</h1>
+<h2>Agent anatomy</h2>
+<p>An agent = <strong>instructions + knowledge + tools + topics + triggers</strong> coordinated by an orchestrator and language models. The orchestrator uses instructions plus the <strong>names and descriptions</strong> of tools/topics/agents/knowledge to decide what to invoke — <em>descriptions are functional configuration, not documentation</em>. Instructions can reference objects with <code>/</code>; an agent can't act on instructions that reference resources it doesn't have. Agents live in <strong>Power Platform environments</strong> (Dataverse-backed) → ALM, DLP, credit allocation all happen at environment level.</p>
+<p><strong>Limits worth memorizing:</strong> 500 knowledge sources/agent · 1,000 topics/agent · 200 trigger phrases/topic · 512 MB file uploads · generative orchestration: <strong>128 topics+tools</strong> considered for triggering, ~5 messages per topic/action chain · knowledge filtered by an internal model when &gt;25 sources.</p>
+<h2>Generative vs classic orchestration</h2>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th><strong>Generative</strong> (default for new agents)</th>
+<th><strong>Classic</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Topic selection</td>
+<td>By topic <strong>description</strong> ("The agent chooses")</td>
+<td>By <strong>trigger phrases</strong> (NLU match)</td>
+</tr>
+<tr>
+<td>Tools</td>
+<td>Called directly by orchestrator</td>
+<td>Only from within topics</td>
+</tr>
+<tr>
+<td>Knowledge</td>
+<td>Searched proactively as part of the plan</td>
+<td>Fallback (Conversational boosting) when no topic matches</td>
+</tr>
+<tr>
+<td>Multiple intents</td>
+<td>Combines topics + tools + knowledge + agents in one plan</td>
+<td>Single topic at a time</td>
+</tr>
+<tr>
+<td>Filling inputs</td>
+<td>Generative slot filling (asks automatically)</td>
+<td>Authored Question nodes</td>
+</tr>
+<tr>
+<td>Requires it</td>
+<td>Event triggers, <strong>MCP</strong>, deep reasoning, computer use, connected agents</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>Choose <strong>classic/deterministic</strong> for fixed, auditable flows (identity verification, payment capture, consent, regulatory wording, DTMF menus). Choose <strong>generative</strong> for variable phrasing, multi-intent, knowledge-heavy self-service. Admins can disable generative orchestration or gen-AI features per environment.</p>
+<h2>The language-understanding decision (direct exam bullet)</h2>
+<p><em>"Determine when to use standard NLP, conversational language understanding, or generative AI orchestration":</em></p>
+<ol>
+<li><strong>Standard NLU</strong> (built-in, classic) — trigger phrases (5–20 per topic), RegEx/list entities; single intent; zero extra infrastructure.</li>
+<li><strong>NLU+</strong> — enhanced precision at enterprise scale; precompiled model requiring training; <strong>also optimizes speech recognition for voice</strong>; requires a <strong>Dynamics 365 Contact Center license</strong>.</li>
+<li><strong>CLU (Azure AI Language)</strong> — bring a trained CLU model: intents map to topic triggers, CLU entities appear in the agent. Requires <strong>classic orchestration</strong>, an Azure subscription, matching region, intents for all system topics; enabling deletes existing trigger phrases. Choose for industry vocabularies, more languages, advanced entity extraction. (Note: <strong>CLU retires March 31, 2029</strong>; LUIS/QnA Maker are already retired.)</li>
+<li><strong>Generative orchestration</strong> — the LLM plans; no trigger-phrase maintenance; multi-intent; context carryover.</li>
+</ol>
+<h2>Topics &amp; the fallback design</h2>
+<ul>
+<li>Topic = trigger + nodes (Message, Question, Condition, tool calls, Redirect). Topics accept <strong>input/output variables</strong>; redirects map values and return to the caller. With generative orchestration, topic inputs auto-fill from context and outputs can feed the generated response.</li>
+<li><strong>System topics</strong> (can disable, can't delete): Conversation Start · <strong>Conversational boosting</strong> (generative answers — fires <em>before</em> Fallback) · End of Conversation (resolution confirm + CSAT) · <strong>Escalate</strong> · <strong>Fallback</strong> (unknown intent) · Multiple Topics Matched ("did you mean") · On Error · Reset Conversation · Sign in.</li>
+<li><strong>Fallback flow:</strong> asks the user to rephrase up to <strong>two times</strong>, then redirects to <strong>Escalate</strong>. Use <code>UnrecognizedTriggerPhrase</code> to pass the raw utterance to a flow/skill/external NLP. Mine Fallback + Conversational boosting hits to grow topics — that's the documented topic-enrichment loop.</li>
+</ul>
+<h2>Knowledge sources &amp; generative answers</h2>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Auth</th>
+<th>Generative-mode limit</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Public websites</td>
+<td>None</td>
+<td><strong>25</strong></td>
+<td>Bing-scoped; confirm site ownership</td>
+</tr>
+<tr>
+<td>Uploaded documents</td>
+<td>None</td>
+<td>500 files (stored in <strong>Dataverse</strong>)</td>
+<td>512 MB/file; file groups</td>
+</tr>
+<tr>
+<td>SharePoint</td>
+<td>User's Entra ID</td>
+<td><strong>25 URLs</strong></td>
+<td>GraphSearch; modern pages; permission-trimmed</td>
+</tr>
+<tr>
+<td>Dataverse</td>
+<td>User's Entra ID</td>
+<td>Unlimited (classic 2)</td>
+<td>15 tables/source; synonyms + glossary</td>
+</tr>
+<tr>
+<td>Connectors / Copilot connectors</td>
+<td>User's Entra ID</td>
+<td>Unlimited (classic 2)</td>
+<td>Graph-indexed; "real-time" sources incl. Salesforce, ServiceNow, Confluence, Zendesk</td>
+</tr>
+<tr>
+<td><strong>Azure AI Search</strong></td>
+<td>Key / SP / Entra ID</td>
+<td>1 vector index per connection</td>
+<td>Citations need a URL field; private endpoint support</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Generative AI settings an architect tunes:</strong></p>
+<ul>
+<li><strong>Allow ungrounded responses</strong> — off = any turn answered without a knowledge source/tool is blocked (even benign follow-ups → Fallback).</li>
+<li><strong>Web search / use information from the web</strong> — Grounding with Bing across the public web (distinct from your listed websites).</li>
+<li><strong>Content moderation</strong> — levels <strong>Lowest→Highest, default High</strong>; settable at agent, generative-answers-node (topic), and prompt level; <strong>topic-level wins at runtime</strong>; higher = fewer but safer answers.</li>
+<li><strong>Tenant graph grounding with semantic search</strong> — RAG over the tenant's Microsoft Graph; needs generative orchestration + Authenticate with Microsoft; <strong>10 credits/message</strong>.</li>
+<li>Answers run dual content-safety checks (input + output) covering jailbreak/XPIA and copyright; <strong>agent-level auth means users only get answers from content they can access</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>⚡ Exam focus:</strong> knowledge questions are usually about <strong>limits, auth, and which source type fits the data</strong> (files → documents; intranet → SharePoint; structured business data → Dataverse; existing vector index → Azure AI Search; third-party KBs → real-time connector knowledge).</p>
+</blockquote>
+<p><strong>Key sources:</strong> <a href="https://learn.microsoft.com/microsoft-copilot-studio/advanced-generative-actions">Orchestration</a> · <a href="https://learn.microsoft.com/microsoft-copilot-studio/nlu-overview">NLU options</a> · <a href="https://learn.microsoft.com/microsoft-copilot-studio/knowledge-copilot-studio">Knowledge sources</a> · <a href="https://learn.microsoft.com/microsoft-copilot-studio/authoring-system-topics">System topics</a></p></article><div class="footnav"><a href="06-platform-decision.html"><span class="dir">← Previous</span>Platform Decision Framework</a><a href="08-copilot-studio-tools.html" style="text-align:right"><span class="dir">Next →</span>Copilot Studio: Tools & Flows</a></div></div></body></html>

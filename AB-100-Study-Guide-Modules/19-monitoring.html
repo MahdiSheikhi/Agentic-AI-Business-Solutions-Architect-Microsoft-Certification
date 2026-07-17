@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Monitoring & Telemetry — AB-100 Study Guide</title><style>
+  :root{
+    --bg:#f5f6fa; --panel:#ffffff; --ink:#1e2a3b; --muted:#5b6b80; --border:#e3e8f0;
+    --brand:#4338ca; --brand-ink:#3730a3;
+    --plan:#0e7490; --plan-soft:#ecfeff; --design:#7c3aed; --design-soft:#f5f3ff;
+    --deploy:#b45309; --deploy-soft:#fffbeb; --start:#475569; --start-soft:#f1f5f9;
+    --final:#166534; --final-soft:#f0fdf4; --good:#16a34a; --bad:#dc2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;font-size:15.5px}
+  .topbar{position:sticky;top:0;z-index:20;background:#0f172a;color:#e2e8f0;padding:10px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .topbar .home{color:#f8fafc;font-weight:700;text-decoration:none;border:0;font-size:14.5px;white-space:nowrap}
+  .topbar .home span{color:#818cf8}
+  .topbar select{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:6px 8px;font-size:13px;max-width:340px;flex:1;min-width:180px}
+  .topbar .pn{margin-left:auto;display:flex;gap:8px}
+  .topbar .pn a{color:#cbd5e1;border:1px solid #334155;background:#1e293b;border-radius:8px;padding:6px 12px;font-size:13px;text-decoration:none;white-space:nowrap}
+  .topbar .pn a:hover{background:#334155;color:#fff}
+  .wrap{max-width:940px;margin:0 auto;padding:30px 22px 70px}
+  article{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:30px 38px 26px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+  .b-start{background:var(--start-soft);color:var(--start)} .b-plan{background:var(--plan-soft);color:var(--plan)}
+  .b-design{background:var(--design-soft);color:var(--design)} .b-deploy{background:var(--deploy-soft);color:var(--deploy)}
+  .b-final{background:var(--final-soft);color:var(--final)}
+  h1{font-size:27px;line-height:1.25;margin:10px 0 14px;color:#111c30;letter-spacing:-.01em}
+  h2{font-size:19.5px;margin:30px 0 10px;color:#1c2942;padding-left:12px;border-left:4px solid var(--brand);line-height:1.3}
+  h3{font-size:16px;margin:22px 0 8px;color:#243352}
+  p{margin:9px 0}
+  a{color:var(--brand-ink);text-decoration:none;border-bottom:1px solid #c7d2fe}
+  a:hover{border-bottom-color:var(--brand-ink)}
+  ul,ol{padding-left:24px;margin:9px 0} li{margin:4px 0} strong{color:#0f1c33}
+  code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:1px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.87em;color:#334155}
+  blockquote{margin:16px 0;padding:13px 17px;background:#fffbeb;border:1px solid #fde68a;border-left:5px solid #f59e0b;border-radius:10px;color:#57430d}
+  blockquote p{margin:0} blockquote strong{color:#78350f}
+  .twrap{overflow-x:auto;margin:14px 0;border:1px solid var(--border);border-radius:10px}
+  table{border-collapse:collapse;width:100%;font-size:13.8px}
+  th{background:#f8fafc;text-align:left;font-weight:700;color:#334155;white-space:nowrap}
+  th,td{padding:9px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+  td:first-child{font-weight:600;color:#1e293b} tr:last-child td{border-bottom:none} tbody tr:hover{background:#fafbfe}
+  .footnav{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
+  .footnav a{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:14px;flex:1;max-width:48%}
+  .footnav a:hover{border-color:#a5b4fc}
+  .footnav .dir{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  /* index page */
+  .hero{margin:6px 0 22px} .hero h1{font-size:30px;margin:6px 0}
+  .hero p{color:var(--muted);max-width:640px}
+  .ggrid{display:grid;grid-template-columns:1fr;gap:18px}
+  .gcard{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .gcard h2{border:0;padding:0;margin:0 0 10px;font-size:16px;letter-spacing:.02em}
+  .mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+  .mlist a{display:flex;gap:10px;align-items:baseline;padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:#fdfdfe;font-size:14px}
+  .mlist a:hover{border-color:#a5b4fc;background:#fafaff}
+  .mnum{font-size:11.5px;font-weight:800;color:#94a3b8;min-width:22px}
+  /* quiz */
+  .quiz-toolbar{position:sticky;top:52px;z-index:5;background:var(--panel);padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:16px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .chip{border:1px solid var(--border);background:#f8fafc;color:#334155;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer}
+  .chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .scorebar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .score-text{font-size:13.5px;color:var(--muted);font-weight:600}
+  .meter{flex:1;min-width:160px;height:8px;background:#eef1f6;border-radius:99px;overflow:hidden}
+  .meter div{height:100%;width:0;background:var(--good);border-radius:99px;transition:width .3s}
+  .reset-btn{border:1px solid var(--border);background:#fff;color:#475569;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer}
+  .qcard{border:1px solid var(--border);border-radius:13px;padding:18px 20px;margin:14px 0;background:#fdfdfe}
+  .qcard .qmeta{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+  .qnum{font-size:12px;font-weight:800;color:#94a3b8}
+  .qtext{font-weight:600;color:#16233a;margin-bottom:12px}
+  .opt{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:14px;color:#1e293b;cursor:pointer;line-height:1.5;font-family:inherit}
+  .opt:hover{border-color:#a5b4fc;background:#fafaff}
+  .opt.correct{border-color:var(--good);background:#f0fdf4;color:#14532d;font-weight:600}
+  .opt.wrong{border-color:var(--bad);background:#fef2f2;color:#7f1d1d}
+  .opt.reveal{border-color:var(--good);background:#f0fdf4}
+  .expl{display:none;margin-top:10px;padding:12px 15px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;font-size:13.6px;color:#334155}
+  .expl.show{display:block} .expl .verdict{font-weight:800;margin-right:6px}
+  .quiz-note{font-size:12.8px;color:var(--muted)}
+  @media print{.topbar,.footnav,.quiz-toolbar{display:none!important}.wrap{padding:0}article{border:0;box-shadow:none}.expl{display:block}body{background:#fff}}
+</style></head><body><div class="topbar"><a class="home" href="index.html"><span>AB-100</span> Study Guide</a><select onchange="location=this.value"><option value="index.html">Index</option><option value="00-overview.html">Exam Overview & Study Plan</option><option value="01-ai-strategy-caf.html">AI Strategy & CAF</option><option value="02-agent-types-decisions.html">Agent Types & Key Decisions</option><option value="03-data-grounding.html">Data & Grounding Readiness</option><option value="04-coe-prompts.html">CoE, Prompt Library & Engineering</option><option value="05-roi-tco.html">ROI, TCO & the Cost Model</option><option value="06-platform-decision.html">Platform Decision Framework</option><option value="07-copilot-studio-core.html">Copilot Studio: Core</option><option value="08-copilot-studio-tools.html">Copilot Studio: Tools & Flows</option><option value="09-copilot-studio-advanced.html">Copilot Studio: Advanced</option><option value="10-foundry-models.html">Foundry: Models & Router</option><option value="11-foundry-tools-agents.html">Foundry: Tools & Agent Service</option><option value="12-d365-ce-service.html">D365: CE, Service & Contact Center</option><option value="13-d365-fo-m365.html">D365: F&SCM & M365 Agents</option><option value="14-power-platform-ai.html">Power Platform AI</option><option value="15-protocols.html">Protocols: MCP & A2A</option><option value="19-monitoring.html" selected>Monitoring & Telemetry</option><option value="20-testing.html">Testing & Validation</option><option value="21-alm.html">ALM for Agentic Solutions</option><option value="22-environments.html">Environment Strategy</option><option value="16-security.html">Security for Agents & Models</option><option value="17-governance-residency-audit.html">Governance, Residency & Audit</option><option value="18-responsible-ai.html">Responsible AI</option><option value="23-adoption.html">Adoption & AI-Forward</option><option value="24-cheatsheet.html">Quick-Review Cheat Sheet</option><option value="practice-exam.html">Practice Exam (48 Qs)</option></select><div class="pn"><a href="15-protocols.html">← Prev</a><a href="20-testing.html">Next →</a></div></div><div class="wrap"><article><span class="badge b-deploy">Domain 3 · Deploy</span><h1>Monitoring Agents &amp; Interpreting Telemetry</h1>
+<p>Deploy is 40–45% of the exam, and monitoring is its beating heart. Learn the KPI definitions <em>exactly</em>.</p>
+<h2>Copilot Studio analytics (per agent)</h2>
+<p>Data retained <strong>360 days</strong> (session details/transcripts 28 days in-product; timestamps UTC; test-panel traffic excluded). Views adapt: <strong>conversational</strong>, <strong>autonomous</strong> (run outcomes, trigger/tool/knowledge use, <strong>Savings</strong> estimates), or hybrid.</p>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>KPI</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Total sessions</strong></td>
+<td>Count of analytics sessions (one conversation can spawn several; a session runs up to <strong>60 minutes / 100 turns</strong>)</td>
+</tr>
+<tr>
+<td><strong>Engagement rate</strong></td>
+<td>% of sessions that trigger a custom topic or enter Conversational boosting / Escalate / Fallback (generative: plan includes a non-system topic, knowledge, or tool)</td>
+</tr>
+<tr>
+<td><strong>Resolution rate</strong></td>
+<td>% of <em>engaged</em> sessions resolved — <strong>confirmed</strong> (user says yes to "Did that answer your question?") or <strong>implied</strong> (ends without escalation and logic implies success)</td>
+</tr>
+<tr>
+<td><strong>Escalation rate</strong></td>
+<td>% of engaged sessions escalated; reasons: <strong>System intended / System unintended / User requested</strong></td>
+</tr>
+<tr>
+<td><strong>Abandon rate</strong></td>
+<td>Engaged sessions ending unresolved &amp; unescalated after the <strong>60-minute</strong> window</td>
+</tr>
+<tr>
+<td><strong>CSAT</strong></td>
+<td>Average 1–5 from the End of Conversation survey</td>
+</tr>
+</tbody>
+</table></div>
+<p>Also: <strong>Reactions</strong> (thumbs up/down + comments; <strong>28-day retention</strong>; not on the M365 Copilot channel) · <strong>Themes</strong> (AI-clustered questions — convertible into evaluation test sets in one click) · <strong>Generated answer rate &amp; quality</strong> (AI labels sampled answers <strong>Good/Poor</strong> for completeness, relevance, groundedness, abstention) · knowledge-source and tool use/error panels · <strong>AI-generated insights</strong> (preview; daily coverage recommendations) · <strong>custom metrics</strong> (up to three natural-language business metrics).</p>
+<p><strong>Transcripts:</strong> stored in Dataverse <strong>ConversationTranscript</strong> (default 30-day bulk-delete; extendable); viewing needs <strong>Bot Transcript Viewer</strong>; export long-term via <strong>Azure Synapse Link → ADLS Gen2</strong> for custom analytics.</p>
+<p><strong>Application Insights connection:</strong> paste the <strong>connection string</strong> in Settings → Advanced. Sends messages/events, topic triggers, node execution, custom telemetry events; options to log conversation details and sensitive properties; KQL over <code>customEvents</code> finds <strong>content-filter (<code>ContentFiltered</code>) events</strong>. The Power CAT <strong>Copilot Agent Kit — Agent Insights Hub</strong> merges App Insights + transcripts + PPAC credit usage into one dashboard.</p>
+<h2>Foundry observability</h2>
+<ul>
+<li><strong>Tracing</strong> — OpenTelemetry GenAI conventions into <strong>Application Insights</strong> (spans per model call, tool invocation, agent decision); supported for Agent Framework, LangChain/LangGraph, OpenAI Agents SDK.</li>
+<li><strong>Agent monitoring dashboard</strong> (preview) — <strong>token usage, latency (&gt;10 s = investigate), run success rate (&lt;95% = investigate), evaluation scores, red-team results</strong>.</li>
+<li><strong>Continuous evaluation</strong> — evaluators run on <strong>sampled production responses</strong> (rate-limited ~100/hour default); <strong>scheduled evaluations</strong> against benchmarks; <strong>scheduled red-team scans</strong>; <strong>alerts</strong> on latency/tokens/eval scores. Evaluation <strong>run comparison</strong> applies statistical significance (Improved/Degraded/Inconclusive) — the documented way to justify a model swap.</li>
+</ul>
+<h2>Microsoft 365 &amp; Dynamics 365 monitoring</h2>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>License rollout &amp; per-app Copilot usage</td>
+<td><strong>M365 admin center usage reports</strong> (AI Administrator role)</td>
+</tr>
+<tr>
+<td>Leader-facing adoption/impact/sentiment, assisted-hours value</td>
+<td><strong>Copilot Dashboard (Viva Insights)</strong> — 28-day window, privacy minimums</td>
+</tr>
+<tr>
+<td>Agent-level org adoption + credit consumption</td>
+<td>Viva Insights <strong>Agent</strong> &amp; <strong>Consumption</strong> dashboards; M365 <strong>Copilot Credits report</strong></td>
+</tr>
+<tr>
+<td>Rep productivity impact of Copilot in service</td>
+<td><strong>D365 Customer Service / Contact Center Copilot analytics</strong> — daily active Copilot users, responses used %, <strong>handle time and throughput split by Copilot-used vs not</strong>; data in <code>msdyn_copilotinteraction*</code> Dataverse tables</td>
+</tr>
+<tr>
+<td>Knowledge health</td>
+<td>Knowledge analytics + CKMA insights (articles published, quality scores, revise-list)</td>
+</tr>
+<tr>
+<td>Copilot Studio credit burn &amp; per-agent caps</td>
+<td><strong>PPAC Licensing → Copilot Studio</strong> (billed vs non-billed by feature, per environment/agent)</td>
+</tr>
+<tr>
+<td>Tenant-wide agent inventory</td>
+<td>PPAC <strong>Power Platform inventory</strong> (incl. drafts) vs <strong>M365 CCS inventory</strong> (what's available to users)</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Interpreting telemetry → action (the exam's favorite table)</h2>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Architect's action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Low engagement rate</td>
+<td>Coverage gap or unclear entry points → add topics/trigger phrases, clarify description/greeting</td>
+</tr>
+<tr>
+<td>Unanswered questions / low generated-answer rate</td>
+<td>Add/expand knowledge sources; act on AI-generated insights</td>
+</tr>
+<tr>
+<td>Poor answers labeled <em>ungrounded/irrelevant/incomplete</em></td>
+<td>Tune knowledge content, instructions, topic config; consider stricter grounding (e.g., Bing Custom Search scoping)</td>
+</tr>
+<tr>
+<td>Thumbs-down / low CSAT / negative sentiment</td>
+<td>Drill into transcripts (Bot Transcript Viewer); fix offending topic/knowledge; prioritize by <strong>Themes</strong> volume</td>
+</tr>
+<tr>
+<td>High escalation (System unintended)</td>
+<td>Users getting stuck — fix topic flows; compare with Omnichannel deflection analytics (they compute differently!)</td>
+</tr>
+<tr>
+<td>Knowledge-source errors</td>
+<td>Repair/replace failing sources</td>
+</tr>
+<tr>
+<td>Content-filter blocks</td>
+<td>KQL <code>ContentFiltered</code> events + transcripts → adjust moderation level or user guidance</td>
+</tr>
+<tr>
+<td>Foundry: latency &gt;10 s / high tokens / success &lt;95%</td>
+<td>Trace the bottleneck span; shorten prompts; check throttling; investigate failed runs</td>
+</tr>
+<tr>
+<td>Everything prompt-tuning can't fix</td>
+<td>Compare models via evaluations → swap model or <strong>fine-tune</strong>, validated by run comparison</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Continuous-improvement loop:</strong> assess usage → define outcomes → analytics strategy → data-driven optimization on a cadence (monthly optimization review: deflection, resolution, low-resolution topics, unrecognized utterances, per-channel). Feed Reactions/CSAT/Themes/unanswered lists into a prioritized backlog; convert every fix into a regression <strong>test set</strong>.</p>
+<blockquote>
+<p><strong>⚡ Exam focus:</strong> engagement→resolution→escalation→abandon definitions; <strong>resolved-confirmed vs resolved-implied</strong>; reactions retained 28 days; where transcripts live and who can read them; &gt;10 s latency and &lt;95% success thresholds; which dashboard answers which stakeholder.</p>
+</blockquote>
+<p><strong>Key sources:</strong> <a href="https://learn.microsoft.com/microsoft-copilot-studio/analytics-overview">Analytics overview</a> · <a href="https://learn.microsoft.com/microsoft-copilot-studio/analytics-improve-agent-effectiveness">Improve agent effectiveness</a> · <a href="https://learn.microsoft.com/azure/foundry/observability/how-to/how-to-monitor-agents-dashboard">Foundry monitor dashboard</a> · <a href="https://learn.microsoft.com/viva/insights/copilot-analytics-introduction">Copilot Analytics (Viva)</a> · <a href="https://learn.microsoft.com/dynamics365/contact-center/use/copilot-analytics-report">CS Copilot analytics</a></p></article><div class="footnav"><a href="15-protocols.html"><span class="dir">← Previous</span>Protocols: MCP & A2A</a><a href="20-testing.html" style="text-align:right"><span class="dir">Next →</span>Testing & Validation</a></div></div></body></html>

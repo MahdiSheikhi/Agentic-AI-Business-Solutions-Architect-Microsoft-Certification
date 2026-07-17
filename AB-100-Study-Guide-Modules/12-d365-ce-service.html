@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>D365: CE, Service & Contact Center — AB-100 Study Guide</title><style>
+  :root{
+    --bg:#f5f6fa; --panel:#ffffff; --ink:#1e2a3b; --muted:#5b6b80; --border:#e3e8f0;
+    --brand:#4338ca; --brand-ink:#3730a3;
+    --plan:#0e7490; --plan-soft:#ecfeff; --design:#7c3aed; --design-soft:#f5f3ff;
+    --deploy:#b45309; --deploy-soft:#fffbeb; --start:#475569; --start-soft:#f1f5f9;
+    --final:#166534; --final-soft:#f0fdf4; --good:#16a34a; --bad:#dc2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;font-size:15.5px}
+  .topbar{position:sticky;top:0;z-index:20;background:#0f172a;color:#e2e8f0;padding:10px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .topbar .home{color:#f8fafc;font-weight:700;text-decoration:none;border:0;font-size:14.5px;white-space:nowrap}
+  .topbar .home span{color:#818cf8}
+  .topbar select{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:6px 8px;font-size:13px;max-width:340px;flex:1;min-width:180px}
+  .topbar .pn{margin-left:auto;display:flex;gap:8px}
+  .topbar .pn a{color:#cbd5e1;border:1px solid #334155;background:#1e293b;border-radius:8px;padding:6px 12px;font-size:13px;text-decoration:none;white-space:nowrap}
+  .topbar .pn a:hover{background:#334155;color:#fff}
+  .wrap{max-width:940px;margin:0 auto;padding:30px 22px 70px}
+  article{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:30px 38px 26px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+  .b-start{background:var(--start-soft);color:var(--start)} .b-plan{background:var(--plan-soft);color:var(--plan)}
+  .b-design{background:var(--design-soft);color:var(--design)} .b-deploy{background:var(--deploy-soft);color:var(--deploy)}
+  .b-final{background:var(--final-soft);color:var(--final)}
+  h1{font-size:27px;line-height:1.25;margin:10px 0 14px;color:#111c30;letter-spacing:-.01em}
+  h2{font-size:19.5px;margin:30px 0 10px;color:#1c2942;padding-left:12px;border-left:4px solid var(--brand);line-height:1.3}
+  h3{font-size:16px;margin:22px 0 8px;color:#243352}
+  p{margin:9px 0}
+  a{color:var(--brand-ink);text-decoration:none;border-bottom:1px solid #c7d2fe}
+  a:hover{border-bottom-color:var(--brand-ink)}
+  ul,ol{padding-left:24px;margin:9px 0} li{margin:4px 0} strong{color:#0f1c33}
+  code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:1px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.87em;color:#334155}
+  blockquote{margin:16px 0;padding:13px 17px;background:#fffbeb;border:1px solid #fde68a;border-left:5px solid #f59e0b;border-radius:10px;color:#57430d}
+  blockquote p{margin:0} blockquote strong{color:#78350f}
+  .twrap{overflow-x:auto;margin:14px 0;border:1px solid var(--border);border-radius:10px}
+  table{border-collapse:collapse;width:100%;font-size:13.8px}
+  th{background:#f8fafc;text-align:left;font-weight:700;color:#334155;white-space:nowrap}
+  th,td{padding:9px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+  td:first-child{font-weight:600;color:#1e293b} tr:last-child td{border-bottom:none} tbody tr:hover{background:#fafbfe}
+  .footnav{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
+  .footnav a{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:14px;flex:1;max-width:48%}
+  .footnav a:hover{border-color:#a5b4fc}
+  .footnav .dir{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  /* index page */
+  .hero{margin:6px 0 22px} .hero h1{font-size:30px;margin:6px 0}
+  .hero p{color:var(--muted);max-width:640px}
+  .ggrid{display:grid;grid-template-columns:1fr;gap:18px}
+  .gcard{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .gcard h2{border:0;padding:0;margin:0 0 10px;font-size:16px;letter-spacing:.02em}
+  .mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+  .mlist a{display:flex;gap:10px;align-items:baseline;padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:#fdfdfe;font-size:14px}
+  .mlist a:hover{border-color:#a5b4fc;background:#fafaff}
+  .mnum{font-size:11.5px;font-weight:800;color:#94a3b8;min-width:22px}
+  /* quiz */
+  .quiz-toolbar{position:sticky;top:52px;z-index:5;background:var(--panel);padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:16px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .chip{border:1px solid var(--border);background:#f8fafc;color:#334155;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer}
+  .chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .scorebar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .score-text{font-size:13.5px;color:var(--muted);font-weight:600}
+  .meter{flex:1;min-width:160px;height:8px;background:#eef1f6;border-radius:99px;overflow:hidden}
+  .meter div{height:100%;width:0;background:var(--good);border-radius:99px;transition:width .3s}
+  .reset-btn{border:1px solid var(--border);background:#fff;color:#475569;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer}
+  .qcard{border:1px solid var(--border);border-radius:13px;padding:18px 20px;margin:14px 0;background:#fdfdfe}
+  .qcard .qmeta{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+  .qnum{font-size:12px;font-weight:800;color:#94a3b8}
+  .qtext{font-weight:600;color:#16233a;margin-bottom:12px}
+  .opt{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:14px;color:#1e293b;cursor:pointer;line-height:1.5;font-family:inherit}
+  .opt:hover{border-color:#a5b4fc;background:#fafaff}
+  .opt.correct{border-color:var(--good);background:#f0fdf4;color:#14532d;font-weight:600}
+  .opt.wrong{border-color:var(--bad);background:#fef2f2;color:#7f1d1d}
+  .opt.reveal{border-color:var(--good);background:#f0fdf4}
+  .expl{display:none;margin-top:10px;padding:12px 15px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;font-size:13.6px;color:#334155}
+  .expl.show{display:block} .expl .verdict{font-weight:800;margin-right:6px}
+  .quiz-note{font-size:12.8px;color:var(--muted)}
+  @media print{.topbar,.footnav,.quiz-toolbar{display:none!important}.wrap{padding:0}article{border:0;box-shadow:none}.expl{display:block}body{background:#fff}}
+</style></head><body><div class="topbar"><a class="home" href="index.html"><span>AB-100</span> Study Guide</a><select onchange="location=this.value"><option value="index.html">Index</option><option value="00-overview.html">Exam Overview & Study Plan</option><option value="01-ai-strategy-caf.html">AI Strategy & CAF</option><option value="02-agent-types-decisions.html">Agent Types & Key Decisions</option><option value="03-data-grounding.html">Data & Grounding Readiness</option><option value="04-coe-prompts.html">CoE, Prompt Library & Engineering</option><option value="05-roi-tco.html">ROI, TCO & the Cost Model</option><option value="06-platform-decision.html">Platform Decision Framework</option><option value="07-copilot-studio-core.html">Copilot Studio: Core</option><option value="08-copilot-studio-tools.html">Copilot Studio: Tools & Flows</option><option value="09-copilot-studio-advanced.html">Copilot Studio: Advanced</option><option value="10-foundry-models.html">Foundry: Models & Router</option><option value="11-foundry-tools-agents.html">Foundry: Tools & Agent Service</option><option value="12-d365-ce-service.html" selected>D365: CE, Service & Contact Center</option><option value="13-d365-fo-m365.html">D365: F&SCM & M365 Agents</option><option value="14-power-platform-ai.html">Power Platform AI</option><option value="15-protocols.html">Protocols: MCP & A2A</option><option value="19-monitoring.html">Monitoring & Telemetry</option><option value="20-testing.html">Testing & Validation</option><option value="21-alm.html">ALM for Agentic Solutions</option><option value="22-environments.html">Environment Strategy</option><option value="16-security.html">Security for Agents & Models</option><option value="17-governance-residency-audit.html">Governance, Residency & Audit</option><option value="18-responsible-ai.html">Responsible AI</option><option value="23-adoption.html">Adoption & AI-Forward</option><option value="24-cheatsheet.html">Quick-Review Cheat Sheet</option><option value="practice-exam.html">Practice Exam (48 Qs)</option></select><div class="pn"><a href="11-foundry-tools-agents.html">← Prev</a><a href="13-d365-fo-m365.html">Next →</a></div></div><div class="wrap"><article><span class="badge b-design">Domain 2 · Design</span><h1>Dynamics 365 — Customer Experience, Service &amp; Contact Center</h1>
+<h2>Copilot in Dynamics 365 Sales</h2>
+<p><strong>Enablement chain (architect-level):</strong> PPAC <strong>Copilot hub → turn on AI for D365 Sales</strong> → consent to <strong>cross-region data movement</strong> where no local Azure OpenAI endpoint → Sales Hub <strong>App Settings → Copilot</strong> (global + per-app) → <strong>enable auditing</strong> on lead/opportunity/account tables (required for "recent changes"). DLP must allow required connectors.</p>
+<p><strong>Business terms (direct exam bullet)</strong> — configured in <strong>Copilot Studio</strong>, <em>not</em> the Sales app: environment → agent <strong>"Copilot in Dynamics 365 Sales"</strong> → Knowledge → <strong>SalesSpecificQnA</strong> → <strong>Glossary</strong> (term + description) and <strong>Synonyms</strong> (alternate column names) → Publish. Use for <strong>acronyms, custom fields, custom ownership models, complex rules</strong> ("overdue task" = open task with due date &lt; today). Takes ~15 minutes to apply. <strong>The same glossary serves Copilot in D365 Sales <em>and</em> the Sales agent in Microsoft 365 Copilot</strong> (Salesforce-connected: glossary rows in the Dataverse CopilotGlossary table; synonyms unsupported).</p>
+<p><strong>Customizations:</strong> custom topics via Copilot Studio (needs <strong>Copilot Studio Author</strong> role; billed as Copilot Studio credits; use Adaptive Cards, not images/video); edit the <strong>SalesSparks</strong> prompt-guide topic; configure <strong>summary fields</strong> for lead/opportunity/account summaries; add the opportunity summary widget / Copilot immersive page to custom forms &amp; site maps. Manage customizations <strong>in solutions</strong> for ALM.</p>
+<p><strong>Connectors for Copilot in D365 Sales (exam bullet):</strong> (1) <strong>custom connector + connector action</strong> built in Copilot Studio, enabled by a Sales admin (ingestion up to 7 days); (2) <strong>partner-application insights</strong> via Power Platform connectors (e.g., DocuSign records/activities shown in context). Both bring <em>external</em> data into seller experiences.</p>
+<h2>Copilot in Customer Service (admin = <strong>Copilot Service admin center</strong>)</h2>
+<p>Prereq: PPAC <strong>"Enable AI-powered Copilot features"</strong> per environment. Then configure under Productivity:</p>
+<ul>
+<li><strong>Copilot help pane</strong> — <em>Ask a question</em> (knowledge base + <strong>trusted webpages</strong> + optional Bing web search — non-NA regions need cross-geo consent), <em>Write an email</em>, draft chat responses; <strong>Copilot immersive</strong> vs <strong>side pane</strong>.</li>
+<li><strong>Summaries</strong> — <strong>Case summary</strong> (requires ≥50 tokens ≈ 38 words of case data; <em>Manage data</em> remaps/includes/excludes source fields; exclude up to 10 email addresses, 3 disclaimers) and <strong>Conversation summary</strong> (triggers: rep joins/transfer/collaborator, conversation end — optional <em>Create case</em> button — and on-demand; <em>Manage format</em>).</li>
+<li><strong>Access via experience profiles</strong> — enable features per representative group; profiles are <strong>solution-aware</strong> (ALM-able).</li>
+<li>Case-<strong>form</strong> summaries are Dynamics 365 Customer Service-only; in Contact Center—embedded (non-Microsoft CRM) a case-summary card appears in the <em>Ask a question</em> pane (preview). Row-summary control is moving to PPAC Copilot hub.</li>
+</ul>
+<p><strong>Customer Insights:</strong> <em>Dialog with data</em> (preview, NL questions over unified profiles), Copilot-assisted <strong>segment creation</strong>, journeys copilots (query assist, content ideas). Enable via the global consent toggle.</p>
+<h2>Dynamics 365 Contact Center</h2>
+<p>Microsoft's CCaaS. <strong>Deployment scenarios (know all three):</strong> <strong>Contact Center—standalone</strong> — the Microsoft-provided rep workspace with the CRM of your choice (unified routing incorporates non-Microsoft CRMs like Salesforce/ServiceNow) · <strong>Contact Center—embedded</strong> — the Contact Center experience embedded <em>inside</em> your existing non-Microsoft CRM's UI · <strong>with Dynamics 365 Customer Service</strong> — the full Microsoft stack (= Customer Service Premium). <strong>Channels:</strong> voice (PSTN via <strong>Azure Communication Services</strong>, or bring-your-own-carrier/direct routing), chat, SMS/social, email, Teams, custom via <strong>Direct Line</strong>, third-party telephony via <strong>Channel Integration Framework 2.0</strong>.</p>
+<p><strong>Unified routing</strong> = two stages: <strong>classification</strong> (rules + ML: skills, urgency, intent) → <strong>assignment</strong> (priority + skills/capacity/availability matching). Supports percent-based routing, overflow, preferred-rep, and <strong>intent-driven routing</strong> (Customer Intent Agent intents mapped to queues).</p>
+<p><strong>Copilot Studio agents in Contact Center (exam bullet):</strong> create in Copilot Service admin center or Copilot Studio → connect to the omnichannel instance → add to a <strong>workstream ahead of human queues</strong>. Voice/IVR: DTMF + speech, silence detection, SSML, barge-in, external speech grammars, transfer to rep/external number, multilingual; 1-hour bot-call limit; <strong>SIP UUI / X-headers</strong> for external telephony context. <strong>Handoff with context:</strong> escalation passes full history + <strong>context variables</strong> (drive routing rules, macros, record linking — e.g., pass case ID); <strong>rep availability APIs</strong> let the agent check queues before escalating; install the <strong>D365 Copilot Studio extension</strong> (+ telephony extension). Voice handoff: both environments must be in supported geos; auth variables don't pass on voice handoff.</p>
+<h2>First-party agents (CE &amp; service side)</h2>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Purpose / notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Case Management Agent</strong> (Customer Service)</td>
+<td>Automates case lifecycle: create/update/resolve/follow-up/close</td>
+</tr>
+<tr>
+<td><strong>Customer Knowledge Management Agent</strong></td>
+<td>Autonomously harvests knowledge articles from closed cases/conversations; scrubs sensitive data; needs knowledge management configured + connection references + flows + published agent</td>
+</tr>
+<tr>
+<td><strong>Customer Intent Agent</strong> (+ voice)</td>
+<td>Mines past cases into an <strong>intent library</strong>; guides reps; powers self-service + intent-based routing; needs <strong>Intent Manager</strong> role</td>
+</tr>
+<tr>
+<td><strong>Quality Evaluation Agent</strong></td>
+<td>Autonomous quality assessments against supervisor-defined frameworks</td>
+</tr>
+<tr>
+<td><strong>Customer Assist / Quality Assurance / Service Operations</strong> (platform agents)</td>
+<td>Self-service + rep assist / real-time QA nudges / conversational ops-config</td>
+</tr>
+<tr>
+<td><strong>Sales Qualification Agent</strong></td>
+<td>Researches leads (CRM + web + knowledge), outreach, engages, hands over qualified leads; setup: Azure app registration → Dataverse <strong>application user with AISalesPerson role</strong>; <em>Research and engage</em> mode needs a <strong>shared mailbox + server-side sync</strong>; one mode per org; <strong>BANT</strong> handoff criteria</td>
+</tr>
+<tr>
+<td>Sales Opportunity / Sales Close / Sales Research / Recommended Actions agents</td>
+<td>Opportunity risk research · autonomous close cycle · NL data dialog · next-best actions</td>
+</tr>
+</tbody>
+</table></div>
+<p>Customer Service agents require <strong>pay-as-you-go (consumption) billing</strong> to be set up.</p>
+<blockquote>
+<p><strong>⚡ Exam focus:</strong> "Copilot misunderstands our org's terminology in Sales" → <strong>glossary/synonyms in Copilot Studio (SalesSpecificQnA)</strong>. "Keep Salesforce but modernize the contact center" → <strong>Contact Center standalone</strong> (Microsoft rep workspace) or <strong>embedded</strong> (inside the Salesforce UI); full Microsoft stack → <strong>Customer Service Premium</strong>. "Route by what the customer wants" → <strong>Customer Intent Agent + intent-driven unified routing</strong>. "Case context must reach the human rep" → <strong>context variables in the handoff</strong>.</p>
+</blockquote>
+<p><strong>Key sources:</strong> <a href="https://learn.microsoft.com/dynamics365/sales/extend-copilot-chat">Extend Copilot chat (Sales)</a> · <a href="https://learn.microsoft.com/dynamics365/customer-service/administer/configure-copilot-features">Configure Copilot features (CS)</a> · <a href="https://learn.microsoft.com/dynamics365/contact-center/administer/overview-contact-center-agents">Contact Center agents</a> · <a href="https://learn.microsoft.com/dynamics365/customer-service/administer/voice-channel-pva-bots">Voice channel agents</a></p></article><div class="footnav"><a href="11-foundry-tools-agents.html"><span class="dir">← Previous</span>Foundry: Tools & Agent Service</a><a href="13-d365-fo-m365.html" style="text-align:right"><span class="dir">Next →</span>D365: F&SCM & M365 Agents</a></div></div></body></html>

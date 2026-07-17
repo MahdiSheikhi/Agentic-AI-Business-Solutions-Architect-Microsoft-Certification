@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AB-100 Learning Hub — Agentic AI Business Solutions Architect</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#ffffff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --accent:#0f6cbd; --accent-soft:#e8f1fa; --dark:#0b2a4a;
+  --plan:#0e7490; --plan-soft:#ecfeff;
+  --design:#7c3aed; --design-soft:#f5f3ff;
+  --deploy:#b45309; --deploy-soft:#fffbeb;
+  --final:#166534; --final-soft:#f0fdf4;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.6}
+a{color:var(--accent);text-decoration:none}
+
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#123f6e 55%,#28527f 100%);color:#fff;padding:44px 22px 36px;text-align:center}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 16px;font-size:12.5px;letter-spacing:.7px;text-transform:uppercase;margin-bottom:14px}
+.hero h1{font-size:clamp(24px,3.6vw,36px);font-weight:650;letter-spacing:.2px}
+.hero p.sub{margin:10px auto 0;color:#c9d8ea;font-size:15px;max-width:760px}
+.hero-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.hero-stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:9px 18px;font-size:12.5px;color:#c9d8ea}
+.hero-stat b{display:block;font-size:17px;color:#fff}
+
+.wrap{max-width:1080px;margin:0 auto;padding:30px 18px 80px}
+section{margin-top:34px}
+section:first-child{margin-top:0}
+h2.sec{font-size:20px;color:var(--dark);margin-bottom:4px}
+p.sec-sub{color:var(--muted);font-size:14px;margin-bottom:16px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.res{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:0 1px 4px rgba(15,40,70,.05);border-top:4px solid var(--top,var(--accent));color:var(--ink);transition:box-shadow .15s,transform .15s}
+a.res:hover{box-shadow:0 6px 18px rgba(15,40,70,.12);transform:translateY(-2px)}
+.res .kicker{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--top,var(--accent));margin-bottom:6px}
+.res h3{font-size:17px;margin-bottom:7px;color:#12293f}
+.res p{font-size:13.8px;color:var(--muted);flex:1}
+.res .meta{margin-top:12px;font-size:12.5px;font-weight:600;color:var(--top,var(--accent))}
+.res .wt{display:inline-block;background:var(--top-soft,var(--accent-soft));color:var(--top,var(--accent));border-radius:7px;padding:3px 10px;font-size:12px;font-weight:700;margin-bottom:8px;align-self:flex-start}
+
+.mod-groups{display:grid;grid-template-columns:1fr;gap:16px}
+.mgroup{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.mgroup h3{font-size:14.5px;letter-spacing:.03em;color:var(--gc,var(--accent));margin-bottom:11px;display:flex;align-items:center;gap:9px}
+.mgroup h3 .dot{width:10px;height:10px;border-radius:50%;background:var(--gc,var(--accent));flex:0 0 auto}
+.mgroup h3 .w{margin-left:auto;font-size:12px;font-weight:700;background:var(--gs,var(--accent-soft));color:var(--gc,var(--accent));border-radius:7px;padding:2px 10px}
+.mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:7px}
+.mlist a{display:flex;gap:9px;align-items:baseline;padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:#fcfdfe;font-size:13.6px;color:#33475c}
+.mlist a:hover{border-color:var(--gc,var(--accent));background:#fff;color:var(--gc,var(--accent))}
+.mnum{font-size:11px;font-weight:800;color:#9aa9ba;min-width:20px}
+
+.path{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.path ol{margin:6px 0 0 22px}
+.path li{margin:8px 0;font-size:14.3px}
+.path li b{color:#12293f}
+
+.links{display:flex;gap:10px;flex-wrap:wrap}
+.links a{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 16px;font-size:13.5px;font-weight:600}
+.links a:hover{border-color:var(--accent)}
+
+footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 16px 34px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="badge">Microsoft Exam AB-100 · Learning Hub</div>
+  <h1>Agentic AI Business Solutions Architect</h1>
+  <p class="sub">Your complete reference library for the <strong>Microsoft Certified: Agentic AI Business Solutions Architect Expert</strong> certification — study guides, deep-dive notes, cheat sheets, and practice exams, aligned to the skills measured as of July 22, 2026.</p>
+  <div class="hero-stats">
+    <span class="hero-stat"><b>700+</b>passing score</span>
+    <span class="hero-stat"><b>3</b>skill areas</span>
+    <span class="hero-stat"><b>74</b>skills covered</span>
+    <span class="hero-stat"><b>25</b>study modules</span>
+    <span class="hero-stat"><b>93</b>practice questions</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <h2 class="sec">Core study materials</h2>
+  <p class="sec-sub">Three formats of the same body of knowledge — pick the one that fits how you like to study.</p>
+  <div class="grid">
+    <a class="res" href="ab100studyguide.html" style="--top:var(--accent);--top-soft:var(--accent-soft)">
+      <span class="kicker">Interactive</span>
+      <h3>Interactive Study Guide + Quizzes</h3>
+      <p>Tabbed guide covering every skill measured — full notes, decision tables, exam tips, a cram sheet, and 45 self-scoring practice questions with explanations.</p>
+      <span class="meta">Open guide →</span>
+    </a>
+    <a class="res" href="AB-100-Study-Guide-Modules/index.html" style="--top:var(--design);--top-soft:var(--design-soft)">
+      <span class="kicker">Modular</span>
+      <h3>Study Guide — 25 Modules</h3>
+      <p>The full study guide split into standalone pages: exam overview, 23 topic modules grouped by exam domain, a quick-review cheat sheet, and a 48-question practice exam.</p>
+      <span class="meta">Browse module index →</span>
+    </a>
+    <a class="res" href="Agentic%20AI%20Business%20Solutions%20Architect%20Microsoft%20Certification.html" style="--top:var(--final);--top-soft:var(--final-soft)">
+      <span class="kicker">All-in-one</span>
+      <h3>Complete Guide — Single Page</h3>
+      <p>The entire study guide as one continuous, print-friendly document — every module, the cheat sheet, and the practice exam in a single scrollable page.</p>
+      <span class="meta">Open full document →</span>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">Deep-dive notes by skill area</h2>
+  <p class="sec-sub">Detailed research notes for all 74 skills, with Microsoft Learn source links throughout — organized by the three exam domains.</p>
+  <div class="grid">
+    <a class="res" href="AB100notes1plan.html" style="--top:var(--plan);--top-soft:var(--plan-soft)">
+      <span class="wt">25–30% of the exam</span>
+      <h3>1 · Plan AI-Powered Business Solutions</h3>
+      <p>Requirements analysis, grounding-data readiness, AI strategy with the Cloud Adoption Framework, platform selection, and ROI/TCO evaluation — 20 skills.</p>
+      <span class="meta">Open notes →</span>
+    </a>
+    <a class="res" href="AB100notes2design.html" style="--top:var(--design);--top-soft:var(--design-soft)">
+      <span class="wt">25–30% of the exam</span>
+      <h3>2 · Design AI-Powered Business Solutions</h3>
+      <p>Designing agents and Copilot in Dynamics 365, Copilot Studio design choices, extensibility (MCP, computer use, M365 agents), and orchestrating prebuilt agents — 30 skills.</p>
+      <span class="meta">Open notes →</span>
+    </a>
+    <a class="res" href="AB100notes3deploy.html" style="--top:var(--deploy);--top-soft:var(--deploy-soft)">
+      <span class="wt">40–45% — the biggest area</span>
+      <h3>3 · Deploy AI-Powered Business Solutions</h3>
+      <p>Monitoring and tuning, testing and evaluation, ALM for agents/models/data, plus responsible AI, security, governance, and compliance — 24 skills.</p>
+      <span class="meta">Open notes →</span>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">All study modules</h2>
+  <p class="sec-sub">Direct links to every module page, grouped by exam domain.</p>
+  <div class="mod-groups">
+
+    <div class="mgroup" style="--gc:#475569;--gs:#f1f5f9">
+      <h3><span class="dot"></span>Start here</h3>
+      <div class="mlist">
+        <a href="AB-100-Study-Guide-Modules/00-overview.html"><span class="mnum">01</span>Exam Overview &amp; Study Plan</a>
+      </div>
+    </div>
+
+    <div class="mgroup" style="--gc:var(--plan);--gs:var(--plan-soft)">
+      <h3><span class="dot"></span>Domain 1 · Plan<span class="w">25–30%</span></h3>
+      <div class="mlist">
+        <a href="AB-100-Study-Guide-Modules/01-ai-strategy-caf.html"><span class="mnum">02</span>AI Strategy &amp; CAF</a>
+        <a href="AB-100-Study-Guide-Modules/02-agent-types-decisions.html"><span class="mnum">03</span>Agent Types &amp; Key Decisions</a>
+        <a href="AB-100-Study-Guide-Modules/03-data-grounding.html"><span class="mnum">04</span>Data &amp; Grounding Readiness</a>
+        <a href="AB-100-Study-Guide-Modules/04-coe-prompts.html"><span class="mnum">05</span>CoE, Prompt Library &amp; Engineering</a>
+        <a href="AB-100-Study-Guide-Modules/05-roi-tco.html"><span class="mnum">06</span>ROI, TCO &amp; the Cost Model</a>
+      </div>
+    </div>
+
+    <div class="mgroup" style="--gc:var(--design);--gs:var(--design-soft)">
+      <h3><span class="dot"></span>Domain 2 · Design<span class="w">25–30%</span></h3>
+      <div class="mlist">
+        <a href="AB-100-Study-Guide-Modules/06-platform-decision.html"><span class="mnum">07</span>Platform Decision Framework</a>
+        <a href="AB-100-Study-Guide-Modules/07-copilot-studio-core.html"><span class="mnum">08</span>Copilot Studio: Core</a>
+        <a href="AB-100-Study-Guide-Modules/08-copilot-studio-tools.html"><span class="mnum">09</span>Copilot Studio: Tools &amp; Flows</a>
+        <a href="AB-100-Study-Guide-Modules/09-copilot-studio-advanced.html"><span class="mnum">10</span>Copilot Studio: Advanced</a>
+        <a href="AB-100-Study-Guide-Modules/10-foundry-models.html"><span class="mnum">11</span>Foundry: Models &amp; Router</a>
+        <a href="AB-100-Study-Guide-Modules/11-foundry-tools-agents.html"><span class="mnum">12</span>Foundry: Tools &amp; Agent Service</a>
+        <a href="AB-100-Study-Guide-Modules/12-d365-ce-service.html"><span class="mnum">13</span>D365: CE, Service &amp; Contact Center</a>
+        <a href="AB-100-Study-Guide-Modules/13-d365-fo-m365.html"><span class="mnum">14</span>D365: F&amp;SCM &amp; M365 Agents</a>
+        <a href="AB-100-Study-Guide-Modules/14-power-platform-ai.html"><span class="mnum">15</span>Power Platform AI</a>
+        <a href="AB-100-Study-Guide-Modules/15-protocols.html"><span class="mnum">16</span>Protocols: MCP &amp; A2A</a>
+      </div>
+    </div>
+
+    <div class="mgroup" style="--gc:var(--deploy);--gs:var(--deploy-soft)">
+      <h3><span class="dot"></span>Domain 3 · Deploy<span class="w">40–45%</span></h3>
+      <div class="mlist">
+        <a href="AB-100-Study-Guide-Modules/19-monitoring.html"><span class="mnum">17</span>Monitoring &amp; Telemetry</a>
+        <a href="AB-100-Study-Guide-Modules/20-testing.html"><span class="mnum">18</span>Testing &amp; Validation</a>
+        <a href="AB-100-Study-Guide-Modules/21-alm.html"><span class="mnum">19</span>ALM for Agentic Solutions</a>
+        <a href="AB-100-Study-Guide-Modules/22-environments.html"><span class="mnum">20</span>Environment Strategy</a>
+        <a href="AB-100-Study-Guide-Modules/16-security.html"><span class="mnum">21</span>Security for Agents &amp; Models</a>
+        <a href="AB-100-Study-Guide-Modules/17-governance-residency-audit.html"><span class="mnum">22</span>Governance, Residency &amp; Audit</a>
+        <a href="AB-100-Study-Guide-Modules/18-responsible-ai.html"><span class="mnum">23</span>Responsible AI</a>
+        <a href="AB-100-Study-Guide-Modules/23-adoption.html"><span class="mnum">24</span>Adoption &amp; AI-Forward</a>
+      </div>
+    </div>
+
+    <div class="mgroup" style="--gc:var(--final);--gs:var(--final-soft)">
+      <h3><span class="dot"></span>Final prep</h3>
+      <div class="mlist">
+        <a href="AB-100-Study-Guide-Modules/24-cheatsheet.html"><span class="mnum">25</span>Quick-Review Cheat Sheet</a>
+        <a href="AB-100-Study-Guide-Modules/practice-exam.html"><span class="mnum">▶</span>Practice Exam — 48 Questions</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">Suggested study path</h2>
+  <div class="path">
+    <ol>
+      <li><b>Orient:</b> read the <a href="AB-100-Study-Guide-Modules/00-overview.html">Exam Overview &amp; Study Plan</a> to understand the domains, weights, and question style.</li>
+      <li><b>Learn:</b> work through the <a href="AB-100-Study-Guide-Modules/index.html">25 modules</a> in order, or study by tab in the <a href="ab100studyguide.html">interactive guide</a>.</li>
+      <li><b>Deepen:</b> for each domain, read the matching deep-dive notes — <a href="AB100notes1plan.html">Plan</a>, <a href="AB100notes2design.html">Design</a>, <a href="AB100notes3deploy.html">Deploy</a> — and follow the Microsoft Learn source links for anything unfamiliar.</li>
+      <li><b>Test:</b> take the in-guide quizzes (45 questions) and the <a href="AB-100-Study-Guide-Modules/practice-exam.html">48-question practice exam</a>; review every miss.</li>
+      <li><b>Cram:</b> the day before, run the <a href="AB-100-Study-Guide-Modules/24-cheatsheet.html">Quick-Review Cheat Sheet</a> and the guide's Cram Sheet tab.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">Official Microsoft resources</h2>
+  <div class="links">
+    <a href="https://learn.microsoft.com/credentials/certifications/resources/study-guides/ab-100" target="_blank" rel="noopener">Official AB-100 study guide ↗</a>
+    <a href="https://learn.microsoft.com/credentials/certifications/agentic-ai-business-solutions-architect" target="_blank" rel="noopener">Certification page ↗</a>
+  </div>
+</section>
+
+</div>
+
+<footer>AB-100 · Agentic AI Business Solutions Architect Expert · Skills measured as of July 22, 2026 · Score 700+ to pass · Requires one prerequisite associate certification (Dynamics 365, Power Platform, or Azure AI Engineer)</footer>
+
+</body>
+</html>

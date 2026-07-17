@@ -1,0 +1,212 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Exam Overview & Study Plan — AB-100 Study Guide</title><style>
+  :root{
+    --bg:#f5f6fa; --panel:#ffffff; --ink:#1e2a3b; --muted:#5b6b80; --border:#e3e8f0;
+    --brand:#4338ca; --brand-ink:#3730a3;
+    --plan:#0e7490; --plan-soft:#ecfeff; --design:#7c3aed; --design-soft:#f5f3ff;
+    --deploy:#b45309; --deploy-soft:#fffbeb; --start:#475569; --start-soft:#f1f5f9;
+    --final:#166534; --final-soft:#f0fdf4; --good:#16a34a; --bad:#dc2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;font-size:15.5px}
+  .topbar{position:sticky;top:0;z-index:20;background:#0f172a;color:#e2e8f0;padding:10px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .topbar .home{color:#f8fafc;font-weight:700;text-decoration:none;border:0;font-size:14.5px;white-space:nowrap}
+  .topbar .home span{color:#818cf8}
+  .topbar select{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:6px 8px;font-size:13px;max-width:340px;flex:1;min-width:180px}
+  .topbar .pn{margin-left:auto;display:flex;gap:8px}
+  .topbar .pn a{color:#cbd5e1;border:1px solid #334155;background:#1e293b;border-radius:8px;padding:6px 12px;font-size:13px;text-decoration:none;white-space:nowrap}
+  .topbar .pn a:hover{background:#334155;color:#fff}
+  .wrap{max-width:940px;margin:0 auto;padding:30px 22px 70px}
+  article{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:30px 38px 26px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+  .b-start{background:var(--start-soft);color:var(--start)} .b-plan{background:var(--plan-soft);color:var(--plan)}
+  .b-design{background:var(--design-soft);color:var(--design)} .b-deploy{background:var(--deploy-soft);color:var(--deploy)}
+  .b-final{background:var(--final-soft);color:var(--final)}
+  h1{font-size:27px;line-height:1.25;margin:10px 0 14px;color:#111c30;letter-spacing:-.01em}
+  h2{font-size:19.5px;margin:30px 0 10px;color:#1c2942;padding-left:12px;border-left:4px solid var(--brand);line-height:1.3}
+  h3{font-size:16px;margin:22px 0 8px;color:#243352}
+  p{margin:9px 0}
+  a{color:var(--brand-ink);text-decoration:none;border-bottom:1px solid #c7d2fe}
+  a:hover{border-bottom-color:var(--brand-ink)}
+  ul,ol{padding-left:24px;margin:9px 0} li{margin:4px 0} strong{color:#0f1c33}
+  code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:1px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.87em;color:#334155}
+  blockquote{margin:16px 0;padding:13px 17px;background:#fffbeb;border:1px solid #fde68a;border-left:5px solid #f59e0b;border-radius:10px;color:#57430d}
+  blockquote p{margin:0} blockquote strong{color:#78350f}
+  .twrap{overflow-x:auto;margin:14px 0;border:1px solid var(--border);border-radius:10px}
+  table{border-collapse:collapse;width:100%;font-size:13.8px}
+  th{background:#f8fafc;text-align:left;font-weight:700;color:#334155;white-space:nowrap}
+  th,td{padding:9px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+  td:first-child{font-weight:600;color:#1e293b} tr:last-child td{border-bottom:none} tbody tr:hover{background:#fafbfe}
+  .footnav{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
+  .footnav a{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:14px;flex:1;max-width:48%}
+  .footnav a:hover{border-color:#a5b4fc}
+  .footnav .dir{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  /* index page */
+  .hero{margin:6px 0 22px} .hero h1{font-size:30px;margin:6px 0}
+  .hero p{color:var(--muted);max-width:640px}
+  .ggrid{display:grid;grid-template-columns:1fr;gap:18px}
+  .gcard{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .gcard h2{border:0;padding:0;margin:0 0 10px;font-size:16px;letter-spacing:.02em}
+  .mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+  .mlist a{display:flex;gap:10px;align-items:baseline;padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:#fdfdfe;font-size:14px}
+  .mlist a:hover{border-color:#a5b4fc;background:#fafaff}
+  .mnum{font-size:11.5px;font-weight:800;color:#94a3b8;min-width:22px}
+  /* quiz */
+  .quiz-toolbar{position:sticky;top:52px;z-index:5;background:var(--panel);padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:16px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .chip{border:1px solid var(--border);background:#f8fafc;color:#334155;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer}
+  .chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .scorebar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .score-text{font-size:13.5px;color:var(--muted);font-weight:600}
+  .meter{flex:1;min-width:160px;height:8px;background:#eef1f6;border-radius:99px;overflow:hidden}
+  .meter div{height:100%;width:0;background:var(--good);border-radius:99px;transition:width .3s}
+  .reset-btn{border:1px solid var(--border);background:#fff;color:#475569;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer}
+  .qcard{border:1px solid var(--border);border-radius:13px;padding:18px 20px;margin:14px 0;background:#fdfdfe}
+  .qcard .qmeta{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+  .qnum{font-size:12px;font-weight:800;color:#94a3b8}
+  .qtext{font-weight:600;color:#16233a;margin-bottom:12px}
+  .opt{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:14px;color:#1e293b;cursor:pointer;line-height:1.5;font-family:inherit}
+  .opt:hover{border-color:#a5b4fc;background:#fafaff}
+  .opt.correct{border-color:var(--good);background:#f0fdf4;color:#14532d;font-weight:600}
+  .opt.wrong{border-color:var(--bad);background:#fef2f2;color:#7f1d1d}
+  .opt.reveal{border-color:var(--good);background:#f0fdf4}
+  .expl{display:none;margin-top:10px;padding:12px 15px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;font-size:13.6px;color:#334155}
+  .expl.show{display:block} .expl .verdict{font-weight:800;margin-right:6px}
+  .quiz-note{font-size:12.8px;color:var(--muted)}
+  @media print{.topbar,.footnav,.quiz-toolbar{display:none!important}.wrap{padding:0}article{border:0;box-shadow:none}.expl{display:block}body{background:#fff}}
+</style></head><body><div class="topbar"><a class="home" href="index.html"><span>AB-100</span> Study Guide</a><select onchange="location=this.value"><option value="index.html">Index</option><option value="00-overview.html" selected>Exam Overview & Study Plan</option><option value="01-ai-strategy-caf.html">AI Strategy & CAF</option><option value="02-agent-types-decisions.html">Agent Types & Key Decisions</option><option value="03-data-grounding.html">Data & Grounding Readiness</option><option value="04-coe-prompts.html">CoE, Prompt Library & Engineering</option><option value="05-roi-tco.html">ROI, TCO & the Cost Model</option><option value="06-platform-decision.html">Platform Decision Framework</option><option value="07-copilot-studio-core.html">Copilot Studio: Core</option><option value="08-copilot-studio-tools.html">Copilot Studio: Tools & Flows</option><option value="09-copilot-studio-advanced.html">Copilot Studio: Advanced</option><option value="10-foundry-models.html">Foundry: Models & Router</option><option value="11-foundry-tools-agents.html">Foundry: Tools & Agent Service</option><option value="12-d365-ce-service.html">D365: CE, Service & Contact Center</option><option value="13-d365-fo-m365.html">D365: F&SCM & M365 Agents</option><option value="14-power-platform-ai.html">Power Platform AI</option><option value="15-protocols.html">Protocols: MCP & A2A</option><option value="19-monitoring.html">Monitoring & Telemetry</option><option value="20-testing.html">Testing & Validation</option><option value="21-alm.html">ALM for Agentic Solutions</option><option value="22-environments.html">Environment Strategy</option><option value="16-security.html">Security for Agents & Models</option><option value="17-governance-residency-audit.html">Governance, Residency & Audit</option><option value="18-responsible-ai.html">Responsible AI</option><option value="23-adoption.html">Adoption & AI-Forward</option><option value="24-cheatsheet.html">Quick-Review Cheat Sheet</option><option value="practice-exam.html">Practice Exam (48 Qs)</option></select><div class="pn"><a href="index.html">← Prev</a><a href="01-ai-strategy-caf.html">Next →</a></div></div><div class="wrap"><article><span class="badge b-start">Getting started</span><h1>Exam Overview &amp; Study Plan</h1>
+<h2>The certification at a glance</h2>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exam</td>
+<td><strong>AB-100: Agentic AI Business Solutions Architect</strong></td>
+</tr>
+<tr>
+<td>Certification earned</td>
+<td>Microsoft Certified: <strong>Agentic AI Business Solutions Architect</strong> (Expert badge, listed as Advanced level)</td>
+</tr>
+<tr>
+<td>Products covered</td>
+<td>Dynamics 365 · Microsoft Copilot · Power Platform (official product tags) — with Microsoft Foundry throughout the skills measured</td>
+</tr>
+<tr>
+<td>Passing score</td>
+<td><strong>700</strong> (scale to 1000)</td>
+</tr>
+<tr>
+<td>Renewal</td>
+<td>Every <strong>12 months</strong> via a <strong>free online assessment</strong> on Microsoft Learn</td>
+</tr>
+<tr>
+<td>Prerequisite</td>
+<td>You must hold <strong>at least one</strong> qualifying Associate certification (see below)</td>
+</tr>
+<tr>
+<td>Skills measured version</td>
+<td><strong>July 22, 2026</strong> (minor changes vs. the prior version)</td>
+</tr>
+<tr>
+<td>Question style</td>
+<td>Standard Microsoft exam formats — expect scenario-based multiple choice, case studies, drag-and-drop/build-list, and "select the best solution" items. Most questions cover <strong>GA features</strong>, but commonly used <strong>preview</strong> features can appear.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Qualifying prerequisite certifications (any one of):</strong> Azure AI Apps and Agents Developer Associate (beta), Azure AI Engineer Associate, AI Agent Builder Associate, Power Platform Functional Consultant / Developer Associate, Power Automate RPA Developer Associate, Dynamics 365 Customer Experience Analyst, Customer Service / Field Service / Finance / Supply Chain Management Functional Consultant, Business Central Developer / Functional Consultant, or Finance and Operations Apps Developer Associate.</p>
+<h2>Domains and weights</h2>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Weight</th>
+<th>What it really tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1 · Plan AI-powered business solutions</strong></td>
+<td>25–30%</td>
+<td>Requirements analysis, AI/agent strategy (CAF), data readiness, prompt libraries, CoE, custom models &amp; SLMs, ROI/TCO, build-vs-buy, model router</td>
+</tr>
+<tr>
+<td><strong>2 · Design AI-powered business solutions</strong></td>
+<td>25–30%</td>
+<td>Designing agents (Copilot Studio, Foundry, D365 Copilots), agent types, extensibility (MCP, computer use, M365 Copilot), orchestrating prebuilt agents, Power Platform AI, Well-Architected</td>
+</tr>
+<tr>
+<td><strong>3 · Deploy AI-powered business solutions</strong></td>
+<td><strong>40–45%</strong></td>
+<td>Monitoring &amp; telemetry, testing &amp; validation, <strong>ALM</strong>, security, governance, data residency, audit trails, Responsible AI</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>⚡ Exam focus:</strong> Deploy is the heaviest domain. If your background is presales/design, spend disproportionate time on <strong>ALM, monitoring, testing, security and Responsible AI</strong> — that is where this exam is won or lost.</p>
+</blockquote>
+<h2>Product naming decoder (memorize first)</h2>
+<p>Microsoft renamed several products recently. The exam uses the <strong>new</strong> names; much documentation still shows the old ones.</p>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>Current name</th>
+<th>Former name(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Microsoft Foundry</strong></td>
+<td>Azure AI Foundry (earlier: Azure AI Studio)</td>
+</tr>
+<tr>
+<td><strong>Foundry Tools</strong></td>
+<td>Azure AI services (Speech, Language, Vision, Document Intelligence…)</td>
+</tr>
+<tr>
+<td><strong>Foundry Models</strong></td>
+<td>Azure AI Foundry model catalog (includes "Azure OpenAI in Foundry Models")</td>
+</tr>
+<tr>
+<td><strong>Foundry Agent Service</strong></td>
+<td>Azure AI Agent Service; runs on the <strong>Responses API</strong> ("Agents v2"). Foundry classic agents retire <strong>March 31, 2027</strong>; the older Azure OpenAI <strong>Assistants API</strong> retires <strong>August 26, 2026</strong></td>
+</tr>
+<tr>
+<td><strong>Copilot Credits</strong></td>
+<td>Copilot Studio "messages" (renamed <strong>September 1, 2025</strong>)</td>
+</tr>
+<tr>
+<td><strong>Microsoft Agent Framework</strong></td>
+<td>Successor merging <strong>Semantic Kernel + AutoGen</strong></td>
+</tr>
+<tr>
+<td><strong>Copilot Service admin center</strong></td>
+<td>Customer Service admin center</td>
+</tr>
+<tr>
+<td><strong>Microsoft Agent 365</strong></td>
+<td>New control plane for governing agents at scale</td>
+</tr>
+<tr>
+<td><strong>Foundry IQ / Fabric IQ / Work IQ</strong></td>
+<td>Knowledge &amp; grounding layers (Foundry knowledge bases / Fabric semantic layer / Microsoft 365 work data)</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Suggested 4-week study plan</h2>
+<ol>
+<li><strong>Week 1 — Plan domain:</strong> modules 1.1–1.6. Anchor everything in the Cloud Adoption Framework AI guidance and the platform decision tree. Practice explaining <em>why</em> a platform/agent choice fits a scenario.</li>
+<li><strong>Week 2 — Design domain:</strong> modules 2.1–2.11. Build one agent in Copilot Studio and one in Foundry if you can — hands-on makes orchestration modes, knowledge, tools and MCP stick.</li>
+<li><strong>Week 3 — Deploy domain:</strong> modules 3.1–3.8. This is 40–45% of the exam. Learn the analytics KPI definitions, evaluator names, ALM gaps, DLP mechanics and the threat→mitigation map cold.</li>
+<li><strong>Week 4 — Consolidate:</strong> cheat sheet daily, full practice quiz (aim ≥80%), re-read weak areas, then review the official study guide one final time for wording.</li>
+</ol>
+<h2>Official resources</h2>
+<ul>
+<li>Official study guide: <code>https://learn.microsoft.com/credentials/certifications/resources/study-guides/ab-100</code></li>
+<li>Certification page (prerequisites, scheduling): <code>https://learn.microsoft.com/credentials/certifications/agentic-ai-business-solutions-architect/</code></li>
+<li>Docs hubs: Microsoft Foundry (<code>/azure/ai-foundry/</code>), Copilot Studio (<code>/microsoft-copilot-studio/</code>), Power Platform (<code>/power-platform/</code>), Dynamics 365 AI (<code>/dynamics365/copilot/ai-get-started</code>)</li>
+<li>Exam sandbox: <code>https://aka.ms/examdemo</code> · Exam Readiness Zone videos on Microsoft Learn</li>
+</ul></article><div class="footnav"><a href="index.html"><span class="dir">← Previous</span>Index</a><a href="01-ai-strategy-caf.html" style="text-align:right"><span class="dir">Next →</span>AI Strategy & CAF</a></div></div></body></html>

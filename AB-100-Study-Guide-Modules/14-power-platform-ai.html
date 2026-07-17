@@ -1,0 +1,152 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Power Platform AI — AB-100 Study Guide</title><style>
+  :root{
+    --bg:#f5f6fa; --panel:#ffffff; --ink:#1e2a3b; --muted:#5b6b80; --border:#e3e8f0;
+    --brand:#4338ca; --brand-ink:#3730a3;
+    --plan:#0e7490; --plan-soft:#ecfeff; --design:#7c3aed; --design-soft:#f5f3ff;
+    --deploy:#b45309; --deploy-soft:#fffbeb; --start:#475569; --start-soft:#f1f5f9;
+    --final:#166534; --final-soft:#f0fdf4; --good:#16a34a; --bad:#dc2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;font-size:15.5px}
+  .topbar{position:sticky;top:0;z-index:20;background:#0f172a;color:#e2e8f0;padding:10px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .topbar .home{color:#f8fafc;font-weight:700;text-decoration:none;border:0;font-size:14.5px;white-space:nowrap}
+  .topbar .home span{color:#818cf8}
+  .topbar select{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:6px 8px;font-size:13px;max-width:340px;flex:1;min-width:180px}
+  .topbar .pn{margin-left:auto;display:flex;gap:8px}
+  .topbar .pn a{color:#cbd5e1;border:1px solid #334155;background:#1e293b;border-radius:8px;padding:6px 12px;font-size:13px;text-decoration:none;white-space:nowrap}
+  .topbar .pn a:hover{background:#334155;color:#fff}
+  .wrap{max-width:940px;margin:0 auto;padding:30px 22px 70px}
+  article{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:30px 38px 26px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+  .b-start{background:var(--start-soft);color:var(--start)} .b-plan{background:var(--plan-soft);color:var(--plan)}
+  .b-design{background:var(--design-soft);color:var(--design)} .b-deploy{background:var(--deploy-soft);color:var(--deploy)}
+  .b-final{background:var(--final-soft);color:var(--final)}
+  h1{font-size:27px;line-height:1.25;margin:10px 0 14px;color:#111c30;letter-spacing:-.01em}
+  h2{font-size:19.5px;margin:30px 0 10px;color:#1c2942;padding-left:12px;border-left:4px solid var(--brand);line-height:1.3}
+  h3{font-size:16px;margin:22px 0 8px;color:#243352}
+  p{margin:9px 0}
+  a{color:var(--brand-ink);text-decoration:none;border-bottom:1px solid #c7d2fe}
+  a:hover{border-bottom-color:var(--brand-ink)}
+  ul,ol{padding-left:24px;margin:9px 0} li{margin:4px 0} strong{color:#0f1c33}
+  code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:1px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.87em;color:#334155}
+  blockquote{margin:16px 0;padding:13px 17px;background:#fffbeb;border:1px solid #fde68a;border-left:5px solid #f59e0b;border-radius:10px;color:#57430d}
+  blockquote p{margin:0} blockquote strong{color:#78350f}
+  .twrap{overflow-x:auto;margin:14px 0;border:1px solid var(--border);border-radius:10px}
+  table{border-collapse:collapse;width:100%;font-size:13.8px}
+  th{background:#f8fafc;text-align:left;font-weight:700;color:#334155;white-space:nowrap}
+  th,td{padding:9px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+  td:first-child{font-weight:600;color:#1e293b} tr:last-child td{border-bottom:none} tbody tr:hover{background:#fafbfe}
+  .footnav{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
+  .footnav a{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:14px;flex:1;max-width:48%}
+  .footnav a:hover{border-color:#a5b4fc}
+  .footnav .dir{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  /* index page */
+  .hero{margin:6px 0 22px} .hero h1{font-size:30px;margin:6px 0}
+  .hero p{color:var(--muted);max-width:640px}
+  .ggrid{display:grid;grid-template-columns:1fr;gap:18px}
+  .gcard{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .gcard h2{border:0;padding:0;margin:0 0 10px;font-size:16px;letter-spacing:.02em}
+  .mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+  .mlist a{display:flex;gap:10px;align-items:baseline;padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:#fdfdfe;font-size:14px}
+  .mlist a:hover{border-color:#a5b4fc;background:#fafaff}
+  .mnum{font-size:11.5px;font-weight:800;color:#94a3b8;min-width:22px}
+  /* quiz */
+  .quiz-toolbar{position:sticky;top:52px;z-index:5;background:var(--panel);padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:16px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .chip{border:1px solid var(--border);background:#f8fafc;color:#334155;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer}
+  .chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .scorebar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .score-text{font-size:13.5px;color:var(--muted);font-weight:600}
+  .meter{flex:1;min-width:160px;height:8px;background:#eef1f6;border-radius:99px;overflow:hidden}
+  .meter div{height:100%;width:0;background:var(--good);border-radius:99px;transition:width .3s}
+  .reset-btn{border:1px solid var(--border);background:#fff;color:#475569;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer}
+  .qcard{border:1px solid var(--border);border-radius:13px;padding:18px 20px;margin:14px 0;background:#fdfdfe}
+  .qcard .qmeta{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+  .qnum{font-size:12px;font-weight:800;color:#94a3b8}
+  .qtext{font-weight:600;color:#16233a;margin-bottom:12px}
+  .opt{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:14px;color:#1e293b;cursor:pointer;line-height:1.5;font-family:inherit}
+  .opt:hover{border-color:#a5b4fc;background:#fafaff}
+  .opt.correct{border-color:var(--good);background:#f0fdf4;color:#14532d;font-weight:600}
+  .opt.wrong{border-color:var(--bad);background:#fef2f2;color:#7f1d1d}
+  .opt.reveal{border-color:var(--good);background:#f0fdf4}
+  .expl{display:none;margin-top:10px;padding:12px 15px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;font-size:13.6px;color:#334155}
+  .expl.show{display:block} .expl .verdict{font-weight:800;margin-right:6px}
+  .quiz-note{font-size:12.8px;color:var(--muted)}
+  @media print{.topbar,.footnav,.quiz-toolbar{display:none!important}.wrap{padding:0}article{border:0;box-shadow:none}.expl{display:block}body{background:#fff}}
+</style></head><body><div class="topbar"><a class="home" href="index.html"><span>AB-100</span> Study Guide</a><select onchange="location=this.value"><option value="index.html">Index</option><option value="00-overview.html">Exam Overview & Study Plan</option><option value="01-ai-strategy-caf.html">AI Strategy & CAF</option><option value="02-agent-types-decisions.html">Agent Types & Key Decisions</option><option value="03-data-grounding.html">Data & Grounding Readiness</option><option value="04-coe-prompts.html">CoE, Prompt Library & Engineering</option><option value="05-roi-tco.html">ROI, TCO & the Cost Model</option><option value="06-platform-decision.html">Platform Decision Framework</option><option value="07-copilot-studio-core.html">Copilot Studio: Core</option><option value="08-copilot-studio-tools.html">Copilot Studio: Tools & Flows</option><option value="09-copilot-studio-advanced.html">Copilot Studio: Advanced</option><option value="10-foundry-models.html">Foundry: Models & Router</option><option value="11-foundry-tools-agents.html">Foundry: Tools & Agent Service</option><option value="12-d365-ce-service.html">D365: CE, Service & Contact Center</option><option value="13-d365-fo-m365.html">D365: F&SCM & M365 Agents</option><option value="14-power-platform-ai.html" selected>Power Platform AI</option><option value="15-protocols.html">Protocols: MCP & A2A</option><option value="19-monitoring.html">Monitoring & Telemetry</option><option value="20-testing.html">Testing & Validation</option><option value="21-alm.html">ALM for Agentic Solutions</option><option value="22-environments.html">Environment Strategy</option><option value="16-security.html">Security for Agents & Models</option><option value="17-governance-residency-audit.html">Governance, Residency & Audit</option><option value="18-responsible-ai.html">Responsible AI</option><option value="23-adoption.html">Adoption & AI-Forward</option><option value="24-cheatsheet.html">Quick-Review Cheat Sheet</option><option value="practice-exam.html">Practice Exam (48 Qs)</option></select><div class="pn"><a href="13-d365-fo-m365.html">← Prev</a><a href="15-protocols.html">Next →</a></div></div><div class="wrap"><article><span class="badge b-design">Domain 2 · Design</span><h1>Power Platform AI — AI Builder, Canvas Apps, Generative Pages, Well-Architected</h1>
+<h2>AI hub &amp; AI Builder</h2>
+<ul>
+<li><strong>AI hub</strong> lives in the Power Apps and Power Automate maker portals ("… More → AI hub") — the entry point to <strong>AI models</strong> and <strong>Prompts</strong> (exam bullet: "Propose Microsoft Power Platform AI features, including AI hub").</li>
+<li><strong>AI Builder</strong> (requires Dataverse; enable per environment): <strong>prebuilt models</strong> (receipt/invoice/business card processing, text recognition, sentiment…) and <strong>custom models</strong> (<strong>document processing</strong>, prediction, category classification, entity extraction, object detection). Consumed from Power Apps, Power Automate, and agents; licensed via <strong>AI Builder credits</strong>; admins can disable preview models per environment.</li>
+<li><strong>Prompts (prompt builder):</strong> generative prompts on GPT-class models; grounded in Dataverse; multimodal inputs; <strong>solution-aware</strong> and reusable across copilots, apps (Power Fx), flows, Dataverse. (Details in the Copilot Studio tools module.)</li>
+<li><strong>Plan designer (Plans, GA):</strong> "copilot-first development" — describe the business problem (plus process images) → generates roles, user stories, data model, and the solution set: Dataverse tables, canvas + model-driven apps, Power Pages, flows, <strong>Copilot Studio agents</strong>, Power BI; can generate a plan <strong>from an existing solution</strong>; the plan doubles as documentation. Propose for greenfield envisioning and requirements-to-solution acceleration.</li>
+</ul>
+<h2>AI components in canvas apps (direct exam bullet)</h2>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Copilot control</strong> (preview)</td>
+<td>Chat over the app's <strong>Dataverse</strong> data; needs PPAC consent setting + app settings. <strong>Deprecation signal: cannot be added to new canvas apps from Feb 2, 2026</strong> — Microsoft 365 Copilot in apps is the successor</td>
+</tr>
+<tr>
+<td><strong>Add a custom Copilot Studio agent</strong> (preview)</td>
+<td>Embed an existing agent; works web <strong>and</strong> mobile; the modern answer for in-app assistance</td>
+</tr>
+<tr>
+<td><strong>AI Builder prompts as Power Fx functions</strong></td>
+<td>Add the prompt as a data source → <code>'PromptName'.Predict(input)</code> → bind <code>result.text</code>. The primary pattern for embedding generative steps (classify, extract, draft) directly in a canvas business process</td>
+</tr>
+<tr>
+<td>Model-driven counterparts</td>
+<td>App Copilot chat, <strong>row summaries</strong>, form fill assistance, NL view filtering</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Code-first generative pages &amp; the agent feed (direct exam bullet)</h2>
+<ul>
+<li><strong>Generative pages</strong> (model-driven apps; <strong>GA Oct 30, 2025</strong>): describe a page in natural language (+ up to 6 Dataverse tables, reference images) → generates <strong>React/TypeScript</strong> code, refined conversationally. Two approaches: (1) maker-portal conversational designer (preview regions: US, GB, AU, SG); (2) <strong>code-first with external AI tools</strong> (GitHub Copilot CLI, Claude Code) — generate/edit locally against Dataverse, push via CLI; pushed pages behave as native generative pages. Solution-aware ("UX Agent Project"). <strong>Propose when:</strong> pro-dev teams want frontier models/local tooling, unsupported regions, or pixel-level custom UX without full PCF development. Makers must validate generated code.</li>
+<li><strong>Agent feed for apps</strong> (preview): surfaces <strong>agent-generated actionable tasks</strong> inside model-driven apps — the human-supervision surface for autonomous agents. Sections <strong>Needs attention</strong> (<code>request_assistance</code>, <code>invoke_data_entry</code>) and <strong>Completed</strong> (<code>request_review</code>); requires agents onboarded to the <strong>Power Apps MCP server</strong> (only MCP-server agents appear from May 1, 2026). <strong>Propose when</strong> autonomous agents create/update Dataverse records needing human review inside the operational app. Caution: everyone with access to the Agent Task table sees feed items.</li>
+</ul>
+<h2>Power Platform Well-Architected (direct exam bullet)</h2>
+<p><strong>Five pillars</strong> — four align to Azure WAF, one is unique:</p>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>Pillar</th>
+<th>Concern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reliability</td>
+<td>Resiliency, availability, recovery</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>Data protection, threat detection</td>
+</tr>
+<tr>
+<td>Operational Excellence</td>
+<td>Observability, fusion-team DevOps, safe deployment</td>
+</tr>
+<tr>
+<td>Performance Efficiency</td>
+<td>Scalability under demand</td>
+</tr>
+<tr>
+<td><strong>Experience Optimization</strong> (unique to PPWAF)</td>
+<td>Usability, relevance — includes <strong>conversational UX design for agents</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>Each pillar: <strong>design principles → checklist → recommendation guides</strong> with explicit trade-offs; the <strong>Well-Architected Review</strong> assessment produces prioritized recommendations (~90-day iteration cadence). <strong>Intelligent Application Workloads</strong> guidance (added Sept 2024) applies PPWAF to generative-AI/agent workloads and now lives in the Copilot Studio guidance library (Plan / Implement / Adopt / Manage / Improve / Extend); its security thread: group-based licensing, security roles via group teams, environment-tiered DLP (strict in dev → managed prod), sharing limits, VNet/IP firewall for mission-critical agents, residency and cross-geo controls.</p>
+<blockquote>
+<p><strong>⚡ Exam focus:</strong> "include AI in a canvas-app business process" → <strong>prompt as Power Fx function</strong> (or embed an agent) — not the deprecated Copilot control. "Custom-coded page UX generated by AI, worldwide, pro-dev" → <strong>code-first generative pages</strong>. "Humans must supervise what autonomous agents did to records" → <strong>agent feed</strong>. "Which pillar is unique to Power Platform WAF?" → <strong>Experience Optimization</strong>.</p>
+</blockquote>
+<p><strong>Key sources:</strong> <a href="https://learn.microsoft.com/ai-builder/overview">AI Builder overview</a> · <a href="https://learn.microsoft.com/power-apps/maker/plan-designer/plan-designer">Plan designer</a> · <a href="https://learn.microsoft.com/power-apps/maker/model-driven-apps/generative-pages">Generative pages</a> · <a href="https://learn.microsoft.com/power-apps/user/supervise-agents-with-agent-feed">Agent feed</a> · <a href="https://learn.microsoft.com/power-platform/well-architected/pillars">PPWAF pillars</a></p></article><div class="footnav"><a href="13-d365-fo-m365.html"><span class="dir">← Previous</span>D365: F&SCM & M365 Agents</a><a href="15-protocols.html" style="text-align:right"><span class="dir">Next →</span>Protocols: MCP & A2A</a></div></div></body></html>

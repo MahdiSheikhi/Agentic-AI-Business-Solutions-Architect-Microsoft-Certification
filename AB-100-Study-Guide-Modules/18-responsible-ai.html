@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Responsible AI — AB-100 Study Guide</title><style>
+  :root{
+    --bg:#f5f6fa; --panel:#ffffff; --ink:#1e2a3b; --muted:#5b6b80; --border:#e3e8f0;
+    --brand:#4338ca; --brand-ink:#3730a3;
+    --plan:#0e7490; --plan-soft:#ecfeff; --design:#7c3aed; --design-soft:#f5f3ff;
+    --deploy:#b45309; --deploy-soft:#fffbeb; --start:#475569; --start-soft:#f1f5f9;
+    --final:#166534; --final-soft:#f0fdf4; --good:#16a34a; --bad:#dc2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;font-size:15.5px}
+  .topbar{position:sticky;top:0;z-index:20;background:#0f172a;color:#e2e8f0;padding:10px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .topbar .home{color:#f8fafc;font-weight:700;text-decoration:none;border:0;font-size:14.5px;white-space:nowrap}
+  .topbar .home span{color:#818cf8}
+  .topbar select{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:6px 8px;font-size:13px;max-width:340px;flex:1;min-width:180px}
+  .topbar .pn{margin-left:auto;display:flex;gap:8px}
+  .topbar .pn a{color:#cbd5e1;border:1px solid #334155;background:#1e293b;border-radius:8px;padding:6px 12px;font-size:13px;text-decoration:none;white-space:nowrap}
+  .topbar .pn a:hover{background:#334155;color:#fff}
+  .wrap{max-width:940px;margin:0 auto;padding:30px 22px 70px}
+  article{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:30px 38px 26px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+  .b-start{background:var(--start-soft);color:var(--start)} .b-plan{background:var(--plan-soft);color:var(--plan)}
+  .b-design{background:var(--design-soft);color:var(--design)} .b-deploy{background:var(--deploy-soft);color:var(--deploy)}
+  .b-final{background:var(--final-soft);color:var(--final)}
+  h1{font-size:27px;line-height:1.25;margin:10px 0 14px;color:#111c30;letter-spacing:-.01em}
+  h2{font-size:19.5px;margin:30px 0 10px;color:#1c2942;padding-left:12px;border-left:4px solid var(--brand);line-height:1.3}
+  h3{font-size:16px;margin:22px 0 8px;color:#243352}
+  p{margin:9px 0}
+  a{color:var(--brand-ink);text-decoration:none;border-bottom:1px solid #c7d2fe}
+  a:hover{border-bottom-color:var(--brand-ink)}
+  ul,ol{padding-left:24px;margin:9px 0} li{margin:4px 0} strong{color:#0f1c33}
+  code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:1px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.87em;color:#334155}
+  blockquote{margin:16px 0;padding:13px 17px;background:#fffbeb;border:1px solid #fde68a;border-left:5px solid #f59e0b;border-radius:10px;color:#57430d}
+  blockquote p{margin:0} blockquote strong{color:#78350f}
+  .twrap{overflow-x:auto;margin:14px 0;border:1px solid var(--border);border-radius:10px}
+  table{border-collapse:collapse;width:100%;font-size:13.8px}
+  th{background:#f8fafc;text-align:left;font-weight:700;color:#334155;white-space:nowrap}
+  th,td{padding:9px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+  td:first-child{font-weight:600;color:#1e293b} tr:last-child td{border-bottom:none} tbody tr:hover{background:#fafbfe}
+  .footnav{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
+  .footnav a{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:14px;flex:1;max-width:48%}
+  .footnav a:hover{border-color:#a5b4fc}
+  .footnav .dir{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  /* index page */
+  .hero{margin:6px 0 22px} .hero h1{font-size:30px;margin:6px 0}
+  .hero p{color:var(--muted);max-width:640px}
+  .ggrid{display:grid;grid-template-columns:1fr;gap:18px}
+  .gcard{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .gcard h2{border:0;padding:0;margin:0 0 10px;font-size:16px;letter-spacing:.02em}
+  .mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+  .mlist a{display:flex;gap:10px;align-items:baseline;padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:#fdfdfe;font-size:14px}
+  .mlist a:hover{border-color:#a5b4fc;background:#fafaff}
+  .mnum{font-size:11.5px;font-weight:800;color:#94a3b8;min-width:22px}
+  /* quiz */
+  .quiz-toolbar{position:sticky;top:52px;z-index:5;background:var(--panel);padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:16px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .chip{border:1px solid var(--border);background:#f8fafc;color:#334155;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer}
+  .chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .scorebar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .score-text{font-size:13.5px;color:var(--muted);font-weight:600}
+  .meter{flex:1;min-width:160px;height:8px;background:#eef1f6;border-radius:99px;overflow:hidden}
+  .meter div{height:100%;width:0;background:var(--good);border-radius:99px;transition:width .3s}
+  .reset-btn{border:1px solid var(--border);background:#fff;color:#475569;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer}
+  .qcard{border:1px solid var(--border);border-radius:13px;padding:18px 20px;margin:14px 0;background:#fdfdfe}
+  .qcard .qmeta{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+  .qnum{font-size:12px;font-weight:800;color:#94a3b8}
+  .qtext{font-weight:600;color:#16233a;margin-bottom:12px}
+  .opt{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:14px;color:#1e293b;cursor:pointer;line-height:1.5;font-family:inherit}
+  .opt:hover{border-color:#a5b4fc;background:#fafaff}
+  .opt.correct{border-color:var(--good);background:#f0fdf4;color:#14532d;font-weight:600}
+  .opt.wrong{border-color:var(--bad);background:#fef2f2;color:#7f1d1d}
+  .opt.reveal{border-color:var(--good);background:#f0fdf4}
+  .expl{display:none;margin-top:10px;padding:12px 15px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;font-size:13.6px;color:#334155}
+  .expl.show{display:block} .expl .verdict{font-weight:800;margin-right:6px}
+  .quiz-note{font-size:12.8px;color:var(--muted)}
+  @media print{.topbar,.footnav,.quiz-toolbar{display:none!important}.wrap{padding:0}article{border:0;box-shadow:none}.expl{display:block}body{background:#fff}}
+</style></head><body><div class="topbar"><a class="home" href="index.html"><span>AB-100</span> Study Guide</a><select onchange="location=this.value"><option value="index.html">Index</option><option value="00-overview.html">Exam Overview & Study Plan</option><option value="01-ai-strategy-caf.html">AI Strategy & CAF</option><option value="02-agent-types-decisions.html">Agent Types & Key Decisions</option><option value="03-data-grounding.html">Data & Grounding Readiness</option><option value="04-coe-prompts.html">CoE, Prompt Library & Engineering</option><option value="05-roi-tco.html">ROI, TCO & the Cost Model</option><option value="06-platform-decision.html">Platform Decision Framework</option><option value="07-copilot-studio-core.html">Copilot Studio: Core</option><option value="08-copilot-studio-tools.html">Copilot Studio: Tools & Flows</option><option value="09-copilot-studio-advanced.html">Copilot Studio: Advanced</option><option value="10-foundry-models.html">Foundry: Models & Router</option><option value="11-foundry-tools-agents.html">Foundry: Tools & Agent Service</option><option value="12-d365-ce-service.html">D365: CE, Service & Contact Center</option><option value="13-d365-fo-m365.html">D365: F&SCM & M365 Agents</option><option value="14-power-platform-ai.html">Power Platform AI</option><option value="15-protocols.html">Protocols: MCP & A2A</option><option value="19-monitoring.html">Monitoring & Telemetry</option><option value="20-testing.html">Testing & Validation</option><option value="21-alm.html">ALM for Agentic Solutions</option><option value="22-environments.html">Environment Strategy</option><option value="16-security.html">Security for Agents & Models</option><option value="17-governance-residency-audit.html">Governance, Residency & Audit</option><option value="18-responsible-ai.html" selected>Responsible AI</option><option value="23-adoption.html">Adoption & AI-Forward</option><option value="24-cheatsheet.html">Quick-Review Cheat Sheet</option><option value="practice-exam.html">Practice Exam (48 Qs)</option></select><div class="pn"><a href="17-governance-residency-audit.html">← Prev</a><a href="23-adoption.html">Next →</a></div></div><div class="wrap"><article><span class="badge b-deploy">Domain 3 · Deploy</span><h1>Responsible AI — Principles, Standard &amp; Tooling</h1>
+<h2>The six principles (memorize verbatim)</h2>
+<ol>
+<li><strong>Fairness</strong> — comparable outcomes for similarly situated groups.</li>
+<li><strong>Reliability &amp; Safety</strong> — operates as designed; responds safely to the unanticipated; resists harmful manipulation.</li>
+<li><strong>Privacy &amp; Security</strong> — protect data and models; preserve privacy rights.</li>
+<li><strong>Inclusiveness</strong> — empower everyone; accessibility.</li>
+<li><strong>Transparency</strong> — explainable systems; disclose capabilities and limitations.</li>
+<li><strong>Accountability</strong> — humans remain answerable for system operation and impact.</li>
+</ol>
+<h2>The Microsoft Responsible AI Standard v2</h2>
+<p>Operationalizes the principles: the six domains contain <strong>14 goals</strong>, each decomposed into concrete <strong>requirements</strong> engineering teams implement across the lifecycle. Anchored practices: <strong>Responsible AI Impact Assessments</strong> (template published; required for sensitive uses), <strong>Transparency Notes</strong> for platform services and application cards for apps (capabilities, intended uses, limitations, mitigations), annual transparency reporting. Governance chain: Board committee → Responsible AI Council → <strong>Office of Responsible AI</strong> (policy, sensitive-use review).</p>
+<p><strong>AI shared responsibility model:</strong> the mitigation split moves with the layer — SaaS (M365 Copilot: Microsoft runs the safety systems) → PaaS (Foundry/Azure OpenAI: <strong>customer owns the system message, grounding data, filter configuration, app mitigations</strong>) → IaaS/custom models (customer owns training data and model safety).</p>
+<h2>Reviewing a solution for RAI adherence (the exam's practical angle)</h2>
+<p>Map each principle to verifiable checks:</p>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Architect's checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fairness</td>
+<td>Cohort testing of outputs; representative grounding data</td>
+</tr>
+<tr>
+<td>Reliability &amp; safety</td>
+<td>Evaluations + <strong>red teaming as a release gate</strong>; failure modes handled; fallback paths</td>
+</tr>
+<tr>
+<td>Privacy &amp; security</td>
+<td>Permission trimming, data boundaries, encryption, DLP</td>
+</tr>
+<tr>
+<td>Inclusiveness</td>
+<td>Accessibility, language coverage</td>
+</tr>
+<tr>
+<td>Transparency</td>
+<td><strong>AI disclosure to users</strong>, citations, documented limitations (transparency notes/model cards)</td>
+</tr>
+<tr>
+<td>Accountability</td>
+<td><strong>Named owner per agent</strong>, human-in-the-loop for consequential actions, audit trails, incident response</td>
+</tr>
+</tbody>
+</table></div>
+<p>Complete an <strong>impact assessment at design time</strong>, scale the release gate to risk, monitor post-deployment (feedback, incidents, drift).</p>
+<h2>The RAI tooling map (Foundry)</h2>
+<p><strong>GenAIOps evaluation stages:</strong> (1) model-selection evals → (2) pre-production app evals (own data or <strong>simulators</strong>, incl. adversarial) → (3) <strong>production monitoring</strong> with tracing + continuous evaluation.</p>
+<p><strong>Built-in evaluators:</strong></p>
+<ul>
+<li><strong>Quality/general:</strong> Coherence, Fluency (+ QA, similarity, NLP metrics).</li>
+<li><strong>RAG:</strong> <strong>Groundedness</strong>, Groundedness Pro, <strong>Relevance</strong>, Retrieval, Document Retrieval, Response Completeness.</li>
+<li><strong>Agent-specific:</strong> <strong>Intent Resolution</strong> (understood the user?), <strong>Task Adherence</strong> (followed instructions?), <strong>Tool Call Accuracy</strong> (right tools, right params?) — plus tool-selection/input/output/success and task-completion variants.</li>
+<li><strong>Risk &amp; safety</strong> (output = <strong>defect rate</strong>; content-harm severity scale <strong>0–7</strong>): hate/unfairness, sexual, violence, self-harm, protected materials, <strong>indirect attack (XPIA)</strong>, code vulnerability, ungrounded attributes; agent-only previews: prohibited actions, sensitive-data leakage. LLM-judged quality scores run 1–5 with pass thresholds (default 3).</li>
+</ul>
+<p><strong>AI Red Teaming Agent (preview):</strong> automates adversarial probing with Microsoft's open-source <strong>PyRIT</strong> + safety evaluators — seed attack objectives per risk category → <strong>attack strategies</strong> (Base64/ROT13/leetspeak/morse encodings, character manipulation, jailbreak, <strong>XPIA via mock tool outputs</strong>, multi-turn/crescendo, compositions) → scores pairs → <strong>Attack Success Rate (ASR)</strong> scorecard by category × complexity. Local runs = single-turn text; <strong>cloud runs</strong> add agent targets + scheduled/continuous scans. Use alongside human red teaming; the security benchmark expects <strong>continuous</strong> red teaming.</p>
+<p><strong>Azure AI Content Safety (the service behind guardrails):</strong> <strong>Prompt Shields</strong> (user prompts + documents; GA — spotlighting preview), <strong>groundedness detection</strong> (preview, with correction), <strong>protected material</strong> (text + code, on by default), <strong>custom categories</strong>, harm-category analysis, blocklists, task-adherence API (preview). In the new portal these surface as <strong>Guardrails + controls</strong> with intervention points (user input, tool response) and actions (annotate vs block).</p>
+<blockquote>
+<p><strong>⚡ Exam focus:</strong> know which evaluator answers which question — "did the agent pick the right tool?" → <strong>Tool Call Accuracy</strong>; "did it do what instructions said?" → <strong>Task Adherence</strong>; "is the answer supported by sources?" → <strong>Groundedness</strong>; "how often do attacks succeed?" → <strong>ASR from the red-teaming agent</strong>. And the severity mechanics: harm categories scored 0–7, filters set at safe/low/medium/high, default <strong>medium</strong>.</p>
+</blockquote>
+<p><strong>Key sources:</strong> <a href="https://learn.microsoft.com/azure/machine-learning/concept-responsible-ai">RAI overview (AML)</a> · <a href="https://learn.microsoft.com/compliance/assurance/assurance-artificial-intelligence">Assurance: AI</a> · <a href="https://learn.microsoft.com/azure/foundry/concepts/observability">Foundry observability</a> · <a href="https://learn.microsoft.com/azure/foundry/concepts/ai-red-teaming-agent">AI Red Teaming Agent</a> · <a href="https://learn.microsoft.com/azure/ai-foundry/openai/concepts/content-filter-configurability">Content filter configurability</a></p></article><div class="footnav"><a href="17-governance-residency-audit.html"><span class="dir">← Previous</span>Governance, Residency & Audit</a><a href="23-adoption.html" style="text-align:right"><span class="dir">Next →</span>Adoption & AI-Forward</a></div></div></body></html>

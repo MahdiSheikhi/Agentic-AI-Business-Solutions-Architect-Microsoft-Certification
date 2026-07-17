@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Quick-Review Cheat Sheet — AB-100 Study Guide</title><style>
+  :root{
+    --bg:#f5f6fa; --panel:#ffffff; --ink:#1e2a3b; --muted:#5b6b80; --border:#e3e8f0;
+    --brand:#4338ca; --brand-ink:#3730a3;
+    --plan:#0e7490; --plan-soft:#ecfeff; --design:#7c3aed; --design-soft:#f5f3ff;
+    --deploy:#b45309; --deploy-soft:#fffbeb; --start:#475569; --start-soft:#f1f5f9;
+    --final:#166534; --final-soft:#f0fdf4; --good:#16a34a; --bad:#dc2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;font-size:15.5px}
+  .topbar{position:sticky;top:0;z-index:20;background:#0f172a;color:#e2e8f0;padding:10px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .topbar .home{color:#f8fafc;font-weight:700;text-decoration:none;border:0;font-size:14.5px;white-space:nowrap}
+  .topbar .home span{color:#818cf8}
+  .topbar select{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:6px 8px;font-size:13px;max-width:340px;flex:1;min-width:180px}
+  .topbar .pn{margin-left:auto;display:flex;gap:8px}
+  .topbar .pn a{color:#cbd5e1;border:1px solid #334155;background:#1e293b;border-radius:8px;padding:6px 12px;font-size:13px;text-decoration:none;white-space:nowrap}
+  .topbar .pn a:hover{background:#334155;color:#fff}
+  .wrap{max-width:940px;margin:0 auto;padding:30px 22px 70px}
+  article{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:30px 38px 26px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+  .b-start{background:var(--start-soft);color:var(--start)} .b-plan{background:var(--plan-soft);color:var(--plan)}
+  .b-design{background:var(--design-soft);color:var(--design)} .b-deploy{background:var(--deploy-soft);color:var(--deploy)}
+  .b-final{background:var(--final-soft);color:var(--final)}
+  h1{font-size:27px;line-height:1.25;margin:10px 0 14px;color:#111c30;letter-spacing:-.01em}
+  h2{font-size:19.5px;margin:30px 0 10px;color:#1c2942;padding-left:12px;border-left:4px solid var(--brand);line-height:1.3}
+  h3{font-size:16px;margin:22px 0 8px;color:#243352}
+  p{margin:9px 0}
+  a{color:var(--brand-ink);text-decoration:none;border-bottom:1px solid #c7d2fe}
+  a:hover{border-bottom-color:var(--brand-ink)}
+  ul,ol{padding-left:24px;margin:9px 0} li{margin:4px 0} strong{color:#0f1c33}
+  code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:1px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.87em;color:#334155}
+  blockquote{margin:16px 0;padding:13px 17px;background:#fffbeb;border:1px solid #fde68a;border-left:5px solid #f59e0b;border-radius:10px;color:#57430d}
+  blockquote p{margin:0} blockquote strong{color:#78350f}
+  .twrap{overflow-x:auto;margin:14px 0;border:1px solid var(--border);border-radius:10px}
+  table{border-collapse:collapse;width:100%;font-size:13.8px}
+  th{background:#f8fafc;text-align:left;font-weight:700;color:#334155;white-space:nowrap}
+  th,td{padding:9px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+  td:first-child{font-weight:600;color:#1e293b} tr:last-child td{border-bottom:none} tbody tr:hover{background:#fafbfe}
+  .footnav{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
+  .footnav a{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:14px;flex:1;max-width:48%}
+  .footnav a:hover{border-color:#a5b4fc}
+  .footnav .dir{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  /* index page */
+  .hero{margin:6px 0 22px} .hero h1{font-size:30px;margin:6px 0}
+  .hero p{color:var(--muted);max-width:640px}
+  .ggrid{display:grid;grid-template-columns:1fr;gap:18px}
+  .gcard{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .gcard h2{border:0;padding:0;margin:0 0 10px;font-size:16px;letter-spacing:.02em}
+  .mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+  .mlist a{display:flex;gap:10px;align-items:baseline;padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:#fdfdfe;font-size:14px}
+  .mlist a:hover{border-color:#a5b4fc;background:#fafaff}
+  .mnum{font-size:11.5px;font-weight:800;color:#94a3b8;min-width:22px}
+  /* quiz */
+  .quiz-toolbar{position:sticky;top:52px;z-index:5;background:var(--panel);padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:16px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .chip{border:1px solid var(--border);background:#f8fafc;color:#334155;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer}
+  .chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .scorebar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .score-text{font-size:13.5px;color:var(--muted);font-weight:600}
+  .meter{flex:1;min-width:160px;height:8px;background:#eef1f6;border-radius:99px;overflow:hidden}
+  .meter div{height:100%;width:0;background:var(--good);border-radius:99px;transition:width .3s}
+  .reset-btn{border:1px solid var(--border);background:#fff;color:#475569;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer}
+  .qcard{border:1px solid var(--border);border-radius:13px;padding:18px 20px;margin:14px 0;background:#fdfdfe}
+  .qcard .qmeta{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+  .qnum{font-size:12px;font-weight:800;color:#94a3b8}
+  .qtext{font-weight:600;color:#16233a;margin-bottom:12px}
+  .opt{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:14px;color:#1e293b;cursor:pointer;line-height:1.5;font-family:inherit}
+  .opt:hover{border-color:#a5b4fc;background:#fafaff}
+  .opt.correct{border-color:var(--good);background:#f0fdf4;color:#14532d;font-weight:600}
+  .opt.wrong{border-color:var(--bad);background:#fef2f2;color:#7f1d1d}
+  .opt.reveal{border-color:var(--good);background:#f0fdf4}
+  .expl{display:none;margin-top:10px;padding:12px 15px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;font-size:13.6px;color:#334155}
+  .expl.show{display:block} .expl .verdict{font-weight:800;margin-right:6px}
+  .quiz-note{font-size:12.8px;color:var(--muted)}
+  @media print{.topbar,.footnav,.quiz-toolbar{display:none!important}.wrap{padding:0}article{border:0;box-shadow:none}.expl{display:block}body{background:#fff}}
+</style></head><body><div class="topbar"><a class="home" href="index.html"><span>AB-100</span> Study Guide</a><select onchange="location=this.value"><option value="index.html">Index</option><option value="00-overview.html">Exam Overview & Study Plan</option><option value="01-ai-strategy-caf.html">AI Strategy & CAF</option><option value="02-agent-types-decisions.html">Agent Types & Key Decisions</option><option value="03-data-grounding.html">Data & Grounding Readiness</option><option value="04-coe-prompts.html">CoE, Prompt Library & Engineering</option><option value="05-roi-tco.html">ROI, TCO & the Cost Model</option><option value="06-platform-decision.html">Platform Decision Framework</option><option value="07-copilot-studio-core.html">Copilot Studio: Core</option><option value="08-copilot-studio-tools.html">Copilot Studio: Tools & Flows</option><option value="09-copilot-studio-advanced.html">Copilot Studio: Advanced</option><option value="10-foundry-models.html">Foundry: Models & Router</option><option value="11-foundry-tools-agents.html">Foundry: Tools & Agent Service</option><option value="12-d365-ce-service.html">D365: CE, Service & Contact Center</option><option value="13-d365-fo-m365.html">D365: F&SCM & M365 Agents</option><option value="14-power-platform-ai.html">Power Platform AI</option><option value="15-protocols.html">Protocols: MCP & A2A</option><option value="19-monitoring.html">Monitoring & Telemetry</option><option value="20-testing.html">Testing & Validation</option><option value="21-alm.html">ALM for Agentic Solutions</option><option value="22-environments.html">Environment Strategy</option><option value="16-security.html">Security for Agents & Models</option><option value="17-governance-residency-audit.html">Governance, Residency & Audit</option><option value="18-responsible-ai.html">Responsible AI</option><option value="23-adoption.html">Adoption & AI-Forward</option><option value="24-cheatsheet.html" selected>Quick-Review Cheat Sheet</option><option value="practice-exam.html">Practice Exam (48 Qs)</option></select><div class="pn"><a href="23-adoption.html">← Prev</a><a href="practice-exam.html">Next →</a></div></div><div class="wrap"><article><span class="badge b-final">Final prep</span><h1>Quick-Review Cheat Sheet</h1>
+<p>Final-days review. If you know everything on this page, you're in good shape.</p>
+<h2>Naming decoder</h2>
+<p><strong>Microsoft Foundry</strong> ← Azure AI Foundry ← Azure AI Studio · <strong>Foundry Tools</strong> ← Azure AI services · <strong>Foundry Agent Service</strong> on the <strong>Responses API</strong> (Foundry classic agents retire <strong>2027-03-31</strong>; Azure OpenAI Assistants API retires <strong>2026-08-26</strong>) · <strong>Copilot Credits</strong> ← messages (renamed <strong>2025-09-01</strong>) · <strong>Agent Framework</strong> ← Semantic Kernel + AutoGen · <strong>Copilot Service admin center</strong> ← Customer Service admin center · <strong>Agent 365</strong> = agent control plane · Foundry IQ / Fabric IQ / Work IQ = knowledge layers.</p>
+<h2>Platform picker one-liners</h2>
+<ul>
+<li>Prebuilt SaaS agent meets the need → <strong>configure, don't build</strong>.</li>
+<li>Team Q&amp;A over M365 content, no-code → <strong>agent builder / SharePoint agent</strong>.</li>
+<li>Department/org business process, low-code, DLP-governed → <strong>Copilot Studio</strong>.</li>
+<li>Model choice, custom orchestration, evals, CI/CD → <strong>Foundry</strong> (prompt vs <strong>hosted</strong> agents).</li>
+<li>Full code control of multi-agent graphs → <strong>Agent Framework</strong> (Sequential · Concurrent · Group chat · Handoff · <strong>Magentic</strong>).</li>
+<li>Agent↔tools = <strong>MCP</strong> · agent↔agent across boundaries = <strong>A2A</strong> · same team = child agent.</li>
+<li>Legacy UI, no API → <strong>computer use</strong> (prod = bring-your-own machine). Stable UI + fixed rules + volume → RPA.</li>
+</ul>
+<h2>Numbers to memorize</h2>
+<div class="twrap"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pass score / renewal</td>
+<td><strong>700</strong> / every 12 months (free online assessment)</td>
+</tr>
+<tr>
+<td>Domain weights</td>
+<td>Plan 25–30 · Design 25–30 · <strong>Deploy 40–45</strong></td>
+</tr>
+<tr>
+<td>Copilot Credits</td>
+<td>classic <strong>1</strong> · generative <strong>2</strong> · agent action <strong>5</strong> · graph grounding <strong>10</strong> · agent flows <strong>13/100 actions</strong> · AI tools <strong>1/15/100</strong> · voice <strong>10/35/75</strong>/min · computer use <strong>5</strong>(15)/step</td>
+</tr>
+<tr>
+<td>Capacity pack</td>
+<td><strong>25,000 credits/month</strong>, tenant-pooled, <strong>no carryover</strong>; overage grace <strong>125%</strong> (agents), flows block instantly</td>
+</tr>
+<tr>
+<td>M365 Copilot-licensed users on agents</td>
+<td><strong>No credit charge</strong> (listed features; computer use excluded)</td>
+</tr>
+<tr>
+<td>Copilot Studio limits</td>
+<td>500 knowledge sources · 1,000 topics · 200 trigger phrases/topic · 512 MB files · 25 websites/SharePoint URLs · 15 tables/Dataverse source · 128 topics+tools per orchestration · knowledge filtered &gt;25 sources</td>
+</tr>
+<tr>
+<td>Fallback</td>
+<td>rephrase ×<strong>2</strong> → Escalate</td>
+</tr>
+<tr>
+<td>Analytics</td>
+<td>analytics 360 days · in-product session details 28 days · Dataverse transcripts ~30-day default (extendable) · reactions 28 days</td>
+</tr>
+<tr>
+<td>Foundry alerts</td>
+<td>latency &gt; <strong>10 s</strong> · run success &lt; <strong>95%</strong> · continuous eval ~100 runs/hr</td>
+</tr>
+<tr>
+<td>Evaluator scales</td>
+<td>quality 1–5 (pass ≥ threshold, default 3) · harm severity <strong>0–7</strong> · filters safe/low/medium/high (default <strong>medium</strong>)</td>
+</tr>
+<tr>
+<td>AI Builder grades</td>
+<td>A–D; <strong>D = worse than random or ~100% (leakage)</strong>; classification = precision/recall/F1</td>
+</tr>
+<tr>
+<td>Adoption habit</td>
+<td><strong>3 days/week (12 of 28)</strong>; power ≥15 actions/wk + ≥75% weeks</td>
+</tr>
+<tr>
+<td>Test sets</td>
+<td>agent evaluation ≤ <strong>100 cases</strong> (conversational sets ≤ <strong>20</strong>); org prompt library ≤ <strong>1,000 prompts</strong>, pin <strong>4</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Dates &amp; deprecations</h2>
+<p>CLU retires <strong>2029-03-31</strong> · LUIS/QnA Maker retired · Foundry classic agents retire <strong>2027-03-31</strong> (Azure OpenAI Assistants API <strong>2026-08-26</strong>) · <strong>RSAT unsupported after 2027-05-15</strong> · MCP <strong>SSE transport dead since Aug 2025</strong> (Streamable HTTP only) · Restricted SharePoint Search new enablement blocked <strong>2026-07-31</strong> · Copilot control not addable to new canvas apps from <strong>2026-02-02</strong> · skills-measured refresh <strong>2026-07-22</strong>.</p>
+<h2>Deployment &amp; residency</h2>
+<p>Data <strong>at rest</strong> always stays in the resource geography. Processing: <strong>Global</strong> (anywhere) · <strong>Data Zone</strong> (US/EU/APAC) · <strong>Regional</strong>. <strong>Batch = ~50% off, 24 h</strong>. PTU = reserved throughput (fungible across Azure Direct models; <strong>spillover</strong> → standard). <strong>Developer tier</strong> = fine-tune evals, no SLA. Model router: Balanced/Cost/Quality; context = <strong>smallest</strong> underlying model; Claude targets deployed separately. Cross-geo generative-AI consent = per-environment PPAC toggle. Grounding with Bing <strong>leaves the compliance boundary</strong>.</p>
+<h2>Security rapid-fire</h2>
+<ul>
+<li><strong>UPIA</strong> = user-typed jailbreak → Prompt Shields (user); <strong>XPIA</strong> = instructions hidden in content → Prompt Shields (documents) + <strong>spotlighting</strong> + least privilege + human-in-the-loop; Purview flag <strong>XPIADetected</strong>.</li>
+<li><strong>Entra Agent ID:</strong> blueprint = template <strong>holding credentials</strong>; agent identity = credential-less service principal. Attended = <strong>OBO</strong>; autonomous = <strong>client credentials</strong>.</li>
+<li>Foundry RBAC: fine-tune <strong>training = Foundry User</strong> (data plane); <strong>deploying</strong> a fine-tune is control-plane — <strong>Foundry Owner</strong> covers both, or pair User with <strong>Account Owner</strong>. CMK revocation: no new training/deployments, <strong>deployed models keep serving</strong>.</li>
+<li>Filters off/annotate-only = <strong>Limited Access approval</strong>. Protected material detection <strong>on by default</strong>.</li>
+<li>Purview: <code>CopilotInteraction</code> audit events; DSPM for AI = posture + oversharing assessments; Defender for Cloud AI threat protection = runtime alerts.</li>
+</ul>
+<h2>ALM rapid-fire</h2>
+<p>Solutions (managed → test/prod) + environment variables + connection references + pipelines (managed-environment targets; no cross-tenant). <strong>Not solution-aware:</strong> App Insights settings · manual auth · web-channel security · channels · sharing. Topic name with a <strong>period</strong> blocks export. Component collections = reusable topic/tool sets. Foundry: agents-as-code, <code>azd pipeline config</code>, <strong>evaluation GitHub Action as a release gate</strong>. Custom models = MLOps/<strong>GenAIOps</strong> + progressive exposure + drift monitoring.</p>
+<h2>Analytics KPI definitions (one line each)</h2>
+<p>Engaged = custom topic / boosting / escalate / fallback triggered · Resolved = <strong>confirmed</strong> (user says yes) or <strong>implied</strong> · Escalation reasons: system intended / <strong>system unintended</strong> / user requested · Abandon = engaged, unresolved, timed out · CSAT = 1–5 survey. Foundry agent evaluators: <strong>Intent Resolution · Task Adherence · Tool Call Accuracy</strong>. Red teaming output = <strong>Attack Success Rate (ASR)</strong>.</p>
+<h2>D365 rapid-fire</h2>
+<p>Business terms = <strong>glossary/synonyms in Copilot Studio (SalesSpecificQnA)</strong> — shared with the M365 Sales agent · Case summary needs <strong>≥50 tokens</strong> of data · Contact Center: <strong>standalone</strong> (keep CRM) vs <strong>embedded</strong>; intent-driven unified routing via <strong>Customer Intent Agent</strong> · handoff passes <strong>context variables</strong>; voice context via <strong>SIP UUI/X-headers</strong> · F&amp;O: prereq <strong>Power Platform Integration</strong>; in-app help extends via <strong>files on the "Copilot for finance and operations apps" agent</strong> (SharePoint → custom topic; <strong>virtual entities not supported</strong> for help); chat-with-data via <strong><code>mserp_</code> virtual entities</strong> shared across in-app, custom, and M365 agents · F&amp;O agents deploy via <strong>PPAC agent deployment wizard</strong> with a dedicated <strong>agent identity user</strong> · M365 agents: Researcher (research) · Analyst (data) · Facilitator (meetings) · SharePoint agents (site Q&amp;A).</p>
+<h2>Responsible AI</h2>
+<p>Six principles: <strong>fairness · reliability &amp; safety · privacy &amp; security · inclusiveness · transparency · accountability</strong> (Standard v2 = 14 goals → requirements; impact assessments + transparency notes). Shared responsibility: SaaS Microsoft ↔ PaaS you own system message/grounding/filters. Review = principle-by-principle checks + named owner + human oversight + audit trail + release-gated evals/red teaming.</p></article><div class="footnav"><a href="23-adoption.html"><span class="dir">← Previous</span>Adoption & AI-Forward</a><a href="practice-exam.html" style="text-align:right"><span class="dir">Next →</span>Practice Exam (48 Qs)</a></div></div></body></html>
