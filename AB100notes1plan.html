@@ -97,8 +97,8 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 <p>Research grounded in Microsoft Learn documentation as of July 2026. Exam version referenced: "Skills measured as of July 22, 2026." A score of 700+ passes; most questions cover GA features, but commonly used preview features can appear. AB-100 is the exam for the <strong>Microsoft Certified: Agentic AI Business Solutions Architect Expert</strong> certification, which also requires one prerequisite associate certification (Dynamics 365, Power Platform, or Azure AI Engineer Associate).</p>
 <p><strong>Product naming (2026):</strong> <em>Microsoft Foundry</em> is the current name for the platform formerly called Azure AI Foundry / Azure AI Studio. <em>Foundry Tools</em> = the prebuilt AI services formerly branded Azure AI services (Vision, Speech, Document Intelligence, Language, Content Safety, etc.) plus the agent tool catalog. <em>Foundry Models</em> = the model catalog (models sold directly by Azure plus partner/community models: OpenAI, Anthropic, Meta, Mistral, xAI, DeepSeek). <em>Microsoft Foundry Agent Service</em> = the managed agent runtime in Foundry. <em>Copilot connectors</em> = formerly Microsoft Graph connectors. <em>Copilot Credits</em> = the consumption unit that replaced "messages" in Copilot Studio billing.</p>
 <ul>
-<li>Study guide: https://learn.microsoft.com/credentials/certifications/resources/study-guides/ab-100</li>
-<li>Cert page: https://learn.microsoft.com/credentials/certifications/agentic-ai-business-solutions-architect</li>
+<li>Study guide: <a href="https://learn.microsoft.com/credentials/certifications/resources/study-guides/ab-100" target="_blank" rel="noopener">https://learn.microsoft.com/credentials/certifications/resources/study-guides/ab-100</a></li>
+<li>Cert page: <a href="https://learn.microsoft.com/credentials/certifications/agentic-ai-business-solutions-architect" target="_blank" rel="noopener">https://learn.microsoft.com/credentials/certifications/agentic-ai-business-solutions-architect</a></li>
 </ul>
 <hr />
 <h2 id="a-analyze-requirements-for-ai-powered-business-solutions">A. Analyze requirements for AI-powered business solutions</h2>
@@ -117,10 +117,10 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 <p><strong>Choose X when:</strong> deterministic, rules-based process → Power Automate/code; static Q&amp;A → RAG; ambiguous multi-step work needing reasoning + tools → agent; high-risk autonomous actions → autonomous agent + human-in-the-loop guardrails.</p>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/</li>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/business-strategy-plan</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/flows-faqs</li>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai/strategy</li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/</a></li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/business-strategy-plan" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/business-strategy-plan</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/flows-faqs" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/flows-faqs</a></li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai/strategy" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai/strategy</a></li>
 </ul>
 <h2 id="2-review-data-for-grounding-accuracy-relevance-timeliness-cl"><span class="hn">2.</span> Review data for grounding (accuracy, relevance, timeliness, cleanliness, availability)</h2>
 <p><strong>Plain English:</strong> Grounding is supplementing a model at inference time with data it wasn't trained on so responses are accurate and business-relevant — usually via RAG. Before building, an architect reviews whether candidate data is good enough to ground agents.</p>
@@ -135,10 +135,10 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/azure/well-architected/ai/grounding-data-design</li>
-<li>https://learn.microsoft.com/azure/well-architected/ai/test</li>
-<li>https://learn.microsoft.com/azure/ai-services/content-safety/concepts/groundedness</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/guidance/generative-ai-public-websites</li>
+<li><a href="https://learn.microsoft.com/azure/well-architected/ai/grounding-data-design" target="_blank" rel="noopener">https://learn.microsoft.com/azure/well-architected/ai/grounding-data-design</a></li>
+<li><a href="https://learn.microsoft.com/azure/well-architected/ai/test" target="_blank" rel="noopener">https://learn.microsoft.com/azure/well-architected/ai/test</a></li>
+<li><a href="https://learn.microsoft.com/azure/ai-services/content-safety/concepts/groundedness" target="_blank" rel="noopener">https://learn.microsoft.com/azure/ai-services/content-safety/concepts/groundedness</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/guidance/generative-ai-public-websites" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/guidance/generative-ai-public-websites</a></li>
 </ul>
 <h2 id="3-organize-business-solution-data-to-be-available-for-other-"><span class="hn">3.</span> Organize business solution data to be available for other AI systems</h2>
 <p><strong>Plain English:</strong> Make enterprise data "AI-ready" so multiple AI systems (M365 Copilot, Copilot Studio agents, Foundry agents, Fabric data agents) can consume it with governance intact.</p>
@@ -154,12 +154,12 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/data-architecture-plan</li>
-<li>https://learn.microsoft.com/microsoft-365/copilot/connectors/overview and https://learn.microsoft.com/microsoft-365/copilot/extensibility/overview-copilot-connector</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/knowledge-graph-vs-power-platform-connectors</li>
-<li>https://learn.microsoft.com/fabric/onelake/unify-data</li>
-<li>https://learn.microsoft.com/power-platform/architecture/reference-architectures/enterprise-data-fabric-dataverse</li>
-<li>https://learn.microsoft.com/fabric/data-science/concept-data-agent</li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/data-architecture-plan" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/data-architecture-plan</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-365/copilot/connectors/overview" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-365/copilot/connectors/overview</a> and <a href="https://learn.microsoft.com/microsoft-365/copilot/extensibility/overview-copilot-connector" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-365/copilot/extensibility/overview-copilot-connector</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/knowledge-graph-vs-power-platform-connectors" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/knowledge-graph-vs-power-platform-connectors</a></li>
+<li><a href="https://learn.microsoft.com/fabric/onelake/unify-data" target="_blank" rel="noopener">https://learn.microsoft.com/fabric/onelake/unify-data</a></li>
+<li><a href="https://learn.microsoft.com/power-platform/architecture/reference-architectures/enterprise-data-fabric-dataverse" target="_blank" rel="noopener">https://learn.microsoft.com/power-platform/architecture/reference-architectures/enterprise-data-fabric-dataverse</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-science/concept-data-agent" target="_blank" rel="noopener">https://learn.microsoft.com/fabric/data-science/concept-data-agent</a></li>
 </ul>
 <hr />
 <h2 id="b-design-overall-ai-strategy-for-business-solutions">B. Design overall AI strategy for business solutions</h2>
@@ -177,9 +177,9 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai/strategy (also /plan, /ready, /govern, /secure, /manage under /azure/cloud-adoption-framework/scenarios/ai/)</li>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/</li>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/overview</li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai/strategy" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai/strategy</a> (also /plan, /ready, /govern, /secure, /manage under /azure/cloud-adoption-framework/scenarios/ai/)</li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/</a></li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/overview" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/overview</a></li>
 </ul>
 <h2 id="5-design-the-strategy-for-building-ai-and-agents-in-business"><span class="hn">5.</span> Design the strategy for building AI and agents in business solutions</h2>
 <p><strong>Plain English:</strong> Turn the CAF guidance into an actionable build strategy: adopt SaaS first, then extend, then build low-code, then pro-code — with success metrics and governance from day one.</p>
@@ -194,9 +194,9 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/technology-solutions-plan-strategy</li>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/build-secure-process</li>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai/strategy</li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/technology-solutions-plan-strategy" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/technology-solutions-plan-strategy</a></li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/build-secure-process" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/build-secure-process</a></li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai/strategy" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai/strategy</a></li>
 </ul>
 <h2 id="6-design-a-multi-agent-solution-using-microsoft-365-copilot-"><span class="hn">6.</span> Design a multi-agent solution using Microsoft 365 Copilot, Copilot Studio, and Microsoft Foundry</h2>
 <p><strong>Plain English:</strong> Multi-agent systems split responsibilities across specialized agents that delegate to each other. Microsoft supports this within Copilot Studio (child/connected agents), within Foundry (connected agents + workflows), and across platforms via standard protocols.</p>
@@ -213,11 +213,11 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/authoring-add-other-agents</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/guidance/multi-agent-patterns</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/add-agent-agent-to-agent</li>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents</li>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/technology-solutions-plan-strategy</li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/authoring-add-other-agents" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/authoring-add-other-agents</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/guidance/multi-agent-patterns" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/guidance/multi-agent-patterns</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/add-agent-agent-to-agent" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/add-agent-agent-to-agent</a></li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents</a></li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/technology-solutions-plan-strategy" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/technology-solutions-plan-strategy</a></li>
 </ul>
 <h2 id="7-develop-the-use-cases-for-prebuilt-agents-in-the-solution"><span class="hn">7.</span> Develop the use cases for prebuilt agents in the solution</h2>
 <p><strong>Plain English:</strong> Before building anything, map requirements to Microsoft's first-party (SaaS) agents.</p>
@@ -233,13 +233,13 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 <p><strong>Choose prebuilt when:</strong> a SaaS agent covers the functional requirement — fastest time-to-value, lowest effort, Microsoft-maintained; extend or build custom only when requirements exceed what the prebuilt agent does.</p>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/microsoft-365/copilot/researcher-agent</li>
-<li>https://learn.microsoft.com/microsoft-365/copilot/copilot-agent-install</li>
-<li>https://learn.microsoft.com/microsoftteams/facilitator-teams</li>
-<li>https://learn.microsoft.com/dynamics365/copilot/ai-get-started</li>
-<li>https://learn.microsoft.com/dynamics365/sales/sales-qualification-agent</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/template-fundamentals</li>
-<li>https://learn.microsoft.com/dynamics365/guidance/agent-templates/overview</li>
+<li><a href="https://learn.microsoft.com/microsoft-365/copilot/researcher-agent" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-365/copilot/researcher-agent</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-365/copilot/copilot-agent-install" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-365/copilot/copilot-agent-install</a></li>
+<li><a href="https://learn.microsoft.com/microsoftteams/facilitator-teams" target="_blank" rel="noopener">https://learn.microsoft.com/microsoftteams/facilitator-teams</a></li>
+<li><a href="https://learn.microsoft.com/dynamics365/copilot/ai-get-started" target="_blank" rel="noopener">https://learn.microsoft.com/dynamics365/copilot/ai-get-started</a></li>
+<li><a href="https://learn.microsoft.com/dynamics365/sales/sales-qualification-agent" target="_blank" rel="noopener">https://learn.microsoft.com/dynamics365/sales/sales-qualification-agent</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/template-fundamentals" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/template-fundamentals</a></li>
+<li><a href="https://learn.microsoft.com/dynamics365/guidance/agent-templates/overview" target="_blank" rel="noopener">https://learn.microsoft.com/dynamics365/guidance/agent-templates/overview</a></li>
 </ul>
 <h2 id="8-define-solution-rules-and-constraints-when-building-with-c"><span class="hn">8.</span> Define solution rules and constraints when building with Copilot Studio, Microsoft Foundry and Foundry Tools</h2>
 <p><strong>Plain English:</strong> "Rules and constraints" = instructions, guardrails, moderation, and admin policies that bound what an agent can say and do.</p>
@@ -260,12 +260,12 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/knowledge-copilot-studio#knowledge-source-agent-settings</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/faqs-generative-answers</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/guidance/optimize-prompts-topic-configuration</li>
-<li>https://learn.microsoft.com/azure/ai-services/content-safety/concepts/harm-categories</li>
-<li>https://learn.microsoft.com/partner-center/marketplace-offers/artificial-intelligence-app-agent-best-practices#ai-guardrails</li>
-<li>https://learn.microsoft.com/microsoft-365/copilot/extensibility/agent-builder-add-knowledge</li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/knowledge-copilot-studio#knowledge-source-agent-settings" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/knowledge-copilot-studio#knowledge-source-agent-settings</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/faqs-generative-answers" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/faqs-generative-answers</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/guidance/optimize-prompts-topic-configuration" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/guidance/optimize-prompts-topic-configuration</a></li>
+<li><a href="https://learn.microsoft.com/azure/ai-services/content-safety/concepts/harm-categories" target="_blank" rel="noopener">https://learn.microsoft.com/azure/ai-services/content-safety/concepts/harm-categories</a></li>
+<li><a href="https://learn.microsoft.com/partner-center/marketplace-offers/artificial-intelligence-app-agent-best-practices#ai-guardrails" target="_blank" rel="noopener">https://learn.microsoft.com/partner-center/marketplace-offers/artificial-intelligence-app-agent-best-practices#ai-guardrails</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-365/copilot/extensibility/agent-builder-add-knowledge" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-365/copilot/extensibility/agent-builder-add-knowledge</a></li>
 </ul>
 <h2 id="9-determine-the-use-of-generative-ai-and-knowledge-sources-i"><span class="hn">9.</span> Determine the use of generative AI and knowledge sources in agents built with Copilot Studio</h2>
 <p><strong>Plain English:</strong> Generative answers let a Copilot Studio agent answer from configured knowledge without hand-authored topics — either as fallback (Conversational Boosting) or in explicit generative-answers nodes.</p>
@@ -328,11 +328,11 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/knowledge-copilot-studio</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/nlu-boost-node</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/guidance/custom-knowledge-sources</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/guidance/ai-capabilities</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/advanced-generative-actions</li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/knowledge-copilot-studio" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/knowledge-copilot-studio</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/nlu-boost-node" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/nlu-boost-node</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/guidance/custom-knowledge-sources" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/guidance/custom-knowledge-sources</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/guidance/ai-capabilities" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/guidance/ai-capabilities</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/advanced-generative-actions" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/advanced-generative-actions</a></li>
 </ul>
 <h2 id="10-determine-when-to-build-custom-agents-or-extend-microsoft"><span class="hn">10.</span> Determine when to build custom agents or extend Microsoft 365 Copilot</h2>
 <p><strong>Plain English:</strong> The classic extensibility decision: declarative agent (extend Copilot) vs custom engine agent (bring your own orchestration/models) vs Copilot Studio custom agent vs Foundry.</p>
@@ -347,11 +347,11 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/microsoft-365/copilot/extensibility/agents-overview#choose-what-type-of-agent-to-build</li>
-<li>https://learn.microsoft.com/microsoft-365/copilot/extensibility/overview-custom-engine-agent</li>
-<li>https://learn.microsoft.com/agents/design-guidelines/intro-to-agents</li>
-<li>https://learn.microsoft.com/microsoft-365/copilot/agent-essentials/m365-agents-admin-guide</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/microsoft-365-copilot-extend-with-agents</li>
+<li><a href="https://learn.microsoft.com/microsoft-365/copilot/extensibility/agents-overview#choose-what-type-of-agent-to-build" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-365/copilot/extensibility/agents-overview#choose-what-type-of-agent-to-build</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-365/copilot/extensibility/overview-custom-engine-agent" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-365/copilot/extensibility/overview-custom-engine-agent</a></li>
+<li><a href="https://learn.microsoft.com/agents/design-guidelines/intro-to-agents" target="_blank" rel="noopener">https://learn.microsoft.com/agents/design-guidelines/intro-to-agents</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-365/copilot/agent-essentials/m365-agents-admin-guide" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-365/copilot/agent-essentials/m365-agents-admin-guide</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/microsoft-365-copilot-extend-with-agents" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/microsoft-365-copilot-extend-with-agents</a></li>
 </ul>
 <h2 id="11-determine-when-custom-ai-models-should-be-created"><span class="hn">11.</span> Determine when custom AI models should be created</h2>
 <p><strong>Plain English:</strong> Escalate only as needed: prompt engineering → RAG/grounding → fine-tuning → custom/trained models.</p>
@@ -364,11 +364,11 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 <p><strong>Choose custom models when:</strong> domain-specific accuracy/compliance can't be met by prompting + RAG over prebuilt models, you have quality training data, and you can fund the MLOps lifecycle. Otherwise use prebuilt Foundry Models/Foundry Tools + grounding.</p>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/azure/foundry/openai/concepts/fine-tuning-considerations</li>
-<li>https://learn.microsoft.com/azure/ai-foundry/openai/concepts/customizing-llms</li>
-<li>https://learn.microsoft.com/ai-builder/model-types</li>
-<li>https://learn.microsoft.com/azure/well-architected/ai/get-started</li>
-<li>https://learn.microsoft.com/azure/foundry/openai/how-to/fine-tuning-cost-management</li>
+<li><a href="https://learn.microsoft.com/azure/foundry/openai/concepts/fine-tuning-considerations" target="_blank" rel="noopener">https://learn.microsoft.com/azure/foundry/openai/concepts/fine-tuning-considerations</a></li>
+<li><a href="https://learn.microsoft.com/azure/ai-foundry/openai/concepts/customizing-llms" target="_blank" rel="noopener">https://learn.microsoft.com/azure/ai-foundry/openai/concepts/customizing-llms</a></li>
+<li><a href="https://learn.microsoft.com/ai-builder/model-types" target="_blank" rel="noopener">https://learn.microsoft.com/ai-builder/model-types</a></li>
+<li><a href="https://learn.microsoft.com/azure/well-architected/ai/get-started" target="_blank" rel="noopener">https://learn.microsoft.com/azure/well-architected/ai/get-started</a></li>
+<li><a href="https://learn.microsoft.com/azure/foundry/openai/how-to/fine-tuning-cost-management" target="_blank" rel="noopener">https://learn.microsoft.com/azure/foundry/openai/how-to/fine-tuning-cost-management</a></li>
 </ul>
 <h2 id="12-provide-guidelines-for-creating-a-prompt-library"><span class="hn">12.</span> Provide guidelines for creating a prompt library</h2>
 <p><strong>Plain English:</strong> A prompt library is a curated, shared, governed collection of reusable prompts so teams don't reinvent effective prompts and quality/compliance stays consistent.</p>
@@ -381,11 +381,11 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/microsoft-365/copilot/copilot-prompt-gallery</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/prompt-library</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/prompts-overview</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/share-your-prompt</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/guidance/agent-business-value-measure-impact</li>
+<li><a href="https://learn.microsoft.com/microsoft-365/copilot/copilot-prompt-gallery" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-365/copilot/copilot-prompt-gallery</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/prompt-library" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/prompt-library</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/prompts-overview" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/prompts-overview</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/share-your-prompt" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/share-your-prompt</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/guidance/agent-business-value-measure-impact" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/guidance/agent-business-value-measure-impact</a></li>
 </ul>
 <h2 id="13-develop-the-use-cases-for-customized-small-language-model"><span class="hn">13.</span> Develop the use cases for customized small language models (SLMs)</h2>
 <p><strong>Plain English:</strong> SLMs (like Microsoft's Phi family) are compact models that trade breadth for speed, cost, privacy, and deployability — often fine-tuned for a narrow domain.</p>
@@ -400,10 +400,10 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 <p><strong>Choose an SLM when:</strong> cost/latency-sensitive high-volume tasks, edge/offline/data-residency constraints, narrow domain where a fine-tuned SLM matches big-model quality. Choose an LLM when broad reasoning, creativity, or complex multi-step orchestration is required.</p>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/azure/aks/concepts-ai-ml-language-models</li>
-<li>https://learn.microsoft.com/azure/app-service/scenario-ai-local-small-language-model</li>
-<li>https://learn.microsoft.com/microsoft-edge/web-platform/prompt-api</li>
-<li>https://learn.microsoft.com/azure/foundry/openai/concepts/fine-tuning-considerations</li>
+<li><a href="https://learn.microsoft.com/azure/aks/concepts-ai-ml-language-models" target="_blank" rel="noopener">https://learn.microsoft.com/azure/aks/concepts-ai-ml-language-models</a></li>
+<li><a href="https://learn.microsoft.com/azure/app-service/scenario-ai-local-small-language-model" target="_blank" rel="noopener">https://learn.microsoft.com/azure/app-service/scenario-ai-local-small-language-model</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-edge/web-platform/prompt-api" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-edge/web-platform/prompt-api</a></li>
+<li><a href="https://learn.microsoft.com/azure/foundry/openai/concepts/fine-tuning-considerations" target="_blank" rel="noopener">https://learn.microsoft.com/azure/foundry/openai/concepts/fine-tuning-considerations</a></li>
 </ul>
 <h2 id="14-provide-prompt-engineering-guidelines-and-techniques"><span class="hn">14.</span> Provide prompt engineering guidelines and techniques</h2>
 <p><strong>Plain English:</strong> Prompt engineering designs model inputs (instructions, examples, cues, system messages) to get reliable outputs — the first optimization step before RAG or fine-tuning.</p>
@@ -419,10 +419,10 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/azure/ai-foundry/openai/concepts/prompt-engineering (also /azure/foundry/openai/concepts/prompt-engineering)</li>
-<li>https://learn.microsoft.com/azure/foundry/openai/concepts/advanced-prompt-engineering (system message design)</li>
-<li>https://learn.microsoft.com/dotnet/ai/conceptual/zero-shot-learning</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/guidance/optimize-prompts-topic-configuration</li>
+<li><a href="https://learn.microsoft.com/azure/ai-foundry/openai/concepts/prompt-engineering" target="_blank" rel="noopener">https://learn.microsoft.com/azure/ai-foundry/openai/concepts/prompt-engineering</a> (also /azure/foundry/openai/concepts/prompt-engineering)</li>
+<li><a href="https://learn.microsoft.com/azure/foundry/openai/concepts/advanced-prompt-engineering" target="_blank" rel="noopener">https://learn.microsoft.com/azure/foundry/openai/concepts/advanced-prompt-engineering</a> (system message design)</li>
+<li><a href="https://learn.microsoft.com/dotnet/ai/conceptual/zero-shot-learning" target="_blank" rel="noopener">https://learn.microsoft.com/dotnet/ai/conceptual/zero-shot-learning</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/guidance/optimize-prompts-topic-configuration" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/guidance/optimize-prompts-topic-configuration</a></li>
 </ul>
 <h2 id="15-include-the-elements-of-the-microsoft-ai-center-of-excell"><span class="hn">15.</span> Include the elements of the Microsoft AI Center of Excellence</h2>
 <p><strong>Plain English:</strong> An AI CoE is a cross-functional team that drives AI strategy, standards, skills, and reusable assets — starting as a central function and evolving into an advisory body.</p>
@@ -436,10 +436,10 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai/center-of-excellence (a.k.a. /scenarios/ai/center-of-excellence)</li>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/organization-people-readiness-plan</li>
-<li>https://learn.microsoft.com/agents/adoption-patterns/ and https://learn.microsoft.com/agents/center-of-excellence/</li>
-<li>https://learn.microsoft.com/power-platform/guidance/adoption/coe</li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai/center-of-excellence" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai/center-of-excellence</a> (a.k.a. /scenarios/ai/center-of-excellence)</li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/organization-people-readiness-plan" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/organization-people-readiness-plan</a></li>
+<li><a href="https://learn.microsoft.com/agents/adoption-patterns/" target="_blank" rel="noopener">https://learn.microsoft.com/agents/adoption-patterns/</a> and <a href="https://learn.microsoft.com/agents/center-of-excellence/" target="_blank" rel="noopener">https://learn.microsoft.com/agents/center-of-excellence/</a></li>
+<li><a href="https://learn.microsoft.com/power-platform/guidance/adoption/coe" target="_blank" rel="noopener">https://learn.microsoft.com/power-platform/guidance/adoption/coe</a></li>
 </ul>
 <h2 id="16-design-ai-solutions-that-use-multiple-dynamics-365-apps"><span class="hn">16.</span> Design AI solutions that use multiple Dynamics 365 apps</h2>
 <p><strong>Plain English:</strong> Cross-app AI designs span CRM (customer experience: Sales, Customer Service, Field Service, Customer Insights) and ERP (Finance, Supply Chain, Business Central), typically stitched together through shared Dataverse, Copilot Studio extensibility, and Fabric/OneLake for analytics.</p>
@@ -454,11 +454,11 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/dynamics365/copilot/ai-get-started</li>
-<li>https://learn.microsoft.com/dynamics365/guidance/implementation-guide/success-by-design (built-in agents table)</li>
-<li>https://learn.microsoft.com/dynamics365/fin-ops-core/dev-itpro/copilot/extend-copilot-generative-help</li>
-<li>https://learn.microsoft.com/power-apps/maker/data-platform/azure-synapse-link-view-in-fabric (Link to Fabric)</li>
-<li>https://learn.microsoft.com/dynamics365/contact-center/administer/knowledge-copilot</li>
+<li><a href="https://learn.microsoft.com/dynamics365/copilot/ai-get-started" target="_blank" rel="noopener">https://learn.microsoft.com/dynamics365/copilot/ai-get-started</a></li>
+<li><a href="https://learn.microsoft.com/dynamics365/guidance/implementation-guide/success-by-design" target="_blank" rel="noopener">https://learn.microsoft.com/dynamics365/guidance/implementation-guide/success-by-design</a> (built-in agents table)</li>
+<li><a href="https://learn.microsoft.com/dynamics365/fin-ops-core/dev-itpro/copilot/extend-copilot-generative-help" target="_blank" rel="noopener">https://learn.microsoft.com/dynamics365/fin-ops-core/dev-itpro/copilot/extend-copilot-generative-help</a></li>
+<li><a href="https://learn.microsoft.com/power-apps/maker/data-platform/azure-synapse-link-view-in-fabric" target="_blank" rel="noopener">https://learn.microsoft.com/power-apps/maker/data-platform/azure-synapse-link-view-in-fabric</a> (Link to Fabric)</li>
+<li><a href="https://learn.microsoft.com/dynamics365/contact-center/administer/knowledge-copilot" target="_blank" rel="noopener">https://learn.microsoft.com/dynamics365/contact-center/administer/knowledge-copilot</a></li>
 </ul>
 <hr />
 <h2 id="c-evaluate-the-costs-and-benefits-of-an-ai-powered-business-">C. Evaluate the costs and benefits of an AI-powered business solution</h2>
@@ -479,13 +479,13 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/requirements-messages-management</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/billing-licensing and https://learn.microsoft.com/microsoft-copilot-studio/faq-billing-licensing</li>
-<li>https://learn.microsoft.com/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs</li>
-<li>https://learn.microsoft.com/power-platform/admin/powerapps-flow-licensing-faq#microsoft-copilot-studio</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/guidance/agent-business-value-overview</li>
-<li>https://www.microsoft.com/en-us/microsoft-365-copilot/pricing/copilot-studio (list prices)</li>
-<li>https://learn.microsoft.com/azure/migrate/concepts-business-case-calculation#glossary</li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/requirements-messages-management" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/requirements-messages-management</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/billing-licensing" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/billing-licensing</a> and <a href="https://learn.microsoft.com/microsoft-copilot-studio/faq-billing-licensing" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/faq-billing-licensing</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs</a></li>
+<li><a href="https://learn.microsoft.com/power-platform/admin/powerapps-flow-licensing-faq#microsoft-copilot-studio" target="_blank" rel="noopener">https://learn.microsoft.com/power-platform/admin/powerapps-flow-licensing-faq#microsoft-copilot-studio</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/guidance/agent-business-value-overview" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/guidance/agent-business-value-overview</a></li>
+<li><a href="https://www.microsoft.com/en-us/microsoft-365-copilot/pricing/copilot-studio" target="_blank" rel="noopener">https://www.microsoft.com/en-us/microsoft-365-copilot/pricing/copilot-studio</a> (list prices)</li>
+<li><a href="https://learn.microsoft.com/azure/migrate/concepts-business-case-calculation#glossary" target="_blank" rel="noopener">https://learn.microsoft.com/azure/migrate/concepts-business-case-calculation#glossary</a></li>
 </ul>
 <h2 id="18-create-an-roi-analysis-for-the-proposed-ai-solution-for-a"><span class="hn">18.</span> Create an ROI analysis for the proposed AI solution for a business process</h2>
 <p><strong>Plain English:</strong> A repeatable method: define value before building, baseline the process, project benefits and TCO, gate the pilot with metrics, then measure actuals.</p>
@@ -499,9 +499,9 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ol>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/guidance/agent-business-value-overview (+ define-value, measure-impact, tell-value-story, use-case-blueprints, metrics-reference)</li>
-<li>https://learn.microsoft.com/microsoft-copilot-studio/analytics-cost-savings</li>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/business-strategy-plan#define-success-metrics</li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/guidance/agent-business-value-overview" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/guidance/agent-business-value-overview</a> (+ define-value, measure-impact, tell-value-story, use-case-blueprints, metrics-reference)</li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/analytics-cost-savings" target="_blank" rel="noopener">https://learn.microsoft.com/microsoft-copilot-studio/analytics-cost-savings</a></li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/business-strategy-plan#define-success-metrics" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/business-strategy-plan#define-success-metrics</a></li>
 </ul>
 <h2 id="19-analyze-whether-to-build-buy-or-extend-ai-components"><span class="hn">19.</span> Analyze whether to build, buy, or extend AI components</h2>
 <p><strong>Plain English:</strong> Buy (adopt SaaS agents/Copilots), extend (customize prebuilt Copilots/agents with your data and actions), or build (Copilot Studio low-code or Foundry pro-code) — decided per use case.</p>
@@ -516,10 +516,10 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 <p><strong>Choose:</strong> buy when a prebuilt agent covers ≥ the functional need; extend when the gap is knowledge/actions on top of an existing Copilot/agent; build low-code when the process is unique but integration is standard; build pro-code when you need custom models, orchestration, isolation, or multi-agent workflows beyond low-code limits.</p>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/technology-solutions-plan-strategy</li>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai/strategy#microsoft-ai-decision-tree</li>
-<li>https://learn.microsoft.com/dynamics365/guidance/agent-templates/overview</li>
-<li>https://learn.microsoft.com/azure/well-architected/saas/ai-strategy</li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/technology-solutions-plan-strategy" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/technology-solutions-plan-strategy</a></li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai/strategy#microsoft-ai-decision-tree" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai/strategy#microsoft-ai-decision-tree</a></li>
+<li><a href="https://learn.microsoft.com/dynamics365/guidance/agent-templates/overview" target="_blank" rel="noopener">https://learn.microsoft.com/dynamics365/guidance/agent-templates/overview</a></li>
+<li><a href="https://learn.microsoft.com/azure/well-architected/saas/ai-strategy" target="_blank" rel="noopener">https://learn.microsoft.com/azure/well-architected/saas/ai-strategy</a></li>
 </ul>
 <h2 id="20-implement-a-model-router-to-intelligently-route-requests-"><span class="hn">20.</span> Implement a model router to intelligently route requests to the most suitable model</h2>
 <p><strong>Plain English:</strong> Model router is a deployable Foundry "model" that is actually a trained routing model: it analyzes each prompt in real time and forwards it to the best underlying chat model — cutting cost and latency while keeping quality — behind one endpoint.</p>
@@ -535,11 +535,11 @@ footer{max-width:1180px;margin:0 auto;padding:16px;color:var(--muted);font-size:
 </ul>
 <p class="srcline"><strong>Sources:</strong></p>
 <ul>
-<li>https://learn.microsoft.com/azure/foundry/openai/concepts/model-router</li>
-<li>https://learn.microsoft.com/azure/foundry/openai/concepts/model-router-how-it-works</li>
-<li>https://learn.microsoft.com/azure/foundry/openai/how-to/model-router</li>
-<li>https://learn.microsoft.com/azure/foundry/foundry-models/whats-new-model-router</li>
-<li>https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/build-secure-process</li>
+<li><a href="https://learn.microsoft.com/azure/foundry/openai/concepts/model-router" target="_blank" rel="noopener">https://learn.microsoft.com/azure/foundry/openai/concepts/model-router</a></li>
+<li><a href="https://learn.microsoft.com/azure/foundry/openai/concepts/model-router-how-it-works" target="_blank" rel="noopener">https://learn.microsoft.com/azure/foundry/openai/concepts/model-router-how-it-works</a></li>
+<li><a href="https://learn.microsoft.com/azure/foundry/openai/how-to/model-router" target="_blank" rel="noopener">https://learn.microsoft.com/azure/foundry/openai/how-to/model-router</a></li>
+<li><a href="https://learn.microsoft.com/azure/foundry/foundry-models/whats-new-model-router" target="_blank" rel="noopener">https://learn.microsoft.com/azure/foundry/foundry-models/whats-new-model-router</a></li>
+<li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/build-secure-process" target="_blank" rel="noopener">https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/build-secure-process</a></li>
 </ul>
 <hr />
 <h2 id="cross-cutting-quick-reference-exam-triggers">Cross-cutting quick-reference (exam triggers)</h2>
