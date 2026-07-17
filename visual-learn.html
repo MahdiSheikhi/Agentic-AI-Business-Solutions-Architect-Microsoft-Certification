@@ -94,6 +94,23 @@ svg text{font-family:"Segoe UI",system-ui,sans-serif}
 .numgrp td{padding:3.5px 0;color:#33475c}
 .numgrp td:last-child{text-align:right;font-weight:800;color:#12293f;white-space:nowrap}
 
+.deepnav{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.deepnav>h2{font-size:15.5px;color:var(--dark);margin-bottom:3px}
+.deepnav>p.dsub{font-size:12.8px;color:var(--muted)}
+.dn-group{margin-top:15px}
+.dn-label{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.dn-label .dot{width:10px;height:10px;border-radius:50%;background:var(--gc);flex:0 0 auto}
+.dn-label b{color:var(--gi);font-size:13.5px;letter-spacing:.02em}
+.dn-label .wt{font-size:11.5px;font-weight:700;background:var(--gs);color:var(--gi);border-radius:7px;padding:2px 9px}
+.dn-label .cnt{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--muted)}
+.dn-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:8px}
+.dn-cards a{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:11px;padding:10px 13px;background:#fbfcfe;text-decoration:none;transition:border-color .12s,box-shadow .12s}
+.dn-cards a:hover{border-color:var(--gc);box-shadow:0 2px 8px rgba(15,40,70,.10)}
+.dn-cards .k{flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:var(--gc);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.dn-cards .tx{flex:1;min-width:0}
+.dn-cards .tx b{display:block;font-size:13.6px;color:#12293f;line-height:1.3}
+.dn-cards .tx i{display:block;font-style:normal;font-size:11.8px;color:var(--muted);margin-top:2px;line-height:1.45}
+.dn-cards .it{flex:0 0 auto;font-size:11px;font-weight:800;color:var(--gi);background:var(--gs);border-radius:999px;padding:3px 9px;white-space:nowrap}
 #tip{position:fixed;display:none;background:#0f172a;color:#e2e8f0;font-size:12.5px;padding:7px 11px;border-radius:8px;pointer-events:none;z-index:99;max-width:260px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
 @media print{nav.bar,.toc{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
 </style>
@@ -108,10 +125,94 @@ svg text{font-family:"Segoe UI",system-ui,sans-serif}
   <a href="index.html">⌂ All materials</a>
   <a href="fast-learn.html">⚡ Fast Learn</a>
   <a href="visual-learn.html" class="here">🎨 Visual Learn</a>
+  <a href="#deep">🗂 12 deep dives</a>
   <a href="AB-100-Study-Guide-Modules/24-cheatsheet.html">Cheat sheet</a>
   <a href="AB-100-Study-Guide-Modules/practice-exam.html">Practice exam</a>
 </nav>
 <div class="wrap">
+
+<div class="deepnav" id="deep" style="scroll-margin-top:64px">
+  <h2>🗂 The 12 deep-dive visual pages — the whole exam, domain by domain</h2>
+  <p class="dsub">Four pages per exam domain, <b>664 numbered learn items</b> in total, ordered like the official skills outline. Start with the heaviest domain (Deploy, 40–45%) or go in exam order — this overview page keeps the 24 cross-domain concept visuals below.</p>
+
+  <div class="dn-group" style="--gc:var(--plan);--gi:var(--plan-ink);--gs:var(--plan-soft)">
+    <div class="dn-label"><span class="dot"></span><b>Domain 1 · Plan AI-powered business solutions</b><span class="wt">25–30%</span><span class="cnt">220 items</span></div>
+    <div class="dn-cards">
+      <a href="visual-plan-1-analyze.html">
+        <span class="k">1</span>
+        <span class="tx"><b>🔍 Analyze Requirements</b><i>agent anatomy &amp; autonomy · agent-or-not flow · A·R·T·C·A grounding review · OneLake, Dataverse &amp; Copilot connectors</i></span>
+        <span class="it">51</span>
+      </a>
+      <a href="visual-plan-2-strategy.html">
+        <span class="k">2</span>
+        <span class="tx"><b>🗺 AI Strategy &amp; Adoption</b><i>CAF's 6 AI + 4 agent phases · adoption staircase · build tree &amp; metric gates · AI CoE wheel · multi-app Dynamics 365</i></span>
+        <span class="it">55</span>
+      </a>
+      <a href="visual-plan-3-agents-platforms.html">
+        <span class="k">3</span>
+        <span class="tx"><b>🤖 Agents, Platforms &amp; Prompts</b><i>child vs connected agents · prebuilt gallery · Studio &amp; Foundry guardrails · knowledge-source table · SLMs &amp; GCSE prompts</i></span>
+        <span class="it">68</span>
+      </a>
+      <a href="visual-plan-4-costs-roi.html">
+        <span class="k">4</span>
+        <span class="tx"><b>💰 Costs, ROI &amp; Model Router</b><i>ROI formulas · Agent Assisted Hours · TCO iceberg · credit rate ladder · build-buy-extend · router modes</i></span>
+        <span class="it">46</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="dn-group" style="--gc:var(--design);--gi:var(--design-ink);--gs:var(--design-soft)">
+    <div class="dn-label"><span class="dot"></span><b>Domain 2 · Design AI-powered business solutions</b><span class="wt">25–30%</span><span class="cnt">216 items</span></div>
+    <div class="dn-cards">
+      <a href="design-visual-1-dynamics-copilot.html">
+        <span class="k">1</span>
+        <span class="tx"><b>🧩 Copilot in Dynamics 365 &amp; Agent Types</b><i>Sales Copilot customizations &amp; connectors · Contact Center deployment &amp; handoff · agent types · first-party roster</i></span>
+        <span class="it">49</span>
+      </a>
+      <a href="design-visual-2-copilot-studio.html">
+        <span class="k">2</span>
+        <span class="tx"><b>🎛 Copilot Studio &amp; Power Platform</b><i>topics &amp; fallback · NLU vs CLU vs generative orchestration · agent flows · Foundry Tools map · canvas-app AI · PPWAF</i></span>
+        <span class="it">68</span>
+      </a>
+      <a href="design-visual-3-extensibility.html">
+        <span class="k">3</span>
+        <span class="tx"><b>🧬 Extensibility — Foundry, MCP, Computer Use</b><i>custom models &amp; fine-tuning · declarative vs custom engine · MCP architecture · A2A · deep reasoning &amp; voice</i></span>
+        <span class="it">53</span>
+      </a>
+      <a href="design-visual-4-orchestration.html">
+        <span class="k">4</span>
+        <span class="tx"><b>🧭 Orchestrate Prebuilt Agents &amp; Apps</b><i>F&amp;SCM Copilot &amp; in-app help rules · agent-chat interoperability · Copilot for Sales/Service · AI hub &amp; AI Builder</i></span>
+        <span class="it">46</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="dn-group" style="--gc:var(--deploy);--gi:var(--deploy-ink);--gs:var(--deploy-soft)">
+    <div class="dn-label"><span class="dot"></span><b>Domain 3 · Deploy AI-powered business solutions</b><span class="wt">40–45%</span><span class="cnt">228 items</span></div>
+    <div class="dn-cards">
+      <a href="visual-deploy-monitor.html">
+        <span class="k">1</span>
+        <span class="tx"><b>📈 Analyze, Monitor &amp; Tune</b><i>monitoring tool map · KPI funnel &amp; retention clock · AI-based feedback · Foundry observability · signal→action matrix</i></span>
+        <span class="it">50</span>
+      </a>
+      <a href="visual-deploy-testing.html">
+        <span class="k">2</span>
+        <span class="tx"><b>🧪 Manage Testing</b><i>8-layer strategy · seven test methods · Agent Kit &amp; Foundry evaluators · prompt validation · cross-app E2E</i></span>
+        <span class="it">59</span>
+      </a>
+      <a href="visual-deploy-alm.html">
+        <span class="k">3</span>
+        <span class="tx"><b>🔁 Design the ALM Process</b><i>solution highway · pipeline rules · NOT-solution-aware wall · Foundry CI/CD · MLOps/GenAIOps · data ALM</i></span>
+        <span class="it">54</span>
+      </a>
+      <a href="visual-deploy-rai.html">
+        <span class="k">4</span>
+        <span class="tx"><b>🛡 Responsible AI, Security &amp; Governance</b><i>Entra Agent ID · threat→mitigation map · four control planes · DLP · residency · audit · red teaming</i></span>
+        <span class="it">65</span>
+      </a>
+    </div>
+  </div>
+</div>
 
 <div class="toc">
   <h2>Jump to a visual</h2>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Learn · Deploy 4/4 — Responsible AI, Security, Governance &amp; Compliance</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --accent:#0f6cbd; --soft:#e8f1fa; --dark:#0b2a4a;
+  --pg:#be123c; --pg-deep:#9f1239; --pg-soft:#fff1f2; --pg-line:#fecdd3;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+  --warn:#b45309; --warn-soft:#fffbeb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,#4c0519 0%,#be123c 140%);color:#fff;padding:26px 20px 20px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:800px;margin-left:auto;margin-right:auto}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06);align-items:center}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--pg);border-bottom-color:var(--pg)}
+.pwrap{margin-left:auto;display:flex;align-items:center;gap:8px;padding:8px 4px;flex:0 0 auto}
+.pmeter{width:110px;height:8px;background:#eef1f6;border-radius:99px;overflow:hidden}
+.pmeter i{display:block;height:100%;width:0;background:var(--good);border-radius:99px;transition:width .25s}
+#ptext{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:110px;letter-spacing:.03em;color:var(--pg-deep)}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--pg);color:var(--pg)}
+.toc .use{font-size:12.5px;color:var(--muted);margin-top:8px}
+.toc button{border:1px solid var(--line);background:#fff;color:#475569;border-radius:8px;padding:4px 12px;font-size:12px;cursor:pointer;margin-left:8px}
+.toc button:hover{border-color:var(--bad);color:var(--bad)}
+
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--pg)}
+.ghead h2{font-size:21px;color:var(--pg-deep)}
+
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+
+.n{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:21px;border-radius:999px;background:var(--pg-soft);color:var(--pg);font-size:11.5px;font-weight:800;cursor:pointer;border:1px solid var(--pg-line);padding:0 5px;user-select:none;margin-right:7px;vertical-align:1px;flex:0 0 auto}
+.n:hover{border-color:var(--pg)}
+.n.done{background:var(--good);border-color:var(--good);color:#fff}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:6px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:21px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.tile .n{margin:0 auto 6px;display:flex;width:fit-content}
+
+.gcse{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:10px}
+.gcse div.c{border:1px solid var(--line);border-radius:12px;padding:13px 15px;background:#fbfcfe;font-size:13.1px;color:var(--muted)}
+.gcse b{display:flex;align-items:center;gap:4px;font-size:14px;color:#12293f;margin-bottom:5px}
+
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0;list-style:none;font-size:13.4px;color:#33475c}
+.panel li{margin:7px 0;display:flex;align-items:flex-start}
+.panel li b{color:#12293f}
+
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:600px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td.sig{font-weight:700;color:#12293f}
+.matrix tr:last-child td{border-bottom:none}
+code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:1px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.87em;color:#334155}
+@media print{nav.bar,.toc{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Visual Learn · Deploy deep dive 4 of 4</div>
+  <h1>🛡 Responsible AI, Security, Governance, Risk &amp; Compliance</h1>
+  <p class="sub">Covers eight exam bullets: design security for agents · design governance for agents · design model security · analyze AI vulnerabilities &amp; mitigations incl. prompt manipulation · review adherence to responsible AI principles · validate data residency &amp; movement compliance · design access controls on grounding data &amp; model tuning · design audit trails for changes to models and data.</p>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="visual-deploy-monitor.html">📈 Monitor &amp; Tune</a>
+  <a href="visual-deploy-testing.html">🧪 Testing</a>
+  <a href="visual-deploy-alm.html">🔁 ALM</a>
+  <a href="visual-deploy-rai.html" class="here">🛡 RAI &amp; Security</a>
+  <div class="pwrap"><div class="pmeter"><i id="pbar"></i></div><span id="ptext"></span></div>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl">Agent security</span><a href="#f1">Entra Agent ID</a><a href="#f2">Auth layers</a><a href="#f3">Network tiers</a></div>
+  <div class="row"><span class="gl">Model security</span><a href="#f4">Model hardening</a><a href="#f5">Threat → mitigation</a></div>
+  <div class="row"><span class="gl">Governance</span><a href="#f6">Four control planes</a><a href="#f7">DLP mechanics</a></div>
+  <div class="row"><span class="gl">Compliance</span><a href="#f8">Residency map</a><a href="#f9">Grounding access</a><a href="#f10">Audit trails</a></div>
+  <div class="row"><span class="gl">Responsible AI</span><a href="#f11">Six principles → checks</a><a href="#f12">Standard &amp; sharing</a><a href="#f13">Red teaming</a></div>
+  <p class="use">💡 Tap a numbered chip when you've truly learned that item — progress is saved on this device.<button id="reset">reset progress</button></p>
+</div>
+
+<!-- ============ AGENT SECURITY ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Security for agents</h2></div>
+
+<section class="fig" id="f1">
+  <h3>1 · Entra Agent ID — agents become first-class identities</h3>
+  <p class="cap">The blueprint holds the keys; the identity holds nothing. Whether a human is present decides how the agent authenticates.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 280">
+    <defs><marker id="ai4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g text-anchor="middle" font-size="12">
+      <rect x="270" y="14" width="220" height="56" rx="10" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="380" y="37" font-weight="700" fill="#92400e">Agent identity blueprint</text>
+      <text x="380" y="56" fill="#5b6b7b" font-size="11.5">the template — holds credentials · can be multitenant</text>
+      <line x1="380" y1="70" x2="380" y2="96" stroke="#8ea3b8" stroke-width="2" marker-end="url(#ai4)"/>
+      <rect x="285" y="100" width="190" height="56" rx="10" fill="#0b2a4a"/>
+      <text x="380" y="123" font-weight="700" fill="#fff">Agent identity</text>
+      <text x="380" y="142" fill="#c9d8ea" font-size="11.5">credential-less service principal · single-tenant</text>
+      <line x1="335" y1="156" x2="215" y2="192" stroke="#8ea3b8" stroke-width="2" marker-end="url(#ai4)"/>
+      <line x1="425" y1="156" x2="545" y2="192" stroke="#8ea3b8" stroke-width="2" marker-end="url(#ai4)"/>
+      <rect x="30" y="196" width="340" height="66" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="200" y="220" font-weight="700" fill="#166534">Attended — user present</text>
+      <text x="200" y="239" fill="#3c6947" font-size="11.8">OAuth 2.0 on-behalf-of: subject = user, actor = agent</text>
+      <text x="200" y="254" fill="#3c6947" font-size="11.8">→ limited to the user's permissions</text>
+      <rect x="390" y="196" width="340" height="66" rx="12" fill="#fff1f2" stroke="#fecdd3"/>
+      <text x="560" y="220" font-weight="700" fill="#9f1239">Autonomous — no user</text>
+      <text x="560" y="239" fill="#5b6b7b" font-size="11.8">client credentials: the agent's own RBAC,</text>
+      <text x="560" y="254" fill="#5b6b7b" font-size="11.8">scoped to least privilege</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:8px">
+    <ul>
+      <li><i class="n"></i><span>The <b>blueprint</b> is the template/class and <b>holds the credentials</b> (federated identity credentials, certificates, secrets); it can be multitenant.</span></li>
+      <li><i class="n"></i><span>The <b>agent identity</b> is a special service principal with <b>no credentials of its own</b>; single-tenant.</span></li>
+      <li><i class="n"></i><span>Foundry auto-provisions a <b>default blueprint + shared project identity</b>; <b>publishing an agent creates a dedicated identity</b>.</span></li>
+      <li><i class="n"></i><span><b>Attended = OBO</b> (“the user is the badge”) · <b>autonomous = client credentials</b> (“the agent brings its own badge”).</span></li>
+      <li><i class="n"></i><span>Entra features extend to agents: <b>Conditional Access (P1)</b> · <b>Identity Protection / risky agents (P2)</b> · <b>Identity Governance</b> (ownership/sponsorship, lifecycle workflows, access reviews); all agent sign-ins are logged.</span></li>
+      <li><i class="n"></i><span>Identity inventory spans Foundry + Copilot Studio + third-party agents (<b>Agent 365 registry</b>); external agents onboard via the <b>Entra Auth SDK sidecar</b> or workload identity federation.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fig" id="f2">
+  <h3>2 · The two authentication layers — design both doors</h3>
+  <p class="cap">User→agent and agent→tools are separate decisions. Least privilege applies at every hop.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-deep)">User → agent</h4>
+      <ul>
+        <li><i class="n"></i><span>Three options: <b>No auth</b> (public — DLP can forbid) · <b>Authenticate with Microsoft</b> (the Teams/M365 channel requirement) · <b>Manual OAuth2</b> — <b>federated credentials recommended over secrets</b>; exposes <code>User.AccessToken</code>.</span></li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-deep)">Agent → tools &amp; data</h4>
+      <ul>
+        <li><i class="n"></i><span><b>Delegated (user) connections / OBO</b> when actions must respect each user's permissions; <b>application / managed identity</b> for autonomous agents, scoped to minimal RBAC. Foundry tool auth: <b>key · Entra (managed identity) · OAuth identity passthrough</b>.</span></li>
+        <li><i class="n"></i><span>Least privilege everywhere: <b>tool allow-lists</b> (<code>allowed_tools</code>), short-lived <b>just-in-time privileges</b>, Dataverse security roles, <b>human-in-the-loop for consequential actions</b>.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="fig" id="f3">
+  <h3>3 · Network security — Copilot Studio locks &amp; Foundry tiers</h3>
+  <p class="cap">Studio hardens the SaaS box; Foundry lets you climb to full network isolation.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 200">
+    <g text-anchor="middle" font-size="12">
+      <rect x="40" y="130" width="210" height="58" rx="10" fill="#fff1f2" stroke="#fecdd3"/>
+      <text x="145" y="154" font-weight="700" fill="#9f1239">Basic</text>
+      <text x="145" y="172" fill="#5b6b7b" font-size="11.5">Microsoft-managed everything</text>
+      <rect x="275" y="72" width="210" height="58" rx="10" fill="#fff1f2" stroke="#fecdd3"/>
+      <text x="380" y="96" font-weight="700" fill="#9f1239">Standard</text>
+      <text x="380" y="114" fill="#5b6b7b" font-size="11.5">BYO Storage / AI Search / Cosmos + CMK</text>
+      <rect x="510" y="14" width="230" height="58" rx="10" fill="#fff1f2" stroke="#fecdd3"/>
+      <text x="625" y="38" font-weight="700" fill="#9f1239">Standard + private networking</text>
+      <text x="625" y="56" fill="#5b6b7b" font-size="11.5">VNet injection · private endpoints · no public egress</text>
+      <line x1="60" y1="196" x2="700" y2="196" stroke="#8ea3b8" stroke-width="2"/>
+      <path d="M700,196 l-9,-4 v8 z" fill="#8ea3b8"/>
+      <text x="360" y="185" font-size="11.5" fill="#5b6b7b" font-weight="600">Foundry isolation increases →</text>
+    </g>
+  </svg>
+  </div>
+  <div class="gcse" style="margin-top:8px">
+    <div class="c"><b><i class="n"></i>Copilot Studio locks</b><b>VNet support for connectors · IP firewall · Continuous Access Evaluation · Direct Line channel security · customer-managed keys (CMK) · Customer Lockbox</b>.</div>
+    <div class="c"><b><i class="n"></i>Foundry three tiers</b><b>Basic</b> (Microsoft-managed) → <b>Standard</b> (BYO Storage/AI Search/Cosmos DB — agent data at rest in <em>your</em> tenant; CMK) → <b>Standard + private networking</b> (BYO VNet injection, private endpoints, <b>no public egress</b>).</div>
+    <div class="c"><b><i class="n"></i>Private MCP endpoints</b>Supported — tool traffic can stay off the public internet too.</div>
+  </div>
+</section>
+
+<!-- ============ MODEL SECURITY ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Model security</h2></div>
+
+<section class="fig" id="f4">
+  <h3>4 · Model hardening — keys, planes, roles &amp; CMK</h3>
+  <p class="cap">Five facts that carry every model-security question, including the two classic exam nuances.</p>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>Go keyless</b>Prefer <b>Entra (keyless) auth</b>; disable key auth with <code>disableLocalAuth=true</code> enforced via policy.</div>
+    <div class="c"><b><i class="n"></i>Two RBAC planes</b><b>Data plane ≠ control plane</b> — control-plane Owner does not automatically get inference rights.</div>
+    <div class="c"><b><i class="n"></i>Foundry roles</b><b>Foundry User / Foundry Owner / Foundry Account Owner / Foundry Project Manager</b>. Nuance: <b>Foundry User can train</b> a fine-tune (data plane) but <b>deploying it is control-plane</b> — Foundry Owner covers both.</div>
+    <div class="c"><b><i class="n"></i>Training data promises</b>Stored <b>in-region</b>, logically isolated, deletable, <b>AES-256</b> at rest; your fine-tuned models are <b>exclusive to you and never train foundation models</b>.</div>
+    <div class="c"><b><i class="n"></i>The CMK nuance</b>Key Vault must be same region/tenant with soft-delete + purge protection. <b>Revoking CMK blocks new training/deployments — but already-deployed models keep serving</b> until deleted.</div>
+    <div class="c"><b><i class="n"></i>Content filters</b>Configured at the <b>resource</b> level, associated <b>per deployment</b>; turning filters off (or annotate-only) requires <b>Limited Access approval</b>.</div>
+  </div>
+</section>
+
+<section class="fig" id="f5">
+  <h3>5 · The threat → mitigation map — including prompt manipulation</h3>
+  <p class="cap">The exam bullet says “analyze vulnerabilities and mitigations, including prompt manipulation.” This is the whole map.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 180">
+    <defs><marker id="rx" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#c62828"/></marker></defs>
+    <g text-anchor="middle" font-size="12">
+      <rect x="30" y="20" width="200" height="60" rx="12" fill="#fdecea" stroke="#f2c4c0"/>
+      <text x="130" y="44" font-weight="700" fill="#c62828">⚠ UPIA</text>
+      <text x="130" y="63" fill="#7a3b36" font-size="11.5">the User types the jailbreak</text>
+      <rect x="30" y="100" width="200" height="60" rx="12" fill="#fdecea" stroke="#f2c4c0"/>
+      <text x="130" y="124" font-weight="700" fill="#c62828">⚠ XPIA</text>
+      <text x="130" y="143" fill="#7a3b36" font-size="11.5">hidden in eXternal content the agent reads</text>
+      <line x1="230" y1="50" x2="300" y2="50" stroke="#c62828" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#rx)"/>
+      <line x1="230" y1="130" x2="300" y2="130" stroke="#c62828" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#rx)"/>
+      <rect x="305" y="20" width="230" height="60" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="420" y="44" font-weight="700" fill="#166534">🛡 Prompt Shields (user)</text>
+      <text x="420" y="63" fill="#3c6947" font-size="11.5">on by default in content filtering</text>
+      <rect x="305" y="100" width="230" height="60" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="420" y="124" font-weight="700" fill="#166534">🛡 Prompt Shields (documents)</text>
+      <text x="420" y="143" fill="#3c6947" font-size="11.5">+ spotlighting: tag content low-trust</text>
+      <rect x="575" y="58" width="165" height="66" rx="14" fill="#0b2a4a"/>
+      <text x="657" y="86" font-weight="700" fill="#fff">Protected agent</text>
+      <text x="657" y="105" fill="#c9d8ea" font-size="11.3">Purview flag: XPIADetected</text>
+      <line x1="535" y1="50" x2="585" y2="72" stroke="#1a7f37" stroke-width="2.5"/>
+      <line x1="535" y1="130" x2="585" y2="110" stroke="#1a7f37" stroke-width="2.5"/>
+    </g>
+  </svg>
+  </div>
+  <div class="matrix">
+  <table>
+    <tr><th>Threat</th><th>Mitigations</th></tr>
+    <tr><td class="sig"><i class="n"></i>Direct injection / jailbreak (UPIA)</td><td><b>Prompt Shields for user prompts</b> (on by default), safety system messages, input validation, blocklists, red-team testing (PyRIT)</td></tr>
+    <tr><td class="sig"><i class="n"></i>Indirect / cross-prompt injection (XPIA)</td><td><b>Prompt Shields for documents + Spotlighting</b> (tags untrusted content low-trust), isolate untrusted content, <b>least-privilege tools</b>, human-in-the-loop for risky actions; Purview audit exposes <b>XPIADetected</b></td></tr>
+    <tr><td class="sig"><i class="n"></i>Data leakage / oversharing</td><td>Purview <b>sensitivity labels</b> (encrypted content honored via VIEW + EXTRACT), <b>DLP + Endpoint DLP</b> (blocks pasting into consumer AI), <b>DSPM for AI</b> oversharing assessments, SharePoint Advanced Management, Restricted Content Discovery — note <b>Restricted SharePoint Search retiring (new enablement blocked from 2026-07-31)</b></td></tr>
+    <tr><td class="sig"><i class="n"></i>Hallucination / ungrounded output</td><td><b>Groundedness detection</b> (preview, with correction), groundedness evaluators, RAG grounding, ungrounded-attributes evaluator</td></tr>
+    <tr><td class="sig"><i class="n"></i>Harmful content</td><td>Content filters — <b>4 categories</b> (hate, sexual, violence, self-harm) × severity <b>safe/low/medium/high, default medium</b>, configurable separately for <b>prompts vs completions</b></td></tr>
+    <tr><td class="sig"><i class="n"></i>IP / copyright reproduction</td><td><b>Protected material detection</b> (text + code) — <b>on by default</b>; ties to the Customer Copyright Commitment</td></tr>
+    <tr><td class="sig"><i class="n"></i>Runtime attacks on AI workloads</td><td><b>Defender for Cloud AI threat protection (GA)</b> — runtime alerts from Prompt Shields signals + threat intel, Defender XDR integration; <b>AI-SPM</b> discovers the AI bill-of-materials and attack paths</td></tr>
+    <tr><td class="sig"><i class="n"></i>Excessive agency / tool misuse</td><td>Task-adherence checks, <b>prohibited-actions &amp; sensitive-data-leakage evaluators</b>, tool allow-lists, approvals</td></tr>
+  </table>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg)">
+    <ul>
+      <li><i class="n"></i><span>Reference frameworks the docs cite: <b>OWASP Top 10 for LLM applications</b> and <b>MITRE ATLAS</b>.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ GOVERNANCE ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Governance for agents</h2></div>
+
+<section class="fig" id="f6">
+  <h3>6 · The four control planes — who governs what</h3>
+  <p class="cap">The most common governance question: match the requirement to the right admin surface.</p>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>PPAC (Power Platform admin center)</b>Copilot Studio agents: <b>DLP data policies</b>, environments &amp; groups, sharing limits, <b>quarantine agents</b> (work only in the test canvas), tenant switch to <b>disable publishing of generative-AI agents</b>, gen-AI consent settings, environment routing, <b>inventory incl. drafts</b>, credit capacity + per-agent caps.</div>
+    <div class="c"><b><i class="n"></i>M365 admin center — Copilot Control System (CCS)</b>Inventory of everything <b>available to users</b> (first-party + ISV + shared): <b>block/unblock tenant-wide</b>, approve/reject Copilot Studio submissions, deploy/assign to users/groups, pin; agent sharing controls (all / specific / none).</div>
+    <div class="c"><b><i class="n"></i>Microsoft Agent 365</b>Cross-origin control plane — <b>Observe · Govern · Secure</b>: unified registry incl. <b>shadow + third-party agents</b> (sync from Bedrock, Vertex AI, Salesforce, Databricks), <b>Agent Map</b> (agent↔person↔data), per-instance blocking, <b>Agent Tools registry for MCP governance</b>; integrates Entra Agent ID, Purview, Defender.</div>
+    <div class="c"><b><i class="n"></i>Entra admin center</b>Agent <b>identities</b>: Conditional Access, risky-agent detection, lifecycle workflows, access reviews.</div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> “block a rogue agent” → <b>CCS block</b> (M365 agents) or <b>PPAC quarantine</b> (Copilot Studio) · “find shadow agents from other clouds” → <b>Agent 365 registry</b> · “risky sign-ins by an agent” → <b>Entra</b>.</div>
+</section>
+
+<section class="fig" id="f7">
+  <h3>7 · DLP mechanics — the connector traffic light</h3>
+  <p class="cap">Data policies are the enforcement muscle of agent governance. Know the classes, the combining rule, and the two error names.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 120">
+    <g text-anchor="middle" font-size="12.5">
+      <rect x="40" y="24" width="210" height="72" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="145" y="52" font-weight="700" fill="#166534">Business</text>
+      <text x="145" y="72" fill="#5b6b7b" font-size="11.5">can talk to Business only</text>
+      <rect x="275" y="24" width="210" height="72" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="380" y="52" font-weight="700" fill="#92400e">Non-business</text>
+      <text x="380" y="72" fill="#5b6b7b" font-size="11.5">never combines with Business</text>
+      <rect x="510" y="24" width="210" height="72" rx="12" fill="#fdecea" stroke="#f2c4c0"/>
+      <text x="615" y="52" font-weight="700" fill="#c62828">Blocked</text>
+      <text x="615" y="72" fill="#7a3b36" font-size="11.5">unusable — but Microsoft-owned standard connectors can't be blocked</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:8px">
+    <ul>
+      <li><i class="n"></i><span>Three classes: <b>Business / Non-business / Blocked</b>; business + non-business <b>can't combine in one resource</b>; <b>Microsoft-owned standard connectors can't be blocked</b>.</span></li>
+      <li><i class="n"></i><span>Tenant + environment policies combine with the <b>most restrictive winning</b>.</span></li>
+      <li><i class="n"></i><span>Granular controls: <b>connector action control · endpoint filtering</b> (HTTP, HTTP+Entra, Webhook, SQL Server, Azure Blob, SMTP) · custom-connector URL patterns · <b>virtual connectors</b> switching Copilot Studio capabilities (channels, knowledge sources, auth requirements, App Insights) on/off.</span></li>
+      <li><i class="n"></i><span>Violations block at both moments: publish (<code>DlpViolationError</code>) and runtime (<code>DataLossPreventionViolation</code>).</span></li>
+      <li><i class="n"></i><span>Third-party AI: <b>block/isolate third-party AI connectors via DLP</b> (especially in the default environment); Purview endpoint/browser DLP stops pasting into consumer AI; the governed alternative is <b>bring-your-own frontier model</b> inside tenant governance (Foundry catalog models in prompts / model picker).</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ COMPLIANCE ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Compliance — residency, access &amp; audit</h2></div>
+
+<section class="fig" id="f8">
+  <h3>8 · The data residency map — where data sits vs where it's processed</h3>
+  <p class="cap">One rule anchors everything: data at rest never moves — only processing location changes. Then learn the toggles.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 150">
+    <g text-anchor="middle" font-size="12">
+      <rect x="30" y="30" width="220" height="90" rx="12" fill="#fff1f2" stroke="#fecdd3"/>
+      <text x="140" y="56" font-weight="700" fill="#9f1239">Global</text>
+      <text x="140" y="76" fill="#5b6b7b" font-size="11.5">processing: any Azure region</text>
+      <text x="140" y="94" fill="#5b6b7b" font-size="11.5">at-rest: resource geography</text>
+      <rect x="270" y="30" width="220" height="90" rx="12" fill="#fff1f2" stroke="#fecdd3"/>
+      <text x="380" y="56" font-weight="700" fill="#9f1239">Data Zone</text>
+      <text x="380" y="76" fill="#5b6b7b" font-size="11.5">processing: within US / EU / APAC</text>
+      <text x="380" y="94" fill="#5b6b7b" font-size="11.5">at-rest: resource geography</text>
+      <rect x="510" y="30" width="220" height="90" rx="12" fill="#fff1f2" stroke="#fecdd3"/>
+      <text x="620" y="56" font-weight="700" fill="#9f1239">Regional</text>
+      <text x="620" y="76" fill="#5b6b7b" font-size="11.5">processing: resource region only</text>
+      <text x="620" y="94" fill="#5b6b7b" font-size="11.5">at-rest: resource geography</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:8px">
+    <ul>
+      <li><i class="n"></i><span><b>Copilot Studio</b>: data stored in the chosen <b>environment geography</b>; the <b>EU Data Boundary</b> applies when the tenant billing address is EU/EFTA and environments are in EUDB geos.</span></li>
+      <li><i class="n"></i><span>The caveat everyone forgets: M365-powered features store conversation history in the end user's <b>Exchange mailbox region</b>.</span></li>
+      <li><i class="n"></i><span><b>PPAC cross-geo toggles</b> (per environment, Generative AI settings): “<b>Move data across regions</b>” (needed where Azure OpenAI isn't local; not shown for US/Gov; <b>irreversible for past data</b>) · Bing search consent · M365 services consent · EUDB “<b>flex routing during peak load</b>” — <b>uncheck it to keep all inference in-boundary</b>.</span></li>
+      <li><i class="n"></i><span><b>Foundry deployment types</b>: at-rest data <b>always stays in the resource's geography</b> — Global / Data Zone / Regional change only processing; fine-tuning training data stored in-region (the Global training tier trades residency for cost).</span></li>
+      <li><i class="n"></i><span><b>M365 Copilot</b>: interaction content + semantic index live in the tenant's <b>Local Region Geography</b>; <b>Advanced Data Residency / Multi-Geo</b> extend commitments (storage follows Preferred Data Location).</span></li>
+    </ul>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> “EU processing only” = <b>Data Zone EU</b> + EUDB <b>flex-routing unchecked</b>. And Grounding with Bing always <b>leaves the compliance boundary</b>.</div>
+</section>
+
+<section class="fig" id="f9">
+  <h3>9 · Access controls on grounding data &amp; tuning</h3>
+  <p class="cap">Agents never out-see their users; search indexes need trimming; tuning splits see/train from deploy.</p>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>M365: no new permissions</b>Copilot &amp; agents retrieve only what the <b>current user's Graph/SharePoint/Teams ACLs</b> allow; sensitivity labels add <b>VIEW + EXTRACT</b> gating; <b>S/MIME and password-protected files are excluded</b>.</div>
+    <div class="c"><b><i class="n"></i>Dataverse</b><b>Security roles (row + column)</b> enforced for agents and the Dataverse MCP server; connector-file knowledge does <b>live permission checks at query time</b>; transcripts need <b>Bot Transcript Viewer</b>.</div>
+    <div class="c"><b><i class="n"></i>Azure AI Search trimming</b>The GA pattern: a filterable <b>group_ids-style field</b> + <code>search.in()</code> <b>security filter at query time</b>. Previews: native ACL/RBAC scopes (ADLS Gen2/Blob), SharePoint ACL sync, Purview label enforcement.</div>
+    <div class="c"><b><i class="n"></i>Tuning access</b>Foundry project <b>RBAC separates who can see/train vs deploy</b>; strictest control = <b>BYO storage + CMK</b>; DLP knowledge-source and endpoint controls protect Copilot Studio grounding.</div>
+  </div>
+</section>
+
+<section class="fig" id="f10">
+  <h3>10 · Audit trails — prove who did what, where, to which data</h3>
+  <p class="cap">A direct exam bullet: design audit trails for changes to models and data. Four ledgers cover everything.</p>
+  <div class="matrix">
+  <table>
+    <tr><th>Ledger</th><th>What it proves</th></tr>
+    <tr><td class="sig"><i class="n"></i>Purview Audit — CopilotInteraction</td><td>Events for M365 Copilot, Copilot Studio agents, Security Copilot, Fabric agents… Properties: <b>AccessedResources</b> (IDs, SiteUrl, <b>SensitivityLabelId</b>, policy blocks, <b>XPIADetected</b>), AgentId/Name/Version, AppHost</td></tr>
+    <tr><td class="sig"><i class="n"></i>Copilot Studio activity</td><td>Admin + maker activity <b>logged by default and can't be disabled</b>; full prompt/response text surfaces via <b>DSPM for AI Activity Explorer</b></td></tr>
+    <tr><td class="sig"><i class="n"></i>Dataverse auditing</td><td>Table/column-level <b>create/update/delete + access logging</b> — the data-change ledger</td></tr>
+    <tr><td class="sig"><i class="n"></i>Foundry model/data changes</td><td>Control-plane operations in <b>Azure Activity Log</b>; diagnostic settings + App Insights (tokens, latency, traces); evaluation runs and red-team scans logged in the portal; fine-tune jobs/files/checkpoints enumerable; <b>deployments are versioned</b></td></tr>
+  </table>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg)">
+    <ul>
+      <li><i class="n"></i><span><b>DSPM for AI</b>: posture dashboard — AI activity by category, one-click protection policies, <b>weekly data risk assessments (top-100 SharePoint sites)</b>.</span></li>
+      <li><i class="n"></i><span>Compliance companions: <b>Communication Compliance · eDiscovery</b> (AI interactions live in user mailboxes) · retention policies · <b>Compliance Manager AI assessments</b>.</span></li>
+    </ul>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> “prove who the agent touched and whether a prompt-injection fired” → <b>Purview CopilotInteraction + XPIADetected</b>. “Who changed the model?” → <b>Azure Activity Log</b> (control plane).</div>
+</section>
+
+<!-- ============ RESPONSIBLE AI ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Responsible AI — principles, standard &amp; red teaming</h2></div>
+
+<section class="fig" id="f11">
+  <h3>11 · Six principles → six verifiable checks</h3>
+  <p class="cap">“Review the solution for RAI adherence” means turning each principle into something you can inspect.</p>
+  <div class="matrix">
+  <table>
+    <tr><th>Principle</th><th>Architect's verifiable check</th></tr>
+    <tr><td class="sig"><i class="n"></i>⚖ Fairness</td><td><b>Cohort testing</b> of outputs across demographics; representative grounding data</td></tr>
+    <tr><td class="sig"><i class="n"></i>🛡 Reliability &amp; safety</td><td><b>Evaluations + red teaming as a release gate</b>; failure modes handled; fallback paths</td></tr>
+    <tr><td class="sig"><i class="n"></i>🔒 Privacy &amp; security</td><td>Permission trimming, data boundaries, encryption, DLP</td></tr>
+    <tr><td class="sig"><i class="n"></i>🤝 Inclusiveness</td><td><b>Accessibility</b> and language coverage as design requirements</td></tr>
+    <tr><td class="sig"><i class="n"></i>🔍 Transparency</td><td><b>AI disclosure to users</b>, citations, documented limitations (transparency notes / model cards)</td></tr>
+    <tr><td class="sig"><i class="n"></i>👤 Accountability</td><td><b>Named owner per agent</b>, human-in-the-loop for consequential actions, audit trails, incident response</td></tr>
+  </table>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg)">
+    <ul>
+      <li><i class="n"></i><span>Complete an <b>impact assessment at design time</b>, scale the release gate to risk, and monitor post-deployment (feedback, incidents, drift).</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fig" id="f12">
+  <h3>12 · The Standard v2 &amp; the shared-responsibility slider</h3>
+  <p class="cap">The Standard turns principles into requirements; the layer you buy decides which mitigations are yours.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 160">
+    <g text-anchor="middle" font-size="12">
+      <rect x="40" y="24" width="210" height="86" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="145" y="50" font-weight="700" fill="#166534">SaaS · M365 Copilot</text>
+      <text x="145" y="70" fill="#5b6b7b" font-size="11.5">Microsoft runs the</text>
+      <text x="145" y="86" fill="#5b6b7b" font-size="11.5">safety systems</text>
+      <rect x="275" y="24" width="210" height="86" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="380" y="50" font-weight="700" fill="#92400e">PaaS · Foundry / AOAI</text>
+      <text x="380" y="70" fill="#5b6b7b" font-size="11.5">you own system message, grounding,</text>
+      <text x="380" y="86" fill="#5b6b7b" font-size="11.5">filter config, app mitigations</text>
+      <rect x="510" y="24" width="210" height="86" rx="12" fill="#fdecea" stroke="#f2c4c0"/>
+      <text x="615" y="50" font-weight="700" fill="#c62828">IaaS · custom models</text>
+      <text x="615" y="70" fill="#7a3b36" font-size="11.5">you own training data</text>
+      <text x="615" y="86" fill="#7a3b36" font-size="11.5">and model safety</text>
+      <line x1="60" y1="136" x2="700" y2="136" stroke="#8ea3b8" stroke-width="2"/>
+      <path d="M700,136 l-9,-4 v8 z" fill="#8ea3b8"/>
+      <text x="380" y="154" fill="#5b6b7b" font-size="11.5" font-weight="600">customer responsibility increases →</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:8px">
+    <ul>
+      <li><i class="n"></i><span><b>Responsible AI Standard v2</b>: the six principle domains contain <b>14 goals</b>, each decomposed into concrete engineering requirements across the lifecycle.</span></li>
+      <li><i class="n"></i><span>Anchored practices: <b>RAI Impact Assessments</b> (template published; required for sensitive uses), <b>Transparency Notes</b> for platform services + application cards for apps, annual transparency reporting.</span></li>
+      <li><i class="n"></i><span>Governance chain: <b>Board committee → Responsible AI Council → Office of Responsible AI</b> (policy, sensitive-use review).</span></li>
+      <li><i class="n"></i><span>The shared-responsibility slider: <b>SaaS → Microsoft owns most · PaaS → you own the system message, grounding &amp; filters · IaaS → you own training data and model safety</b>.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fig" id="f13">
+  <h3>13 · Red teaming — automated adversaries with a scorecard</h3>
+  <p class="cap">The AI Red Teaming Agent industrializes attacks so the launch decision has a number on it.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 130">
+    <defs><marker id="rt" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="12">
+      <rect x="20" y="30" width="170" height="70" rx="12" fill="#fdecea" stroke="#f2c4c0"/>
+      <text x="105" y="54" font-weight="700" fill="#c62828">Seed objectives</text>
+      <text x="105" y="73" fill="#7a3b36" font-size="11.5">attack goals per risk category</text>
+      <line x1="190" y1="65" x2="222" y2="65" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#rt)"/>
+      <rect x="226" y="30" width="190" height="70" rx="12" fill="#fdecea" stroke="#f2c4c0"/>
+      <text x="321" y="54" font-weight="700" fill="#c62828">Attack strategies</text>
+      <text x="321" y="73" fill="#7a3b36" font-size="11.5">encodings · jailbreaks · XPIA · crescendo</text>
+      <line x1="416" y1="65" x2="448" y2="65" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#rt)"/>
+      <rect x="452" y="30" width="140" height="70" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="522" y="54" font-weight="700" fill="#92400e">Score pairs</text>
+      <text x="522" y="73" fill="#5b6b7b" font-size="11.5">safety evaluators</text>
+      <line x1="592" y1="65" x2="624" y2="65" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#rt)"/>
+      <rect x="628" y="30" width="112" height="70" rx="12" fill="#0b2a4a"/>
+      <text x="684" y="54" font-weight="700" fill="#fff">ASR</text>
+      <text x="684" y="73" fill="#c9d8ea" font-size="11.5">scorecard by category × complexity</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:8px">
+    <ul>
+      <li><i class="n"></i><span>Built on Microsoft's open-source <b>PyRIT</b> + safety evaluators; output = the <b>Attack Success Rate (ASR)</b> scorecard by category × complexity.</span></li>
+      <li><i class="n"></i><span>Attack strategies: <b>Base64 / ROT13 / leetspeak / morse encodings</b>, character manipulation, jailbreak, <b>XPIA via mock tool outputs</b>, multi-turn / crescendo, compositions.</span></li>
+      <li><i class="n"></i><span><b>Local runs = single-turn text; cloud runs add agent targets + scheduled/continuous scans</b>. Use alongside human red teaming — the security benchmark expects <b>continuous</b> red teaming.</span></li>
+    </ul>
+  </div>
+  <div class="hook">💡 <b>Final hook:</b> the harm mechanics chant — categories scored <b>0–7</b>, filter levels <b>safe/low/medium/high</b>, default <b>medium</b>, safety evaluators report a <b>defect rate</b>, red teaming reports <b>ASR</b>.</div>
+</section>
+
+</div>
+<script>
+const KEY='ab100-vl-rai';
+const chips=[...document.querySelectorAll('.n')];
+chips.forEach((c,i)=>{c.dataset.i=i;c.textContent=i+1;c.title='Tap to mark learned';});
+let st;
+try{st=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){st=[]}
+function paint(){
+  chips.forEach(c=>c.classList.toggle('done',st.includes(+c.dataset.i)));
+  document.getElementById('ptext').textContent=st.length+'/'+chips.length+' learned';
+  document.getElementById('pbar').style.width=(chips.length?100*st.length/chips.length:0)+'%';
+}
+chips.forEach(c=>c.addEventListener('click',()=>{
+  const i=+c.dataset.i;
+  st=st.includes(i)?st.filter(x=>x!==i):[...st,i];
+  localStorage.setItem(KEY,JSON.stringify(st));paint();
+}));
+document.getElementById('reset').addEventListener('click',()=>{st=[];localStorage.setItem(KEY,'[]');paint();});
+paint();
+</script>
+</body>
+</html>

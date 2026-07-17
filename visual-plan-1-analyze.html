@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Plan 1 — Analyze Requirements for AI-Powered Business Solutions</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --dark:#0b2a4a; --soft:#e8f1fa;
+  --pg:#0891b2; --pg-ink:#0e7490; --pg-soft:#ecfeff; --pg-line:#bfe9f2;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#0891b2 170%);color:#fff;padding:26px 20px 22px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+.hero-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hero-stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:7px 16px;font-size:12px;color:#d3ecf4}
+.hero-stat b{display:block;font-size:16px;color:#fff}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--pg-ink);border-bottom-color:var(--pg)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:120px;letter-spacing:.03em;color:var(--pg-ink)}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--pg);color:var(--pg-ink)}
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--pg)}
+.ghead h2{font-size:21px;color:var(--pg-ink)}
+.ghead span.w{font-size:12.5px;font-weight:700;background:var(--pg-soft);color:var(--pg-ink);border-radius:8px;padding:3px 12px}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+.learns{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:8px;margin-top:14px}
+.learn{display:flex;gap:10px;align-items:flex-start;font-size:13.1px;color:#33475c;background:#fbfcfe;border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.learn .n{flex:0 0 auto;min-width:23px;height:23px;border-radius:50%;background:var(--pg);color:#fff;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.learn b{color:#12293f}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:6px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:22px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0 0 0 18px;font-size:13.4px;color:#33475c}
+.panel li{margin:5px 0}
+.panel li b{color:#12293f}
+.gcse{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.gcse div{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfe;font-size:13.2px;color:var(--muted)}
+.gcse b{display:flex;align-items:center;gap:9px;font-size:14.5px;color:#12293f;margin-bottom:6px}
+.gcse b i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;color:#fff;font-weight:800;font-size:16px;flex:0 0 auto}
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:560px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td:first-child{font-weight:700;color:#12293f;white-space:nowrap}
+.matrix tr:last-child td{border-bottom:none}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+.pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;text-decoration:none;color:#33475c;font-size:13px}
+.pager a:hover{border-color:var(--pg)}
+.pager a b{display:block;color:var(--pg-ink);font-size:14.5px;margin-top:2px}
+.pager a.next{text-align:right}
+@media print{nav.bar,.toc,.pager{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Visual Learn — Plan Domain · Page 1 of 4</div>
+  <h1>Analyze Requirements for AI-Powered Business Solutions</h1>
+  <p class="sub">Skills 1–3 of the Plan domain in pictures: when a use case deserves an agent, whether your data is good enough to ground one, and how to organize the data estate so every AI system can consume it.</p>
+  <div class="hero-stats">
+    <span class="hero-stat"><b>51</b>numbered learn items</span>
+    <span class="hero-stat"><b>16</b>visuals</span>
+    <span class="hero-stat"><b>3</b>skills covered</span>
+    <span class="hero-stat"><b>25–30%</b>Plan domain weight</span>
+  </div>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="visual-plan-1-analyze.html" class="here">1 · Analyze</a>
+  <a href="visual-plan-2-strategy.html">2 · Strategy</a>
+  <a href="visual-plan-3-agents-platforms.html">3 · Agents &amp; Platforms</a>
+  <a href="visual-plan-4-costs-roi.html">4 · Costs &amp; ROI</a>
+  <a href="AB100notes1plan.html">📚 Plan notes</a>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl">Agents</span><a href="#p1">Skill map</a><a href="#p2">Agent anatomy</a><a href="#p3">Autonomy spectrum</a><a href="#p4">Agent or not?</a><a href="#p5">Deterministic vs generative</a><a href="#p6">Why agents</a><a href="#p7">Use-case funnel</a></div>
+  <div class="row"><span class="gl">Grounding data</span><a href="#p8">Four data types</a><a href="#p9">RAG pipeline</a><a href="#p10">ARTCA dimensions</a><a href="#p11">Groundedness nets</a><a href="#p12">Test plan</a></div>
+  <div class="row"><span class="gl">AI-ready estate</span><a href="#p13">OneLake hub</a><a href="#p14">Dataverse routes</a><a href="#p15">Copilot connectors</a><a href="#p16">Connector choice</a><a href="#p17">Shortcuts &amp; governance</a><a href="#p18">Trigger wall</a></div>
+</div>
+
+<div class="ghead"><div class="gbar"></div><h2>A · Assess the use of agents</h2><span class="w">automation · analytics · decision-making</span></div>
+
+<section class="fig" id="p1">
+  <h3>1 · The skill map — what "analyze requirements" tests</h3>
+  <p class="cap">Three skills, one storyline: decide <em>if</em> an agent fits, check the <em>data</em> that will ground it, then make that data <em>available</em> to every AI system with governance intact.</p>
+  <div class="tiles">
+    <div class="tile"><b>1</b><span>Assess agents for automation, analytics &amp; decisions</span></div>
+    <div class="tile"><b>2</b><span>Review grounding data on 5 dimensions</span></div>
+    <div class="tile"><b>3</b><span>Organize data for other AI systems</span></div>
+  </div>
+  <p class="note">An <b>AI agent</b> = software that uses a generative model as a <b>reasoning engine</b> to interpret inputs (user messages, events, other agents' messages), decide what to do, and act — unlike traditional automation that follows fixed rules. The architect's first job is deciding whether a use case needs an agent <em>at all</em>.</p>
+</section>
+
+<section class="fig" id="p2">
+  <h3>2 · Anatomy of an agent — the 5 core components (CAF)</h3>
+  <p class="cap">The model reasons; the other four give it scope, facts, hands, and history. Every agent question comes back to these five parts.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 330">
+    <line x1="380" y1="165" x2="150" y2="70"  stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="165" x2="610" y2="70"  stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="165" x2="150" y2="262" stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="165" x2="610" y2="262" stroke="#c8d4e0" stroke-width="2"/>
+    <rect x="255" y="123" width="250" height="84" rx="14" fill="#0b2a4a"/>
+    <text x="380" y="158" text-anchor="middle" fill="#fff" font-size="16.5" font-weight="700">Generative model</text>
+    <text x="380" y="180" text-anchor="middle" fill="#c9d8ea" font-size="12.5">the reasoning engine — decides what to do</text>
+    <g>
+      <rect x="40" y="30" width="220" height="80" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="150" y="58" text-anchor="middle" fill="#5b21b6" font-size="14" font-weight="700">Instructions</text>
+      <text x="150" y="78" text-anchor="middle" fill="#5b6b7b" font-size="12">scope, rules &amp; boundaries —</text>
+      <text x="150" y="94" text-anchor="middle" fill="#5b6b7b" font-size="12">what it may and may not do</text>
+    </g>
+    <g>
+      <rect x="500" y="30" width="220" height="80" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="610" y="58" text-anchor="middle" fill="#0e7490" font-size="14" font-weight="700">Knowledge / retrieval</text>
+      <text x="610" y="78" text-anchor="middle" fill="#5b6b7b" font-size="12">grounding data — accurate,</text>
+      <text x="610" y="94" text-anchor="middle" fill="#5b6b7b" font-size="12">relevant, fresh, complete</text>
+    </g>
+    <g>
+      <rect x="40" y="222" width="220" height="80" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="150" y="250" text-anchor="middle" fill="#92400e" font-size="14" font-weight="700">Tools / actions</text>
+      <text x="150" y="270" text-anchor="middle" fill="#5b6b7b" font-size="12">functions, APIs, connectors —</text>
+      <text x="150" y="286" text-anchor="middle" fill="#5b6b7b" font-size="12">how it acts on the world</text>
+    </g>
+    <g>
+      <rect x="500" y="222" width="220" height="80" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="610" y="250" text-anchor="middle" fill="#166534" font-size="14" font-weight="700">Memory</text>
+      <text x="610" y="270" text-anchor="middle" fill="#5b6b7b" font-size="12">conversation history &amp; state —</text>
+      <text x="610" y="286" text-anchor="middle" fill="#5b6b7b" font-size="12">context across steps &amp; sessions</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">1</span><span><b>Generative model</b> = the reasoning engine that interprets inputs and decides what to do at each step.</span></div>
+    <div class="learn"><span class="n">2</span><span><b>Instructions</b> define scope, rules and boundaries — an agent can't act on instructions that reference resources it doesn't have.</span></div>
+    <div class="learn"><span class="n">3</span><span><b>Retrieval / knowledge</b> provides grounding data — CAF: "access to relevant, high-quality data is critical for reducing hallucinations."</span></div>
+    <div class="learn"><span class="n">4</span><span><b>Actions / tools</b> = functions, APIs, connectors — the agent's hands on business systems.</span></div>
+    <div class="learn"><span class="n">5</span><span><b>Memory</b> holds conversation history and state so context survives across steps and sessions.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p3">
+  <h3>3 · The agent autonomy spectrum</h3>
+  <p class="cap">Three agent types with rising autonomy, complexity — and governance duty. The exam gives a scenario; you place it on this line.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 240">
+    <defs>
+      <linearGradient id="spec" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#0891b2"/><stop offset=".5" stop-color="#7c3aed"/><stop offset="1" stop-color="#b45309"/>
+      </linearGradient>
+      <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker>
+    </defs>
+    <rect x="60" y="106" width="640" height="8" rx="4" fill="url(#spec)"/>
+    <g text-anchor="middle">
+      <circle cx="120" cy="110" r="11" fill="#0891b2" stroke="#fff" stroke-width="3"/>
+      <text x="120" y="62" font-size="14.5" font-weight="700" fill="#0e7490">Retrieval / productivity</text>
+      <text x="120" y="80" font-size="12" fill="#5b6b7b">find &amp; synthesize info</text>
+      <text x="120" y="145" font-size="11.5" fill="#5b6b7b">Q&amp;A · knowledge management</text>
+      <circle cx="380" cy="110" r="11" fill="#7c3aed" stroke="#fff" stroke-width="3"/>
+      <text x="380" y="62" font-size="14.5" font-weight="700" fill="#6d28d9">Task / action</text>
+      <text x="380" y="80" font-size="12" fill="#5b6b7b">defined actions in workflows</text>
+      <text x="380" y="145" font-size="11.5" fill="#5b6b7b">create ticket · update record</text>
+      <circle cx="640" cy="110" r="11" fill="#b45309" stroke="#fff" stroke-width="3"/>
+      <text x="640" y="62" font-size="14.5" font-weight="700" fill="#92400e">Autonomous</text>
+      <text x="640" y="80" font-size="12" fill="#5b6b7b">multi-step, trigger-driven</text>
+      <text x="640" y="145" font-size="11.5" fill="#5b6b7b">run / stop / escalate on its own</text>
+    </g>
+    <line x1="60" y1="185" x2="700" y2="185" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr2)"/>
+    <text x="380" y="212" text-anchor="middle" font-size="12.5" fill="#5b6b7b" font-weight="600">autonomy · complexity · governance rigor all increase →</text>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">6</span><span><b>Retrieval / productivity agents</b> retrieve and synthesize information to speed decisions — Q&amp;A, knowledge management.</span></div>
+    <div class="learn"><span class="n">7</span><span><b>Task / action agents</b> perform specific actions inside defined workflows — create a ticket, update a record.</span></div>
+    <div class="learn"><span class="n">8</span><span><b>Autonomous agents</b> manage multi-step processes with minimal oversight, using triggers to run, stop, escalate (e.g., supply-chain optimization) — they need the <b>most rigorous governance</b>.</span></div>
+    <div class="learn"><span class="n">9</span><span>Copilot Studio's design vocabulary for the same ladder: <b>prompt-and-response → task → autonomous</b> agents.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p4">
+  <h3>4 · Do you even need an agent? — the CAF decision flow</h3>
+  <p class="cap">Agents earn their cost only on ambiguous, multi-step work. Read top to bottom — first "yes" wins.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 350">
+    <defs><marker id="arrA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="13.5">
+      <rect x="60" y="18" width="380" height="58" rx="12" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="250" y="43" text-anchor="middle" font-weight="700" fill="#0b2a4a">Structured, predictable, repeatable steps?</text>
+      <text x="250" y="62" text-anchor="middle" fill="#5b6b7b" font-size="12">clear rules · same input → same output</text>
+      <line x1="440" y1="47" x2="520" y2="47" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrA)"/>
+      <text x="478" y="40" text-anchor="middle" fill="#1a7f37" font-weight="700" font-size="12">yes</text>
+      <rect x="525" y="22" width="210" height="52" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="630" y="44" text-anchor="middle" font-weight="700" fill="#166534">Code · Power Automate</text>
+      <text x="630" y="62" text-anchor="middle" fill="#3c6947" font-size="12">or non-generative AI model</text>
+      <line x1="250" y1="76" x2="250" y2="116" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrA)"/>
+      <text x="262" y="101" fill="#c62828" font-weight="700" font-size="12">no</text>
+      <rect x="60" y="120" width="380" height="58" rx="12" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="250" y="145" text-anchor="middle" font-weight="700" fill="#0b2a4a">Static knowledge retrieval over fixed documents?</text>
+      <text x="250" y="164" text-anchor="middle" fill="#5b6b7b" font-size="12">FAQ-style Q&amp;A · content doesn't change per step</text>
+      <line x1="440" y1="149" x2="520" y2="149" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrA)"/>
+      <text x="478" y="142" text-anchor="middle" fill="#1a7f37" font-weight="700" font-size="12">yes</text>
+      <rect x="525" y="124" width="210" height="52" rx="10" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="630" y="146" text-anchor="middle" font-weight="700" fill="#334155">Classic RAG solution</text>
+      <text x="630" y="164" text-anchor="middle" fill="#5b6b7b" font-size="12">deterministic retrieval pipeline</text>
+      <line x1="250" y1="178" x2="250" y2="218" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrA)"/>
+      <text x="262" y="203" fill="#c62828" font-weight="700" font-size="12">no</text>
+      <rect x="60" y="222" width="380" height="58" rx="12" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="250" y="247" text-anchor="middle" font-weight="700" fill="#0b2a4a">Ambiguous workflow · unstructured input ·</text>
+      <text x="250" y="266" text-anchor="middle" font-weight="700" fill="#0b2a4a">dynamic tool selection &amp; reasoning needed?</text>
+      <line x1="440" y1="251" x2="520" y2="251" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrA)"/>
+      <text x="478" y="244" text-anchor="middle" fill="#1a7f37" font-weight="700" font-size="12">yes</text>
+      <rect x="525" y="226" width="210" height="52" rx="10" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="630" y="248" text-anchor="middle" font-weight="700" fill="#0e7490">Build an agent</text>
+      <text x="630" y="266" text-anchor="middle" fill="#5b6b7b" font-size="12">retrieval / task / autonomous</text>
+      <text x="380" y="322" text-anchor="middle" fill="#5b6b7b" font-size="12.5">high-risk autonomous actions → autonomous agent <tspan font-weight="700" fill="#1a2733">+ human-in-the-loop guardrails</tspan></text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">10</span><span><b>Fixed, rules-based process</b> → regular code, Power Automate, or non-generative AI — faster, cheaper, more reliable than an agent.</span></div>
+    <div class="learn"><span class="n">11</span><span><b>Static Q&amp;A over a fixed document set</b> → classic RAG (FAQ bot), not an agent.</span></div>
+    <div class="learn"><span class="n">12</span><span><b>Agents fit</b> when workflows are ambiguous, inputs unstructured, and dynamic tool selection / reasoning is required.</span></div>
+    <div class="learn"><span class="n">13</span><span><b>Agent vs RAG:</b> RAG follows a deterministic retrieval pipeline; an agent lets the model choose knowledge/tools at each step — multi-step reasoning, but <b>nondeterminism that demands testing and governance</b>.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p5">
+  <h3>5 · Deterministic vs generative — agents and agent flows in Copilot Studio</h3>
+  <p class="cap">Same product, two execution philosophies. Billing and licensing ride along.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid #475569">
+      <h4 style="color:#334155">Deterministic — topics &amp; agent flows</h4>
+      <ul>
+        <li><b>same input → same output</b>, auditable</li>
+        <li>agent flows billed via <b>Copilot Credits</b> — no Power Automate license needed</li>
+        <li>cloud flows need <b>Power Automate licensing</b></li>
+        <li>cloud flow → agent flow conversion is <b>one-way</b></li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">Non-deterministic — generative orchestration</h4>
+      <ul>
+        <li>the model <b>plans</b>: picks topics, tools, knowledge</li>
+        <li>output can vary run to run</li>
+        <li>needs <b>evaluation, testing, governance</b></li>
+        <li>enables multi-intent, dynamic reasoning</li>
+      </ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">14</span><span><b>Topics and agent flows are deterministic</b>; agents with generative orchestration are non-deterministic.</span></div>
+    <div class="learn"><span class="n">15</span><span><b>Agent flows bill in Copilot Credits</b> (no Power Automate license); cloud flows require Power Automate licensing.</span></div>
+    <div class="learn"><span class="n">16</span><span>Power Automate cloud flows can be converted into agent flows — but the conversion is <b>one-way</b>.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p6">
+  <h3>6 · Why agents — the three business benefits</h3>
+  <p class="cap">The benefit vocabulary the exam expects when you justify an agent investment.</p>
+  <div class="tiles">
+    <div class="tile"><b>⚙ Efficiency</b><span>automate repetitive, low-value tasks</span></div>
+    <div class="tile"><b>⚡ Speed</b><span>faster processing &amp; decisions</span></div>
+    <div class="tile"><b>📈 Scalability</b><span>elastic handling of demand spikes</span></div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">17</span><span>Justify agents with <b>efficiency</b> (repetitive low-value tasks), <b>speed</b> (faster processing/decisions), and <b>scalability</b> (elastic demand handling).</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p7">
+  <h3>7 · Use-case identification — the CAF Strategy funnel</h3>
+  <p class="cap">Every AI idea starts as a business problem and lands on a technology class. Two sorting gates on the way.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 300">
+    <defs><marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle">
+      <rect x="30" y="110" width="190" height="60" rx="12" fill="#0b2a4a"/>
+      <text x="125" y="136" font-size="14" font-weight="700" fill="#fff">Business problem</text>
+      <text x="125" y="155" font-size="11.8" fill="#c9d8ea">→ written use-case statement</text>
+      <line x1="220" y1="120" x2="292" y2="72" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arrB)"/>
+      <line x1="220" y1="160" x2="292" y2="210" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arrB)"/>
+      <rect x="296" y="34" width="200" height="64" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="396" y="60" font-size="13.5" font-weight="700" fill="#166534">Individual work</text>
+      <text x="396" y="79" font-size="11.8" fill="#5b6b7b">personal productivity</text>
+      <rect x="296" y="182" width="200" height="64" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="396" y="208" font-size="13.5" font-weight="700" fill="#0e7490">Business automation</text>
+      <text x="396" y="227" font-size="11.8" fill="#5b6b7b">process &amp; workflow change</text>
+      <line x1="496" y1="66" x2="548" y2="66" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arrB)"/>
+      <line x1="496" y1="214" x2="548" y2="214" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arrB)"/>
+      <rect x="552" y="38" width="178" height="56" rx="10" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="641" y="62" font-size="13" font-weight="700" fill="#334155">Microsoft 365 Copilot</text>
+      <text x="641" y="80" font-size="11.5" fill="#5b6b7b">licensed copilot class</text>
+      <rect x="552" y="186" width="178" height="56" rx="10" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="641" y="210" font-size="13" font-weight="700" fill="#334155">Agents &amp; integration</text>
+      <text x="641" y="228" font-size="11.5" fill="#5b6b7b">Copilot Studio / Foundry</text>
+      <text x="380" y="285" font-size="12.3" fill="#5b6b7b">then pick the engine: <tspan font-weight="700" fill="#1a2733">generative</tspan> = non-deterministic, unstructured input · <tspan font-weight="700" fill="#1a2733">non-generative</tspan> = deterministic — prediction, anomaly detection</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">18</span><span>CAF Strategy method: business problems → <b>written use-case statements</b> before any technology talk.</span></div>
+    <div class="learn"><span class="n">19</span><span>Gate 1: classify as <b>individual work → Microsoft 365 Copilot</b> vs <b>business automation → agents / integration</b>.</span></div>
+    <div class="learn"><span class="n">20</span><span>Gate 2: <b>generative</b> AI = non-deterministic, unstructured input · <b>non-generative</b> = deterministic, structured — prediction &amp; anomaly detection.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>B · Review data for grounding</h2><span class="w">accuracy · relevance · timeliness · cleanliness · availability</span></div>
+
+<section class="fig" id="p8">
+  <h3>8 · The four data types of an AI workload (Well-Architected)</h3>
+  <p class="cap">Grounding = supplementing the model at inference with data it wasn't trained on. First, know which data is which.</p>
+  <div class="gcse">
+    <div><b><i style="background:#475569">S</i>Source data</b>production data — structured, semi-structured, unstructured; where grounding content originates</div>
+    <div><b><i style="background:#0891b2">G</i>Grounding data</b>supplied to the model <b>at inference</b>, combined with the user query into the prompt (usually via RAG)</div>
+    <div><b><i style="background:#7c3aed">B</i>Behavioral instructions</b>style / tuning data that shapes how the model responds</div>
+    <div><b><i style="background:#b45309">U</i>User / turn data</b>session state — retain <b>as briefly as possible</b></div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">21</span><span><b>Source data</b> = raw production data in structured, semi-structured and unstructured forms.</span></div>
+    <div class="learn"><span class="n">22</span><span><b>Grounding data</b> is combined with the user query into the prompt <b>at inference time</b> — the heart of RAG.</span></div>
+    <div class="learn"><span class="n">23</span><span><b>Behavioral instructions</b> = style / tuning data that steers tone and behavior.</span></div>
+    <div class="learn"><span class="n">24</span><span><b>User / turn data</b> is session state — the guidance says retain it <b>as briefly as possible</b>.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p9">
+  <h3>9 · The RAG pipeline — and the chunking tradeoff</h3>
+  <p class="cap">Seven stages between a raw document and a cited answer. The design decision the exam probes: chunks or full documents?</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 150">
+    <defs><marker id="arrC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="12">
+      <rect x="14" y="40" width="90" height="52" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="59" y="62" font-weight="700" fill="#0e7490">Prepare</text><text x="59" y="79" fill="#5b6b7b" font-size="11">clean data</text>
+      <line x1="104" y1="66" x2="118" y2="66" stroke="#5b6b7b" stroke-width="2" marker-end="url(#arrC)"/>
+      <rect x="121" y="40" width="90" height="52" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="166" y="62" font-weight="700" fill="#0e7490">Chunk</text><text x="166" y="79" fill="#5b6b7b" font-size="11">or full doc</text>
+      <line x1="211" y1="66" x2="225" y2="66" stroke="#5b6b7b" stroke-width="2" marker-end="url(#arrC)"/>
+      <rect x="228" y="40" width="90" height="52" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="273" y="62" font-weight="700" fill="#0e7490">Embed</text><text x="273" y="79" fill="#5b6b7b" font-size="11">vectors</text>
+      <line x1="318" y1="66" x2="332" y2="66" stroke="#5b6b7b" stroke-width="2" marker-end="url(#arrC)"/>
+      <rect x="335" y="40" width="90" height="52" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="380" y="62" font-weight="700" fill="#0e7490">Index</text><text x="380" y="79" fill="#5b6b7b" font-size="11">searchable</text>
+      <line x1="425" y1="66" x2="439" y2="66" stroke="#5b6b7b" stroke-width="2" marker-end="url(#arrC)"/>
+      <rect x="442" y="40" width="90" height="52" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="487" y="62" font-weight="700" fill="#0e7490">Retrieve</text><text x="487" y="79" fill="#5b6b7b" font-size="11">vector search</text>
+      <line x1="532" y1="66" x2="546" y2="66" stroke="#5b6b7b" stroke-width="2" marker-end="url(#arrC)"/>
+      <rect x="549" y="40" width="90" height="52" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="594" y="62" font-weight="700" fill="#0e7490">Rerank</text><text x="594" y="79" fill="#5b6b7b" font-size="11">best first</text>
+      <line x1="639" y1="66" x2="653" y2="66" stroke="#5b6b7b" stroke-width="2" marker-end="url(#arrC)"/>
+      <rect x="656" y="40" width="90" height="52" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/><text x="701" y="62" font-weight="700" fill="#166534">Cite</text><text x="701" y="79" fill="#5b6b7b" font-size="11">grounded answer</text>
+    </g>
+  </svg>
+  </div>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--good)">
+      <h4 style="color:var(--good)">Full-document grounding</h4>
+      <ul><li>maximum answer <b>accuracy</b> / context</li><li>but <b>high token cost</b> and latency</li></ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">Chunked grounding</h4>
+      <ul><li><b>scalable</b> and cheap per query</li><li>but <b>design-sensitive</b> — bad chunking breaks answers</li></ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">25</span><span>RAG pipeline concerns: <b>data preparation → chunking → embeddings/vector search → indexing → retrieval → reranking → citations</b>.</span></div>
+    <div class="learn"><span class="n">26</span><span>Tradeoff: <b>full documents = accuracy but token cost/latency; chunks = scalable but design-sensitive</b>.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p10">
+  <h3>10 · The five review dimensions — remember A·R·T·C·A</h3>
+  <p class="cap">The exam's exact wording for grounding-data review. Picture the star: if any point collapses, answers degrade.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 300">
+    <line x1="380" y1="150" x2="380" y2="46"  stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="150" x2="596" y2="106" stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="150" x2="516" y2="248" stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="150" x2="244" y2="248" stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="150" x2="164" y2="106" stroke="#c8d4e0" stroke-width="2"/>
+    <circle cx="380" cy="150" r="58" fill="#0b2a4a"/>
+    <text x="380" y="145" text-anchor="middle" fill="#fff" font-size="13.5" font-weight="700">Grounding-</text>
+    <text x="380" y="163" text-anchor="middle" fill="#fff" font-size="13.5" font-weight="700">ready data</text>
+    <g text-anchor="middle" font-size="13" font-weight="700">
+      <circle cx="380" cy="46" r="26" fill="#0891b2"/><text x="380" y="52" fill="#fff" font-size="16">A</text>
+      <text x="380" y="14" fill="#0e7490">Accuracy</text>
+      <circle cx="596" cy="106" r="26" fill="#7c3aed"/><text x="596" y="112" fill="#fff" font-size="16">R</text>
+      <text x="660" y="88" fill="#6d28d9">Relevance</text>
+      <circle cx="516" cy="248" r="26" fill="#b45309"/><text x="516" y="254" fill="#fff" font-size="16">T</text>
+      <text x="588" y="272" fill="#92400e">Timeliness</text>
+      <circle cx="244" cy="248" r="26" fill="#1a7f37"/><text x="244" y="254" fill="#fff" font-size="16">C</text>
+      <text x="170" y="272" fill="#166534">Cleanliness</text>
+      <circle cx="164" cy="106" r="26" fill="#c62828"/><text x="164" y="112" fill="#fff" font-size="16">A</text>
+      <text x="98" y="88" fill="#c62828">Availability</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">27</span><span><b>Accuracy</b> — authoritative, correct, tested for groundedness; metrics: <b>groundedness, answer relevance, evidence relevance</b>.</span></div>
+    <div class="learn"><span class="n">28</span><span><b>Relevance</b> — content must match the use case; adding unrelated content (e.g., to a conversational-boosting topic) causes <b>misleading answers</b>.</span></div>
+    <div class="learn"><span class="n">29</span><span><b>Timeliness</b> — test for stale data and version mismatches; connectors sync on schedules; <b>real-time connectors avoid staleness</b> in dynamic domains.</span></div>
+    <div class="learn"><span class="n">30</span><span><b>Cleanliness</b> — deduplicated, well-structured, chunk-friendly, no conflicting versions; <b>noisy data raises hallucination risk</b>.</span></div>
+    <div class="learn"><span class="n">31</span><span><b>Availability</b> — reachable and permissioned: agent-user auth means users only see what they can access; <b>Dataverse search must be enabled</b>; indexes must scale under load.</span></div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> A·R·T·C·A — <b>A</b>ccurate facts, <b>R</b>elevant scope, <b>T</b>imely freshness, <b>C</b>lean structure, <b>A</b>vailable with permissions. The exam names these five words verbatim.</div>
+</section>
+
+<section class="fig" id="p11">
+  <h3>11 · Groundedness safety nets — verify before you trust</h3>
+  <p class="cap">Three mechanisms keep generated answers pinned to sources — two automatic, one a setting you control.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0891b2">1</i>Groundedness detection</b>Foundry Tools content safety verifies responses are <b>supported by the sources</b></div>
+    <div><b><i style="background:#7c3aed">2</i>Copilot Studio checks</b>grounding, <b>provenance</b> and <b>semantic-similarity</b> checks — and answers cite sources</div>
+    <div><b><i style="background:#b45309">3</i>"Allow ungrounded responses"</b>a setting that <b>loosens</b> citation restrictions — off = answers must derive from knowledge</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">32</span><span><b>Groundedness detection</b> (Foundry Tools / Azure AI Content Safety) can verify a response is supported by its source material.</span></div>
+    <div class="learn"><span class="n">33</span><span>Copilot Studio performs <b>grounding, provenance and semantic-similarity checks</b> and cites sources in generative answers.</span></div>
+    <div class="learn"><span class="n">34</span><span>The <b>"Allow ungrounded responses"</b> setting loosens citation restrictions — leave it off to force knowledge-derived answers.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p12">
+  <h3>12 · The grounding-data test plan</h3>
+  <p class="cap">Five checks that turn "we have data" into "our data is agent-ready."</p>
+  <div class="matrix">
+    <table>
+      <tr><th>Test</th><th>What it proves</th></tr>
+      <tr><td>Functional / integration</td><td>the RAG pipeline works end-to-end</td></tr>
+      <tr><td>Index schema compatibility</td><td>data shape matches the index design</td></tr>
+      <tr><td>Freshness &amp; quality checks</td><td>no stale versions or drifted content</td></tr>
+      <tr><td>Index load testing</td><td>retrieval scales under production traffic</td></tr>
+      <tr><td>Security testing</td><td>ACL-partitioned documents stay partitioned per user</td></tr>
+    </table>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">35</span><span>Test grounding data with <b>functional/integration tests, index-schema compatibility, freshness/quality checks and index load tests</b>.</span></div>
+    <div class="learn"><span class="n">36</span><span>Include <b>security testing of ACL-partitioned documents</b> — permission trimming must survive retrieval.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>C · Organize data for other AI systems</h2><span class="w">the AI-ready data estate</span></div>
+
+<section class="fig" id="p13">
+  <h3>13 · The unified data estate — OneLake at the center</h3>
+  <p class="cap">CAF's data architecture for AI agents: one lake, governed data products, and shared knowledge layers every AI system can consume.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 330">
+    <line x1="380" y1="165" x2="150" y2="70"  stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="165" x2="150" y2="260" stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="165" x2="612" y2="70"  stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="165" x2="612" y2="165" stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="165" x2="612" y2="260" stroke="#c8d4e0" stroke-width="2"/>
+    <rect x="270" y="128" width="220" height="74" rx="14" fill="#0b2a4a"/>
+    <text x="380" y="160" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">Fabric OneLake</text>
+    <text x="380" y="181" text-anchor="middle" fill="#c9d8ea" font-size="12">the central data lake</text>
+    <g>
+      <rect x="30" y="34" width="240" height="70" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="150" y="60" text-anchor="middle" fill="#0e7490" font-size="13.5" font-weight="700">Data domains</text>
+      <text x="150" y="79" text-anchor="middle" fill="#5b6b7b" font-size="11.8">publish governed <tspan font-weight="700">data products</tspan></text>
+      <text x="150" y="95" text-anchor="middle" fill="#5b6b7b" font-size="11.8">ownership stays with the domain</text>
+      <rect x="30" y="226" width="240" height="70" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="150" y="252" text-anchor="middle" fill="#5b21b6" font-size="13.5" font-weight="700">Inputs without copying</text>
+      <text x="150" y="271" text-anchor="middle" fill="#5b6b7b" font-size="11.8">Dataverse Link to Fabric · shortcuts</text>
+      <text x="150" y="287" text-anchor="middle" fill="#5b6b7b" font-size="11.8">(ADLS · S3 · GCS) · mirroring</text>
+      <rect x="500" y="34" width="230" height="70" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="615" y="60" text-anchor="middle" fill="#166534" font-size="13.5" font-weight="700">Fabric IQ · Foundry IQ</text>
+      <text x="615" y="79" text-anchor="middle" fill="#5b6b7b" font-size="11.8">shared knowledge / context layers</text>
+      <text x="615" y="95" text-anchor="middle" fill="#5b6b7b" font-size="11.8">for agents in Fabric &amp; Foundry</text>
+      <rect x="500" y="130" width="230" height="70" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="615" y="156" text-anchor="middle" fill="#92400e" font-size="13.5" font-weight="700">Copilot Studio · M365 Copilot</text>
+      <text x="615" y="175" text-anchor="middle" fill="#5b6b7b" font-size="11.8">consume governed data products</text>
+      <text x="615" y="191" text-anchor="middle" fill="#5b6b7b" font-size="11.8">security boundaries enforced</text>
+      <rect x="500" y="226" width="230" height="70" rx="12" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="615" y="252" text-anchor="middle" fill="#334155" font-size="13.5" font-weight="700">Fabric data agents</text>
+      <text x="615" y="271" text-anchor="middle" fill="#5b6b7b" font-size="11.8">conversational Q&amp;A over OneLake —</text>
+      <text x="615" y="287" text-anchor="middle" fill="#5b6b7b" font-size="11.8">pluggable into Foundry · Studio · M365</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">37</span><span><b>Microsoft Fabric OneLake is the central data lake</b> of the CAF data architecture for AI agents.</span></div>
+    <div class="learn"><span class="n">38</span><span><b>Data domains publish governed data products</b>; agents consume them with governance and security boundaries intact.</span></div>
+    <div class="learn"><span class="n">39</span><span>Consumption goes through <b>Fabric IQ and Foundry IQ</b> (shared knowledge/context layers) and Copilot Studio.</span></div>
+    <div class="learn"><span class="n">40</span><span><b>Fabric data agents</b> answer questions over lakehouses, warehouses, semantic models and KQL DBs — and plug into Foundry, Copilot Studio and M365 Copilot as domain experts.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p14">
+  <h3>14 · Dataverse — three routes into the AI estate</h3>
+  <p class="cap">The structured business-data platform under Dynamics 365 and Power Platform reaches AI systems three ways.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0891b2">1</i>Knowledge source</b>built-in <b>RAG over Dataverse</b> — requires <b>Dataverse search enabled</b></div>
+    <div><b><i style="background:#7c3aed">2</i>Link to Fabric</b>exposes Dataverse / D365 data in OneLake <b>near real time, no ETL</b> — shortcuts, not copies</div>
+    <div><b><i style="background:#b45309">3</i>Medallion architecture</b>bronze → silver → gold reference pattern integrating Dataverse with enterprise data in Fabric</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">41</span><span>Dataverse serves as a knowledge source with <b>built-in RAG</b> ("retrieval-augmented generative technique in Dataverse") — <b>Dataverse search must be enabled</b>.</span></div>
+    <div class="learn"><span class="n">42</span><span><b>Dataverse Link to Fabric</b> surfaces D365 data in OneLake in near real time with <b>no ETL or data copy</b> — it uses shortcuts, not data movement.</span></div>
+    <div class="learn"><span class="n">43</span><span>The <b>medallion (bronze/silver/gold)</b> reference architecture integrates Dataverse with enterprise data in Fabric.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p15">
+  <h3>15 · Microsoft 365 Copilot connectors — synced vs federated</h3>
+  <p class="cap">Formerly Graph connectors. Two models with opposite philosophies: copy-and-index vs fetch-on-demand.</p>
+  <div class="matrix">
+    <table>
+      <tr><th></th><th>Synced connector</th><th>Federated connector</th></tr>
+      <tr><td>Mechanism</td><td>ingest + <b>semantically index</b> into the Graph</td><td><b>MCP-based, query-time fetch</b></td></tr>
+      <tr><td>Data movement</td><td>content copied into the semantic index</td><td><b>none</b> — data stays in the source</td></tr>
+      <tr><td>Items carry</td><td>content + metadata + <b>ACLs</b> (permission-trimmed)</td><td>read-only results, no semantic indexing</td></tr>
+      <tr><td>Freshness</td><td>continuous sync on a schedule</td><td>always live</td></tr>
+      <tr><td>Best for</td><td>broad, searchable, citation-friendly knowledge</td><td>dynamic or regulated data that must stay in source</td></tr>
+    </table>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">44</span><span><b>Copilot connectors</b> bring external/LOB content into the <b>Graph semantic index</b> so M365 Copilot, Microsoft Search, Copilot Studio agents and Researcher can use it.</span></div>
+    <div class="learn"><span class="n">45</span><span><b>Synced</b> = ingest + index; items carry content, metadata and <b>ACLs</b> with permission trimming and continuous sync.</span></div>
+    <div class="learn"><span class="n">46</span><span><b>Federated</b> = MCP-based query-time fetch, <b>no data movement</b>, read-only, no semantic indexing — for data that must stay in its source system.</span></div>
+    <div class="learn"><span class="n">47</span><span><b>100+ prebuilt connectors</b> (ServiceNow, Salesforce, Confluence…); custom ones via the Copilot connectors API: <b>app registration → connection → schema → ingest items with ACLs</b>.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p16">
+  <h3>16 · Copilot connectors vs Power Platform connectors as knowledge</h3>
+  <p class="cap">Same word, different jobs — a classic exam distractor pair.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">Copilot connectors</h4>
+      <ul>
+        <li><b>search-and-index</b> model</li>
+        <li>broad, searchable, <b>citation-friendly</b> knowledge</li>
+        <li>content lands in the Graph semantic index</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid #7c3aed">
+      <h4 style="color:#6d28d9">Power Platform connectors</h4>
+      <ul>
+        <li><b>live API bridges</b> for real-time facts &amp; transactions</li>
+        <li>usable as <b>real-time knowledge</b> in Copilot Studio (preview)</li>
+        <li>no indexing — every question hits the API</li>
+      </ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">48</span><span><b>Copilot connectors = search-and-index knowledge; Power Platform connectors = live API bridges</b> for real-time facts and transactions (also usable as real-time knowledge in Copilot Studio, preview).</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p17">
+  <h3>17 · Shortcuts, transformations, governance — the last mile</h3>
+  <p class="cap">Unify without copying, enrich with AI, and let protection travel with the content.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0891b2">⇢</i>OneLake shortcuts &amp; mirroring</b>unify ADLS, S3, Google Cloud Storage, Dataverse <b>without copying</b></div>
+    <div><b><i style="background:#7c3aed">✨</i>Shortcut transformations</b>AI-powered: <b>summarize, sentiment, PII redaction</b> — files become analytics-ready</div>
+    <div><b><i style="background:#1a7f37">🛡</i>Governance layer</b>Microsoft <b>Purview</b> (labels, lineage, DSPM for AI), RBAC, certified semantic models</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">49</span><span><b>OneLake shortcuts and mirroring</b> unify external stores (ADLS, S3, GCS, Dataverse) without copying data.</span></div>
+    <div class="learn"><span class="n">50</span><span><b>Shortcut transformations</b> — including AI-powered summarize, sentiment and PII redaction — make files analytics-ready.</span></div>
+    <div class="learn"><span class="n">51</span><span>Governance is cross-cutting: <b>Purview labels, lineage and DSPM for AI, RBAC, certified semantic models</b> — apply sensitivity labels so protection follows content into Copilot.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="p18">
+  <h3>18 · Trigger wall — phrase → answer</h3>
+  <p class="cap">When the question contains the phrase on the left, the answer is on the right.</p>
+  <div class="matrix">
+    <table>
+      <tr><th>Exam phrase</th><th>Answer</th></tr>
+      <tr><td>"Fixed, repeatable steps"</td><td>Power Automate / agent flow — <b>not</b> an agent</td></tr>
+      <tr><td>"Static Q&amp;A over fixed docs"</td><td>classic RAG</td></tr>
+      <tr><td>"Ambiguity + tools + reasoning"</td><td>agent</td></tr>
+      <tr><td>"High-risk autonomous actions"</td><td>autonomous agent <b>+ human-in-the-loop</b></td></tr>
+      <tr><td>"Searchable in M365 Copilot with citations"</td><td><b>synced</b> Copilot connector</td></tr>
+      <tr><td>"Must stay in source system / real-time"</td><td><b>federated (MCP)</b> connector or Power Platform connector knowledge</td></tr>
+      <tr><td>"D365 data in OneLake without ETL"</td><td>Dataverse <b>Link to Fabric</b></td></tr>
+      <tr><td>"Irrelevant content added, answers degrade"</td><td>the <b>Relevance</b> dimension</td></tr>
+      <tr><td>"Users see data they shouldn't"</td><td>the <b>Availability</b> dimension — agent-user auth / ACL testing</td></tr>
+    </table>
+  </div>
+</section>
+
+<div class="pager">
+  <a href="visual-learn.html">← Back<b>🎨 Visual Learn overview</b></a>
+  <a class="next" href="visual-plan-2-strategy.html">Next page<b>2 · AI Strategy &amp; Adoption →</b></a>
+</div>
+
+</div>
+</body>
+</html>

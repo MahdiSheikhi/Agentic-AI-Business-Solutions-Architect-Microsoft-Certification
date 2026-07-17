@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Plan 2 — Design the AI Strategy: CAF Adoption, CoE &amp; Dynamics 365</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --dark:#0b2a4a; --soft:#e8f1fa;
+  --pg:#0f766e; --pg-ink:#115e59; --pg-soft:#f0fdfa; --pg-line:#99f6e4;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#0f766e 170%);color:#fff;padding:26px 20px 22px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+.hero-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hero-stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:7px 16px;font-size:12px;color:#ccfbf1}
+.hero-stat b{display:block;font-size:16px;color:#fff}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--pg-ink);border-bottom-color:var(--pg)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:120px;letter-spacing:.03em;color:var(--pg-ink)}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--pg);color:var(--pg-ink)}
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--pg)}
+.ghead h2{font-size:21px;color:var(--pg-ink)}
+.ghead span.w{font-size:12.5px;font-weight:700;background:var(--pg-soft);color:var(--pg-ink);border-radius:8px;padding:3px 12px}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+.learns{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:8px;margin-top:14px}
+.learn{display:flex;gap:10px;align-items:flex-start;font-size:13.1px;color:#33475c;background:#fbfcfe;border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.learn .n{flex:0 0 auto;min-width:23px;height:23px;border-radius:50%;background:var(--pg);color:#fff;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.learn b{color:#12293f}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:6px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:22px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0 0 0 18px;font-size:13.4px;color:#33475c}
+.panel li{margin:5px 0}
+.panel li b{color:#12293f}
+.gcse{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.gcse div{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfe;font-size:13.2px;color:var(--muted)}
+.gcse b{display:flex;align-items:center;gap:9px;font-size:14.5px;color:#12293f;margin-bottom:6px}
+.gcse b i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;color:#fff;font-weight:800;font-size:16px;flex:0 0 auto}
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:560px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td:first-child{font-weight:700;color:#12293f;white-space:nowrap}
+.matrix tr:last-child td{border-bottom:none}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+.pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;text-decoration:none;color:#33475c;font-size:13px}
+.pager a:hover{border-color:var(--pg)}
+.pager a b{display:block;color:var(--pg-ink);font-size:14.5px;margin-top:2px}
+.pager a.next{text-align:right}
+@media print{nav.bar,.toc,.pager{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Visual Learn — Plan Domain · Page 2 of 4</div>
+  <h1>Design the AI Strategy — CAF Adoption, Build Strategy, CoE &amp; Dynamics 365</h1>
+  <p class="sub">The organizational half of "Design overall AI strategy": the Cloud Adoption Framework's AI and agent adoption processes, the build strategy and its decision gates, the AI Center of Excellence, and AI solutions spanning multiple Dynamics 365 apps.</p>
+  <div class="hero-stats">
+    <span class="hero-stat"><b>55</b>numbered learn items</span>
+    <span class="hero-stat"><b>17</b>visuals</span>
+    <span class="hero-stat"><b>4</b>skills covered</span>
+    <span class="hero-stat"><b>25–30%</b>Plan domain weight</span>
+  </div>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="visual-plan-1-analyze.html">1 · Analyze</a>
+  <a href="visual-plan-2-strategy.html" class="here">2 · Strategy</a>
+  <a href="visual-plan-3-agents-platforms.html">3 · Agents &amp; Platforms</a>
+  <a href="visual-plan-4-costs-roi.html">4 · Costs &amp; ROI</a>
+  <a href="AB100notes1plan.html">📚 Plan notes</a>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl">CAF adoption</span><a href="#s1">Six phases</a><a href="#s2">Strategy steps</a><a href="#s3">Adoption models</a><a href="#s4">Plan phase</a><a href="#s5">Ready phase</a><a href="#s6">Govern · Secure · Manage</a><a href="#s7">Agent adoption</a></div>
+  <div class="row"><span class="gl">Build strategy</span><a href="#s8">Build decision tree</a><a href="#s9">Validation &amp; gates</a><a href="#s10">Build at scale</a></div>
+  <div class="row"><span class="gl">AI CoE</span><a href="#s11">CoE wheel</a><a href="#s12">Evolution</a><a href="#s13">Responsibility split</a><a href="#s14">Agentic CoE</a></div>
+  <div class="row"><span class="gl">Dynamics 365</span><a href="#s15">Shared Dataverse</a><a href="#s16">Cross-app scenarios</a><a href="#s17">Trigger wall</a></div>
+</div>
+
+<div class="ghead"><div class="gbar"></div><h2>A · The CAF AI adoption process</h2><span class="w">6 phases + 4 agent phases</span></div>
+
+<section class="fig" id="s1">
+  <h3>1 · The six CAF AI-adoption phases</h3>
+  <p class="cap">Three run in order, three never stop. Phase names are exam answers by themselves.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 300">
+    <defs><marker id="ac" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle">
+      <rect x="30" y="30" width="210" height="92" rx="12" fill="#f0fdfa" stroke="#99f6e4"/>
+      <text x="135" y="56" font-size="14.5" font-weight="700" fill="#115e59">1 · Strategy</text>
+      <text x="135" y="76" font-size="11.8" fill="#5b6b7b">use cases from business problems</text>
+      <text x="135" y="92" font-size="11.8" fill="#5b6b7b">technology strategy · responsible AI</text>
+      <text x="135" y="108" font-size="11.8" fill="#5b6b7b">data strategy</text>
+      <line x1="240" y1="76" x2="268" y2="76" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ac)"/>
+      <rect x="272" y="30" width="210" height="92" rx="12" fill="#f0fdfa" stroke="#99f6e4"/>
+      <text x="377" y="56" font-size="14.5" font-weight="700" fill="#115e59">2 · Plan</text>
+      <text x="377" y="76" font-size="11.8" fill="#5b6b7b">skills · resources · prioritized use cases</text>
+      <text x="377" y="92" font-size="11.8" fill="#5b6b7b">proofs of concept · responsible AI</text>
+      <text x="377" y="108" font-size="11.8" fill="#5b6b7b">maturity levels 1–4</text>
+      <line x1="482" y1="76" x2="510" y2="76" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ac)"/>
+      <rect x="514" y="30" width="210" height="92" rx="12" fill="#f0fdfa" stroke="#99f6e4"/>
+      <text x="619" y="56" font-size="14.5" font-weight="700" fill="#115e59">3 · Ready</text>
+      <text x="619" y="76" font-size="11.8" fill="#5b6b7b">landing zones · Azure Policy</text>
+      <text x="619" y="92" font-size="11.8" fill="#5b6b7b">separate mgmt groups: online</text>
+      <text x="619" y="108" font-size="11.8" fill="#5b6b7b">(internet-facing) vs corporate</text>
+      <text x="377" y="152" font-size="12" fill="#93a3b3" font-weight="700">— then, continuously and forever —</text>
+      <rect x="30" y="168" width="222" height="88" rx="12" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="141" y="194" font-size="14" font-weight="700" fill="#334155">↻ Govern</text>
+      <text x="141" y="213" font-size="11.8" fill="#5b6b7b">assess risks → document policies</text>
+      <text x="141" y="229" font-size="11.8" fill="#5b6b7b">→ enforce → monitor</text>
+      <text x="141" y="245" font-size="11.8" fill="#5b6b7b">aligns to NIST AI RMF</text>
+      <rect x="268" y="168" width="222" height="88" rx="12" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="379" y="194" font-size="14" font-weight="700" fill="#334155">↻ Secure</text>
+      <text x="379" y="213" font-size="11.8" fill="#5b6b7b">discover AI risks</text>
+      <text x="379" y="229" font-size="11.8" fill="#5b6b7b">protect resources &amp; data</text>
+      <text x="379" y="245" font-size="11.8" fill="#5b6b7b">detect AI threats</text>
+      <rect x="506" y="168" width="222" height="88" rx="12" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="617" y="194" font-size="14" font-weight="700" fill="#334155">↻ Manage</text>
+      <text x="617" y="213" font-size="11.8" fill="#5b6b7b">AI CoE · MLOps vs GenAIOps</text>
+      <text x="617" y="229" font-size="11.8" fill="#5b6b7b">sandbox · deployment · models</text>
+      <text x="617" y="245" font-size="11.8" fill="#5b6b7b">costs · data · continuity</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">1</span><span>CAF AI adoption = <b>Strategy → Plan → Ready</b> in sequence, then <b>Govern, Secure, Manage</b> run continuously.</span></div>
+    <div class="learn"><span class="n">2</span><span>Know which artifact belongs to which phase — e.g., landing zones = Ready; NIST AI RMF alignment = Govern; AI CoE = Manage.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s2">
+  <h3>2 · Inside the Strategy phase — four steps</h3>
+  <p class="cap">Strategy produces four outputs before anything is built.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0f766e">1</i>Use-case identification</b>business problems → use cases → individual work vs business automation → generative vs non-generative</div>
+    <div><b><i style="background:#0891b2">2</i>Technology strategy</b>the <b>Microsoft AI decision tree</b> — four adoption models trading customization for simplicity</div>
+    <div><b><i style="background:#7c3aed">3</i>Responsible AI strategy</b>define responsible AI policies up front</div>
+    <div><b><i style="background:#b45309">4</i>Data strategy</b>governed, high-quality data on a unified data platform</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">3</span><span>Strategy step 1: <b>AI use-case identification</b> (the funnel from page 1 lives here).</span></div>
+    <div class="learn"><span class="n">4</span><span>Strategy step 2: <b>AI technology strategy</b> via the Microsoft AI decision tree.</span></div>
+    <div class="learn"><span class="n">5</span><span>Strategy step 3: <b>responsible AI strategy</b> — policies defined before build.</span></div>
+    <div class="learn"><span class="n">6</span><span>Strategy step 4: <b>data strategy</b> — governed, high-quality, unified data platform.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s3">
+  <h3>3 · The four technology adoption models — the staircase</h3>
+  <p class="cap">Each step up trades simplicity and speed for customization and control. The exam gives you a phrase — you name the step.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 320">
+    <g text-anchor="middle">
+      <rect x="40"  y="212" width="165" height="68" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="122" y="238" font-size="13.5" font-weight="700" fill="#166534">SaaS Copilots &amp; agents</text>
+      <text x="122" y="256" font-size="11.5" fill="#5b6b7b">M365 Copilot · prebuilt D365</text>
+      <text x="122" y="271" font-size="11.5" fill="#5b6b7b">"fastest time-to-value"</text>
+      <rect x="225" y="152" width="165" height="68" rx="10" fill="#f0fdfa" stroke="#99f6e4"/>
+      <text x="307" y="178" font-size="13.5" font-weight="700" fill="#115e59">Low-code SaaS</text>
+      <text x="307" y="196" font-size="11.5" fill="#5b6b7b">Copilot Studio · M365 extensibility</text>
+      <text x="307" y="211" font-size="11.5" fill="#5b6b7b">"department workflow, low-code"</text>
+      <rect x="410" y="92" width="165" height="68" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="492" y="118" font-size="13.5" font-weight="700" fill="#5b21b6">Managed PaaS</text>
+      <text x="492" y="136" font-size="11.5" fill="#5b6b7b">Microsoft Foundry</text>
+      <text x="492" y="151" font-size="11.5" fill="#5b6b7b">"model choice · CI/CD · evals"</text>
+      <rect x="595" y="32" width="140" height="68" rx="10" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="665" y="58" font-size="13.5" font-weight="700" fill="#92400e">IaaS</text>
+      <text x="665" y="76" font-size="11.5" fill="#5b6b7b">BYO models · full stack</text>
+      <text x="665" y="91" font-size="11.5" fill="#5b6b7b">"strict isolation"</text>
+      <line x1="60" y1="300" x2="700" y2="300" stroke="#8ea3b8" stroke-width="2"/>
+      <path d="M700,300 l-9,-4 v8 z" fill="#8ea3b8"/>
+      <text x="380" y="318" font-size="12" fill="#5b6b7b" font-weight="600">customization &amp; control increase → · simplicity &amp; speed decrease →</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">7</span><span><b>Ready-to-use Copilots (SaaS)</b> — "fastest ROI, minimal customization" → M365 Copilot, prebuilt D365 agents.</span></div>
+    <div class="learn"><span class="n">8</span><span><b>Low-code SaaS development</b> — Copilot Studio + M365 Copilot extensibility → "department workflow with SaaS governance."</span></div>
+    <div class="learn"><span class="n">9</span><span><b>Managed PaaS</b> — Microsoft Foundry (agents, RAG, fine-tuning; Azure ML / Fabric for training; Foundry Tools for prebuilt models) → "model choice, pro-code, evaluations."</span></div>
+    <div class="learn"><span class="n">10</span><span><b>Azure infrastructure (IaaS)</b> — bring-your-own models, most control, most ops → "strictest isolation."</span></div>
+    <div class="learn"><span class="n">11</span><span>Weigh every option on four criteria: <b>capabilities · data needed · skills required · cost</b>.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s4">
+  <h3>4 · Inside the Plan phase — six steps and the maturity ladder</h3>
+  <p class="cap">Plan turns strategy into staffing, resources and proofs of concept.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 110">
+    <defs><marker id="ap" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="11.6">
+      <rect x="14" y="28" width="106" height="52" rx="10" fill="#f0fdfa" stroke="#99f6e4"/><text x="67" y="50" font-weight="700" fill="#115e59">Assess</text><text x="67" y="66" fill="#5b6b7b">AI skills</text>
+      <line x1="120" y1="54" x2="134" y2="54" stroke="#5b6b7b" stroke-width="2" marker-end="url(#ap)"/>
+      <rect x="137" y="28" width="106" height="52" rx="10" fill="#f0fdfa" stroke="#99f6e4"/><text x="190" y="50" font-weight="700" fill="#115e59">Acquire</text><text x="190" y="66" fill="#5b6b7b">AI skills</text>
+      <line x1="243" y1="54" x2="257" y2="54" stroke="#5b6b7b" stroke-width="2" marker-end="url(#ap)"/>
+      <rect x="260" y="28" width="106" height="52" rx="10" fill="#f0fdfa" stroke="#99f6e4"/><text x="313" y="50" font-weight="700" fill="#115e59">Access</text><text x="313" y="66" fill="#5b6b7b">AI resources</text>
+      <line x1="366" y1="54" x2="380" y2="54" stroke="#5b6b7b" stroke-width="2" marker-end="url(#ap)"/>
+      <rect x="383" y="28" width="106" height="52" rx="10" fill="#f0fdfa" stroke="#99f6e4"/><text x="436" y="50" font-weight="700" fill="#115e59">Prioritize</text><text x="436" y="66" fill="#5b6b7b">use cases</text>
+      <line x1="489" y1="54" x2="503" y2="54" stroke="#5b6b7b" stroke-width="2" marker-end="url(#ap)"/>
+      <rect x="506" y="28" width="106" height="52" rx="10" fill="#f0fdfa" stroke="#99f6e4"/><text x="559" y="50" font-weight="700" fill="#115e59">Create</text><text x="559" y="66" fill="#5b6b7b">proofs of concept</text>
+      <line x1="612" y1="54" x2="626" y2="54" stroke="#5b6b7b" stroke-width="2" marker-end="url(#ap)"/>
+      <rect x="629" y="28" width="118" height="52" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/><text x="688" y="50" font-weight="700" fill="#166534">Implement</text><text x="688" y="66" fill="#5b6b7b">responsible AI</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">12</span><span>Plan phase = <b>assess skills → acquire skills → access resources → prioritize use cases → create PoCs → implement responsible AI</b> (the startup checklist is shorter: access resources, establish responsible AI).</span></div>
+    <div class="learn"><span class="n">13</span><span>PoC discipline: start with <b>internal-facing</b> use cases and add a <b>+20–30% time buffer</b> to estimates.</span></div>
+    <div class="learn"><span class="n">14</span><span>Maturity ladder: <b>L1</b> = ready-made Copilots · <b>L3</b> = RAG apps in Foundry · <b>L4</b> = training custom models on AKS/VMs.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s5">
+  <h3>5 · Inside the Ready phase — the landing-zone rules</h3>
+  <p class="cap">Ready is where governance becomes Azure architecture.</p>
+  <div class="trio">
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">Management groups</h4>
+      <ul><li><b>separate</b> groups for <b>online</b> (internet-facing) vs <b>corporate</b> (internal) AI workloads</li></ul>
+    </div>
+    <div class="panel" style="border-left:4px solid #7c3aed">
+      <h4 style="color:#6d28d9">Azure Policy</h4>
+      <ul><li>AI-specific policy for <b>Foundry, Foundry Tools, AI Search</b></li></ul>
+    </div>
+    <div class="panel" style="border-left:4px solid #b45309">
+      <h4 style="color:#92400e">Placement</h4>
+      <ul><li>deploy AI resources in <b>workload subscriptions / application landing zones</b></li></ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">15</span><span>Ready: put <b>internet-facing ("online") and internal ("corporate") AI workloads in separate management groups</b>.</span></div>
+    <div class="learn"><span class="n">16</span><span>Apply <b>AI-specific Azure Policy</b> for Foundry, Foundry Tools and AI Search.</span></div>
+    <div class="learn"><span class="n">17</span><span>Ready also covers <b>AI networking, reliability, foundation, and architecture choices</b> — resources live in application landing zones.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s6">
+  <h3>6 · The continuous three — Govern, Secure, Manage</h3>
+  <p class="cap">These loops never finish. Each has a fixed internal sequence the exam can quiz.</p>
+  <div class="trio">
+    <div class="panel" style="border-left:4px solid #334155">
+      <h4 style="color:#334155">↻ Govern AI</h4>
+      <ul>
+        <li><b>assess</b> organizational risks</li>
+        <li><b>document</b> governance policies</li>
+        <li><b>enforce</b> policies</li>
+        <li><b>monitor</b> risks</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid #c62828">
+      <h4 style="color:#c62828">↻ Secure AI</h4>
+      <ul>
+        <li><b>discover</b> AI security risks</li>
+        <li><b>protect</b> AI resources &amp; data</li>
+        <li><b>detect</b> AI security threats</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">↻ Manage AI</h4>
+      <ul>
+        <li>operations: <b>AI CoE</b> · standardize SDKs · sandboxes</li>
+        <li><b>MLOps</b> (classic ML) vs <b>GenAIOps</b> (generative)</li>
+        <li>deployment · models · costs · data · continuity</li>
+      </ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">18</span><span>Govern loop: <b>assess risks → document policies → enforce → monitor</b>; enforcement uses <b>Azure Policy + Purview</b>.</span></div>
+    <div class="learn"><span class="n">19</span><span>Governance aligns to the <b>NIST AI Risk Management Framework</b>; reviews: <b>quarterly for high-risk, annually for low-risk</b>.</span></div>
+    <div class="learn"><span class="n">20</span><span>Secure loop: <b>discover risks → protect resources and data → detect threats</b>.</span></div>
+    <div class="learn"><span class="n">21</span><span>Manage: establish the <b>AI CoE</b>; choose <b>MLOps for classic ML vs GenAIOps for generative</b> workloads.</span></div>
+    <div class="learn"><span class="n">22</span><span>Keep a <b>sandbox environment separate from dev/test/prod</b>; onboard models sandbox-first, then the production catalog; manage drift, cost, continuity.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s7">
+  <h3>7 · The CAF agent adoption scenario — four phases</h3>
+  <p class="cap">The companion track for agents specifically. Don't confuse its four phases with the six AI phases.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 110">
+    <defs><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="11.6">
+      <rect x="20" y="24" width="160" height="60" rx="10" fill="#f0fdfa" stroke="#99f6e4"/><text x="100" y="48" font-weight="700" fill="#115e59" font-size="13">1 · Plan for agents</text><text x="100" y="66" fill="#5b6b7b">business · technology · org</text><text x="100" y="80" fill="#5b6b7b">readiness · data architecture</text>
+      <line x1="180" y1="54" x2="200" y2="54" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ag)"/>
+      <rect x="204" y="24" width="160" height="60" rx="10" fill="#f0fdfa" stroke="#99f6e4"/><text x="284" y="48" font-weight="700" fill="#115e59" font-size="13">2 · Govern &amp; secure</text><text x="284" y="66" fill="#5b6b7b">responsible AI · governance</text><text x="284" y="80" fill="#5b6b7b">&amp; security · environment</text>
+      <line x1="364" y1="54" x2="384" y2="54" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ag)"/>
+      <rect x="388" y="24" width="160" height="60" rx="10" fill="#f0fdfa" stroke="#99f6e4"/><text x="468" y="48" font-weight="700" fill="#115e59" font-size="13">3 · Build agents</text><text x="468" y="66" fill="#5b6b7b">single vs multi-agent</text><text x="468" y="80" fill="#5b6b7b">build process</text>
+      <line x1="548" y1="54" x2="568" y2="54" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ag)"/>
+      <rect x="572" y="24" width="160" height="60" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/><text x="652" y="48" font-weight="700" fill="#166534" font-size="13">4 · Manage agents</text><text x="652" y="66" fill="#5b6b7b">integrate · operate</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">23</span><span>CAF <b>agent</b> adoption = <b>Plan → Govern &amp; secure → Build → Manage</b> (four phases, versus six for AI adoption).</span></div>
+    <div class="learn"><span class="n">24</span><span>Plan-for-agents covers <b>business plan, technology plan, organizational readiness, and data architecture</b>; Build covers single-vs-multi-agent and the build process.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>B · The build strategy</h2><span class="w">SaaS first · validate · scale</span></div>
+
+<section class="fig" id="s8">
+  <h3>8 · The build decision tree — SaaS first, then pick your platform</h3>
+  <p class="cap">CAF's primary question, then three build lanes. Trigger phrases in quotes.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 360">
+    <defs><marker id="arrD" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="13.5">
+      <rect x="180" y="18" width="400" height="56" rx="12" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="380" y="42" text-anchor="middle" font-weight="700" fill="#0b2a4a">Does a SaaS (prebuilt) agent meet</text>
+      <text x="380" y="61" text-anchor="middle" font-weight="700" fill="#0b2a4a">the functional requirements?</text>
+      <line x1="580" y1="46" x2="640" y2="46" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrD)"/>
+      <text x="610" y="38" text-anchor="middle" fill="#1a7f37" font-weight="700" font-size="12">yes</text>
+      <rect x="644" y="22" width="102" height="48" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="695" y="43" text-anchor="middle" font-weight="700" fill="#166534" font-size="13">Adopt it</text>
+      <text x="695" y="60" text-anchor="middle" fill="#3c6947" font-size="11.5">don't build</text>
+      <line x1="380" y1="74" x2="380" y2="112" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrD)"/>
+      <text x="394" y="98" fill="#c62828" font-weight="700" font-size="12">no → build</text>
+      <rect x="30" y="118" width="225" height="104" rx="12" fill="#f0fdfa" stroke="#99f6e4"/>
+      <text x="142" y="144" text-anchor="middle" font-weight="700" fill="#115e59">Copilot Studio</text>
+      <text x="142" y="163" text-anchor="middle" fill="#5b6b7b" font-size="11.8">SaaS · low/no-code</text>
+      <text x="142" y="179" text-anchor="middle" fill="#5b6b7b" font-size="11.8">retrieval / task / autonomous agents</text>
+      <text x="142" y="195" text-anchor="middle" fill="#5b6b7b" font-size="11.8">built-in responsible AI</text>
+      <text x="142" y="212" text-anchor="middle" fill="#115e59" font-size="11.8" font-weight="700">"fast process transformation"</text>
+      <rect x="268" y="118" width="225" height="104" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="380" y="144" text-anchor="middle" font-weight="700" fill="#5b21b6">Microsoft Foundry</text>
+      <text x="380" y="163" text-anchor="middle" fill="#5b6b7b" font-size="11.8">PaaS · pro-code + declarative agents</text>
+      <text x="380" y="179" text-anchor="middle" fill="#5b6b7b" font-size="11.8">workflows · hosted agents</text>
+      <text x="380" y="195" text-anchor="middle" fill="#5b6b7b" font-size="11.8">choose your own models</text>
+      <text x="380" y="212" text-anchor="middle" fill="#5b21b6" font-size="11.8" font-weight="700">"strategic transformation"</text>
+      <rect x="506" y="118" width="225" height="104" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="618" y="144" text-anchor="middle" font-weight="700" fill="#92400e">GPUs &amp; containers</text>
+      <text x="618" y="163" text-anchor="middle" fill="#5b6b7b" font-size="11.8">IaaS · compliance-sensitive</text>
+      <text x="618" y="179" text-anchor="middle" fill="#5b6b7b" font-size="11.8">ACA serverless GPU → SLMs</text>
+      <text x="618" y="195" text-anchor="middle" fill="#5b6b7b" font-size="11.8">AKS → LLMs</text>
+      <text x="618" y="212" text-anchor="middle" fill="#92400e" font-size="11.8" font-weight="700">"fully custom"</text>
+      <rect x="150" y="260" width="460" height="62" rx="12" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="380" y="285" text-anchor="middle" font-weight="700" fill="#0b2a4a">Hybrid pattern</text>
+      <text x="380" y="305" text-anchor="middle" fill="#5b6b7b" font-size="12">Copilot Studio low-code UI + bring your own Foundry model — speed and capability</text>
+      <line x1="142" y1="222" x2="240" y2="258" stroke="#c8d4e0" stroke-width="2"/>
+      <line x1="380" y1="222" x2="380" y2="258" stroke="#c8d4e0" stroke-width="2"/>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">25</span><span>CAF's primary question: <b>"Does a SaaS agent meet functional requirements?"</b> If yes — adopt, don't build.</span></div>
+    <div class="learn"><span class="n">26</span><span>Build lanes: <b>Copilot Studio</b> (low/no-code, built-in responsible AI, fast process transformation) · <b>Foundry</b> (PaaS, own models, deep integration, strategic transformation) · <b>GPUs &amp; containers</b> (IaaS, compliance-sensitive).</span></div>
+    <div class="learn"><span class="n">27</span><span>On IaaS: <b>ACA serverless GPU for SLMs, AKS for LLMs</b>.</span></div>
+    <div class="learn"><span class="n">28</span><span><b>Hybrid pattern:</b> Copilot Studio's low-code interface with a <b>bring-your-own Foundry model</b> — balances speed and capability.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s9">
+  <h3>9 · Validation discipline — experiments and metric gates</h3>
+  <p class="cap">Strategy without gates is hope. CAF prescribes time-boxed proof and go/no-go metrics.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0f766e">⏱</i>Time-boxed experiments</b><b>1–2 weeks per option</b>, findings documented, stakeholder review; assess single- vs multi-agent before scaling</div>
+    <div><b><i style="background:#0891b2">📏</i>Baseline &amp; gates</b>set <b>baseline KPIs</b> before building; use metrics as <b>go/no-go decision gates</b> at each stage</div>
+    <div><b><i style="background:#b45309">✂</i>Post-deployment</b>evaluate against targets; <b>retire or redirect underperforming agents</b></div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">29</span><span>Validate platform choices with <b>time-boxed experiments (1–2 weeks per option)</b>, documented findings and stakeholder review.</span></div>
+    <div class="learn"><span class="n">30</span><span><b>Baseline KPIs first</b>, then use business metrics as <b>go/no-go gates</b> at every stage.</span></div>
+    <div class="learn"><span class="n">31</span><span>After deployment, evaluate against targets — <b>retire or redirect</b> agents that underperform.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s10">
+  <h3>10 · Building at scale — the CAF build process</h3>
+  <p class="cap">Once past the pilot, four pillars keep an agent factory healthy.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0f766e">1</i>Standardized environments</b>consistent, governed places to build and run agents</div>
+    <div><b><i style="background:#0891b2">2</i>Model selection strategy</b>match model capability to task complexity — <b>small models for routine tasks</b>; catalog + leaderboards; <b>Model Router</b> for productivity/action agents; quota &amp; cost governance</div>
+    <div><b><i style="background:#7c3aed">3</i>Evaluations</b>validate quality before deployment</div>
+    <div><b><i style="background:#b45309">4</i>CI/CD</b>repeatable, automated delivery</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">32</span><span>Scale pillars: <b>standardized environments, model selection strategy, evaluations, CI/CD</b>.</span></div>
+    <div class="learn"><span class="n">33</span><span>Model selection: <b>smaller models for routine tasks</b>, premium models reserved for complex reasoning; pick via <b>catalog and leaderboards</b>; validate before deployment.</span></div>
+    <div class="learn"><span class="n">34</span><span>Use the <b>Model Router for productivity and action agents</b>; enforce quota and cost governance.</span></div>
+    <div class="learn"><span class="n">35</span><span>The architect profile expects <b>"agentic-first"</b> roadmaps built on open standards: <b>MCP</b> (Model Context Protocol) and <b>A2A</b> (Agent2Agent).</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>C · The AI Center of Excellence</h2><span class="w">responsibilities · evolution · operating model</span></div>
+
+<section class="fig" id="s11">
+  <h3>11 · The CoE wheel — eight core responsibilities</h3>
+  <p class="cap">CAF "Establish an AI Center of Excellence" lists these. Each spoke is a possible exam answer.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 380">
+    <line x1="380" y1="190" x2="180" y2="60"  stroke="#c8d4e0" stroke-width="1.5"/>
+    <line x1="380" y1="190" x2="580" y2="60"  stroke="#c8d4e0" stroke-width="1.5"/>
+    <line x1="380" y1="190" x2="120" y2="190" stroke="#c8d4e0" stroke-width="1.5"/>
+    <line x1="380" y1="190" x2="640" y2="190" stroke="#c8d4e0" stroke-width="1.5"/>
+    <line x1="380" y1="190" x2="180" y2="320" stroke="#c8d4e0" stroke-width="1.5"/>
+    <line x1="380" y1="190" x2="580" y2="320" stroke="#c8d4e0" stroke-width="1.5"/>
+    <line x1="380" y1="190" x2="380" y2="52"  stroke="#c8d4e0" stroke-width="1.5"/>
+    <line x1="380" y1="190" x2="380" y2="330" stroke="#c8d4e0" stroke-width="1.5"/>
+    <circle cx="380" cy="190" r="56" fill="#0b2a4a"/>
+    <text x="380" y="186" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">AI CoE</text>
+    <text x="380" y="204" text-anchor="middle" fill="#c9d8ea" font-size="11">cross-functional</text>
+    <g text-anchor="middle" font-size="12" font-weight="700">
+      <rect x="310" y="24" width="140" height="34" rx="9" fill="#f0fdfa" stroke="#99f6e4"/><text x="380" y="46" fill="#115e59">Define AI strategy</text>
+      <rect x="110" y="42" width="140" height="34" rx="9" fill="#f0fdfa" stroke="#99f6e4"/><text x="180" y="64" fill="#115e59">Develop AI skills</text>
+      <rect x="510" y="42" width="140" height="34" rx="9" fill="#f0fdfa" stroke="#99f6e4"/><text x="580" y="64" fill="#115e59">Lead pilot projects</text>
+      <rect x="40" y="173" width="160" height="34" rx="9" fill="#f0fdfa" stroke="#99f6e4"/><text x="120" y="195" fill="#115e59">Define &amp; enforce standards</text>
+      <rect x="560" y="173" width="160" height="34" rx="9" fill="#f0fdfa" stroke="#99f6e4"/><text x="640" y="195" fill="#115e59">Intake &amp; prioritization</text>
+      <rect x="110" y="304" width="140" height="34" rx="9" fill="#f0fdfa" stroke="#99f6e4"/><text x="180" y="326" fill="#115e59">Reusable assets</text>
+      <rect x="510" y="304" width="140" height="34" rx="9" fill="#f0fdfa" stroke="#99f6e4"/><text x="580" y="326" fill="#115e59">Measure &amp; report</text>
+      <rect x="300" y="316" width="160" height="34" rx="9" fill="#f1f5f9" stroke="#d8e0e8"/><text x="380" y="338" fill="#334155">Manage AI services*</text>
+    </g>
+    <text x="380" y="372" text-anchor="middle" font-size="11.5" fill="#93a3b3">* optional responsibility</text>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">36</span><span><b>Define AI strategy</b> — align to business goals, use the AI decision tree, own the responsible AI strategy.</span></div>
+    <div class="learn"><span class="n">37</span><span><b>Develop AI skills</b> (assessments, learning pathways, hands-on experimentation) and <b>lead pilot projects</b> prioritized by impact/feasibility.</span></div>
+    <div class="learn"><span class="n">38</span><span><b>Define and enforce standards</b>: governance policies, security, data quality, model lifecycle, bias/transparency reviews, audits.</span></div>
+    <div class="learn"><span class="n">39</span><span><b>Intake &amp; prioritization workflows</b> — structured project requests, consistent criteria, a prioritized backlog.</span></div>
+    <div class="learn"><span class="n">40</span><span><b>Reusable assets</b> (templates, code repos, compliance checklists on an internal platform) and <b>measure &amp; report</b> KPIs: adoption rates, compliance levels, project cycle times.</span></div>
+    <div class="learn"><span class="n">41</span><span>Optionally the CoE <b>manages AI services</b>: deployment governance, model monitoring, lifecycle.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s12">
+  <h3>12 · CoE evolution — centralized → advisory</h3>
+  <p class="cap">The CoE starts as a central function and must let go. Watch for the three inflection signals.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 120">
+    <defs><marker id="ae2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="12">
+      <rect x="20" y="30" width="200" height="58" rx="10" fill="#f0fdfa" stroke="#99f6e4"/>
+      <text x="120" y="54" font-weight="700" fill="#115e59" font-size="13.5">Centralized CoE</text>
+      <text x="120" y="72" fill="#5b6b7b" font-size="11.5">owns delivery &amp; decisions</text>
+      <line x1="220" y1="59" x2="268" y2="59" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ae2)"/>
+      <rect x="272" y="30" width="216" height="58" rx="10" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="380" y="50" font-weight="700" fill="#92400e" font-size="12.5">Inflection signals</text>
+      <text x="380" y="66" fill="#5b6b7b" font-size="11.3">approval delays · knowledge bottlenecks</text>
+      <text x="380" y="80" fill="#5b6b7b" font-size="11.3">CoE-vs-team friction</text>
+      <line x1="488" y1="59" x2="536" y2="59" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ae2)"/>
+      <rect x="540" y="30" width="200" height="58" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="640" y="54" font-weight="700" fill="#166534" font-size="13.5">Advisory CoE</text>
+      <text x="640" y="72" fill="#5b6b7b" font-size="11.5">guardrails · expertise distributed</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">42</span><span>Shift centralized → advisory when you see <b>approval delays, knowledge bottlenecks, or CoE-vs-team friction</b>.</span></div>
+    <div class="learn"><span class="n">43</span><span>The move: <b>embed AI delivery into platform teams</b>, distribute expertise to product/platform/enabling teams, keep guardrails.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s13">
+  <h3>13 · The three-way responsibility split (agent adoption)</h3>
+  <p class="cap">Who owns what once agents are in production — a favorite scenario-question setup.</p>
+  <div class="trio">
+    <div class="panel" style="border-left:4px solid #0891b2">
+      <h4 style="color:#0e7490">Platform team</h4>
+      <ul><li>technical foundation</li><li><b>governance guardrails</b> &amp; enforcement</li><li>observability</li></ul>
+    </div>
+    <div class="panel" style="border-left:4px solid #7c3aed">
+      <h4 style="color:#6d28d9">Workload teams</h4>
+      <ul><li><b>own agent lifecycles end-to-end</b></li><li>build &amp; operate within guardrails</li></ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">AI CoE</h4>
+      <ul><li><b>centralized advisory body</b></li><li>embeds responsible AI into policy</li><li>expert guidance · training</li></ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">44</span><span>Operating model: <b>platform team enforces guardrails · workload teams own agent lifecycles · the CoE advises</b>.</span></div>
+    <div class="learn"><span class="n">45</span><span>Skills the CoE develops in the org: <b>prompt engineering, agent optimization/evaluation, AI ethics &amp; governance, data engineering for AI (RAG/vector indexes), AI security</b> (prompt-injection/jailbreak defense).</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s14">
+  <h3>14 · The agentic CoE — four functions, risk tiers, and the anti-patterns</h3>
+  <p class="cap">The M365 agent-guidance flavor of the CoE, plus the three failure modes the exam names.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">The 4 agentic-CoE functions</h4>
+      <ul>
+        <li><b>Govern</b> — release gates, audit logs (who built/approved each agent)</li>
+        <li><b>Enable</b> — golden paths, templates, maker training, community</li>
+        <li><b>Optimize</b> — quality / cost / value monitoring</li>
+        <li><b>Scale</b> — a repeatable pipeline</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--bad)">
+      <h4 style="color:var(--bad)">The 3 anti-patterns</h4>
+      <ul>
+        <li><b>Gatekeeper</b> — every decision bottlenecks through the CoE</li>
+        <li><b>Ghost</b> — sets standards nobody sees enforced</li>
+        <li><b>Perfectionist</b> — polishes forever, ships nothing</li>
+      </ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">46</span><span>The agentic CoE <b>governs, enables, optimizes and scales</b> agent work — complementing existing security/cloud/Power Platform CoEs.</span></div>
+    <div class="learn"><span class="n">47</span><span><b>Risk-tiered governance:</b> knowledge-only agents = light review; <b>write-access agents = cross-disciplinary review</b>.</span></div>
+    <div class="learn"><span class="n">48</span><span>Power Platform CoE core roles: <b>executive sponsor, CoE lead, SMEs, developers/IT pros, change management specialists, technology admins, champions</b> — and the CoE Starter Kit remains the tenant-governance toolkit.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>D · AI across multiple Dynamics 365 apps</h2><span class="w">CRM + ERP on shared Dataverse</span></div>
+
+<section class="fig" id="s15">
+  <h3>15 · One customer record, four agents — the shared-Dataverse journey</h3>
+  <p class="cap">CE apps share one Dataverse environment, so a record flows through app-specific agents without integration work. ERP joins via Dataverse and Fabric.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 250">
+    <defs><marker id="ad" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="11.8">
+      <rect x="20" y="30" width="160" height="64" rx="10" fill="#f0fdfa" stroke="#99f6e4"/>
+      <text x="100" y="54" font-weight="700" fill="#115e59" font-size="13">Lead / Opportunity</text>
+      <text x="100" y="72" fill="#5b6b7b">Sales Qualification Agent</text>
+      <text x="100" y="86" fill="#5b6b7b">(D365 Sales)</text>
+      <line x1="180" y1="62" x2="205" y2="62" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ad)"/>
+      <rect x="209" y="30" width="160" height="64" rx="10" fill="#f0fdfa" stroke="#99f6e4"/>
+      <text x="289" y="54" font-weight="700" fill="#115e59" font-size="13">Case</text>
+      <text x="289" y="72" fill="#5b6b7b">Case Management Agent</text>
+      <text x="289" y="86" fill="#5b6b7b">(Customer Service)</text>
+      <line x1="369" y1="62" x2="394" y2="62" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ad)"/>
+      <rect x="398" y="30" width="160" height="64" rx="10" fill="#f0fdfa" stroke="#99f6e4"/>
+      <text x="478" y="54" font-weight="700" fill="#115e59" font-size="13">Work order</text>
+      <text x="478" y="72" fill="#5b6b7b">Scheduling Operations</text>
+      <text x="478" y="86" fill="#5b6b7b">Agent (Field Service)</text>
+      <line x1="558" y1="62" x2="583" y2="62" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ad)"/>
+      <rect x="587" y="30" width="150" height="64" rx="10" fill="#f0fdfa" stroke="#99f6e4"/>
+      <text x="662" y="54" font-weight="700" fill="#115e59" font-size="13">Journey</text>
+      <text x="662" y="72" fill="#5b6b7b">Customer Insights</text>
+      <text x="662" y="86" fill="#5b6b7b">journeys &amp; events</text>
+      <rect x="120" y="140" width="520" height="42" rx="10" fill="#0b2a4a"/>
+      <text x="380" y="166" fill="#fff" font-size="13.5" font-weight="700">Shared Dataverse — one environment, one customer record</text>
+      <line x1="100" y1="94" x2="270" y2="140" stroke="#c8d4e0" stroke-width="1.5"/>
+      <line x1="289" y1="94" x2="340" y2="140" stroke="#c8d4e0" stroke-width="1.5"/>
+      <line x1="478" y1="94" x2="430" y2="140" stroke="#c8d4e0" stroke-width="1.5"/>
+      <line x1="662" y1="94" x2="500" y2="140" stroke="#c8d4e0" stroke-width="1.5"/>
+      <text x="380" y="216" fill="#5b6b7b" font-size="12.3">ERP joins in: F&amp;O data via <tspan font-weight="700" fill="#1a2733">Dataverse virtual tables</tspan> + <tspan font-weight="700" fill="#1a2733">Link to Fabric</tspan> for near-real-time analytics, no ETL</text>
+      <text x="380" y="236" fill="#5b6b7b" font-size="12.3">D365 = "intelligent AI agents, Copilot experiences, and built-in AI across <tspan font-weight="700" fill="#1a2733">ERP and CRM</tspan>" — connect apps to unify teams</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">49</span><span>CE apps (Sales, Customer Service, Field Service, Customer Insights) share <b>one Dataverse environment</b> — a record flows lead → opportunity → case → work order across app agents.</span></div>
+    <div class="learn"><span class="n">50</span><span><b>Finance &amp; operations data</b> integrates through Dataverse <b>virtual tables</b> and <b>Link to Fabric</b> for near-real-time analytics without ETL.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s16">
+  <h3>16 · Cross-app agent scenarios and design considerations</h3>
+  <p class="cap">The combinations the exam likes, and the four design considerations for multi-app solutions.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">Cross-app combinations</h4>
+      <ul>
+        <li><b>Sales Qualification Agent</b> research + <b>Customer Insights</b> journeys/events</li>
+        <li><b>Supplier Communications Agent</b> (SCM) + <b>Account Reconciliation Agent</b> (Finance) sharing Copilot for Finance context</li>
+        <li><b>Sales agent in M365 Copilot</b> synthesizes CRM + M365 data; Copilot for Sales / Service bring D365 (or Salesforce) into Outlook/Teams</li>
+        <li>Customer Service knowledge configured in <b>Copilot Studio</b> reused across Contact Center channels</li>
+        <li>a "front door" agent routes to app agents via <b>connected agents</b>; Foundry/Fabric agents add analytics</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid #b45309">
+      <h4 style="color:#92400e">Design considerations</h4>
+      <ul>
+        <li><b>environment strategy</b> — which apps share environments</li>
+        <li><b>master data</b> — duplicate detection, one source of truth</li>
+        <li><b>consistent security roles</b> across apps</li>
+        <li><b>consumption billing</b> — many D365 agent capabilities meter Copilot Studio credits or pay-as-you-go</li>
+      </ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">51</span><span>Many D365 Copilots are <b>built on Copilot Studio</b> — e.g., the F&amp;O in-app help agent uses the <b>conversational boosting topic</b>, so you can add files/SharePoint knowledge and enable general knowledge there.</span></div>
+    <div class="learn"><span class="n">52</span><span>A <b>multi-app knowledge strategy centralizes sources</b> in Copilot Studio; D365 Customer Service can reuse Copilot Studio-configured knowledge.</span></div>
+    <div class="learn"><span class="n">53</span><span>Use <b>connected agents</b> for a front-door agent that routes to app-specific agents; interoperate with <b>Foundry and Fabric agents</b> for cross-app analytics.</span></div>
+    <div class="learn"><span class="n">54</span><span>Design checklist: <b>environment strategy · master data/duplicate detection · consistent security roles · consumption billing</b>.</span></div>
+    <div class="learn"><span class="n">55</span><span>Positioning sentence to remember: D365 "combines intelligent AI agents, Copilot experiences, and built-in AI across <b>ERP and CRM</b>" — apps work alone or connected.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s17">
+  <h3>17 · Trigger wall — phrase → answer</h3>
+  <p class="cap">Fast recall for the strategy questions.</p>
+  <div class="matrix">
+    <table>
+      <tr><th>Exam phrase</th><th>Answer</th></tr>
+      <tr><td>"Six phases of AI adoption"</td><td>Strategy · Plan · Ready · <b>Govern · Secure · Manage</b> (last three continuous)</td></tr>
+      <tr><td>"Four phases of agent adoption"</td><td>Plan → Govern &amp; secure → Build → Manage</td></tr>
+      <tr><td>"Fastest ROI, minimal customization"</td><td>SaaS Copilots</td></tr>
+      <tr><td>"Low-code department automation"</td><td>Copilot Studio (low-code SaaS)</td></tr>
+      <tr><td>"Model choice / pro-code / evaluations"</td><td>Microsoft Foundry (PaaS)</td></tr>
+      <tr><td>"Bring-your-own model, strict isolation"</td><td>IaaS — GPUs &amp; containers</td></tr>
+      <tr><td>"Internet-facing vs internal AI workloads"</td><td>separate <b>management groups</b> (Ready phase)</td></tr>
+      <tr><td>"Which framework does AI governance align to?"</td><td><b>NIST AI RMF</b></td></tr>
+      <tr><td>"Classic ML ops vs generative ops"</td><td>MLOps vs <b>GenAIOps</b> (Manage phase)</td></tr>
+      <tr><td>"Approval delays, knowledge bottlenecks"</td><td>shift CoE centralized → <b>advisory</b></td></tr>
+      <tr><td>"Who owns the agent lifecycle?"</td><td><b>workload teams</b> (platform enforces, CoE advises)</td></tr>
+      <tr><td>"F&amp;O data for analytics without ETL"</td><td>Dataverse <b>Link to Fabric</b></td></tr>
+    </table>
+  </div>
+</section>
+
+<div class="pager">
+  <a href="visual-plan-1-analyze.html">← Previous<b>1 · Analyze Requirements</b></a>
+  <a class="next" href="visual-plan-3-agents-platforms.html">Next page<b>3 · Agents, Platforms &amp; Prompts →</b></a>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Plan 4 — Costs, ROI, Build-Buy-Extend &amp; the Model Router</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --dark:#0b2a4a; --soft:#e8f1fa;
+  --pg:#15803d; --pg-ink:#166534; --pg-soft:#f0fdf4; --pg-line:#bbf7d0;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#15803d 170%);color:#fff;padding:26px 20px 22px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+.hero-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hero-stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:7px 16px;font-size:12px;color:#dcfce7}
+.hero-stat b{display:block;font-size:16px;color:#fff}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--pg-ink);border-bottom-color:var(--pg)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:120px;letter-spacing:.03em;color:var(--pg-ink)}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--pg);color:var(--pg-ink)}
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--pg)}
+.ghead h2{font-size:21px;color:var(--pg-ink)}
+.ghead span.w{font-size:12.5px;font-weight:700;background:var(--pg-soft);color:var(--pg-ink);border-radius:8px;padding:3px 12px}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+.learns{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:8px;margin-top:14px}
+.learn{display:flex;gap:10px;align-items:flex-start;font-size:13.1px;color:#33475c;background:#fbfcfe;border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.learn .n{flex:0 0 auto;min-width:23px;height:23px;border-radius:50%;background:var(--pg);color:#fff;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.learn b{color:#12293f}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:6px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:22px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0 0 0 18px;font-size:13.4px;color:#33475c}
+.panel li{margin:5px 0}
+.panel li b{color:#12293f}
+.gcse{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.gcse div{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfe;font-size:13.2px;color:var(--muted)}
+.gcse b{display:flex;align-items:center;gap:9px;font-size:14.5px;color:#12293f;margin-bottom:6px}
+.gcse b i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;color:#fff;font-weight:800;font-size:16px;flex:0 0 auto}
+.formula{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:6px}
+.formula div{background:#0b2a4a;color:#fff;border-radius:12px;padding:18px 20px;text-align:center}
+.formula b{display:block;font-size:17px;letter-spacing:.02em}
+.formula span{font-size:12.3px;color:#c9d8ea}
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:560px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td:first-child{font-weight:700;color:#12293f;white-space:nowrap}
+.matrix tr:last-child td{border-bottom:none}
+.numwall{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px}
+.numgrp{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfe}
+.numgrp h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:9px;color:var(--pg-ink)}
+.numgrp table{width:100%;border-collapse:collapse;font-size:13px}
+.numgrp td{padding:3.5px 0;color:#33475c}
+.numgrp td:last-child{text-align:right;font-weight:800;color:#12293f;white-space:nowrap}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+.pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;text-decoration:none;color:#33475c;font-size:13px}
+.pager a:hover{border-color:var(--pg)}
+.pager a b{display:block;color:var(--pg-ink);font-size:14.5px;margin-top:2px}
+.pager a.next{text-align:right}
+@media print{nav.bar,.toc,.pager{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Visual Learn — Plan Domain · Page 4 of 4</div>
+  <h1>Evaluate Costs &amp; Benefits — ROI, TCO, Build-Buy-Extend &amp; the Model Router</h1>
+  <p class="sub">Skills 17–20: the ROI criteria and formulas, the full TCO picture with Copilot Credit rates, a repeatable ROI-analysis method, the build-buy-extend decision, and routing requests to the most suitable model.</p>
+  <div class="hero-stats">
+    <span class="hero-stat"><b>46</b>numbered learn items</span>
+    <span class="hero-stat"><b>12</b>visuals</span>
+    <span class="hero-stat"><b>4</b>skills covered</span>
+    <span class="hero-stat"><b>25–30%</b>Plan domain weight</span>
+  </div>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="visual-plan-1-analyze.html">1 · Analyze</a>
+  <a href="visual-plan-2-strategy.html">2 · Strategy</a>
+  <a href="visual-plan-3-agents-platforms.html">3 · Agents &amp; Platforms</a>
+  <a href="visual-plan-4-costs-roi.html" class="here">4 · Costs &amp; ROI</a>
+  <a href="AB100notes1plan.html">📚 Plan notes</a>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl">ROI criteria</span><a href="#r1">Money formulas</a><a href="#r2">Four-pillar framework</a><a href="#r3">Agent Assisted Hours</a></div>
+  <div class="row"><span class="gl">TCO</span><a href="#r4">TCO iceberg</a><a href="#r5">Licensing tiles</a><a href="#r6">Credit rate ladder</a></div>
+  <div class="row"><span class="gl">ROI analysis</span><a href="#r7">The method pipeline</a><a href="#r8">Adoption levers</a></div>
+  <div class="row"><span class="gl">Decisions</span><a href="#r9">Build · buy · extend</a><a href="#r10">Model router</a><a href="#r11">Router vs direct</a><a href="#r12">Numbers wall</a></div>
+</div>
+
+<div class="ghead"><div class="gbar"></div><h2>A · ROI criteria &amp; the value framework</h2><span class="w">including total cost of ownership</span></div>
+
+<section class="fig" id="r1">
+  <h3>1 · The money formulas</h3>
+  <p class="cap">The Azure business-case glossary vocabulary — compute these cold.</p>
+  <div class="formula">
+    <div><b>ROI % = (benefit − cost) ÷ cost × 100</b><span>net benefits over costs — classify benefits tangible vs intangible</span></div>
+    <div><b>Payback = cost ÷ monthly net benefit</b><span>months until the investment repays itself</span></div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">1</span><span><b>ROI = (benefits − costs) ÷ costs</b>; classify benefits as tangible vs intangible.</span></div>
+    <div class="learn"><span class="n">2</span><span><b>Payback period</b> = cost ÷ monthly net benefit; also know <b>NPV, CAPEX vs OPEX, net cash flow</b> from the business-case glossary.</span></div>
+    <div class="learn"><span class="n">3</span><span>Benefit categories: <b>efficiency/cost reduction, speed/responsiveness, scalability</b>; measurable results: lower operating costs, improved CSAT, faster innovation.</span></div>
+    <div class="learn"><span class="n">4</span><span>Value drivers to name: <b>performance improvement, cost savings, risk mitigation</b>; value measures: efficiency · revenue · productivity · TCO · satisfaction.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="r2">
+  <h3>2 · The four-pillar value framework — and honest measurement</h3>
+  <p class="cap">Microsoft's agent business-value guidance: quantitative + qualitative metrics per pillar, leading vs lagging indicators.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">Framework mechanics</h4>
+      <ul>
+        <li><b>four value pillars</b>, each with quantitative + qualitative metrics</li>
+        <li><b>leading</b> indicators predict; <b>lagging</b> indicators confirm</li>
+        <li>time saved = <b>leading</b> — track where reclaimed time goes</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--bad)">
+      <h4 style="color:var(--bad)">Measurement discipline</h4>
+      <ul>
+        <li>baseline <b>before</b> rollout</li>
+        <li>keep a <b>non-user comparison group</b></li>
+        <li>avoid vanity metrics: <b>seats purchased ≠ value</b></li>
+      </ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">5</span><span>The value framework uses <b>four pillars</b> with quantitative <em>and</em> qualitative metrics, plus <b>leading vs lagging</b> indicators.</span></div>
+    <div class="learn"><span class="n">6</span><span><b>Time saved is a leading indicator</b> — the value story depends on where the reclaimed time goes.</span></div>
+    <div class="learn"><span class="n">7</span><span>Honest ROI: <b>baseline before rollout, keep a non-user comparison group, reject vanity metrics</b> like seats purchased.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="r3">
+  <h3>3 · Agent Assisted Hours — the published formula, worked</h3>
+  <p class="cap">Weight sessions by knowledge grounding → minutes saved → hours → dollars. The exam can hand you these numbers.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 210">
+    <defs><marker id="arrR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="12">
+      <rect x="16" y="40" width="170" height="76" rx="12" fill="#f0fdf4" stroke="#bbf7d0"/>
+      <text x="101" y="64" font-weight="700" fill="#166534" font-size="13">Weighted sessions</text>
+      <text x="101" y="83" fill="#5b6b7b" font-size="11.5">10,000 grounded ×1.0</text>
+      <text x="101" y="98" fill="#5b6b7b" font-size="11.5">+3,000×1.0 +2,000×0.7</text>
+      <text x="101" y="113" font-weight="800" fill="#12293f" font-size="12.5">= 14,400</text>
+      <line x1="186" y1="78" x2="212" y2="78" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arrR)"/>
+      <rect x="216" y="40" width="150" height="76" rx="12" fill="#f0fdf4" stroke="#bbf7d0"/>
+      <text x="291" y="64" font-weight="700" fill="#166534" font-size="13">× minutes saved</text>
+      <text x="291" y="84" fill="#5b6b7b" font-size="11.5">× 6 min ÷ 60</text>
+      <text x="291" y="103" font-weight="800" fill="#12293f" font-size="12.5">= 1,440 h / month</text>
+      <line x1="366" y1="78" x2="392" y2="78" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arrR)"/>
+      <rect x="396" y="40" width="160" height="76" rx="12" fill="#f0fdf4" stroke="#bbf7d0"/>
+      <text x="476" y="64" font-weight="700" fill="#166534" font-size="13">× loaded rate</text>
+      <text x="476" y="84" fill="#5b6b7b" font-size="11.5">× $72 / hour</text>
+      <text x="476" y="103" font-weight="800" fill="#12293f" font-size="12.5">= $103,680 / month</text>
+      <line x1="556" y1="78" x2="582" y2="78" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arrR)"/>
+      <rect x="586" y="40" width="158" height="76" rx="12" fill="#0b2a4a"/>
+      <text x="665" y="72" font-weight="700" fill="#fff" font-size="14">≈ $1.24M / year</text>
+      <text x="665" y="93" fill="#c9d8ea" font-size="11.5">the value story number</text>
+      <text x="380" y="160" fill="#5b6b7b" font-size="12.3">Copilot Studio's built-in <tspan font-weight="700" fill="#1a2733">Savings calculator</tspan>: time or money saved per run or per tool, shown in the Analytics tab</text>
+      <text x="380" y="180" fill="#5b6b7b" font-size="12.3">admins can disable money-saving rules · 16 use-case blueprints (HR, IT, finance, legal…) + a metrics reference library</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">8</span><span><b>Agent Assisted Hours:</b> weight sessions by knowledge grounding, multiply by minutes saved, convert to hours × <b>loaded hourly rate</b> → dollar value.</span></div>
+    <div class="learn"><span class="n">9</span><span>Worked example: 14,400 weighted sessions × 6 min ÷ 60 = <b>1,440 h/month</b> × $72 = <b>$103,680/month (~$1.24M/yr)</b>.</span></div>
+    <div class="learn"><span class="n">10</span><span>The <b>Savings calculator</b> (time or money saved per run/tool) feeds the Analytics tab; admins can disable money rules; <b>16 use-case blueprints</b> + a metrics reference library support estimates.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>B · Total cost of ownership</h2><span class="w">the license is the tip</span></div>
+
+<section class="fig" id="r4">
+  <h3>4 · The TCO iceberg</h3>
+  <p class="cap">Licenses float above the waterline; most of the cost is under it.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 330">
+    <rect x="0" y="118" width="760" height="212" fill="#e8f4f9"/>
+    <text x="708" y="138" text-anchor="end" font-size="11.5" fill="#7aa8c0" font-weight="700">waterline</text>
+    <polygon points="380,16 520,118 240,118" fill="#dbeafe" stroke="#93c5fd"/>
+    <text x="380" y="86" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1d4ed8">Licenses &amp; subscriptions</text>
+    <text x="380" y="104" text-anchor="middle" font-size="11.5" fill="#5b6b7b">M365 Copilot · Copilot Studio packs · D365</text>
+    <polygon points="380,16 520,118 620,236 380,316 140,236 240,118" fill="none"/>
+    <polygon points="240,118 520,118 620,236 380,316 140,236" fill="#f0f9ff" stroke="#bae6fd"/>
+    <g text-anchor="middle" font-size="12.3" fill="#0c4a6e">
+      <text x="380" y="150" font-weight="700">Consumption — credits · tokens in/out · storage · compute · AI Search · grounding</text>
+      <text x="380" y="178">Implementation &amp; integration effort · data preparation / AI-readiness</text>
+      <text x="380" y="206">Fine-tuning training + hosting · testing &amp; evaluation</text>
+      <text x="380" y="234">Monitoring &amp; administration · D365 agent consumption / pay-as-you-go</text>
+      <text x="380" y="262" font-weight="700">Training &amp; change management</text>
+      <text x="380" y="290" font-size="11.8" fill="#075985">"the license isn't the investment — adoption is"</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">11</span><span>TCO = <b>licenses + consumption</b> (credits, tokens, storage, compute, grounding connections, AI Search) + everything below the waterline.</span></div>
+    <div class="learn"><span class="n">12</span><span>Below the line: <b>implementation/integration, data preparation and AI-readiness, fine-tuning training + hosting, testing/evaluation</b>.</span></div>
+    <div class="learn"><span class="n">13</span><span>Ongoing: <b>monitoring/administration, D365 agent consumption or pay-as-you-go, training and change management</b>.</span></div>
+    <div class="learn"><span class="n">14</span><span>Classic TCO component list: hardware, software/<b>licensing</b>, maintenance, energy, <b>personnel</b>, downtime, replacement — vs the platform's consumption cost (credits/tokens/PTU).</span></div>
+    <div class="learn"><span class="n">15</span><span>Quote to remember: <b>"the license isn't the investment — adoption is."</b></span></div>
+  </div>
+</section>
+
+<section class="fig" id="r5">
+  <h3>5 · Licensing &amp; capacity — the four tiles</h3>
+  <p class="cap">List prices are exam-level approximations — verify current prices on official pages.</p>
+  <div class="tiles">
+    <div class="tile"><b>~$30</b><span>M365 Copilot / user / month — includes Researcher, Analyst, declarative agents</span></div>
+    <div class="tile"><b>25,000</b><span>Copilot Credits per capacity pack / month (~$200)</span></div>
+    <div class="tile"><b>~$0.01</b><span>per credit, pay-as-you-go via Azure</span></div>
+    <div class="tile"><b>$0</b><span>Copilot Studio user (maker) license</span></div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">16</span><span><b>M365 Copilot</b> = per-user subscription (~$30/user/month) covering Researcher/Analyst, Copilot in apps, and declarative-agent use by licensed users.</span></div>
+    <div class="learn"><span class="n">17</span><span><b>Copilot Studio</b> = tenant capacity packs of <b>25,000 credits/month (~$200)</b> plus <b>PAYG (~$0.01/credit)</b> via an Azure subscription; the maker license itself is $0.</span></div>
+    <div class="learn"><span class="n">18</span><span>Mechanics: <b>prepaid credits consumed first</b>, PAYG absorbs overage automatically, <b>no rollover</b> (monthly reset on the 1st).</span></div>
+    <div class="learn"><span class="n">19</span><span>Capacity is <b>pooled tenant-wide and allocated to environments</b>; exceeding capacity without PAYG can mean <b>enforcement / service denial</b>.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="r6">
+  <h3>6 · The Copilot Credit rate ladder</h3>
+  <p class="cap">Billing rates per event — the most quoted numbers in cost questions.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 250">
+    <g font-size="12.5">
+      <rect x="40"  y="196" width="90"  height="28" rx="6" fill="#dcfce7"/><text x="85"  y="215" text-anchor="middle" font-weight="800" fill="#166534">1</text>
+      <text x="140" y="215" fill="#33475c">classic answer</text>
+      <rect x="40"  y="160" width="110" height="28" rx="6" fill="#bbf7d0"/><text x="95"  y="179" text-anchor="middle" font-weight="800" fill="#166534">2</text>
+      <text x="160" y="179" fill="#33475c">generative answer</text>
+      <rect x="40"  y="124" width="150" height="28" rx="6" fill="#86efac"/><text x="115" y="143" text-anchor="middle" font-weight="800" fill="#14532d">5</text>
+      <text x="200" y="143" fill="#33475c">agent action (tool / autonomous)</text>
+      <rect x="40"  y="88"  width="200" height="28" rx="6" fill="#4ade80"/><text x="140" y="107" text-anchor="middle" font-weight="800" fill="#14532d">10</text>
+      <text x="250" y="107" fill="#33475c">tenant graph grounding (non-licensed users)</text>
+      <rect x="40"  y="52"  width="250" height="28" rx="6" fill="#22c55e"/><text x="165" y="71" text-anchor="middle" font-weight="800" fill="#fff">13 / 100</text>
+      <text x="300" y="71" fill="#33475c">agent flow actions (per 100)</text>
+      <rect x="40"  y="16"  width="310" height="28" rx="6" fill="#15803d"/><text x="195" y="35" text-anchor="middle" font-weight="800" fill="#fff">10 · 35 · 75 / min</text>
+      <text x="360" y="35" fill="#33475c">voice: classic · GenAI · premium GenAI</text>
+      <text x="560" y="120" fill="#5b6b7b" font-size="12">AI tools per 10 responses:</text>
+      <text x="560" y="140" fill="#33475c" font-size="12"><tspan font-weight="800">1</tspan> basic · <tspan font-weight="800">15</tspan> standard · <tspan font-weight="800">100</tspan> premium</text>
+      <text x="560" y="168" fill="#5b6b7b" font-size="12">content processing:</text>
+      <text x="560" y="188" fill="#33475c" font-size="12"><tspan font-weight="800">8</tspan> credits per page</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">20</span><span>Core ladder: <b>classic 1 · generative 2 · agent action 5 · graph grounding 10 · agent flows 13/100 actions</b>.</span></div>
+    <div class="learn"><span class="n">21</span><span>AI tools per 10 responses: <b>basic 1 · standard 15 · premium 100</b>; <b>content processing 8 credits/page</b>.</span></div>
+    <div class="learn"><span class="n">22</span><span>Voice per minute: <b>classic 10 · GenAI 35 · premium GenAI 75</b>.</span></div>
+    <div class="learn"><span class="n">23</span><span>The big TCO lever: <b>M365 Copilot-licensed users pay zero credits</b> when using Copilot Studio agents.</span></div>
+    <div class="learn"><span class="n">24</span><span><b>Test-chat messages aren't billed; preview features do bill</b> — forecast with the Copilot Studio agent usage estimator.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>C · The ROI analysis method</h2><span class="w">define → measure → tell the story</span></div>
+
+<section class="fig" id="r7">
+  <h3>7 · The ROI pipeline — eight steps for any business process</h3>
+  <p class="cap">The repeatable exam method: value defined before build, gates in the middle, analytics at the end.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 190">
+    <defs><marker id="arrQ" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="11.3">
+      <rect x="12"  y="30" width="168" height="54" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/><text x="96"  y="52" font-weight="700" fill="#166534" font-size="12.3">1 · Pick process + baseline</text><text x="96" y="70" fill="#5b6b7b">handle time · volume · cost/transaction</text>
+      <line x1="180" y1="57" x2="200" y2="57" stroke="#5b6b7b" stroke-width="2" marker-end="url(#arrQ)"/>
+      <rect x="204" y="30" width="168" height="54" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/><text x="288" y="52" font-weight="700" fill="#166534" font-size="12.3">2 · Estimate benefit</text><text x="288" y="70" fill="#5b6b7b">hours × loaded cost · deflection % · uplift</text>
+      <line x1="372" y1="57" x2="392" y2="57" stroke="#5b6b7b" stroke-width="2" marker-end="url(#arrQ)"/>
+      <rect x="396" y="30" width="168" height="54" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/><text x="480" y="52" font-weight="700" fill="#166534" font-size="12.3">3 · Compute TCO</text><text x="480" y="70" fill="#5b6b7b">licenses + credits + build + run + change</text>
+      <line x1="564" y1="57" x2="584" y2="57" stroke="#5b6b7b" stroke-width="2" marker-end="url(#arrQ)"/>
+      <rect x="588" y="30" width="158" height="54" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/><text x="667" y="52" font-weight="700" fill="#166534" font-size="12.3">4 · ROI · payback · NPV</text><text x="667" y="70" fill="#5b6b7b">the financial case</text>
+      <rect x="12"  y="112" width="168" height="54" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/><text x="96"  y="134" font-weight="700" fill="#166534" font-size="12.3">5 · Set decision gates</text><text x="96" y="152" fill="#5b6b7b">metrics as go/no-go at each stage</text>
+      <line x1="180" y1="139" x2="200" y2="139" stroke="#5b6b7b" stroke-width="2" marker-end="url(#arrQ)"/>
+      <rect x="204" y="112" width="168" height="54" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/><text x="288" y="134" font-weight="700" fill="#166534" font-size="12.3">6 · Measure actuals</text><text x="288" y="152" fill="#5b6b7b">Studio Analytics · savings calculator · PPAC</text>
+      <line x1="372" y1="139" x2="392" y2="139" stroke="#5b6b7b" stroke-width="2" marker-end="url(#arrQ)"/>
+      <rect x="396" y="112" width="168" height="54" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/><text x="480" y="134" font-weight="700" fill="#166534" font-size="12.3">7 · Tell the value story</text><text x="480" y="152" fill="#5b6b7b">3 measurement tiers · value curve · scorecard</text>
+      <line x1="564" y1="139" x2="584" y2="139" stroke="#5b6b7b" stroke-width="2" marker-end="url(#arrQ)"/>
+      <rect x="588" y="112" width="158" height="54" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/><text x="667" y="134" font-weight="700" fill="#166534" font-size="12.3">8 · Iterate or retire</text><text x="667" y="152" fill="#5b6b7b">scale winners, kill losers</text>
+      <line x1="667" y1="84" x2="96" y2="110" stroke="#c8d4e0" stroke-width="1.5"/>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">25</span><span><b>Define value before you build:</b> four discovery questions, a prioritization grid, a baseline protocol (current handle time, volume, cost per transaction), plus a licensing/consumption plan and prebuild governance checklist.</span></div>
+    <div class="learn"><span class="n">26</span><span>Estimate benefits as <b>hours saved × loaded cost, deflection %, revenue uplift</b>; compute TCO as licenses + credits/consumption + build + run + change management.</span></div>
+    <div class="learn"><span class="n">27</span><span>Produce <b>ROI, payback and NPV</b>, then set <b>decision gates</b> before building further.</span></div>
+    <div class="learn"><span class="n">28</span><span>Measure post-deployment with <b>Copilot Studio Analytics, the savings calculator, and Power Platform admin center consumption reports</b> — then iterate or retire.</span></div>
+    <div class="learn"><span class="n">29</span><span>"Tell the value story" uses <b>three measurement tiers</b>, the <b>value curve over time</b>, and an <b>executive scorecard template</b>.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="r8">
+  <h3>8 · Adoption levers that maximize ROI</h3>
+  <p class="cap">ROI is made after go-live. Five levers, one rhythm.</p>
+  <div class="gcse">
+    <div><b><i style="background:#15803d">1</i>Role-based training</b><b>managers first</b> — they model usage</div>
+    <div><b><i style="background:#0891b2">2</i>Anchor to a workflow</b>each agent tied to a <b>named high-volume workflow</b></div>
+    <div><b><i style="background:#7c3aed">3</i>Visible executive usage</b>leaders using agents in the open</div>
+    <div><b><i style="background:#b45309">4</i>Shared prompt libraries</b>updated <b>monthly</b> from analytics themes</div>
+    <div><b><i style="background:#c62828">5</i>Visible guardrails</b>trust drives usage</div>
+    <div><b><i style="background:#334155">↻</i>Quarterly rhythm</b>build → <b>measure 90 days vs baseline</b> → scale or retire</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">30</span><span>Levers: <b>role-based training (managers first), agents anchored to named high-volume workflows, visible executive usage, monthly-updated prompt libraries, visible guardrails</b>.</span></div>
+    <div class="learn"><span class="n">31</span><span>The expansion rhythm is <b>quarterly: build → measure 90 days against baseline → scale or retire</b>.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>D · Build, buy, or extend — and the model router</h2><span class="w">the two closing decisions</span></div>
+
+<section class="fig" id="r9">
+  <h3>9 · Build · buy · extend — decided per use case</h3>
+  <p class="cap">Buy sits at the top, extend in the middle, build at the bottom — with tradeoffs at every level.</p>
+  <div class="matrix">
+    <table>
+      <tr><th>Option</th><th>When</th><th>Tradeoff</th></tr>
+      <tr><td>Buy / adopt</td><td>a prebuilt SaaS agent covers ≥ the functional need (M365 agents, D365 agents, GitHub Copilot, Fabric/Azure/Security Copilot)</td><td>fastest value, least customization</td></tr>
+      <tr><td>Extend</td><td>the gap is <b>knowledge/actions on top of an existing Copilot/agent</b> — M365 extensibility, D365 agent + Copilot Studio, agent templates</td><td>rapid, "clear and measurable ROI" — bounded by the host</td></tr>
+      <tr><td>Build low-code</td><td>process is unique but integration is standard → Copilot Studio</td><td>business-team velocity; heavy customization can force a <b>re-platform to PaaS</b></td></tr>
+      <tr><td>Build pro-code</td><td>custom models, orchestration, isolation, multi-agent beyond low-code → Foundry / IaaS</td><td>control + engineering skill; IaaS = maximum ops ownership</td></tr>
+    </table>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">32</span><span>The CAF question again: <b>"Does a SaaS agent meet your functional requirements?"</b> — yes → buy/adopt; no → build (Studio low-code / Foundry PaaS / GPUs-containers IaaS).</span></div>
+    <div class="learn"><span class="n">33</span><span><b>Extend sits between</b>: M365 Copilot extensibility (declarative agents, connectors, API actions), extending D365 first-party agents via Copilot Studio, and customizable agent templates.</span></div>
+    <div class="learn"><span class="n">34</span><span>Adoption-model tradeoffs: SaaS = fastest value/least custom; SaaS dev platforms can hit limits and <b>force a re-platform to PaaS</b>; PaaS = control + skills; IaaS = maximum control + maximum ops.</span></div>
+    <div class="learn"><span class="n">35</span><span>Partner-built agents from the <b>Agent Store / Marketplace are "buy" options</b>; the WAF SaaS AI table compares buy prebuilt / customize (fine-tune) / build your own.</span></div>
+    <div class="learn"><span class="n">36</span><span>Practice: <b>time-boxed prototypes</b> comparing low-code vs pro-code before committing, with a stakeholder-reviewed recommendation.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="r10">
+  <h3>10 · The model router — one endpoint, many brains</h3>
+  <p class="cap">A deployable Foundry "model" that is really a trained routing model: it reads each prompt and forwards it to the best underlying chat model.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 300">
+    <defs><marker id="arrM" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <rect x="30" y="118" width="150" height="64" rx="12" fill="#f1f5f9" stroke="#d8e0e8"/>
+    <text x="105" y="145" text-anchor="middle" font-size="13.5" font-weight="700" fill="#334155">Any prompt</text>
+    <text x="105" y="165" text-anchor="middle" font-size="11.8" fill="#5b6b7b">single API · single rate limit</text>
+    <line x1="180" y1="150" x2="248" y2="150" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arrM)"/>
+    <rect x="252" y="106" width="216" height="88" rx="14" fill="#0b2a4a"/>
+    <text x="360" y="136" text-anchor="middle" fill="#fff" font-size="15.5" font-weight="700">Model router</text>
+    <text x="360" y="157" text-anchor="middle" fill="#c9d8ea" font-size="11.8">analyzes each prompt in real time</text>
+    <text x="360" y="175" text-anchor="middle" fill="#c9d8ea" font-size="11.8">content filter + TPM set once here</text>
+    <line x1="468" y1="126" x2="536" y2="66"  stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arrM)"/>
+    <line x1="468" y1="150" x2="536" y2="150" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arrM)"/>
+    <line x1="468" y1="174" x2="536" y2="234" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#arrM)"/>
+    <rect x="540" y="36" width="196" height="56" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
+    <text x="638" y="59" text-anchor="middle" font-size="12.5" font-weight="700" fill="#166534">Fast / cheap models</text>
+    <text x="638" y="78" text-anchor="middle" font-size="11.5" fill="#5b6b7b">gpt-4o-mini · claude-haiku-4-5 …</text>
+    <rect x="540" y="122" width="196" height="56" rx="10" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="638" y="145" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1d4ed8">Balanced models</text>
+    <text x="638" y="164" text-anchor="middle" font-size="11.5" fill="#5b6b7b">gpt-4o · claude-sonnet-4-5 · V3.2 …</text>
+    <rect x="540" y="208" width="196" height="56" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/>
+    <text x="638" y="231" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5b21b6">Reasoning models</text>
+    <text x="638" y="250" text-anchor="middle" font-size="11.5" fill="#5b6b7b">gpt-5.2 · claude-opus-4-6 · grok-4 …</text>
+    <text x="380" y="288" text-anchor="middle" font-size="12" fill="#5b6b7b">the selected model is always <tspan font-weight="700" fill="#1a2733">disclosed in the response's model field</tspan> · no prompt storage · honors data-zone boundaries</text>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">37</span><span>Deployed like any Foundry model (<b>model-router</b> in the catalog): <b>one deployment, one API, one rate limit</b> — cutting cost and latency while keeping quality.</span></div>
+    <div class="learn"><span class="n">38</span><span>Transparency &amp; trust: the chosen model is <b>disclosed in the response's model field</b>; the router <b>doesn't store prompts</b> and routes only within your <b>data-zone / compliance geography</b> and access.</span></div>
+    <div class="learn"><span class="n">39</span><span>Routing modes: <b>Balanced</b> (default, within ~1–2% of top quality) · <b>Cost</b> (~5–6% quality band, cheapest) · <b>Quality</b> (best regardless of cost); mode changes take <b>up to 5 minutes</b>.</span></div>
+    <div class="learn"><span class="n">40</span><span><b>Model subsets</b> control which models participate; <b>new models are excluded by default</b> until added; the router recalibrates automatically.</span></div>
+    <div class="learn"><span class="n">41</span><span>GA version 2025-11-18: Global Standard + Data Zone Standard; underlying models include GPT-5 series, gpt-4o/mini, <b>Anthropic Claude (must be deployed separately first)</b>, Grok, DeepSeek, gpt-oss-120b, Llama-4 — all others need no separate deployment.</span></div>
+    <div class="learn"><span class="n">42</span><span>Constraints: effective context window = <b>the smallest underlying model</b> (use subsets for large-context needs); <b>content filter and TPM limits are set once at the router</b>; supports tools/agentic use (Foundry Agent Service, per-step model fit); <b>reasoning_effort supported; temperature/top_p ignored</b> when a reasoning model is selected.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="r11">
+  <h3>11 · Router vs direct deployment — and the hybrid pattern</h3>
+  <p class="cap">The closing judgment call in the Plan domain.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">Choose the router when…</h4>
+      <ul>
+        <li><b>diverse prompt mixes</b> · cost optimization</li>
+        <li>latency-sensitive high traffic · agents</li>
+        <li>single-endpoint simplicity · automatic failover</li>
+        <li>simplified lifecycle — <b>deprecated models replaced transparently</b> (auto-update)</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid #b45309">
+      <h4 style="color:#92400e">Choose direct deployment when…</h4>
+      <ul>
+        <li>you need the <b>same model on every request</b></li>
+        <li>parameter-sensitive or <b>compliance-pinned</b> workloads</li>
+        <li>hybrid pattern: <b>router as default path + direct deployments for specialized workloads</b></li>
+      </ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">43</span><span>Router for <b>mixed workloads, cost, latency, agents, failover, single endpoint</b>; direct deployment for <b>same-model-every-request</b>, parameter-sensitive or compliance-pinned workloads.</span></div>
+    <div class="learn"><span class="n">44</span><span><b>Hybrid pattern:</b> router as the default path, direct deployments for specialized workloads.</span></div>
+    <div class="learn"><span class="n">45</span><span>CAF cost governance quote: "for <b>productivity and action agents</b>, use the Model Router to dynamically optimize costs while maintaining quality."</span></div>
+    <div class="learn"><span class="n">46</span><span>Trigger pair: "reduce cost across mixed workloads, one endpoint" → <b>router (Balanced)</b> · "audit-critical legal/medical" → <b>Quality mode or a pinned direct deployment</b>.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="r12">
+  <h3>12 · The cost numbers wall</h3>
+  <p class="cap">Every number from this page in one place — read it until the ladders chant themselves.</p>
+  <div class="numwall">
+    <div class="numgrp"><h4>Credits ladder</h4><table>
+      <tr><td>classic answer</td><td>1</td></tr>
+      <tr><td>generative answer</td><td>2</td></tr>
+      <tr><td>agent action</td><td>5</td></tr>
+      <tr><td>graph grounding</td><td>10</td></tr>
+      <tr><td>agent flows</td><td>13 / 100</td></tr>
+      <tr><td>content processing</td><td>8 / page</td></tr>
+      <tr><td>voice / minute</td><td>10 · 35 · 75</td></tr>
+    </table></div>
+    <div class="numgrp"><h4>Capacity &amp; licenses</h4><table>
+      <tr><td>capacity pack / month</td><td>25,000</td></tr>
+      <tr><td>pack list price</td><td>~$200</td></tr>
+      <tr><td>PAYG per credit</td><td>~$0.01</td></tr>
+      <tr><td>M365 Copilot / user / mo</td><td>~$30</td></tr>
+      <tr><td>maker license</td><td>$0</td></tr>
+      <tr><td>carryover</td><td>none</td></tr>
+    </table></div>
+    <div class="numgrp"><h4>Worked ROI example</h4><table>
+      <tr><td>weighted sessions</td><td>14,400</td></tr>
+      <tr><td>minutes saved each</td><td>6</td></tr>
+      <tr><td>hours / month</td><td>1,440</td></tr>
+      <tr><td>loaded rate</td><td>$72</td></tr>
+      <tr><td>value / month</td><td>$103,680</td></tr>
+      <tr><td>value / year</td><td>~$1.24M</td></tr>
+    </table></div>
+    <div class="numgrp"><h4>Router &amp; rhythm</h4><table>
+      <tr><td>Balanced quality band</td><td>~1–2%</td></tr>
+      <tr><td>Cost quality band</td><td>~5–6%</td></tr>
+      <tr><td>mode change</td><td>≤ 5 min</td></tr>
+      <tr><td>measure vs baseline</td><td>90 days</td></tr>
+      <tr><td>prompt library refresh</td><td>monthly</td></tr>
+      <tr><td>blueprints available</td><td>16</td></tr>
+    </table></div>
+  </div>
+  <div class="hook">💡 <b>Final hook:</b> free rides — <b>M365 Copilot-licensed users</b> on Studio agents and <b>test-chat messages</b> cost 0 credits. Paid surprises — <b>preview features bill</b>, and running out of prepaid credits <b>without PAYG</b> can block agents.</div>
+</section>
+
+<div class="pager">
+  <a href="visual-plan-3-agents-platforms.html">← Previous<b>3 · Agents, Platforms &amp; Prompts</b></a>
+  <a class="next" href="visual-learn.html">Back to<b>🎨 Visual Learn overview →</b></a>
+</div>
+
+</div>
+</body>
+</html>

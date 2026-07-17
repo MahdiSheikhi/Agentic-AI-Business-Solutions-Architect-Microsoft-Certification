@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Visuals 1 · Copilot in Dynamics 365 &amp; Agent Types</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --accent:#0e7490; --soft:#ecfeff; --dark:#0b2a4a;
+  --design:#7c3aed; --design-ink:#6d28d9; --design-soft:#f5f3ff;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+  --warn:#b45309; --warn-soft:#fffbeb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55;counter-reset:item}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#0e7490 160%);color:#fff;padding:26px 20px 20px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+header.hero .count{display:inline-block;margin-top:10px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 16px;font-size:13px}
+header.hero .count b{font-size:15px}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--accent);border-bottom-color:var(--accent)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:112px;letter-spacing:.03em}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--gc,var(--accent))}
+.ghead h2{font-size:21px;color:var(--gc,var(--dark))}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:14px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto;margin-bottom:8px}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+.items{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin:8px 0 4px}
+.items.wide{grid-template-columns:1fr}
+.li{position:relative;border:1px solid var(--line);border-left:4px solid var(--iac,var(--accent));border-radius:11px;padding:10px 13px 10px 48px;background:#fbfcfe;font-size:13.1px;color:#33475c;line-height:1.5}
+.li::before{counter-increment:item;content:counter(item);position:absolute;left:11px;top:10px;width:26px;height:26px;border-radius:8px;background:var(--iac,var(--accent));color:#fff;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center}
+.li b{color:#12293f}
+.li b.t{display:block;font-size:13.7px;margin-bottom:2px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0 0 0 18px;font-size:13.4px;color:#33475c}
+.panel li{margin:5px 0}
+.panel li b{color:#12293f}
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:560px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td:first-child{font-weight:700;color:#12293f;white-space:nowrap}
+.matrix tr:last-child td{border-bottom:none}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.pill{border:1px solid var(--line);background:#fbfcfe;border-radius:999px;padding:6px 14px;font-size:12.8px;color:#33475c}
+.pill b{color:#12293f}
+.footnav{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+.footnav a{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px;font-size:14px;flex:1;max-width:48%;text-decoration:none;color:var(--ink)}
+.footnav a:hover{border-color:var(--accent)}
+.footnav .dir{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+@media print{nav.bar,.toc,.footnav{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Design AI-Powered Business Solutions · Visual 1 of 4</div>
+  <h1>Copilot in Dynamics 365 — Sales, Service, Contact Center &amp; the Agent Palette</h1>
+  <p class="sub">Business terms, customizations and connectors for Copilot in Dynamics 365 customer experience apps · agents on Contact Center channels · designing prompt-and-response, task and autonomous agents.</p>
+  <div class="count"><b id="icount">0</b> numbered learn items on this page</div>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="design-visual-1-dynamics-copilot.html" class="here">1 · D365 Copilot &amp; Agents</a>
+  <a href="design-visual-2-copilot-studio.html">2 · Copilot Studio &amp; Power Platform</a>
+  <a href="design-visual-3-extensibility.html">3 · Extensibility</a>
+  <a href="design-visual-4-orchestration.html">4 · Prebuilt Orchestration</a>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl" style="color:var(--accent)">Sales Copilot</span><a href="#s1">Business terms</a><a href="#s2">Enablement &amp; customization</a><a href="#s3">Connectors</a></div>
+  <div class="row"><span class="gl" style="color:var(--design-ink)">Service Copilot</span><a href="#s4">Help pane &amp; summaries</a></div>
+  <div class="row"><span class="gl" style="color:var(--warn)">Contact Center</span><a href="#s5">Deployment models</a><a href="#s6">Channels &amp; routing</a><a href="#s7">Agents on channels</a></div>
+  <div class="row"><span class="gl" style="color:var(--good)">Agent types</span><a href="#s8">The three types</a><a href="#s9">Autonomous design rules</a><a href="#s10">First-party roster</a></div>
+</div>
+
+<!-- ============ SALES ============ -->
+<div class="ghead" style="--gc:var(--accent)"><div class="gbar"></div><h2>Copilot in Dynamics 365 Sales</h2></div>
+
+<section class="fig" id="s1" style="--iac:#0e7490">
+  <h3>1 · Business terms — the configuration path</h3>
+  <p class="cap">Direct exam bullet. Business terms are <b>not</b> configured in the Sales app — the path runs through Copilot Studio. Walk the pipeline left to right.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 210">
+    <defs><marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle">
+      <rect x="20" y="30" width="150" height="60" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="95" y="56" font-size="13" font-weight="700" fill="#0e7490">Copilot Studio</text>
+      <text x="95" y="74" font-size="11.3" fill="#5b6b7b">environment of the Sales app</text>
+      <line x1="170" y1="60" x2="198" y2="60" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#a1)"/>
+      <rect x="202" y="30" width="180" height="60" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="292" y="52" font-size="12.6" font-weight="700" fill="#0e7490">Agent:</text>
+      <text x="292" y="68" font-size="12.2" font-weight="700" fill="#0e7490">“Copilot in Dynamics 365 Sales”</text>
+      <line x1="382" y1="60" x2="410" y2="60" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#a1)"/>
+      <rect x="414" y="30" width="160" height="60" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="494" y="52" font-size="13" font-weight="700" fill="#0e7490">Knowledge</text>
+      <text x="494" y="70" font-size="12" fill="#5b6b7b">→ <tspan font-weight="700" fill="#12293f">SalesSpecificQnA</tspan></text>
+      <line x1="574" y1="60" x2="602" y2="60" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#a1)"/>
+      <rect x="606" y="30" width="134" height="60" rx="11" fill="#0b2a4a"/>
+      <text x="673" y="52" font-size="13" font-weight="700" fill="#fff">Glossary +</text>
+      <text x="673" y="70" font-size="13" font-weight="700" fill="#fff">Synonyms</text>
+      <line x1="673" y1="90" x2="673" y2="122" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#a1)"/>
+      <rect x="596" y="126" width="154" height="48" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="673" y="146" font-size="13" font-weight="700" fill="#166534">Publish</text>
+      <text x="673" y="163" font-size="11.5" fill="#3c6947">~15 min to apply</text>
+      <text x="290" y="150" font-size="12.3" fill="#5b6b7b">One glossary, two consumers: <tspan font-weight="700" fill="#12293f">Copilot in D365 Sales</tspan> and the</text>
+      <text x="290" y="168" font-size="12.3" fill="#5b6b7b"><tspan font-weight="700" fill="#12293f">Sales agent in Microsoft 365 Copilot</tspan> share the same terms</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Where business terms live</b>Copilot Studio → environment → agent <b>“Copilot in Dynamics 365 Sales”</b> → Knowledge → <b>SalesSpecificQnA</b> — never inside the Sales app settings.</div>
+    <div class="li"><b class="t">Glossary</b>= <b>term + description</b>. Teach Copilot org language: “overdue task” = open task with due date &lt; today.</div>
+    <div class="li"><b class="t">Synonyms</b>= <b>alternate column names</b>, so “deal size” can resolve to your custom revenue column.</div>
+    <div class="li"><b class="t">When to design business terms</b>acronyms · custom fields · custom ownership models · complex business rules that Copilot keeps misreading.</div>
+    <div class="li"><b class="t">Propagation &amp; reach</b>takes <b>~15 minutes</b> after Publish; the same glossary serves Copilot in D365 Sales <b>and</b> the Sales agent in M365 Copilot.</div>
+    <div class="li"><b class="t">Salesforce-connected variant</b>glossary rows go in the Dataverse <b>CopilotGlossary</b> table; <b>synonyms are unsupported</b> with Salesforce CRM.</div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> “Copilot misunderstands our org's terminology in Sales” → <b>glossary + synonyms in Copilot Studio (SalesSpecificQnA)</b>. Any answer configuring terms inside the Sales Hub is a distractor.</div>
+</section>
+
+<section class="fig" id="s2" style="--iac:#0e7490">
+  <h3>2 · Enablement chain &amp; customization surface</h3>
+  <p class="cap">The architect-level switch order, then everything you are allowed to customize.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 120">
+    <defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="11.6">
+      <rect x="15" y="28" width="140" height="58" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="85" y="50" font-weight="700" fill="#0e7490">PPAC Copilot hub</text><text x="85" y="66" fill="#5b6b7b">turn on AI for</text><text x="85" y="80" fill="#5b6b7b">D365 Sales</text>
+      <line x1="155" y1="57" x2="177" y2="57" stroke="#5b6b7b" stroke-width="2" marker-end="url(#a2)"/>
+      <rect x="181" y="28" width="150" height="58" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="256" y="50" font-weight="700" fill="#0e7490">Cross-region consent</text><text x="256" y="66" fill="#5b6b7b">where no local Azure</text><text x="256" y="80" fill="#5b6b7b">OpenAI endpoint</text>
+      <line x1="331" y1="57" x2="353" y2="57" stroke="#5b6b7b" stroke-width="2" marker-end="url(#a2)"/>
+      <rect x="357" y="28" width="150" height="58" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="432" y="50" font-weight="700" fill="#0e7490">Sales Hub app settings</text><text x="432" y="66" fill="#5b6b7b">App Settings → Copilot</text><text x="432" y="80" fill="#5b6b7b">global + per-app</text>
+      <line x1="507" y1="57" x2="529" y2="57" stroke="#5b6b7b" stroke-width="2" marker-end="url(#a2)"/>
+      <rect x="533" y="28" width="130" height="58" rx="10" fill="#fffbeb" stroke="#f3e3bb"/><text x="598" y="50" font-weight="700" fill="#92400e">Enable auditing</text><text x="598" y="66" fill="#5b6b7b">lead / opportunity /</text><text x="598" y="80" fill="#5b6b7b">account tables</text>
+      <line x1="663" y1="57" x2="685" y2="57" stroke="#5b6b7b" stroke-width="2" marker-end="url(#a2)"/>
+      <rect x="689" y="28" width="56" height="58" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/><text x="717" y="55" font-weight="700" fill="#166534">DLP</text><text x="717" y="71" fill="#5b6b7b">allows</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Enablement chain</b>PPAC Copilot hub → cross-region data-movement consent → Sales Hub App Settings → <b>auditing on lead/opportunity/account</b> (required for “recent changes”) → DLP allows required connectors.</div>
+    <div class="li"><b class="t">Custom topics</b>built in Copilot Studio; author needs the <b>Copilot Studio Author</b> role; billed as Copilot Studio credits; UI supports <b>Adaptive Cards</b> — not images/video.</div>
+    <div class="li"><b class="t">SalesSparks</b>the editable <b>prompt-guide topic</b> — customize the suggested prompts sellers see.</div>
+    <div class="li"><b class="t">Summary fields</b>configure which fields feed <b>lead / opportunity / account summaries</b> — the lever when “the summary misses what sellers need.”</div>
+    <div class="li"><b class="t">Widgets on custom UX</b>add the opportunity summary widget / Copilot immersive page to <b>custom forms and site maps</b>.</div>
+    <div class="li"><b class="t">ALM discipline</b>manage all Copilot customizations <b>in solutions</b> so they deploy through environments like any other component.</div>
+  </div>
+</section>
+
+<section class="fig" id="s3" style="--iac:#0e7490">
+  <h3>3 · Connectors for Copilot in D365 Sales — two doors for external data</h3>
+  <p class="cap">Direct exam bullet. Both doors bring <em>external</em> data into seller experiences — know which door fits which scenario.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--accent)">
+      <h4 style="color:var(--accent)">Door 1 — Custom connector + connector action</h4>
+      <ul>
+        <li>Built in <b>Copilot Studio</b>, enabled by a <b>Sales admin</b></li>
+        <li>Ingestion takes up to <b>7 days</b></li>
+        <li>For <b>your own external systems'</b> data in Copilot chat</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--design)">
+      <h4 style="color:var(--design-ink)">Door 2 — Partner-application insights</h4>
+      <ul>
+        <li>Via <b>Power Platform connectors</b></li>
+        <li>Partner records/activities surface <b>in context</b> — e.g. DocuSign agreements beside the opportunity</li>
+        <li>For <b>ISV/partner apps</b> sellers already use</li>
+      </ul>
+    </div>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Custom connector + connector action</b>the build-it-yourself door: Copilot Studio connector action, Sales-admin enablement, up to <b>7-day ingestion</b> before data appears.</div>
+    <div class="li"><b class="t">Partner-application insights</b>the ready-made door: partner Power Platform connectors surface external records (DocuSign et al.) inside seller context.</div>
+    <div class="li"><b class="t">Design cue</b>both doors are for <b>external</b> data; Dataverse data needs no connector — it's already the grounding source.</div>
+  </div>
+</section>
+
+<!-- ============ SERVICE ============ -->
+<div class="ghead" style="--gc:var(--design-ink)"><div class="gbar"></div><h2>Copilot in Customer Service</h2></div>
+
+<section class="fig" id="s4" style="--iac:#7c3aed">
+  <h3>4 · Help pane, summaries &amp; who gets what</h3>
+  <p class="cap">Admin home = <b>Copilot Service admin center</b>. The environment prerequisite comes first; then each feature has its own numbers.</p>
+  <div class="items">
+    <div class="li"><b class="t">Prerequisite switch</b>PPAC <b>“Enable AI-powered Copilot features”</b> per environment, then configure under Productivity in the <b>Copilot Service admin center</b>.</div>
+    <div class="li"><b class="t">Copilot help pane</b><i>Ask a question</i> (knowledge base + <b>trusted webpages</b> + optional Bing web search — non-NA regions need cross-geo consent), <i>Write an email</i>, draft chat responses; <b>immersive</b> vs <b>side pane</b> layouts.</div>
+    <div class="li"><b class="t">Case summary</b>needs <b>≥ 50 tokens (~38 words)</b> of case data; <i>Manage data</i> remaps/includes/excludes source fields; exclude up to <b>10 email addresses</b> and <b>3 disclaimers</b>.</div>
+    <div class="li"><b class="t">Conversation summary</b>triggers: rep joins / transfer / collaborator, conversation end (optional <b>Create case</b> button), and on-demand; <i>Manage format</i> shapes the output.</div>
+    <div class="li"><b class="t">Experience profiles</b>enable features <b>per representative group</b>; profiles are <b>solution-aware</b> → they travel through ALM.</div>
+    <div class="li"><b class="t">Form-summary boundary</b>case-<b>form</b> summaries are D365 Customer Service-only; in Contact Center—embedded (non-Microsoft CRM) a case-summary card appears in the <i>Ask a question</i> pane instead.</div>
+    <div class="li"><b class="t">Customer Insights copilots</b><i>Dialog with data</i> (NL questions over unified profiles), Copilot-assisted <b>segment creation</b>, journeys copilots (query assist, content ideas) — all behind the global consent toggle.</div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> the <b>50-token case-summary minimum</b> and the <b>10 emails / 3 disclaimers</b> exclusions are classic number-distractor material.</div>
+</section>
+
+<!-- ============ CONTACT CENTER ============ -->
+<div class="ghead" style="--gc:var(--warn)"><div class="gbar"></div><h2>Dynamics 365 Contact Center</h2></div>
+
+<section class="fig" id="s5" style="--iac:#b45309">
+  <h3>5 · Three deployment models — which CRM keeps the wheel?</h3>
+  <p class="cap">Microsoft's CCaaS ships three ways. The exam gives you a CRM constraint — you name the model.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 250">
+    <g text-anchor="middle">
+      <rect x="20" y="30" width="230" height="130" rx="14" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="135" y="58" font-size="14" font-weight="700" fill="#92400e">Standalone</text>
+      <text x="135" y="80" font-size="11.8" fill="#5b6b7b">Microsoft-provided rep workspace</text>
+      <text x="135" y="96" font-size="11.8" fill="#5b6b7b">+ CRM of your choice</text>
+      <text x="135" y="112" font-size="11.8" fill="#5b6b7b">unified routing incorporates</text>
+      <text x="135" y="128" font-size="11.8" fill="#5b6b7b">Salesforce / ServiceNow</text>
+      <rect x="265" y="30" width="230" height="130" rx="14" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="380" y="58" font-size="14" font-weight="700" fill="#5b21b6">Embedded</text>
+      <text x="380" y="80" font-size="11.8" fill="#5b6b7b">Contact Center experience</text>
+      <text x="380" y="96" font-size="11.8" fill="#5b6b7b">rendered <tspan font-weight="700">inside</tspan> your existing</text>
+      <text x="380" y="112" font-size="11.8" fill="#5b6b7b">non-Microsoft CRM's UI</text>
+      <text x="380" y="128" font-size="11.8" fill="#5b6b7b">(keep the Salesforce screen)</text>
+      <rect x="510" y="30" width="230" height="130" rx="14" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="625" y="58" font-size="14" font-weight="700" fill="#166534">With D365 Customer Service</text>
+      <text x="625" y="80" font-size="11.8" fill="#5b6b7b">the full Microsoft stack</text>
+      <text x="625" y="96" font-size="11.8" fill="#5b6b7b">= <tspan font-weight="700" fill="#12293f">Customer Service Premium</tspan></text>
+      <text x="625" y="112" font-size="11.8" fill="#5b6b7b">CCaaS + CRM in one</text>
+      <text x="380" y="205" font-size="12.5" fill="#5b6b7b" font-weight="600">“Keep Salesforce but modernize the contact center” → standalone or embedded · “all-Microsoft” → Premium</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Contact Center — standalone</b>Microsoft rep workspace with <b>any CRM behind it</b>; unified routing incorporates non-Microsoft CRMs (Salesforce, ServiceNow).</div>
+    <div class="li"><b class="t">Contact Center — embedded</b>the Contact Center experience runs <b>inside the existing non-Microsoft CRM's UI</b> — reps never leave their screen.</div>
+    <div class="li"><b class="t">With D365 Customer Service</b>the full Microsoft stack, sold as <b>Customer Service Premium</b>.</div>
+  </div>
+</section>
+
+<section class="fig" id="s6" style="--iac:#b45309">
+  <h3>6 · Channels &amp; the unified-routing pipeline</h3>
+  <p class="cap">Every conversation enters on a channel, flows through two routing stages, and lands on a queue.</p>
+  <div class="pills">
+    <span class="pill">📞 <b>Voice</b> — PSTN via <b>Azure Communication Services</b>, or bring-your-own-carrier / direct routing</span>
+    <span class="pill">💬 <b>Chat</b></span>
+    <span class="pill">📱 <b>SMS / social</b></span>
+    <span class="pill">✉️ <b>Email</b></span>
+    <span class="pill">👥 <b>Teams</b></span>
+    <span class="pill">🔌 Custom via <b>Direct Line</b></span>
+    <span class="pill">☎️ Third-party telephony via <b>Channel Integration Framework 2.0</b></span>
+  </div>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 150">
+    <defs><marker id="a6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle">
+      <rect x="15" y="40" width="130" height="70" rx="11" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="80" y="70" font-size="13" font-weight="700" fill="#334155">Conversation</text>
+      <text x="80" y="88" font-size="11.5" fill="#5b6b7b">arrives on a channel</text>
+      <line x1="145" y1="75" x2="173" y2="75" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#a6)"/>
+      <rect x="177" y="40" width="180" height="70" rx="11" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="267" y="64" font-size="13" font-weight="700" fill="#92400e">1 · Classification</text>
+      <text x="267" y="82" font-size="11.5" fill="#5b6b7b">rules + ML:</text>
+      <text x="267" y="97" font-size="11.5" fill="#5b6b7b">skills · urgency · intent</text>
+      <line x1="357" y1="75" x2="385" y2="75" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#a6)"/>
+      <rect x="389" y="40" width="190" height="70" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="484" y="64" font-size="13" font-weight="700" fill="#166534">2 · Assignment</text>
+      <text x="484" y="82" font-size="11.5" fill="#5b6b7b">priority + skills / capacity /</text>
+      <text x="484" y="97" font-size="11.5" fill="#5b6b7b">availability matching</text>
+      <line x1="579" y1="75" x2="607" y2="75" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#a6)"/>
+      <rect x="611" y="40" width="130" height="70" rx="11" fill="#0b2a4a"/>
+      <text x="676" y="70" font-size="13" font-weight="700" fill="#fff">Queue → rep</text>
+      <text x="676" y="88" font-size="11.3" fill="#c9d8ea">or agent answers first</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Channel inventory</b>voice (ACS PSTN or BYO carrier/direct routing) · chat · SMS/social · email · Teams · <b>custom via Direct Line</b> · third-party telephony via <b>CIF 2.0</b>.</div>
+    <div class="li"><b class="t">Unified routing = two stages</b><b>classification</b> (rules + ML: skills, urgency, intent) → <b>assignment</b> (priority + skills/capacity/availability).</div>
+    <div class="li"><b class="t">Routing flavors</b>percent-based routing, overflow, preferred-rep, and <b>intent-driven routing</b>.</div>
+    <div class="li"><b class="t">Intent-driven routing</b>the <b>Customer Intent Agent</b> mines intents into a library; intents map to queues — “route by what the customer wants.”</div>
+  </div>
+</section>
+
+<section class="fig" id="s7" style="--iac:#b45309">
+  <h3>7 · Copilot Studio agents on Contact Center channels — the integration anatomy</h3>
+  <p class="cap">Direct exam bullet. The agent sits in a workstream <em>ahead of</em> human queues; when it escalates, context must travel with the call.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 240">
+    <defs><marker id="a7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle">
+      <rect x="20" y="30" width="180" height="64" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="110" y="54" font-size="12.8" font-weight="700" fill="#0e7490">Create agent</text>
+      <text x="110" y="72" font-size="11.4" fill="#5b6b7b">Copilot Service admin center</text>
+      <text x="110" y="86" font-size="11.4" fill="#5b6b7b">or Copilot Studio</text>
+      <line x1="200" y1="62" x2="228" y2="62" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#a7)"/>
+      <rect x="232" y="30" width="170" height="64" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="317" y="54" font-size="12.8" font-weight="700" fill="#0e7490">Connect to the</text>
+      <text x="317" y="70" font-size="12.8" font-weight="700" fill="#0e7490">omnichannel instance</text>
+      <line x1="402" y1="62" x2="430" y2="62" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#a7)"/>
+      <rect x="434" y="30" width="190" height="64" rx="11" fill="#0b2a4a"/>
+      <text x="529" y="54" font-size="12.8" font-weight="700" fill="#fff">Add to a workstream</text>
+      <text x="529" y="72" font-size="11.5" fill="#c9d8ea">ahead of human queues —</text>
+      <text x="529" y="86" font-size="11.5" fill="#c9d8ea">agent answers first</text>
+      <line x1="529" y1="94" x2="529" y2="130" stroke="#c62828" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#a7)"/>
+      <rect x="404" y="134" width="250" height="76" rx="11" fill="#fdecea" stroke="#f2c4c0"/>
+      <text x="529" y="156" font-size="12.8" font-weight="700" fill="#c62828">Escalate with context</text>
+      <text x="529" y="174" font-size="11.4" fill="#7a3b36">full history + context variables</text>
+      <text x="529" y="189" font-size="11.4" fill="#7a3b36">(drive routing rules, macros, record linking)</text>
+      <text x="529" y="204" font-size="11.4" fill="#7a3b36">check queues first via rep availability APIs</text>
+      <rect x="40" y="140" width="300" height="64" rx="11" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="190" y="162" font-size="12.6" font-weight="700" fill="#92400e">Voice / IVR toolbox</text>
+      <text x="190" y="180" font-size="11.3" fill="#5b6b7b">DTMF + speech · silence detection · SSML · barge-in</text>
+      <text x="190" y="195" font-size="11.3" fill="#5b6b7b">external grammars · transfer to rep / external number</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Placement pattern</b>create in Copilot Service admin center or Copilot Studio → connect to the omnichannel instance → add to a <b>workstream ahead of human queues</b>.</div>
+    <div class="li"><b class="t">Voice/IVR feature set</b>DTMF + speech, silence detection, <b>SSML</b>, <b>barge-in</b>, external speech grammars, transfer to rep or external number, multilingual.</div>
+    <div class="li"><b class="t">Voice hard numbers</b><b>1-hour</b> bot-call limit; context passes to external telephony via <b>SIP UUI / SIP X-headers</b>.</div>
+    <div class="li"><b class="t">Handoff with context</b>escalation passes <b>full history + context variables</b> (case ID → routing rules, macros, record linking); <b>rep availability APIs</b> let the agent check queues before escalating.</div>
+    <div class="li"><b class="t">Extensions &amp; caveats</b>install the <b>D365 Copilot Studio extension</b> (+ telephony extension); voice handoff needs both environments in supported geos, and <b>auth variables don't pass on voice handoff</b>.</div>
+  </div>
+</section>
+
+<!-- ============ AGENT TYPES ============ -->
+<div class="ghead" style="--gc:var(--good)"><div class="gbar"></div><h2>Designing the three agent types</h2></div>
+
+<section class="fig" id="s8" style="--iac:#1a7f37">
+  <h3>8 · Prompt-and-response · task · autonomous — the design ladder</h3>
+  <p class="cap">The exam names exactly these three types. Each step up adds capability <em>and</em> governance load.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 250">
+    <g text-anchor="middle">
+      <rect x="30" y="150" width="220" height="72" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="140" y="174" font-size="13.5" font-weight="700" fill="#0e7490">Prompt-and-response</text>
+      <text x="140" y="192" font-size="11.6" fill="#5b6b7b">retrieval: find &amp; synthesize knowledge</text>
+      <text x="140" y="208" font-size="11.6" fill="#5b6b7b">CAF: “productivity” agent</text>
+      <rect x="270" y="88" width="220" height="72" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="380" y="112" font-size="13.5" font-weight="700" fill="#5b21b6">Task agent</text>
+      <text x="380" y="130" font-size="11.6" fill="#5b6b7b">defined actions inside a conversation</text>
+      <text x="380" y="146" font-size="11.6" fill="#5b6b7b">CAF: “action” agent</text>
+      <rect x="510" y="26" width="230" height="72" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="625" y="50" font-size="13.5" font-weight="700" fill="#92400e">Autonomous agent</text>
+      <text x="625" y="68" font-size="11.6" fill="#5b6b7b">multi-step on <tspan font-weight="700">event triggers</tspan>,</text>
+      <text x="625" y="84" font-size="11.6" fill="#5b6b7b">minimal oversight · CAF: “automation”</text>
+      <line x1="60" y1="238" x2="700" y2="238" stroke="#8ea3b8" stroke-width="2"/>
+      <path d="M700,238 l-9,-4 v8 z" fill="#8ea3b8"/>
+      <text x="380" y="234" font-size="0" fill="#5b6b7b"> </text>
+      <text x="380" y="232" font-size="12" fill="#5b6b7b" font-weight="600" dy="-6">autonomy · complexity · governance rigor increase →</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Prompt-and-response agent</b>answers by retrieving and synthesizing knowledge. Design concerns: <b>grounding quality, permissions, citation behavior</b>.</div>
+    <div class="li"><b class="t">Task agent</b>takes defined actions in a conversation (knowledge + action tools). Design concerns: <b>tool descriptions, authentication model, error/fallback paths</b>.</div>
+    <div class="li"><b class="t">Autonomous agent</b>runs multi-step processes on <b>event triggers</b>. Design concerns: <b>triggers, guardrails, human-in-the-loop approvals, audit, cost</b>.</div>
+    <div class="li"><b class="t">Before any agent</b>fixed rules-based process → <b>Power Automate / code</b>; static Q&amp;A over fixed documents → <b>classic RAG</b>. Agents earn their cost only on ambiguous, multi-step work.</div>
+  </div>
+</section>
+
+<section class="fig" id="s9" style="--iac:#1a7f37">
+  <h3>9 · Autonomous agent design rules — the guardrail checklist</h3>
+  <p class="cap">Straight from Microsoft guidance. Scenario questions test whether you apply <em>all</em> of these, not just some.</p>
+  <div class="items">
+    <div class="li"><b class="t">Narrow scope</b>explicit authority boundaries — the agent does one process, not “whatever helps.”</div>
+    <div class="li"><b class="t">Quality in, quality out</b>high-quality instructions and data before autonomy; sandbox testing and <b>gradual rollout</b>.</div>
+    <div class="li"><b class="t">Human approval for critical actions</b>human-in-the-loop gates on anything costly or irreversible.</div>
+    <div class="li"><b class="t">Least privilege</b>the agent's identity gets only the access the process needs.</div>
+    <div class="li"><b class="t">Validate trigger authenticity</b>e.g. sender checks on email triggers — untrusted triggers are an injection door.</div>
+    <div class="li"><b class="t">Guardrails, fail-safes, audit</b>logging and monitoring on by design, with a stop path.</div>
+    <div class="li"><b class="t">The three pitfalls</b>triggers missing context (record ID, identity) · over-firing triggers <b>burning Copilot Credits</b> · ignoring platform quotas.</div>
+  </div>
+</section>
+
+<section class="fig" id="s10" style="--iac:#1a7f37">
+  <h3>10 · First-party agent roster — CE &amp; service side</h3>
+  <p class="cap">Match the scenario to the prebuilt agent before ever proposing a custom build.</p>
+  <div class="matrix">
+    <table>
+      <tr><th>Agent</th><th>Propose when…</th></tr>
+      <tr><td>Case Management Agent</td><td>automate the case lifecycle: create / update / resolve / follow-up / close</td></tr>
+      <tr><td>Customer Knowledge Management Agent</td><td>harvest knowledge articles from closed cases autonomously (scrubs sensitive data)</td></tr>
+      <tr><td>Customer Intent Agent</td><td>mine past cases into an <b>intent library</b>; guide reps; power self-service and intent-based routing</td></tr>
+      <tr><td>Quality Evaluation Agent</td><td>autonomous quality assessments against supervisor-defined frameworks</td></tr>
+      <tr><td>Customer Assist / Quality Assurance / Service Operations</td><td>self-service + rep assist · real-time QA nudges · conversational ops-config</td></tr>
+      <tr><td>Sales Qualification Agent</td><td>research leads (CRM + web + knowledge), outreach, hand over qualified leads</td></tr>
+      <tr><td>Sales Opportunity / Close / Research / Recommended Actions</td><td>opportunity risk research · autonomous close cycle · NL data dialog · next-best actions</td></tr>
+    </table>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Knowledge Management prereqs</b>knowledge management configured + connection references + flows + a <b>published</b> agent before it can harvest articles.</div>
+    <div class="li"><b class="t">Customer Intent Agent role</b>needs the <b>Intent Manager</b> role; its intents feed <b>intent-driven unified routing</b>.</div>
+    <div class="li"><b class="t">Sales Qualification setup</b>Azure app registration → Dataverse <b>application user with the AISalesPerson role</b>; <i>Research and engage</i> mode needs a <b>shared mailbox + server-side sync</b>; <b>one mode per org</b>; handoff criteria = <b>BANT</b>.</div>
+    <div class="li"><b class="t">Billing gate</b>Customer Service agents require <b>pay-as-you-go (consumption) billing</b> to be set up first.</div>
+  </div>
+  <div class="hook">💡 <b>Hooks:</b> “route by what the customer wants” → <b>Customer Intent Agent + intent routing</b> · “turn closed cases into KB articles” → <b>Customer Knowledge Management Agent</b> · “qualify inbound leads automatically, hand over on BANT” → <b>Sales Qualification Agent</b>.</div>
+</section>
+
+<div class="footnav">
+  <a href="visual-learn.html"><span class="dir">← Back</span>Visual Learn — all domains</a>
+  <a href="design-visual-2-copilot-studio.html" style="text-align:right"><span class="dir">Next →</span>2 · Copilot Studio &amp; Power Platform design</a>
+</div>
+
+</div>
+<script>document.getElementById('icount').textContent=document.querySelectorAll('.li').length;</script>
+</body>
+</html>

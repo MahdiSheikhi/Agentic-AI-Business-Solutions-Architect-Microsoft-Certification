@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Visuals 2 · Copilot Studio &amp; Power Platform Design</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --accent:#6d28d9; --soft:#f5f3ff; --dark:#0b2a4a;
+  --plan:#0e7490; --plan-soft:#ecfeff;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+  --warn:#b45309; --warn-soft:#fffbeb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55;counter-reset:item}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#7c3aed 160%);color:#fff;padding:26px 20px 20px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+header.hero .count{display:inline-block;margin-top:10px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 16px;font-size:13px}
+header.hero .count b{font-size:15px}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--accent);border-bottom-color:var(--accent)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:112px;letter-spacing:.03em}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--gc,var(--accent))}
+.ghead h2{font-size:21px;color:var(--gc,var(--dark))}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:14px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto;margin-bottom:8px}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+.items{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin:8px 0 4px}
+.li{position:relative;border:1px solid var(--line);border-left:4px solid var(--iac,var(--accent));border-radius:11px;padding:10px 13px 10px 48px;background:#fbfcfe;font-size:13.1px;color:#33475c;line-height:1.5}
+.li::before{counter-increment:item;content:counter(item);position:absolute;left:11px;top:10px;width:26px;height:26px;border-radius:8px;background:var(--iac,var(--accent));color:#fff;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center}
+.li b{color:#12293f}
+.li b.t{display:block;font-size:13.7px;margin-bottom:2px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0 0 0 18px;font-size:13.4px;color:#33475c}
+.panel li{margin:5px 0}
+.panel li b{color:#12293f}
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:560px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td:first-child{font-weight:700;color:#12293f;white-space:nowrap}
+.matrix tr:last-child td{border-bottom:none}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:14px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:24px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.footnav{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+.footnav a{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px;font-size:14px;flex:1;max-width:48%;text-decoration:none;color:var(--ink)}
+.footnav a:hover{border-color:var(--accent)}
+.footnav .dir{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+@media print{nav.bar,.toc,.footnav{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Design AI-Powered Business Solutions · Visual 2 of 4</div>
+  <h1>Copilot Studio &amp; Power Platform — Topics, Flows, Prompts, Grounding &amp; Well-Architected</h1>
+  <p class="sub">Topics incl. fallback · NLP vs CLU vs generative orchestration · agents &amp; agent flows · prompt actions · Foundry Tools proposals · grounding data design · AI in canvas apps · generative pages &amp; agent feed · PPWAF.</p>
+  <div class="count"><b id="icount">0</b> numbered learn items on this page</div>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="design-visual-1-dynamics-copilot.html">1 · D365 Copilot &amp; Agents</a>
+  <a href="design-visual-2-copilot-studio.html" class="here">2 · Copilot Studio &amp; Power Platform</a>
+  <a href="design-visual-3-extensibility.html">3 · Extensibility</a>
+  <a href="design-visual-4-orchestration.html">4 · Prebuilt Orchestration</a>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl" style="color:var(--accent)">Agent core</span><a href="#s1">Anatomy &amp; limits</a><a href="#s2">Orchestration modes</a><a href="#s3">Language ladder</a><a href="#s4">Topics &amp; fallback</a><a href="#s5">Knowledge &amp; settings</a></div>
+  <div class="row"><span class="gl" style="color:var(--plan)">Actions</span><a href="#s6">Agent flows</a><a href="#s7">Prompt actions</a></div>
+  <div class="row"><span class="gl" style="color:var(--warn)">Data &amp; tools</span><a href="#s8">Foundry Tools map</a><a href="#s9">Grounding quality</a><a href="#s10">Data estate</a></div>
+  <div class="row"><span class="gl" style="color:var(--good)">Apps &amp; WAF</span><a href="#s11">Canvas apps · pages · feed</a><a href="#s12">Well-Architected</a></div>
+</div>
+
+<!-- ============ CORE ============ -->
+<div class="ghead" style="--gc:var(--accent)"><div class="gbar"></div><h2>Copilot Studio agent core</h2></div>
+
+<section class="fig" id="s1" style="--iac:#6d28d9">
+  <h3>1 · Agent anatomy &amp; the limits wall</h3>
+  <p class="cap">Five parts, one orchestrator — and the numbers that appear as distractors.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 210">
+    <line x1="380" y1="105" x2="130" y2="45" stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="105" x2="630" y2="45" stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="105" x2="105" y2="165" stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="105" x2="655" y2="165" stroke="#c8d4e0" stroke-width="2"/>
+    <line x1="380" y1="105" x2="380" y2="185" stroke="#c8d4e0" stroke-width="2"/>
+    <rect x="265" y="75" width="230" height="60" rx="13" fill="#0b2a4a"/>
+    <text x="380" y="100" text-anchor="middle" fill="#fff" font-size="14.5" font-weight="700">Orchestrator + models</text>
+    <text x="380" y="120" text-anchor="middle" fill="#c9d8ea" font-size="11.5">selects by names &amp; descriptions</text>
+    <g text-anchor="middle" font-size="12.5" font-weight="700">
+      <rect x="55" y="20" width="150" height="44" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/><text x="130" y="46" fill="#5b21b6">Instructions</text>
+      <rect x="555" y="20" width="150" height="44" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="630" y="46" fill="#0e7490">Knowledge</text>
+      <rect x="30" y="145" width="150" height="44" rx="10" fill="#fffbeb" stroke="#f3e3bb"/><text x="105" y="171" fill="#92400e">Tools</text>
+      <rect x="580" y="145" width="150" height="44" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/><text x="655" y="171" fill="#166534">Topics</text>
+      <rect x="305" y="160" width="150" height="44" rx="10" fill="#fdecea" stroke="#f2c4c0"/><text x="380" y="186" fill="#c62828">Triggers</text>
+    </g>
+  </svg>
+  </div>
+  <div class="tiles">
+    <div class="tile"><b>500</b><span>knowledge sources / agent</span></div>
+    <div class="tile"><b>1,000</b><span>topics / agent</span></div>
+    <div class="tile"><b>200</b><span>trigger phrases / topic</span></div>
+    <div class="tile"><b>512 MB</b><span>max file upload</span></div>
+    <div class="tile"><b>128</b><span>topics + tools per orchestration</span></div>
+    <div class="tile"><b>&gt;25</b><span>sources → model-filtered</span></div>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Anatomy formula</b>agent = <b>instructions + knowledge + tools + topics + triggers</b>, coordinated by an orchestrator and language models.</div>
+    <div class="li"><b class="t">Descriptions are configuration</b>the orchestrator picks topics/tools/agents by their <b>names and descriptions</b> — functional configuration, not documentation. Instructions reference objects with <code>/</code>.</div>
+    <div class="li"><b class="t">Where agents live</b>in <b>Power Platform environments</b> (Dataverse-backed) → ALM, DLP and credit allocation all happen at environment level.</div>
+    <div class="li"><b class="t">Orchestration budget</b>~<b>5 messages</b> per topic/action chain in generative orchestration; <b>128</b> topics+tools considered per plan.</div>
+  </div>
+</section>
+
+<section class="fig" id="s2" style="--iac:#6d28d9">
+  <h3>2 · Generative vs classic orchestration — same agent, two brains</h3>
+  <p class="cap">The single most-tested Copilot Studio distinction. Learn each row as its own fact.</p>
+  <div class="items">
+    <div class="li"><b class="t">Topic selection</b>generative: by topic <b>description</b> (“the agent chooses”) · classic: by <b>trigger phrases</b> (NLU match, 5–20 per topic).</div>
+    <div class="li"><b class="t">Tool calling</b>generative: orchestrator calls tools <b>directly</b> · classic: tools only from <b>within topics</b>.</div>
+    <div class="li"><b class="t">Knowledge use</b>generative: searched <b>proactively</b> as part of the plan · classic: <b>fallback</b> via Conversational boosting when no topic matches.</div>
+    <div class="li"><b class="t">Multi-intent</b>generative combines topics + tools + knowledge + agents in one plan · classic runs <b>one topic</b> at a time.</div>
+    <div class="li"><b class="t">Filling inputs</b>generative: <b>slot filling</b> asks for missing inputs automatically · classic: authored Question nodes.</div>
+    <div class="li"><b class="t">Generative is required for</b>event triggers · <b>MCP</b> · deep reasoning · computer use · connected agents.</div>
+    <div class="li"><b class="t">Choose classic when</b>flows must be fixed and auditable: identity verification, payment capture, consent, regulatory wording, DTMF menus. Admins can disable gen-AI per environment.</div>
+  </div>
+</section>
+
+<section class="fig" id="s3" style="--iac:#6d28d9">
+  <h3>3 · The language-understanding ladder</h3>
+  <p class="cap">Direct exam bullet: standard NLP vs conversational language understanding vs generative orchestration. Four rungs, four trigger phrases.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 300">
+    <g text-anchor="middle">
+      <rect x="30" y="216" width="330" height="64" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="195" y="240" font-size="13.2" font-weight="700" fill="#0e7490">Standard NLU (built-in, classic)</text>
+      <text x="195" y="258" font-size="11.6" fill="#5b6b7b">trigger phrases (5–20/topic) · RegEx &amp; list entities</text>
+      <text x="195" y="272" font-size="11.6" fill="#5b6b7b">single intent · zero extra infrastructure</text>
+      <rect x="30" y="146" width="440" height="60" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="250" y="170" font-size="13.2" font-weight="700" fill="#0e7490">NLU+</text>
+      <text x="250" y="188" font-size="11.6" fill="#5b6b7b">enterprise precision · optimizes speech for voice · needs a D365 Contact Center license</text>
+      <rect x="30" y="76" width="550" height="60" rx="11" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="305" y="100" font-size="13.2" font-weight="700" fill="#92400e">CLU — bring your Azure AI Language model</text>
+      <text x="305" y="118" font-size="11.6" fill="#5b6b7b">classic orchestration only · Azure sub + matching region · enabling deletes trigger phrases · retires 2029-03-31</text>
+      <rect x="30" y="8" width="660" height="58" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="360" y="32" font-size="13.2" font-weight="700" fill="#5b21b6">Generative orchestration — the LLM plans</text>
+      <text x="360" y="50" font-size="11.6" fill="#5b6b7b">no trigger-phrase maintenance · multi-intent · context carryover</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Standard NLU</b>built-in trigger phrases with RegEx/list entities — the zero-infrastructure default for classic agents.</div>
+    <div class="li"><b class="t">NLU+</b>enhanced precision at enterprise scale, precompiled model requiring training, <b>also optimizes speech recognition for voice</b> — and needs a <b>Dynamics 365 Contact Center license</b>.</div>
+    <div class="li"><b class="t">CLU</b>bring a trained Azure AI Language model: intents → topic triggers, CLU entities appear in the agent. Requires <b>classic orchestration</b>, matching region, intents for all system topics; <b>enabling deletes existing trigger phrases</b>; retires <b>2029</b>.</div>
+    <div class="li"><b class="t">Generative orchestration</b>the LLM plans every turn — choose for variable phrasing, multi-intent, knowledge-heavy self-service.</div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> “industry vocabulary, more languages, advanced entities” → <b>CLU</b> · “voice precision at enterprise scale” → <b>NLU+</b> · “stop maintaining trigger phrases” → <b>generative</b>.</div>
+</section>
+
+<section class="fig" id="s4" style="--iac:#6d28d9">
+  <h3>4 · Topics &amp; the fallback pipeline</h3>
+  <p class="cap">Direct exam bullet: “design topics, including fallback.” Follow one unrecognized utterance through the system.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 160">
+    <defs><marker id="b4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle">
+      <rect x="10" y="45" width="130" height="60" rx="11" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="75" y="70" font-size="12.6" font-weight="700" fill="#334155">Utterance</text>
+      <text x="75" y="88" font-size="11.3" fill="#5b6b7b">no topic matches</text>
+      <line x1="140" y1="75" x2="166" y2="75" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#b4)"/>
+      <rect x="170" y="45" width="180" height="60" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="260" y="68" font-size="12.6" font-weight="700" fill="#0e7490">Conversational boosting</text>
+      <text x="260" y="86" font-size="11.3" fill="#5b6b7b">generative answers — fires first</text>
+      <line x1="350" y1="75" x2="376" y2="75" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#b4)"/>
+      <rect x="380" y="45" width="170" height="60" rx="11" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="465" y="68" font-size="12.6" font-weight="700" fill="#92400e">Fallback</text>
+      <text x="465" y="86" font-size="11.3" fill="#5b6b7b">ask to rephrase — up to ×2</text>
+      <line x1="550" y1="75" x2="576" y2="75" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#b4)"/>
+      <rect x="580" y="45" width="160" height="60" rx="11" fill="#fdecea" stroke="#f2c4c0"/>
+      <text x="660" y="68" font-size="12.6" font-weight="700" fill="#c62828">Escalate</text>
+      <text x="660" y="86" font-size="11.3" fill="#7a3b36">hand off to a human</text>
+      <text x="380" y="135" font-size="12" fill="#5b6b7b">mine Fallback + boosting hits to grow topics — the documented <tspan font-weight="700" fill="#12293f">topic-enrichment loop</tspan></text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Topic anatomy</b>trigger + nodes (Message, Question, Condition, tool calls, Redirect); topics accept <b>input/output variables</b>; redirects map values and return to the caller.</div>
+    <div class="li"><b class="t">Generative bonus</b>with generative orchestration, topic inputs auto-fill from conversation context and outputs can feed the generated response.</div>
+    <div class="li"><b class="t">System topics</b>(disable yes, delete no): Conversation Start · Conversational boosting · End of Conversation (resolution + CSAT) · Escalate · Fallback · Multiple Topics Matched · On Error · Reset Conversation · Sign in.</div>
+    <div class="li"><b class="t">Fallback flow</b>rephrase up to <b>two times</b> → redirect to <b>Escalate</b>; use <code>UnrecognizedTriggerPhrase</code> to pass the raw utterance to a flow/skill/external NLP.</div>
+    <div class="li"><b class="t">Enrichment loop</b>review what hit Fallback and boosting, then promote recurring questions into authored topics.</div>
+  </div>
+</section>
+
+<section class="fig" id="s5" style="--iac:#6d28d9">
+  <h3>5 · Knowledge sources &amp; the generative-AI settings an architect tunes</h3>
+  <p class="cap">Knowledge questions are usually about limits, auth, and which source fits the data.</p>
+  <div class="matrix">
+    <table>
+      <tr><th>Source</th><th>Auth</th><th>Generative-mode limit</th><th>Remember</th></tr>
+      <tr><td>Public websites</td><td>none</td><td><b>25</b></td><td>Bing-scoped; confirm site ownership</td></tr>
+      <tr><td>Uploaded documents</td><td>none</td><td>500 files</td><td>stored in <b>Dataverse</b>; 512 MB/file; file groups</td></tr>
+      <tr><td>SharePoint</td><td>user's Entra ID</td><td><b>25 URLs</b></td><td>GraphSearch; modern pages; permission-trimmed</td></tr>
+      <tr><td>Dataverse</td><td>user's Entra ID</td><td>unlimited (classic 2)</td><td><b>15 tables</b>/source; synonyms + glossary</td></tr>
+      <tr><td>Connectors / Copilot connectors</td><td>user's Entra ID</td><td>unlimited (classic 2)</td><td>Graph-indexed; “real-time”: Salesforce, ServiceNow, Confluence, Zendesk</td></tr>
+      <tr><td>Azure AI Search</td><td>key / SP / Entra ID</td><td>1 vector index per connection</td><td>citations need a URL field; private endpoints OK</td></tr>
+    </table>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Source-matching reflex</b>files → documents · intranet → SharePoint · structured business data → Dataverse · existing vector index → Azure AI Search · third-party KBs → real-time connector knowledge.</div>
+    <div class="li"><b class="t">Allow ungrounded responses</b>when <b>off</b>, any turn answered without a knowledge source/tool is blocked — even benign follow-ups drop to Fallback.</div>
+    <div class="li"><b class="t">Web search setting</b>“use information from the web” = Grounding with Bing across the public web — distinct from your 25 listed websites.</div>
+    <div class="li"><b class="t">Content moderation</b>levels Lowest→Highest, default <b>High</b>; settable at agent, generative-answers node (topic) and prompt level — <b>topic-level wins at runtime</b>; higher = fewer but safer answers.</div>
+    <div class="li"><b class="t">Tenant graph grounding</b>RAG over the tenant's Microsoft Graph; needs generative orchestration + Authenticate with Microsoft; costs <b>10 credits/message</b>.</div>
+    <div class="li"><b class="t">Safety &amp; trimming</b>answers run dual content-safety checks (input + output, incl. jailbreak/XPIA and copyright); with agent auth, users only get answers from content <b>they</b> can access.</div>
+  </div>
+</section>
+
+<!-- ============ ACTIONS ============ -->
+<div class="ghead" style="--gc:var(--plan)"><div class="gbar"></div><h2>Agent flows &amp; prompt actions</h2></div>
+
+<section class="fig" id="s6" style="--iac:#0e7490">
+  <h3>6 · Agent flows vs Power Automate cloud flows</h3>
+  <p class="cap">Direct exam bullet: “design agents and agent flows.” The billing and the calling convention are the tested edges.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--plan)">
+      <h4 style="color:var(--plan)">Agent flows</h4>
+      <ul>
+        <li>Built in <b>Copilot Studio</b> (designer or natural language)</li>
+        <li><b>13 Copilot Credits / 100 actions</b> — no Power Automate license</li>
+        <li>Natively callable by the agent; high throughput, low latency</li>
+        <li><b>Human-in-the-loop approvals</b> — incl. multistage &amp; AI approvals; premium connectors included</li>
+        <li>Can't be copied/shared/co-owned; desktop flows not callable</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid #64748b">
+      <h4 style="color:#334155">Cloud flows</h4>
+      <ul>
+        <li>Built in <b>Power Automate</b>; own per-user/per-flow licensing</li>
+        <li>Callable only as a <b>solution flow</b> with trigger <b>“When an agent calls the flow”</b> + action <b>“Respond to the agent”</b></li>
+        <li>Broad standalone automation; desktop flows (RPA)</li>
+        <li>Conversion is <b>one-way</b>: cloud flow → agent flow</li>
+      </ul>
+    </div>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Billing edge</b>agent flows cost <b>13 credits per 100 actions</b>; when prepaid credits run out, new runs are <b>blocked immediately</b> (in-progress runs finish; the agent keeps chatting).</div>
+    <div class="li"><b class="t">Calling convention</b>a cloud flow is agent-callable only as a solution flow with the <b>“When an agent calls the flow”</b> trigger and <b>“Respond to the agent”</b> response.</div>
+    <div class="li"><b class="t">When to use agent flows</b>deterministic multistep actions the agent triggers — record updates, notifications, approvals; a newer “Workflows” format is in preview.</div>
+    <div class="li"><b class="t">One-way street</b>cloud flow → agent flow conversion exists; there is no path back.</div>
+  </div>
+</section>
+
+<section class="fig" id="s7" style="--iac:#0e7490">
+  <h3>7 · Prompt actions — anatomy of a reusable prompt</h3>
+  <p class="cap">Direct exam bullet. A prompt is a single-turn model instruction reusable as an agent tool, topic node, or flow node.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 170">
+    <defs><marker id="b7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle">
+      <rect x="15" y="30" width="170" height="76" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="100" y="54" font-size="12.8" font-weight="700" fill="#0e7490">Instructions</text>
+      <text x="100" y="72" font-size="11.4" fill="#5b6b7b">+ input variables</text>
+      <text x="100" y="87" font-size="11.4" fill="#5b6b7b">(text · image · document)</text>
+      <line x1="185" y1="68" x2="213" y2="68" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#b7)"/>
+      <rect x="217" y="30" width="170" height="76" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="302" y="54" font-size="12.8" font-weight="700" fill="#5b21b6">Grounding</text>
+      <text x="302" y="72" font-size="11.4" fill="#5b6b7b">Dataverse tables</text>
+      <text x="302" y="87" font-size="11.4" fill="#5b6b7b">(“use your own data”)</text>
+      <line x1="387" y1="68" x2="415" y2="68" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#b7)"/>
+      <rect x="419" y="30" width="170" height="76" rx="11" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="504" y="54" font-size="12.8" font-weight="700" fill="#92400e">Model + settings</text>
+      <text x="504" y="72" font-size="11.4" fill="#5b6b7b">incl. BYO Foundry model ·</text>
+      <text x="504" y="87" font-size="11.4" fill="#5b6b7b">temperature · code interpreter</text>
+      <line x1="589" y1="68" x2="617" y2="68" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#b7)"/>
+      <rect x="621" y="30" width="124" height="76" rx="11" fill="#0b2a4a"/>
+      <text x="683" y="58" font-size="12.8" font-weight="700" fill="#fff">Output</text>
+      <text x="683" y="76" font-size="11.4" fill="#c9d8ea">Text · JSON · Document</text>
+      <text x="380" y="145" font-size="12" fill="#5b6b7b">test with sample data → projected credit/token cost shown → save → reuse everywhere</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Prompt structure</b>instructions + <b>input variables</b> (text, image, document) + optional <b>Dataverse grounding</b>. Prompts in <b>no-auth agents can't use Dataverse knowledge</b>.</div>
+    <div class="li"><b class="t">Bring-your-own model</b>via the <b>Azure AI Foundry connector</b>: deployment name, base model name, <b>chat-completions endpoint</b>; GPT-5-family/Responses-endpoint models unsupported; governable by DLP.</div>
+    <div class="li"><b class="t">Output formats</b><b>Text</b> or <b>JSON</b> (auto-detected or custom fixed schema — <b>format locks at save time</b>); agent-flow prompt nodes add <b>Document</b> output (Word from template).</div>
+    <div class="li"><b class="t">Test &amp; evaluate</b>“Test prompt” shows projected credit/token consumption; <b>prompt evaluations</b> (preview) score a test suite across prompt versions.</div>
+    <div class="li"><b class="t">Billing</b>AI-tools meters: basic <b>1</b> · standard <b>15</b> · premium <b>100</b>.</div>
+    <div class="li"><b class="t">Prompt actions for M365 Copilot</b>wizard order: action details (name/description drive semantic matching) → create prompt → input/output parameters → <b>test in M365 Copilot</b> → publish.</div>
+    <div class="li"><b class="t">Authentication design</b>user auth = permission-trimmed actions per signed-in user; maker connection = fixed identity. Agent sign-in: Authenticate with Microsoft (default, required for Teams/M365) · manually (OAuth2, exposes <code>User.AccessToken</code>) · none (public; DLP can block).</div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> “action must run as each signed-in user” (audit, row-level security) → tool uses <b>user authentication</b> and the agent is not “No authentication.”</div>
+</section>
+
+<!-- ============ DATA & TOOLS ============ -->
+<div class="ghead" style="--gc:var(--warn)"><div class="gbar"></div><h2>Foundry Tools &amp; grounding data design</h2></div>
+
+<section class="fig" id="s8" style="--iac:#b45309">
+  <h3>8 · Propose Foundry Tools — requirement → tool in one move</h3>
+  <p class="cap">Direct exam bullet. Eight mappings to own cold, plus the retired list you must never propose.</p>
+  <div class="items">
+    <div class="li"><b class="t">Speech</b>transcribe calls, voice interfaces, brand voice TTS (custom neural voice = <b>Limited Access</b>).</div>
+    <div class="li"><b class="t">Translator</b>real-time / document translation; <b>Custom Translator</b> for industry terminology.</div>
+    <div class="li"><b class="t">Language</b>sentiment, NER, <b>PII redaction</b>, summarization, question answering; CLU for intents/entities (retires 2029; also exposed as an MCP server).</div>
+    <div class="li"><b class="t">Document Intelligence</b>extract fields from invoices, receipts, IDs, forms — prebuilt + custom models.</div>
+    <div class="li"><b class="t">Content Understanding</b>schema-defined extraction across <b>documents + audio + video</b>, RAG-ready output.</div>
+    <div class="li"><b class="t">Vision / Custom Vision</b>image tagging, OCR, objects, faces — Custom Vision for your own labels.</div>
+    <div class="li"><b class="t">Azure AI Search</b>enterprise search / RAG index: vectorization, hybrid search, security trimming.</div>
+    <div class="li"><b class="t">Content Safety</b>filter harmful content, detect jailbreaks — Prompt Shields, groundedness detection.</div>
+    <div class="li"><b class="t">Never propose (retired)</b>Anomaly Detector · Content Moderator · <b>LUIS</b> · Metrics Advisor · Personalizer · <b>QnA Maker</b>. Most live tools also ship as <b>containers</b> for on-premises.</div>
+  </div>
+</section>
+
+<section class="fig" id="s9" style="--iac:#b45309">
+  <h3>9 · Grounding data quality — the five dimensions</h3>
+  <p class="cap">Direct exam bullet: “design data processing for AI models and grounding.” Each dimension has a design response.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 120">
+    <g text-anchor="middle" font-size="12.5" font-weight="700">
+      <rect x="15" y="25" width="138" height="70" rx="11" fill="#ecfeff" stroke="#bfe9f2"/><text x="84" y="55" fill="#0e7490">Accuracy</text><text x="84" y="75" font-size="10.8" font-weight="400" fill="#5b6b7b">fix before indexing</text>
+      <rect x="163" y="25" width="138" height="70" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/><text x="232" y="55" fill="#5b21b6">Relevance</text><text x="232" y="75" font-size="10.8" font-weight="400" fill="#5b6b7b">index what users ask</text>
+      <rect x="311" y="25" width="138" height="70" rx="11" fill="#fffbeb" stroke="#f3e3bb"/><text x="380" y="55" fill="#92400e">Timeliness</text><text x="380" y="75" font-size="10.8" font-weight="400" fill="#5b6b7b">freshness vs SLO</text>
+      <rect x="459" y="25" width="138" height="70" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/><text x="528" y="55" fill="#166534">Cleanliness</text><text x="528" y="75" font-size="10.8" font-weight="400" fill="#5b6b7b">curate the noise out</text>
+      <rect x="607" y="25" width="138" height="70" rx="11" fill="#fdecea" stroke="#f2c4c0"/><text x="676" y="55" fill="#c62828">Availability</text><text x="676" y="75" font-size="10.8" font-weight="400" fill="#5b6b7b">externalize to an index</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Accuracy</b>fix inconsistencies and duplicates <b>before</b> indexing; standardize schemas.</div>
+    <div class="li"><b class="t">Relevance</b>anticipate real user queries; make fields searchable/filterable <b>only where needed</b> — index bloat hurts relevance and cost.</div>
+    <div class="li"><b class="t">Timeliness</b>freshness = window between source change and index availability, tracked against SLOs; “an index should only be as fresh as required.”</div>
+    <div class="li"><b class="t">Cleanliness</b>remove noisy, boilerplate, junk content; curate before you index.</div>
+    <div class="li"><b class="t">Availability</b><b>externalize grounding data into a search index</b> instead of querying source systems live — protects sources, keeps answers available during outages.</div>
+    <div class="li"><b class="t">Core processing patterns</b>chunking vs full-document (accuracy vs token cost/latency) · embeddings + <b>hybrid search</b> (vector + keyword + semantic ranking) · <b>security trimming</b> via filterable identity fields · <b>side-by-side index deployment</b> for safe updates and emergency removal.</div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> when an agent answers wrongly, debug in order: (1) data accurate/clean? (2) right source connected &amp; authenticated? (3) user permitted? (4) synonyms/glossary needed?</div>
+</section>
+
+<section class="fig" id="s10" style="--iac:#b45309">
+  <h3>10 · The data estate — organizing business data for every AI system</h3>
+  <p class="cap">CAF's agent data architecture: one lake, governed products, built-in retrieval first.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 210">
+    <defs><marker id="b10" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle">
+      <rect x="20" y="70" width="180" height="70" rx="12" fill="#0b2a4a"/>
+      <text x="110" y="98" font-size="13.5" font-weight="700" fill="#fff">Fabric OneLake</text>
+      <text x="110" y="117" font-size="11.4" fill="#c9d8ea">medallion: bronze → silver → gold</text>
+      <line x1="200" y1="105" x2="240" y2="105" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#b10)"/>
+      <rect x="244" y="20" width="200" height="52" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="344" y="42" font-size="12.6" font-weight="700" fill="#0e7490">Fabric IQ</text>
+      <text x="344" y="60" font-size="11.3" fill="#5b6b7b">ontology / semantic layer</text>
+      <rect x="244" y="80" width="200" height="52" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="344" y="102" font-size="12.6" font-weight="700" fill="#5b21b6">Foundry IQ</text>
+      <text x="344" y="120" font-size="11.3" fill="#5b6b7b">knowledge retrieval in Foundry</text>
+      <rect x="244" y="140" width="200" height="52" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="344" y="162" font-size="12.6" font-weight="700" fill="#166534">Copilot Studio knowledge</text>
+      <text x="344" y="180" font-size="11.3" fill="#5b6b7b">agents consume governed data</text>
+      <line x1="444" y1="46" x2="500" y2="90" stroke="#c8d4e0" stroke-width="2"/>
+      <line x1="444" y1="106" x2="500" y2="106" stroke="#c8d4e0" stroke-width="2"/>
+      <line x1="444" y1="166" x2="500" y2="122" stroke="#c8d4e0" stroke-width="2"/>
+      <rect x="504" y="76" width="236" height="60" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="622" y="100" font-size="13" font-weight="700" fill="#92400e">Agents everywhere</text>
+      <text x="622" y="118" font-size="11.3" fill="#5b6b7b">same governed data, many surfaces</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Unify on OneLake</b>data domains publish governed <b>data products</b> through the medallion model (bronze → silver → gold).</div>
+    <div class="li"><b class="t">Default to built-in retrieval</b>Foundry IQ, Fabric IQ, Fabric data agents, MCP servers, SharePoint tool, Azure AI Search, OneLake indexers — before any custom retrieval pipeline.</div>
+    <div class="li"><b class="t">Dataverse Link to Fabric</b>exposes Dataverse/D365 data in OneLake via shortcuts in near real time — <b>no ETL, no data copy</b>.</div>
+    <div class="li"><b class="t">Fabric data agents (GA)</b>conversational Q&amp;A over lakehouses, warehouses, semantic models, KQL databases — and they plug into Copilot Studio as connected agents.</div>
+    <div class="li"><b class="t">Dataverse backbone rules</b><b>Dataverse search must be enabled</b> for Dataverse knowledge; per-column <b>synonyms</b> + <b>glossary</b> lift answer quality; security is honored end-to-end (rows/columns by the querying user's roles; live permission checks on connector files).</div>
+  </div>
+</section>
+
+<!-- ============ APPS & WAF ============ -->
+<div class="ghead" style="--gc:var(--good)"><div class="gbar"></div><h2>AI in apps &amp; Well-Architected</h2></div>
+
+<section class="fig" id="s11" style="--iac:#1a7f37">
+  <h3>11 · AI in canvas apps · generative pages · the agent feed</h3>
+  <p class="cap">Three direct exam bullets in one section — the modern pattern for each, and the deprecated trap.</p>
+  <div class="items">
+    <div class="li"><b class="t">Copilot control — the trap</b>chat over the app's Dataverse data, but it <b>cannot be added to new canvas apps from Feb 2, 2026</b> — never the modern answer.</div>
+    <div class="li"><b class="t">Embed a Copilot Studio agent</b>the modern in-app assistant — works on web <b>and</b> mobile.</div>
+    <div class="li"><b class="t">Prompts as Power Fx functions</b>add the prompt as a data source → <code>'PromptName'.Predict(input)</code> → bind <code>result.text</code> — the primary pattern for generative steps (classify, extract, draft) inside a canvas business process.</div>
+    <div class="li"><b class="t">Model-driven counterparts</b>app Copilot chat, <b>row summaries</b>, form fill assistance, NL view filtering.</div>
+    <div class="li"><b class="t">Generative pages</b>(model-driven; <b>GA Oct 30, 2025</b>): describe a page in NL (+ up to 6 Dataverse tables, reference images) → generates <b>React/TypeScript</b>, refined conversationally; solution-aware.</div>
+    <div class="li"><b class="t">Code-first generative pages</b>build with external AI tools (GitHub Copilot CLI, Claude Code) locally against Dataverse, push via CLI — propose for pro-dev teams, unsupported regions, or pixel-level UX without full PCF development. Makers must validate generated code.</div>
+    <div class="li"><b class="t">Agent feed for apps</b>surfaces <b>agent-generated actionable tasks</b> in model-driven apps — the human-supervision surface for autonomous agents. Sections: <b>Needs attention</b> (<code>request_assistance</code>, <code>invoke_data_entry</code>) and <b>Completed</b> (<code>request_review</code>).</div>
+    <div class="li"><b class="t">Agent feed prerequisites</b>agents must be onboarded to the <b>Power Apps MCP server</b> (only MCP-server agents appear from May 1, 2026); everyone with access to the Agent Task table sees feed items.</div>
+  </div>
+  <div class="hook">💡 <b>Hooks:</b> “include AI in a canvas-app process” → <b>prompt as Power Fx function</b> (or embed an agent) · “AI-generated custom page UX, pro-dev, worldwide” → <b>code-first generative pages</b> · “humans must supervise what autonomous agents did to records” → <b>agent feed</b>.</div>
+</section>
+
+<section class="fig" id="s12" style="--iac:#1a7f37">
+  <h3>12 · Power Platform Well-Architected — five pillars, one unique</h3>
+  <p class="cap">Direct exam bullet: apply PPWAF to intelligent application workloads.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 120">
+    <g text-anchor="middle" font-size="12.3" font-weight="700">
+      <rect x="15" y="25" width="138" height="70" rx="11" fill="#ecfeff" stroke="#bfe9f2"/><text x="84" y="55" fill="#0e7490">Reliability</text><text x="84" y="75" font-size="10.8" font-weight="400" fill="#5b6b7b">resiliency · recovery</text>
+      <rect x="163" y="25" width="138" height="70" rx="11" fill="#fdecea" stroke="#f2c4c0"/><text x="232" y="55" fill="#c62828">Security</text><text x="232" y="75" font-size="10.8" font-weight="400" fill="#5b6b7b">protection · detection</text>
+      <rect x="311" y="25" width="138" height="70" rx="11" fill="#fffbeb" stroke="#f3e3bb"/><text x="380" y="49" fill="#92400e">Operational</text><text x="380" y="65" fill="#92400e">Excellence</text><text x="380" y="83" font-size="10.8" font-weight="400" fill="#5b6b7b">observability · DevOps</text>
+      <rect x="459" y="25" width="138" height="70" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/><text x="528" y="49" fill="#166534">Performance</text><text x="528" y="65" fill="#166534">Efficiency</text><text x="528" y="83" font-size="10.8" font-weight="400" fill="#5b6b7b">scale under demand</text>
+      <rect x="607" y="18" width="138" height="84" rx="11" fill="#0b2a4a"/><text x="676" y="48" fill="#fff">Experience</text><text x="676" y="64" fill="#fff">Optimization</text><text x="676" y="84" font-size="10.8" font-weight="400" fill="#c9d8ea">★ unique to PPWAF</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">The unique pillar</b><b>Experience Optimization</b> — usability and relevance, including <b>conversational UX design for agents</b>. The other four align to Azure WAF.</div>
+    <div class="li"><b class="t">How each pillar works</b>design principles → checklist → recommendation guides with explicit trade-offs; the <b>Well-Architected Review</b> produces prioritized recommendations on a ~90-day iteration cadence.</div>
+    <div class="li"><b class="t">Intelligent Application Workloads</b>PPWAF applied to gen-AI/agent workloads (Copilot Studio guidance library: Plan / Implement / Adopt / Manage / Improve / Extend); security thread: group-based licensing, roles via group teams, environment-tiered DLP, sharing limits, VNet/IP firewall for mission-critical agents, residency + cross-geo controls.</div>
+  </div>
+</section>
+
+<div class="footnav">
+  <a href="design-visual-1-dynamics-copilot.html"><span class="dir">← Previous</span>1 · Copilot in Dynamics 365 &amp; agent types</a>
+  <a href="design-visual-3-extensibility.html" style="text-align:right"><span class="dir">Next →</span>3 · Extensibility: Foundry, MCP, computer use</a>
+</div>
+
+</div>
+<script>document.getElementById('icount').textContent=document.querySelectorAll('.li').length;</script>
+</body>
+</html>

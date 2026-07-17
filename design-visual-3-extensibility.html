@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Visuals 3 · Extensibility — Foundry, MCP, Computer Use, Voice</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --accent:#b45309; --soft:#fffbeb; --dark:#0b2a4a;
+  --plan:#0e7490; --plan-soft:#ecfeff;
+  --design:#7c3aed; --design-ink:#6d28d9; --design-soft:#f5f3ff;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55;counter-reset:item}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#b45309 170%);color:#fff;padding:26px 20px 20px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+header.hero .count{display:inline-block;margin-top:10px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 16px;font-size:13px}
+header.hero .count b{font-size:15px}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--accent);border-bottom-color:var(--accent)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:112px;letter-spacing:.03em}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--gc,var(--accent))}
+.ghead h2{font-size:21px;color:var(--gc,var(--dark))}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:14px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto;margin-bottom:8px}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+.items{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin:8px 0 4px}
+.li{position:relative;border:1px solid var(--line);border-left:4px solid var(--iac,var(--accent));border-radius:11px;padding:10px 13px 10px 48px;background:#fbfcfe;font-size:13.1px;color:#33475c;line-height:1.5}
+.li::before{counter-increment:item;content:counter(item);position:absolute;left:11px;top:10px;width:26px;height:26px;border-radius:8px;background:var(--iac,var(--accent));color:#fff;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center}
+.li b{color:#12293f}
+.li b.t{display:block;font-size:13.7px;margin-bottom:2px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0 0 0 18px;font-size:13.4px;color:#33475c}
+.panel li{margin:5px 0}
+.panel li b{color:#12293f}
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:560px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td:first-child{font-weight:700;color:#12293f;white-space:nowrap}
+.matrix tr:last-child td{border-bottom:none}
+.footnav{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+.footnav a{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px;font-size:14px;flex:1;max-width:48%;text-decoration:none;color:var(--ink)}
+.footnav a:hover{border-color:var(--accent)}
+.footnav .dir{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+@media print{nav.bar,.toc,.footnav{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Design AI-Powered Business Solutions · Visual 3 of 4</div>
+  <h1>Extensibility — Custom Models, M365 Copilot Agents, MCP, Computer Use &amp; Agent Behaviors</h1>
+  <p class="sub">Custom models in Microsoft Foundry · agents in Microsoft 365 Copilot · agent extensibility in Copilot Studio with MCP · Computer Use automation · reasoning &amp; voice behaviors · optimizing with agents in Teams and SharePoint.</p>
+  <div class="count"><b id="icount">0</b> numbered learn items on this page</div>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="design-visual-1-dynamics-copilot.html">1 · D365 Copilot &amp; Agents</a>
+  <a href="design-visual-2-copilot-studio.html">2 · Copilot Studio &amp; Power Platform</a>
+  <a href="design-visual-3-extensibility.html" class="here">3 · Extensibility</a>
+  <a href="design-visual-4-orchestration.html">4 · Prebuilt Orchestration</a>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl" style="color:var(--design-ink)">Foundry models</span><a href="#s1">Catalog &amp; deployments</a><a href="#s2">Fine-tuning</a><a href="#s3">Landing paths</a></div>
+  <div class="row"><span class="gl" style="color:var(--plan)">M365 Copilot</span><a href="#s4">DA vs CEA</a><a href="#s5">Builder vs Studio</a></div>
+  <div class="row"><span class="gl" style="color:var(--accent)">Protocols</span><a href="#s6">MCP deep dive</a><a href="#s7">A2A &amp; the decision</a></div>
+  <div class="row"><span class="gl" style="color:var(--bad)">Automation</span><a href="#s8">Computer use</a></div>
+  <div class="row"><span class="gl" style="color:var(--good)">Behaviors</span><a href="#s9">Reasoning &amp; models</a><a href="#s10">Voice</a><a href="#s11">Teams &amp; SharePoint</a></div>
+</div>
+
+<!-- ============ FOUNDRY ============ -->
+<div class="ghead" style="--gc:var(--design-ink)"><div class="gbar"></div><h2>Custom models in Microsoft Foundry</h2></div>
+
+<section class="fig" id="s1" style="--iac:#6d28d9">
+  <h3>1 · Catalog split, deployment types &amp; the model router</h3>
+  <p class="cap">Who supports the model, where inference runs, and the one endpoint that routes between models.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--design)">
+      <h4 style="color:var(--design-ink)">Sold directly by Azure (“Azure Direct”)</h4>
+      <ul>
+        <li>Microsoft-hosted · <b>Azure SLAs</b> · Microsoft Product Terms</li>
+        <li>All Azure OpenAI + selected DeepSeek / Meta / Mistral / xAI / Cohere</li>
+        <li><b>PTU fungible</b> across Azure Direct families</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid #64748b">
+      <h4 style="color:#334155">Partner &amp; community</h4>
+      <ul>
+        <li>Provider-supported · “Non-Microsoft Product” terms</li>
+        <li>Most of the catalog — incl. <b>Anthropic Claude</b>, Hugging Face</li>
+        <li>Serverless/standard or managed compute</li>
+      </ul>
+    </div>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Platform shape</b><b>Foundry projects</b> (children of a Foundry resource, inherit governance) vs classic <b>hub-based projects</b>; a standalone Azure OpenAI resource upgrades <b>in place</b> (keeps endpoint/keys); the platform itself is free — pay per deployment/usage.</div>
+    <div class="li"><b class="t">Deployment types</b><b>Global</b> (any region, default, highest quota) · <b>Data Zone</b> (US/EU/APAC) · <b>Regional</b> (strictest residency, lower quota) · <b>Developer</b> (no SLA — cheap fine-tune evaluation); <b>data at rest never moves</b> — only processing location changes.</div>
+    <div class="li"><b class="t">Billing flavors</b>Standard (tokens) · Provisioned (<b>PTU</b>, reserved throughput) · <b>Batch ≈ 50% off within 24 h</b>; <b>spillover</b> routes 429-overflow from provisioned → standard (Azure OpenAI models only).</div>
+    <div class="li"><b class="t">Model selection</b>criteria: task fit, modality, context window, tool-calling, latency, cost, region, fine-tunability, residency, safety, license; <b>leaderboards</b> rank by <b>quality · safety · cost · throughput</b> to shortlist before your own evals.</div>
+    <div class="li"><b class="t">Model router</b>one endpoint routes each prompt to the best model; modes <b>Balanced / Cost / Quality</b>; restrict with a model subset (doubles as failover, include ≥2); context window = the <b>smallest</b> underlying model; Claude targets deploy separately first.</div>
+  </div>
+</section>
+
+<section class="fig" id="s2" style="--iac:#6d28d9">
+  <h3>2 · Fine-tuning — techniques, tiers &amp; the customization ladder</h3>
+  <p class="cap">Prompt engineering first, RAG for knowledge, fine-tuning for behavior. Then know the four techniques.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 130">
+    <defs><marker id="c2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle">
+      <rect x="20" y="30" width="200" height="66" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="120" y="56" font-size="13" font-weight="700" fill="#166534">1 · Prompt engineering</text>
+      <text x="120" y="76" font-size="11.4" fill="#5b6b7b">cheapest — always try first</text>
+      <line x1="220" y1="63" x2="252" y2="63" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#c2)"/>
+      <rect x="256" y="30" width="220" height="66" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="366" y="56" font-size="13" font-weight="700" fill="#0e7490">2 · RAG</text>
+      <text x="366" y="76" font-size="11.4" fill="#5b6b7b">dynamic / proprietary knowledge + citations</text>
+      <line x1="476" y1="63" x2="508" y2="63" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#c2)"/>
+      <rect x="512" y="30" width="228" height="66" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="626" y="56" font-size="13" font-weight="700" fill="#5b21b6">3 · Fine-tuning</text>
+      <text x="626" y="76" font-size="11.4" fill="#5b6b7b">stable behavior: format · tone · terminology</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">SFT</b>supervised fine-tuning on labeled input/output pairs — broadest support; Azure uses <b>LoRA</b> under the hood.</div>
+    <div class="li"><b class="t">DPO</b>preferred vs non-preferred response pairs, no reward model; <b>stackable after SFT</b>.</div>
+    <div class="li"><b class="t">RFT</b>grader/reward-based for reasoning models (o4-mini) — preview.</div>
+    <div class="li"><b class="t">Distillation</b>train a small model from a big model's <b>stored completions</b>.</div>
+    <div class="li"><b class="t">Training tiers &amp; cost trap</b>Standard (in-region) · <b>Global</b> (cheaper/faster, no residency) · Developer (preemptible, no SLA); costs = training + <b>hourly hosting while deployed, even idle</b> + inference → evaluate on a Developer deployment, delete unused deployments.</div>
+    <div class="li"><b class="t">Fine-tuning is for behavior</b>format, tone, terminology, tool-calling accuracy, shorter prompts — <b>not fresh facts</b>; combine RAG + fine-tuning when both apply.</div>
+  </div>
+</section>
+
+<section class="fig" id="s3" style="--iac:#6d28d9">
+  <h3>3 · Six paths to land a custom model in a business solution</h3>
+  <p class="cap">Direct exam bullet: “design AI solutions by using custom models in Microsoft Foundry.” Know every landing pad.</p>
+  <div class="items">
+    <div class="li"><b class="t">Path 1 — fine-tune &amp; deploy</b>fine-tune in Foundry → Developer tier for evaluation → Standard/Global for production.</div>
+    <div class="li"><b class="t">Path 2 — managed compute</b>for open/custom-weight models that need dedicated hosting.</div>
+    <div class="li"><b class="t">Path 3 — behind an agent</b>back a Foundry agent with the fine-tuned deployment (or the model router).</div>
+    <div class="li"><b class="t">Path 4 — into Power Platform</b>the <b>Azure AI Foundry connector</b> exposes a chat-completions deployment to <b>prompts in Copilot Studio / Power Apps / Power Automate</b> — DLP-governable; the bridge that gives low-code makers a fine-tuned model.</div>
+    <div class="li"><b class="t">Path 5 — customized Foundry Tools</b>custom speech/voice, CLU, custom Document Intelligence, Custom Vision, Custom Translator — consumed via endpoints or as agent tools (“AI Service fine-tuning” in the portal).</div>
+    <div class="li"><b class="t">Path 6 — edge &amp; on-device</b><b>Foundry Local</b> · <b>Phi Silica</b> on Copilot+ PC NPUs with <b>LoRA</b> adapters · App Service <b>SLM sidecar container</b> (no external calls, fixed cost).</div>
+    <div class="li"><b class="t">When to go custom at all</b>only when unique domain data gives competitive advantage, prebuilt models miss accuracy/compliance, <b>and</b> the org has Level 3–4 AI maturity — otherwise prebuilt or fine-tuned foundation models.</div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> “must run offline / on-device · data can't leave · fixed cost · narrow task” → <b>fine-tuned SLM (Phi)</b> · “wide-ranging reasoning over changing knowledge” → <b>LLM + RAG</b>.</div>
+</section>
+
+<!-- ============ M365 ============ -->
+<div class="ghead" style="--gc:var(--plan)"><div class="gbar"></div><h2>Agents in Microsoft 365 Copilot</h2></div>
+
+<section class="fig" id="s4" style="--iac:#0e7490">
+  <h3>4 · Declarative agent vs custom engine agent</h3>
+  <p class="cap">Direct exam bullet: “design agents in Microsoft 365 Copilot.” Five dimensions decide which one you propose.</p>
+  <div class="matrix">
+    <table>
+      <tr><th></th><th>Declarative agent (DA)</th><th>Custom engine agent (CEA)</th></tr>
+      <tr><td>Orchestrator &amp; models</td><td><b>M365 Copilot's own</b></td><td><b>Yours</b> — Foundry models, Agent Framework, LangChain…</td></tr>
+      <tr><td>Hosting</td><td>Microsoft-hosted, nothing to manage</td><td>You host (unless built in Copilot Studio)</td></tr>
+      <tr><td>Compliance</td><td>Inherits M365 security / compliance / RAI</td><td>Your responsibility</td></tr>
+      <tr><td>Behavior</td><td><b>User-initiated only</b></td><td>Proactive, autonomous, group collaboration</td></tr>
+      <tr><td>Channels</td><td>M365 Copilot &amp; M365 apps</td><td>Any channel, external surfaces</td></tr>
+    </table>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Declarative agent</b>rides M365 Copilot's orchestrator and models; inherits M365 compliance; <b>user-initiated only</b>; lives in M365 surfaces.</div>
+    <div class="li"><b class="t">Custom engine agent</b>your orchestrator, your models, your hosting and compliance — the price of proactive/autonomous behavior and external channels.</div>
+    <div class="li"><b class="t">Decision reflex</b>“stay on Microsoft's rails with company knowledge” → DA · “proactive agent, custom models, non-M365 surfaces” → CEA.</div>
+  </div>
+</section>
+
+<section class="fig" id="s5" style="--iac:#0e7490">
+  <h3>5 · Agent builder (lite) vs full Copilot Studio</h3>
+  <p class="cap">Same brand, different personas. One upgrade path connects them — and it only goes one way.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--plan)">
+      <h4 style="color:var(--plan)">Copilot Studio agent builder (in M365 Copilot)</h4>
+      <ul>
+        <li><b>Information workers</b>, natural-language authoring</li>
+        <li>Lightweight Q&amp;A over SharePoint / Graph / web</li>
+        <li>Individual or small team scope</li>
+        <li>Governed in the <b>M365 admin center</b></li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--design)">
+      <h4 style="color:var(--design-ink)">Full Copilot Studio</h4>
+      <ul>
+        <li><b>Makers</b>; multi-step logic, 1,000+ connectors</li>
+        <li>Autonomous triggers, environments, ALM, RBAC, analytics</li>
+        <li>External publishing (websites, channels)</li>
+        <li>Governed in the <b>Power Platform admin center</b></li>
+      </ul>
+    </div>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">The upgrade path</b><b>“Copy to Copilot Studio”</b> — one-way, lite → full; there is no downgrade path back.</div>
+    <div class="li"><b class="t">Governance split</b>agent builder agents are governed in the M365 admin center; full Studio agents in PPAC — different admin surfaces, different policies.</div>
+  </div>
+</section>
+
+<!-- ============ PROTOCOLS ============ -->
+<div class="ghead" style="--gc:var(--accent)"><div class="gbar"></div><h2>MCP &amp; A2A in Copilot Studio</h2></div>
+
+<section class="fig" id="s6" style="--iac:#b45309">
+  <h3>6 · MCP — architecture, rules &amp; governance</h3>
+  <p class="cap">Direct exam bullet: “agent extensibility with Model Context Protocol.” Host, client, server — then the Copilot Studio specifics.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 200">
+    <defs><marker id="c6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <rect x="20" y="40" width="300" height="120" rx="14" fill="#f7f9fb" stroke="#d8e0e8"/>
+    <text x="170" y="66" text-anchor="middle" font-size="13.5" font-weight="700" fill="#334155">Host — the LLM application</text>
+    <text x="170" y="84" text-anchor="middle" font-size="11.5" fill="#5b6b7b">Copilot Studio · Foundry Agent Service · VS Code</text>
+    <rect x="60" y="98" width="220" height="46" rx="10" fill="#0b2a4a"/>
+    <text x="170" y="118" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">MCP client</text>
+    <text x="170" y="134" text-anchor="middle" font-size="11" fill="#c9d8ea">1 : 1 connection to a server</text>
+    <line x1="280" y1="121" x2="470" y2="100" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#c6)" marker-start="url(#c6)"/>
+    <rect x="330" y="78" width="130" height="26" rx="13" fill="#fffbeb" stroke="#b45309"/>
+    <text x="395" y="96" text-anchor="middle" font-size="11.8" font-weight="800" fill="#92400e">Streamable HTTP</text>
+    <rect x="474" y="52" width="266" height="106" rx="14" fill="#fffbeb" stroke="#f3e3bb"/>
+    <text x="607" y="78" text-anchor="middle" font-size="13.5" font-weight="700" fill="#92400e">MCP server</text>
+    <text x="607" y="98" text-anchor="middle" font-size="11.5" fill="#5b6b7b">exposes: Tools ✓ · Resources ✓ · Prompts ✗</text>
+    <text x="607" y="114" text-anchor="middle" font-size="11.5" fill="#5b6b7b">(Copilot Studio ignores MCP prompts)</text>
+    <text x="607" y="134" text-anchor="middle" font-size="11.5" fill="#5b6b7b">tool list updates dynamically —</text>
+    <text x="607" y="148" text-anchor="middle" font-size="11.5" fill="#5b6b7b">no connector redeployment</text>
+    <text x="380" y="186" text-anchor="middle" font-size="12" fill="#5b6b7b">SSE transport unsupported since <tspan font-weight="700" fill="#c62828">August 2025</tspan> · local servers use stdio (outside Copilot Studio)</text>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Three roles</b><b>Host</b> (the LLM app) · <b>Client</b> (1:1 connection inside the host) · <b>Server</b> (exposes capabilities) — JSON-RPC 2.0 underneath.</div>
+    <div class="li"><b class="t">Primitives</b>Tools (model-invoked functions) · Resources (read-only context) · Prompts (templates). <b>Copilot Studio supports tools + resources, not prompts</b> — resources surface only as tool outputs.</div>
+    <div class="li"><b class="t">Hard requirements</b>MCP needs <b>generative orchestration</b>; transport is <b>Streamable HTTP only</b> (SSE dead since Aug 2025).</div>
+    <div class="li"><b class="t">The core value</b>one MCP server = one agent tool exposing many MCP tools; the server's tool list <b>updates dynamically</b> — centrally versioned tool sets shared by many agents whose upstream APIs change often.</div>
+    <div class="li"><b class="t">Three ways in</b>the <b>MCP onboarding wizard</b> (auth: none, API key, OAuth 2.0 with dynamic discovery/DCR) · a custom connector · registering BYO servers via <b>Agent 365 / M365 admin center</b>.</div>
+    <div class="li"><b class="t">Prebuilt Microsoft servers</b>Dataverse MCP (<b>deletes require explicit user approval</b>; PPAC allow-listing; honors user permissions) · Dynamics 365 ERP MCP · D365 Sales / Customer Service MCP · Power Apps MCP · Azure MCP · Microsoft Learn MCP.</div>
+    <div class="li"><b class="t">Governance</b>MCP rides on Power Platform connectors → <b>DLP data policies apply</b>; per-tool enable/disable via the <b>Allow all</b> toggle (off → new server tools default off); limits: can't enrich tool descriptions per agent, topics can't call MCP directly.</div>
+    <div class="li"><b class="t">Security risks → mitigations</b>tool poisoning, silent tool changes, injection via tool output, token theft → trusted providers only, Entra ID auth + network isolation, least-privilege RBAC, <b>tool allow-lists</b>, human-in-the-loop approval, audit logging.</div>
+  </div>
+</section>
+
+<section class="fig" id="s7" style="--iac:#b45309">
+  <h3>7 · A2A &amp; the who-talks-to-whom decision</h3>
+  <p class="cap">Tools use MCP; foreign agents use A2A; teammates are child agents — no protocol at all.</p>
+  <div class="items">
+    <div class="li"><b class="t">A2A essentials</b>open standard (Linux Foundation) for cross-framework agent-to-agent work: <b>agent card</b> at <code>/.well-known/agent-card.json</code>, messages, long-running <b>tasks</b> (with “input required”), artifacts, <b>contextId</b> for state.</div>
+    <div class="li"><b class="t">Opacity is the point</b>the remote agent's tools and reasoning are <b>opaque</b> — you delegate the outcome, it runs its own reasoning.</div>
+    <div class="li"><b class="t">Microsoft support</b>Copilot Studio connects A2A agents (<b>GA</b>) as connected agents · Foundry publishes A2A endpoints (preview) · Agent Framework hosts/consumes natively · Entra Agent ID authorizes OAuth 2.0, MCP <b>and</b> A2A.</div>
+    <div class="li"><b class="t">Integration mapping</b>plain API → <b>custom connector</b> · shared evolving tool set → <b>MCP</b> · external framework agents → <b>A2A</b> · M365 Agents SDK agents → <b>Activity Protocol</b> · same team, co-located → <b>child agent</b> (less latency, no protocol).</div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> “partner company exposes their agent; ours must delegate” → <b>A2A</b> · “many of our agents need the same evolving tools” → <b>MCP</b> · “same team, same solution” → child agent — <b>neither protocol</b>.</div>
+</section>
+
+<!-- ============ COMPUTER USE ============ -->
+<div class="ghead" style="--gc:var(--bad)"><div class="gbar"></div><h2>Computer use</h2></div>
+
+<section class="fig" id="s8" style="--iac:#c62828">
+  <h3>8 · Computer use — the loop, the machines, the guardrails</h3>
+  <p class="cap">Direct exam bullet: “automate tasks in apps and websites by using Computer Use.” A last resort with a precise anatomy.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 170">
+    <defs><marker id="c8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle">
+      <rect x="60" y="40" width="180" height="70" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="150" y="68" font-size="13.5" font-weight="700" fill="#0e7490">Perception</text>
+      <text x="150" y="88" font-size="11.6" fill="#5b6b7b">screenshots of the UI</text>
+      <line x1="240" y1="75" x2="285" y2="75" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#c8)"/>
+      <rect x="290" y="40" width="180" height="70" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="380" y="68" font-size="13.5" font-weight="700" fill="#5b21b6">Reasoning</text>
+      <text x="380" y="88" font-size="11.6" fill="#5b6b7b">CUA model decides</text>
+      <line x1="470" y1="75" x2="515" y2="75" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#c8)"/>
+      <rect x="520" y="40" width="180" height="70" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="610" y="68" font-size="13.5" font-weight="700" fill="#92400e">Action</text>
+      <text x="610" y="88" font-size="11.6" fill="#5b6b7b">virtual mouse &amp; keyboard</text>
+      <path d="M610,110 C610,150 150,150 150,112" fill="none" stroke="#8ea3b8" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#c8)"/>
+      <text x="380" y="150" font-size="11.8" fill="#5b6b7b">self-corrects when the UI changes — repeat until done</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">What it is</b>a tool that drives <b>websites and Windows desktop apps</b> with a virtual mouse/keyboard, powered by computer-using agent (CUA) models; authored in natural language; requires generative orchestration.</div>
+    <div class="li"><b class="t">Three places to run</b><b>hosted browser</b> (preview — prototyping only, not Entra-joined) · <b>Cloud PC pool</b> (preview — Entra-joined/Intune, autoscaling) · <b>bring-your-own machine for production</b> (Windows machine registered in Power Automate, “Enable for computer use”; concurrent runs queue).</div>
+    <div class="li"><b class="t">Models</b>OpenAI CUA (GA) and Anthropic Claude — Anthropic needs the admin's <b>“external models”</b> switch.</div>
+    <div class="li"><b class="t">Controls</b>app/website <b>allow list</b> · Enforce HTTPS · maker vs end-user credentials · <b>human supervision</b> (email a reviewer on suspicious instructions) · session replays and logs.</div>
+    <div class="li"><b class="t">Billing</b><b>5 credits/step (15 premium)</b> — and it is <b>excluded</b> from M365 Copilot license inclusion; never free.</div>
+    <div class="li"><b class="t">When to propose</b>only when <b>no API, connector or MCP integration exists</b> (legacy/desktop-only UI). Stable UI + fixed rules + high volume → classic <b>RPA</b> instead; shifting UIs + judgment → computer use.</div>
+  </div>
+</section>
+
+<!-- ============ BEHAVIORS ============ -->
+<div class="ghead" style="--gc:var(--good)"><div class="gbar"></div><h2>Agent behaviors — reasoning, voice &amp; M365 surfaces</h2></div>
+
+<section class="fig" id="s9" style="--iac:#1a7f37">
+  <h3>9 · Deep reasoning &amp; the model pickers</h3>
+  <p class="cap">Direct exam bullet: “design agent behaviors, including reasoning.” Know the keyword, the cost, and the switches.</p>
+  <div class="items">
+    <div class="li"><b class="t">Deep reasoning (preview)</b>enables reasoning models (Azure OpenAI <b>o3</b>) for complex multistep analysis; requires generative orchestration + a settings toggle.</div>
+    <div class="li"><b class="t">The <code>reason</code> keyword</b>force a reasoning step from instructions by writing the keyword <b><code>reason</code></b>.</div>
+    <div class="li"><b class="t">Reasoning trade-offs</b>better analysis but <b>slower</b> and pricier — premium AI-tools token meter <b>plus</b> the agent-action rate; US/EU regions, no residency commitments in preview.</div>
+    <div class="li"><b class="t">Primary model picker</b>swap the agent's main model (tags Deep/Auto/General); optional <b>external models</b> (Anthropic, xAI, Mistral) sit behind an admin switch; prompts can separately BYO a Foundry model.</div>
+  </div>
+</section>
+
+<section class="fig" id="s10" style="--iac:#1a7f37">
+  <h3>10 · Voice — basic IVR vs real-time speech-to-speech</h3>
+  <p class="cap">Direct exam bullet: “including voice mode.” Two voice architectures, two billing tiers, one deployment door.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid #475569">
+      <h4 style="color:#334155">Basic voice agents</h4>
+      <ul>
+        <li><b>Classic orchestration</b> + NLU/NLU+</li>
+        <li>Full IVR set: speech + <b>DTMF</b>, silence detection, <b>barge-in</b>, <b>SSML</b>, audio playback, latency messages</li>
+        <li>Deterministic, low-latency → <b>regulated IVR flows</b></li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--good)">
+      <h4 style="color:var(--good)">Real-time voice agents (preview)</h4>
+      <ul>
+        <li><b>Speech-to-speech</b> on a real-time multimodal model</li>
+        <li>Natural interruption, <b>mid-call language switching</b></li>
+        <li>Deployed through <b>Dynamics 365 Contact Center</b> telephony</li>
+        <li>Some triggers (unknown-intent fallback, disambiguation) unsupported</li>
+      </ul>
+    </div>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Basic voice</b>classic orchestration + NLU(+) with the full IVR toolbox — pick for phone menus with DTMF and regulatory wording.</div>
+    <div class="li"><b class="t">Real-time voice</b>natural speech-to-speech conversation, deployed via Contact Center telephony — pick for “natural conversation over the phone.”</div>
+    <div class="li"><b class="t">Voice billing ladder</b>per minute: classic <b>10</b> · generative <b>35</b> · premium <b>75</b> credits; bot-handled calls cap at <b>1 hour</b>.</div>
+  </div>
+</section>
+
+<section class="fig" id="s11" style="--iac:#1a7f37">
+  <h3>11 · Optimizing with agents in Microsoft 365 — Teams, SharePoint &amp; publishing</h3>
+  <p class="cap">Direct exam bullet: “optimize solution design by using agents in Microsoft 365, including Teams and SharePoint.”</p>
+  <div class="items">
+    <div class="li"><b class="t">SharePoint agents</b>site/library-scoped Q&amp;A created by end users, permission-trimmed, <b>one “approved” agent per site</b> — the zero-build answer for “our team needs answers from this site.”</div>
+    <div class="li"><b class="t">Teams agents</b><b>Facilitator</b> (real-time collaborative meeting notes, in-meeting Q&amp;A) and <b>Channel Agent</b> (deadlines, status summaries, task assignment) optimize collaboration without custom builds.</div>
+    <div class="li"><b class="t">Publishing model</b><b>publish once → all connected channels update</b>; republish after every change; Teams + M365 Copilot channel <b>requires Authenticate with Microsoft</b>.</div>
+    <div class="li"><b class="t">Channel catalog</b>Teams/M365, SharePoint, demo website (stakeholder testing) vs custom website (embed), mobile SDK, WhatsApp/Facebook, D365 Customer Service / Contact Center, telephony (ACS), Azure Bot Service channels (Slack, Telegram, Twilio…).</div>
+    <div class="li"><b class="t">Sharing &amp; roles</b>co-author or view · <b>Analytics Viewer</b> for analytics-only · <b>Bot Transcript Viewer</b> for transcripts · Teams org-catalog publishing needs admin approval · PPAC sharing limits apply in managed environments.</div>
+  </div>
+</section>
+
+<div class="footnav">
+  <a href="design-visual-2-copilot-studio.html"><span class="dir">← Previous</span>2 · Copilot Studio &amp; Power Platform design</a>
+  <a href="design-visual-4-orchestration.html" style="text-align:right"><span class="dir">Next →</span>4 · Orchestrating prebuilt agents &amp; apps</a>
+</div>
+
+</div>
+<script>document.getElementById('icount').textContent=document.querySelectorAll('.li').length;</script>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Learn · Deploy 2/4 — Manage Testing of AI Solutions</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --accent:#0f6cbd; --soft:#e8f1fa; --dark:#0b2a4a;
+  --pg:#6d28d9; --pg-deep:#5b21b6; --pg-soft:#f5f3ff; --pg-line:#ddd0f8;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+  --warn:#b45309; --warn-soft:#fffbeb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,#2e1065 0%,#7c3aed 130%);color:#fff;padding:26px 20px 20px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06);align-items:center}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--pg);border-bottom-color:var(--pg)}
+.pwrap{margin-left:auto;display:flex;align-items:center;gap:8px;padding:8px 4px;flex:0 0 auto}
+.pmeter{width:110px;height:8px;background:#eef1f6;border-radius:99px;overflow:hidden}
+.pmeter i{display:block;height:100%;width:0;background:var(--good);border-radius:99px;transition:width .25s}
+#ptext{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:110px;letter-spacing:.03em;color:var(--pg-deep)}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--pg);color:var(--pg)}
+.toc .use{font-size:12.5px;color:var(--muted);margin-top:8px}
+.toc button{border:1px solid var(--line);background:#fff;color:#475569;border-radius:8px;padding:4px 12px;font-size:12px;cursor:pointer;margin-left:8px}
+.toc button:hover{border-color:var(--bad);color:var(--bad)}
+
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--pg)}
+.ghead h2{font-size:21px;color:var(--pg-deep)}
+
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+
+.n{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:21px;border-radius:999px;background:var(--pg-soft);color:var(--pg);font-size:11.5px;font-weight:800;cursor:pointer;border:1px solid var(--pg-line);padding:0 5px;user-select:none;margin-right:7px;vertical-align:1px;flex:0 0 auto}
+.n:hover{border-color:var(--pg)}
+.n.done{background:var(--good);border-color:var(--good);color:#fff}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:6px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:23px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.tile .n{margin:0 auto 6px;display:flex;width:fit-content}
+
+.gcse{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:10px}
+.gcse div.c{border:1px solid var(--line);border-radius:12px;padding:13px 15px;background:#fbfcfe;font-size:13.1px;color:var(--muted)}
+.gcse b{display:flex;align-items:center;gap:4px;font-size:14px;color:#12293f;margin-bottom:5px}
+
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0;list-style:none;font-size:13.4px;color:#33475c}
+.panel li{margin:7px 0;display:flex;align-items:flex-start}
+.panel li b{color:#12293f}
+
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:600px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td.sig{font-weight:700;color:#12293f}
+.matrix tr:last-child td{border-bottom:none}
+code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:1px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.87em;color:#334155}
+@media print{nav.bar,.toc{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Visual Learn · Deploy deep dive 2 of 4</div>
+  <h1>🧪 Manage the Testing of AI-Powered Solutions</h1>
+  <p class="sub">Covers five exam bullets: recommend the process &amp; metrics to test agents · create validation criteria for custom AI models · validate Copilot prompt best practices · design end-to-end tests across multiple Dynamics 365 apps · build the strategy for creating test cases with Copilot.</p>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="visual-deploy-monitor.html">📈 Monitor &amp; Tune</a>
+  <a href="visual-deploy-testing.html" class="here">🧪 Testing</a>
+  <a href="visual-deploy-alm.html">🔁 ALM</a>
+  <a href="visual-deploy-rai.html">🛡 RAI &amp; Security</a>
+  <div class="pwrap"><div class="pmeter"><i id="pbar"></i></div><span id="ptext"></span></div>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl">Process</span><a href="#f1">The 8-layer strategy</a><a href="#f2">Non-deterministic shift</a></div>
+  <div class="row"><span class="gl">Agents</span><a href="#f3">Agent evaluation</a><a href="#f4">Seven test methods</a><a href="#f5">Agent Kit</a></div>
+  <div class="row"><span class="gl">Foundry</span><a href="#f6">Evaluator map</a><a href="#f7">Scales &amp; gates</a></div>
+  <div class="row"><span class="gl">Models</span><a href="#f8">Validation criteria</a><a href="#f9">The overfitting curve</a></div>
+  <div class="row"><span class="gl">Prompts &amp; E2E</span><a href="#f10">Prompt validation</a><a href="#f11">Cross-app E2E map</a><a href="#f12">Copilot-made test cases</a></div>
+  <p class="use">💡 Tap a numbered chip when you've truly learned that item — progress is saved on this device.<button id="reset">reset progress</button></p>
+</div>
+
+<!-- ============ PROCESS ============ -->
+<div class="ghead"><div class="gbar"></div><h2>The process — recommend how agents get tested</h2></div>
+
+<section class="fig" id="f1">
+  <h3>1 · The 8-layer test strategy — a staircase to production</h3>
+  <p class="cap">Microsoft's guidance layers agent testing from unit to accessibility. Shift left, automate in CI/CD, always finish in staging.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 330">
+    <g font-size="12" text-anchor="middle">
+      <rect x="20"  y="272" width="160" height="40" rx="8" fill="#f5f3ff" stroke="#ddd0f8"/><text x="100" y="297" font-weight="700" fill="#5b21b6">1 · Unit tests</text>
+      <rect x="112" y="226" width="160" height="40" rx="8" fill="#f5f3ff" stroke="#ddd0f8"/><text x="192" y="251" font-weight="700" fill="#5b21b6">2 · Happy path</text>
+      <rect x="204" y="180" width="160" height="40" rx="8" fill="#f5f3ff" stroke="#ddd0f8"/><text x="284" y="205" font-weight="700" fill="#5b21b6">3 · Knowledge tests</text>
+      <rect x="296" y="134" width="160" height="40" rx="8" fill="#f5f3ff" stroke="#ddd0f8"/><text x="376" y="159" font-weight="700" fill="#5b21b6">4 · Regression</text>
+      <rect x="388" y="88"  width="160" height="40" rx="8" fill="#fdecea" stroke="#f2c4c0"/><text x="468" y="113" font-weight="700" fill="#c62828">5 · Adversarial</text>
+      <rect x="480" y="42"  width="160" height="40" rx="8" fill="#fffbeb" stroke="#f3e3bb"/><text x="560" y="67" font-weight="700" fill="#92400e">6 · Performance / load</text>
+      <rect x="572" y="-4"  width="0" height="0"/>
+      <rect x="572" y="0"   width="168" height="36" rx="8" fill="#e7f4ea" stroke="#c4e2cb"/><text x="656" y="23" font-weight="700" fill="#166534">7 · Security &amp; compliance</text>
+      <rect x="404" y="0"   width="160" height="36" rx="8" fill="#e7f4ea" stroke="#c4e2cb"/><text x="484" y="23" font-weight="700" fill="#166534">8 · Accessibility</text>
+      <text x="230" y="315" fill="#5b6b7b" font-size="12.3">→ shift-left: cheap layers run on every change; expensive layers gate releases</text>
+    </g>
+  </svg>
+  </div>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>Layers 1–4 (build quality in)</b><b>Unit</b> tests per topic/tool → <b>happy path</b> conversations → <b>knowledge tests</b> (does grounding answer correctly?) → <b>regression</b> (yesterday's fixes still hold).</div>
+    <div class="c"><b><i class="n"></i>Layer 5 — adversarial</b>Edge cases, <b>unknown intent</b>, deliberately <b>false information</b> — probe how the agent fails, not just how it succeeds.</div>
+    <div class="c"><b><i class="n"></i>Layers 6–8 — production-readiness</b><b>Performance/load</b>, then <b>security &amp; compliance</b> (RBAC, DLP, sensitivity labels, data leaks), then <b>accessibility</b>.</div>
+    <div class="c"><b><i class="n"></i>The three process rules</b><b>Shift-left</b> · always validate in <b>staging</b> before go-live · <b>automate in CI/CD</b> so tests gate promotion, not humans.</div>
+  </div>
+</section>
+
+<section class="fig" id="f2">
+  <h3>2 · Non-deterministic AI changes the method</h3>
+  <p class="cap">The same prompt gives different words each run. Classic assertion testing breaks — replace it deliberately.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--bad)">
+      <h4 style="color:var(--bad)">✗ Stop doing</h4>
+      <ul>
+        <li><i class="n"></i><span><b>Exact-match assertions</b> on generated text — the words change every run even when the answer is right.</span></li>
+        <li><i class="n"></i><span><b>Single-run verdicts</b> — one pass or one failure proves nothing about a stochastic system.</span></li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--good)">
+      <h4 style="color:var(--good)">✓ Do instead</h4>
+      <ul>
+        <li><i class="n"></i><span><b>LLM-judged comparisons</b>, rubrics, <b>thresholds / pass rates</b>, and <b>repeated runs</b>.</span></li>
+        <li><i class="n"></i><span>Assert the <b>plan and tools chosen</b> rather than exact wording — behavior over prose.</span></li>
+        <li><i class="n"></i><span><b>Multi-turn tests</b> for conversational end-to-end scenarios.</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> deterministic methods (exact / keyword / tool-use) still have a home — <b>compliance-critical paths</b> where the wording is regulated. LLM-judged methods own everything open-ended.</div>
+</section>
+
+<!-- ============ AGENTS ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Testing Copilot Studio agents</h2></div>
+
+<section class="fig" id="f3">
+  <h3>3 · Test panel &amp; agent evaluation — the numbers</h3>
+  <p class="cap">The in-product test stack, from a quick chat to bulk evaluation runs.</p>
+  <div class="tiles">
+    <div class="tile"><i class="n"></i><b>free</b><span>test-panel chats — no billing, excluded from analytics</span></div>
+    <div class="tile"><i class="n"></i><b>≤ 100</b><span>cases per evaluation test set</span></div>
+    <div class="tile"><i class="n"></i><b>≤ 20</b><span>cases per conversational (multi-turn) set</span></div>
+    <div class="tile"><i class="n"></i><b>89 d</b><span>evaluation results retained</span></div>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:10px">
+    <ul>
+      <li><i class="n"></i><span>The <b>test panel</b> shows triggered nodes plus an <b>activity map</b> in generative orchestration — you watch the orchestrator's <b>plan and tool selection</b>, and can edit topics live.</span></li>
+      <li><i class="n"></i><span>Test sets come from four sources: <b>generated from instructions/knowledge/topics · imported · from past test chats · from analytics Themes</b> — plus an optional <b>simulated user profile</b>.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fig" id="f4">
+  <h3>4 · The seven test methods — pick the right judge</h3>
+  <p class="cap">Agent evaluation offers seven scoring methods. The exam names a need; you name the method.</p>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>General quality (default)</b>LLM-judged <b>relevance / groundedness / completeness / abstention</b> — needs <b>no expected answer</b>.</div>
+    <div class="c"><b><i class="n"></i>Compare meaning</b>Semantic comparison against an expected answer — same meaning passes, different words don't matter.</div>
+    <div class="c"><b><i class="n"></i>Tool use</b>Pass/fail on whether the <b>expected tools/topics were invoked</b> — “prove the orchestrator picks the right tools”.</div>
+    <div class="c"><b><i class="n"></i>Keyword match &amp; Text similarity</b>Deterministic textual checks — keywords present, or similarity above a bar.</div>
+    <div class="c"><b><i class="n"></i>Exact match</b>Strictest check — for fixed, regulated wording only.</div>
+    <div class="c"><b><i class="n"></i>Custom</b>Your own evaluation instructions — you write the rubric the LLM judge applies.</div>
+  </div>
+</section>
+
+<section class="fig" id="f5">
+  <h3>5 · Copilot Agent Kit — bulk testing over Direct Line</h3>
+  <p class="cap">The Power CAT kit (a.k.a. Copilot Studio Kit) industrializes agent testing — and gates pipelines with the results.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 150">
+    <defs><marker id="ak" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="12">
+      <rect x="20" y="40" width="170" height="70" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="105" y="66" font-weight="700" fill="#5b21b6">Test cases</text>
+      <text x="105" y="84" fill="#5b6b7b">Excel import/export</text>
+      <text x="105" y="99" fill="#5b6b7b">+ rubrics</text>
+      <line x1="190" y1="75" x2="230" y2="75" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ak)"/>
+      <rect x="234" y="40" width="180" height="70" rx="12" fill="#0b2a4a"/>
+      <text x="324" y="66" font-weight="700" fill="#fff">Agent under test</text>
+      <text x="324" y="84" fill="#c9d8ea">driven via the</text>
+      <text x="324" y="99" fill="#c9d8ea">Direct Line API</text>
+      <line x1="414" y1="75" x2="454" y2="75" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ak)"/>
+      <rect x="458" y="40" width="140" height="70" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="528" y="66" font-weight="700" fill="#166534">Results</text>
+      <text x="528" y="84" fill="#3c6947">success rate</text>
+      <text x="528" y="99" fill="#3c6947">+ latency</text>
+      <line x1="598" y1="75" x2="638" y2="75" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ak)"/>
+      <rect x="642" y="40" width="100" height="70" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="692" y="66" font-weight="700" fill="#92400e">Pipeline</text>
+      <text x="692" y="84" fill="#5b6b7b">gate on</text>
+      <text x="692" y="99" fill="#5b6b7b">passing</text>
+    </g>
+  </svg>
+  </div>
+  <div class="gcse" style="margin-top:10px">
+    <div class="c"><b><i class="n"></i>Runs over the Direct Line API</b>Bulk automated conversations against the published agent — not the authoring canvas.</div>
+    <div class="c"><b><i class="n"></i>Six test types</b><b>Response match · Adaptive Card/attachment · Topic match</b> (needs transcript enrichment) · <b>Generative answers</b> (LLM compares to a sample answer / validation instructions) · <b>Multi-turn</b> (ordered child tests = E2E scenarios) · <b>Plan validation</b> (asserts the orchestrator planned the expected tools).</div>
+    <div class="c"><b><i class="n"></i>App Insights enrichment</b>Explains <em>why</em> a generative-answer test failed by joining telemetry to the result.</div>
+    <div class="c"><b><i class="n"></i>Pipeline integration</b>Kit test suites run <b>inside Power Platform pipelines</b> — promotion to the next environment is gated on passing tests.</div>
+    <div class="c"><b><i class="n"></i>The Kit's other tools</b><b>Agent Review Tool</b> (anti-pattern detection) · Conversation Analyzer · Prompt Advisor · Agent Inventory · Insights Hub.</div>
+  </div>
+</section>
+
+<!-- ============ FOUNDRY ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Testing in Foundry — evaluations as metrics</h2></div>
+
+<section class="fig" id="f6">
+  <h3>6 · The evaluator map — which evaluator answers which question</h3>
+  <p class="cap">Three families. The exam phrases a question in plain English; you name the evaluator.</p>
+  <div class="matrix">
+  <table>
+    <tr><th>Plain-English question</th><th>Evaluator</th><th>Family</th></tr>
+    <tr><td>“Did the agent understand what the user wanted?”</td><td class="sig"><i class="n"></i>Intent Resolution</td><td>Agent</td></tr>
+    <tr><td>“Did it do what the instructions said?”</td><td class="sig"><i class="n"></i>Task Adherence</td><td>Agent</td></tr>
+    <tr><td>“Did it call the right tools with the right parameters?”</td><td class="sig"><i class="n"></i>Tool Call Accuracy <span style="font-weight:400;color:#5b6b7b">(+ tool-selection/input/output, task-completion variants)</span></td><td>Agent</td></tr>
+    <tr><td>“Is the answer supported by the sources?”</td><td class="sig"><i class="n"></i>Groundedness (+ Groundedness Pro)</td><td>RAG</td></tr>
+    <tr><td>“Did retrieval find the right passages — and is the answer on-topic and complete?”</td><td class="sig"><i class="n"></i>Relevance · Retrieval · Response Completeness</td><td>RAG</td></tr>
+    <tr><td>“Is the output harmful, plagiarized, injected, or insecure?”</td><td class="sig"><i class="n"></i>Harm categories · protected materials · indirect attack (XPIA) · code vulnerability</td><td>Safety</td></tr>
+  </table>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> evaluations run <b>local (SDK), cloud at scale, or in the portal</b>, from an evaluator catalog governed by RBAC. Safety evaluators report a <b>defect rate</b>, not a 1–5 score.</div>
+</section>
+
+<section class="fig" id="f7">
+  <h3>7 · Scales, thresholds &amp; release gates</h3>
+  <p class="cap">Three numbers and one pipeline pattern carry most Foundry testing questions.</p>
+  <div class="tiles">
+    <div class="tile"><i class="n"></i><b>1–5</b><span>LLM-judged quality score, pass ≥ threshold (default 3)</span></div>
+    <div class="tile"><i class="n"></i><b>0–7</b><span>content-harm severity scale behind safety evaluators</span></div>
+    <div class="tile"><i class="n"></i><b>ASR</b><span>Attack Success Rate — output of AI Red Teaming Agent (PyRIT-based) pre-launch scans</span></div>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:10px">
+    <ul>
+      <li><i class="n"></i><span>Run evaluations in <b>CI/CD via GitHub Actions / Azure DevOps</b> with <b>baseline comparison and statistical significance</b> — a release ships only if it's provably not worse.</span></li>
+      <li><i class="n"></i><span><b>AI Red Teaming Agent</b> runs adversarial scans <em>before</em> launch producing the ASR scorecard — pair automation with human red teaming.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ MODELS ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Validation criteria for custom AI models</h2></div>
+
+<section class="fig" id="f8">
+  <h3>8 · The validation-criteria matrix — per model type</h3>
+  <p class="cap">A direct exam bullet: “create validation criteria of custom AI models.” One row per model class.</p>
+  <div class="matrix">
+  <table>
+    <tr><th>Model</th><th>Validation criteria</th></tr>
+    <tr><td class="sig"><i class="n"></i>AI Builder prediction</td><td>Grade <b>A–D</b> (A best). <b>D = worse than random — or suspiciously ~100% accurate = data leakage / overfit</b>. Accuracy on a held-out test set; inspect the <b>confusion matrix</b> and most-influential columns.</td></tr>
+    <tr><td class="sig"><i class="n"></i>Numerical prediction</td><td>Graded on <b>R²</b>.</td></tr>
+    <tr><td class="sig"><i class="n"></i>Category classification / entity extraction</td><td>Performance score from <b>precision, recall, F1</b> + quick test.</td></tr>
+    <tr><td class="sig"><i class="n"></i>Document processing</td><td><b>Per-field / per-table accuracy score</b> + improvement recommendations (accuracy shown for fixed-template models).</td></tr>
+    <tr><td class="sig"><i class="n"></i>Fine-tuned models (Foundry)</td><td>Training curves (next figure) → <b>automatic safety evaluation</b> (preview) can block deployment → Foundry evaluations vs expected pairs → deploy to a <b>Developer deployment</b> first → use the <b>same system message as in training</b> at inference.</td></tr>
+    <tr><td class="sig"><i class="n"></i>Threshold philosophy</td><td>There is <b>no absolute pass mark</b> — optimize <b>precision</b> when false positives are costly, <b>recall</b> when false negatives are costly, <b>F1</b> for balance. Acceptance is a <b>business call</b>.</td></tr>
+  </table>
+  </div>
+</section>
+
+<section class="fig" id="f9">
+  <h3>9 · The overfitting curve — read the training charts</h3>
+  <p class="cap">Healthy fine-tuning: both losses fall together. Overfitting: validation loss turns around while training loss keeps falling.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 260">
+    <g font-size="12">
+      <line x1="70" y1="20" x2="70" y2="210" stroke="#c8d4e0" stroke-width="1.5"/>
+      <line x1="70" y1="210" x2="720" y2="210" stroke="#c8d4e0" stroke-width="1.5"/>
+      <text x="40" y="115" fill="#93a3b3" transform="rotate(-90 40 115)" text-anchor="middle">loss</text>
+      <text x="395" y="232" fill="#93a3b3" text-anchor="middle">epochs →</text>
+      <path d="M80,60 C220,120 400,165 700,185" fill="none" stroke="#6d28d9" stroke-width="3"/>
+      <path d="M80,70 C220,130 340,140 430,138 C530,136 630,105 700,72" fill="none" stroke="#c62828" stroke-width="3" stroke-dasharray="7 5"/>
+      <circle cx="430" cy="138" r="6" fill="#c62828"/>
+      <line x1="430" y1="138" x2="430" y2="210" stroke="#f2c4c0" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <text x="430" y="248" fill="#c62828" text-anchor="middle" font-weight="700">divergence = overfitting starts</text>
+      <text x="640" y="180" fill="#6d28d9" font-weight="700">train_loss ↓ (good)</text>
+      <text x="620" y="60" fill="#c62828" font-weight="700">valid_loss ↑ (bad)</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:8px">
+    <ul>
+      <li><i class="n"></i><span>Watch <b>train_loss ↓</b> and <b>train_mean_token_accuracy ↑</b>, plus <b>valid_loss / full_valid_*</b> per epoch.</span></li>
+      <li><i class="n"></i><span><b>Divergence</b> between training and validation curves = overfitting → the fix is <b>fewer epochs / lower LR multiplier</b>.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PROMPTS & E2E ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Prompts, cross-app E2E &amp; Copilot-generated cases</h2></div>
+
+<section class="fig" id="f10">
+  <h3>10 · Validating Copilot prompt best practices</h3>
+  <p class="cap">Validate every prompt against the four-element structure — then use the five documented mechanisms.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 100">
+    <g text-anchor="middle" font-size="12.5">
+      <rect x="30" y="20" width="160" height="58" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="110" y="45" font-weight="800" fill="#0e7490" font-size="15">G · Goal</text>
+      <text x="110" y="64" fill="#5b6b7b" font-size="11.5">what output you want</text>
+      <rect x="212" y="20" width="160" height="58" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="292" y="45" font-weight="800" fill="#5b21b6" font-size="15">C · Context</text>
+      <text x="292" y="64" fill="#5b6b7b" font-size="11.5">why / for whom</text>
+      <rect x="394" y="20" width="160" height="58" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="474" y="45" font-weight="800" fill="#92400e" font-size="15">S · Source</text>
+      <text x="474" y="64" fill="#5b6b7b" font-size="11.5">which data / plugins</text>
+      <rect x="576" y="20" width="160" height="58" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="656" y="45" font-weight="800" fill="#166534" font-size="15">E · Expectations</text>
+      <text x="656" y="64" fill="#5b6b7b" font-size="11.5">format · tone · length</text>
+    </g>
+  </svg>
+  </div>
+  <div class="gcse" style="margin-top:10px">
+    <div class="c"><b><i class="n"></i>The validation checklist</b>Four elements present (<b>goal, context, source, expectations</b>) + specific wording, <b>action verbs</b>, steps for complex asks, <b>iterate-and-resubmit</b>.</div>
+    <div class="c"><b><i class="n"></i>Copilot Prompt Gallery</b>Discover / save / share proven prompts across the org — the reuse mechanism.</div>
+    <div class="c"><b><i class="n"></i>Prompt Coach agent template</b>A ready-made agent that critiques and improves users' prompts.</div>
+    <div class="c"><b><i class="n"></i>AI Builder “Test prompt”</b>Run the prompt against <b>real sample data</b> + prompt evaluations / accuracy scoring (preview).</div>
+    <div class="c"><b><i class="n"></i>Kit Prompt Advisor &amp; Studio Optimize prompts</b>Agent Kit's <b>Prompt Advisor</b> reviews prompts; Copilot Studio surfaces <b>Optimize prompts</b> guidance in-product.</div>
+  </div>
+</section>
+
+<section class="fig" id="f11">
+  <h3>11 · End-to-end tests across multiple Dynamics 365 apps</h3>
+  <p class="cap">One scenario, three test surfaces, one orchestrator. Know which tool automates which app class.</p>
+  <div class="matrix">
+  <table>
+    <tr><th>Surface</th><th>Tooling</th></tr>
+    <tr><td class="sig"><i class="n"></i>Canvas apps</td><td><b>Test Studio</b>; <b>Power Apps Test Engine</b> (preview — YAML Power Fx tests via PAC CLI; canvas + model-driven; extensible, <b>Playwright-based</b>) and Microsoft's Playwright samples (the current direction)</td></tr>
+    <tr><td class="sig"><i class="n"></i>Model-driven apps / custom pages</td><td>Test Engine / Playwright samples</td></tr>
+    <tr><td class="sig"><i class="n"></i>Finance &amp; operations apps</td><td><b>RSAT</b> — record with <b>Task recorder</b> → automated UAT suites, <b>Excel-parameterized</b>, integrated with Azure DevOps Test Plans. ⚠ <b>Unsupported after May 15, 2027</b> — plan successors</td></tr>
+    <tr><td class="sig"><i class="n"></i>Agents</td><td>Test panel + agent evaluation + <b>Agent Kit multi-turn / pipeline runs</b></td></tr>
+    <tr><td class="sig"><i class="n"></i>The E2E design move</td><td>Orchestrate cross-app suites (RSAT + Test Engine + agent tests) under <b>one Azure DevOps test plan</b> for traceability; include <b>adversarial and load tests in UAT</b>; verify <b>DLP / RBAC / labels in staging</b></td></tr>
+  </table>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> “F&amp;O UAT automation” → <b>RSAT</b> (and mention its <b>2027 sunset</b>). “Cross-app traceability” → <b>one Azure DevOps test plan</b> holding all three suites.</div>
+</section>
+
+<section class="fig" id="f12">
+  <h3>12 · Building test cases with Copilot — the strategy</h3>
+  <p class="cap">A direct exam bullet: let AI generate breadth, keep humans on review, regenerate when the agent changes.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 150">
+    <defs><marker id="tc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="12">
+      <rect x="20" y="40" width="200" height="72" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="120" y="64" font-weight="700" fill="#5b21b6">AI generates breadth</text>
+      <text x="120" y="83" fill="#5b6b7b">from instructions · knowledge ·</text>
+      <text x="120" y="99" fill="#5b6b7b">topics · Themes · Excel · DevOps MCP</text>
+      <line x1="220" y1="76" x2="262" y2="76" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#tc)"/>
+      <rect x="266" y="40" width="180" height="72" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="356" y="64" font-weight="700" fill="#92400e">Humans review</text>
+      <text x="356" y="83" fill="#5b6b7b">curate, correct, approve —</text>
+      <text x="356" y="99" fill="#5b6b7b">AI drafts, people decide</text>
+      <line x1="446" y1="76" x2="488" y2="76" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#tc)"/>
+      <rect x="492" y="40" width="180" height="72" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="582" y="64" font-weight="700" fill="#166534">Store &amp; regenerate</text>
+      <text x="582" y="83" fill="#3c6947">cases live in Azure DevOps;</text>
+      <text x="582" y="99" fill="#3c6947">regenerate on agent changes</text>
+    </g>
+  </svg>
+  </div>
+  <div class="gcse" style="margin-top:10px">
+    <div class="c"><b><i class="n"></i>Agent evaluation generates</b>Test sets built <b>from instructions / knowledge / topics</b> — and from <b>analytics Themes</b>, turning production telemetry into regression tests.</div>
+    <div class="c"><b><i class="n"></i>Agent Kit bulk creation</b>Author hundreds of cases in <b>Excel</b>, import in one go.</div>
+    <div class="c"><b><i class="n"></i>Azure DevOps MCP server + Copilot</b>“Create test cases for…” and <b>coverage-gap analysis</b> straight into Azure DevOps Test Plans; <b>GitHub Copilot</b> generates code-level tests.</div>
+    <div class="c"><b><i class="n"></i>The architect's rules</b><b>AI breadth → human review</b> · LLM-judged methods for open-ended answers, <b>deterministic for compliance-critical paths</b> · store cases in Azure DevOps · <b>regenerate when knowledge or instructions change</b>.</div>
+  </div>
+  <div class="hook">💡 <b>Final hook:</b> map need→method instantly — “regression-test 500 Q&amp;A pairs each release” → <b>Agent Kit / evaluation in pipelines</b> · “prove the right tools get picked” → <b>Plan validation / Tool use</b> · “model shows 100% accuracy” → <b>data leakage, grade D</b>.</div>
+</section>
+
+</div>
+<script>
+const KEY='ab100-vl-testing';
+const chips=[...document.querySelectorAll('.n')];
+chips.forEach((c,i)=>{c.dataset.i=i;c.textContent=i+1;c.title='Tap to mark learned';});
+let st;
+try{st=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){st=[]}
+function paint(){
+  chips.forEach(c=>c.classList.toggle('done',st.includes(+c.dataset.i)));
+  document.getElementById('ptext').textContent=st.length+'/'+chips.length+' learned';
+  document.getElementById('pbar').style.width=(chips.length?100*st.length/chips.length:0)+'%';
+}
+chips.forEach(c=>c.addEventListener('click',()=>{
+  const i=+c.dataset.i;
+  st=st.includes(i)?st.filter(x=>x!==i):[...st,i];
+  localStorage.setItem(KEY,JSON.stringify(st));paint();
+}));
+document.getElementById('reset').addEventListener('click',()=>{st=[];localStorage.setItem(KEY,'[]');paint();});
+paint();
+</script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Visuals 4 · Orchestrate Prebuilt Agents &amp; Apps</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --accent:#166534; --soft:#f0fdf4; --dark:#0b2a4a;
+  --plan:#0e7490; --plan-soft:#ecfeff;
+  --design:#7c3aed; --design-ink:#6d28d9; --design-soft:#f5f3ff;
+  --warn:#b45309; --warn-soft:#fffbeb;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55;counter-reset:item}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#166534 180%);color:#fff;padding:26px 20px 20px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+header.hero .count{display:inline-block;margin-top:10px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 16px;font-size:13px}
+header.hero .count b{font-size:15px}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--accent);border-bottom-color:var(--accent)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:112px;letter-spacing:.03em}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--gc,var(--accent))}
+.ghead h2{font-size:21px;color:var(--gc,var(--dark))}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:14px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto;margin-bottom:8px}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+.items{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin:8px 0 4px}
+.li{position:relative;border:1px solid var(--line);border-left:4px solid var(--iac,var(--accent));border-radius:11px;padding:10px 13px 10px 48px;background:#fbfcfe;font-size:13.1px;color:#33475c;line-height:1.5}
+.li::before{counter-increment:item;content:counter(item);position:absolute;left:11px;top:10px;width:26px;height:26px;border-radius:8px;background:var(--iac,var(--accent));color:#fff;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center}
+.li b{color:#12293f}
+.li b.t{display:block;font-size:13.7px;margin-bottom:2px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0 0 0 18px;font-size:13.4px;color:#33475c}
+.panel li{margin:5px 0}
+.panel li b{color:#12293f}
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:560px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td:first-child{font-weight:700;color:#12293f;white-space:nowrap}
+.matrix tr:last-child td{border-bottom:none}
+.footnav{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+.footnav a{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px;font-size:14px;flex:1;max-width:48%;text-decoration:none;color:var(--ink)}
+.footnav a:hover{border-color:var(--accent)}
+.footnav .dir{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+@media print{nav.bar,.toc,.footnav{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Design AI-Powered Business Solutions · Visual 4 of 4</div>
+  <h1>Orchestrate Prebuilt Agents &amp; Apps — F&amp;SCM, CE &amp; Service, M365 Copilots, Power Platform AI</h1>
+  <p class="sub">AI features in Dynamics 365 finance &amp; supply chain and customer experience apps · knowledge sources for in-app help · agent-chat interoperability · M365 Copilot for Sales &amp; Service · proposing Microsoft 365 agents · Power Platform AI hub.</p>
+  <div class="count"><b id="icount">0</b> numbered learn items on this page</div>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="design-visual-1-dynamics-copilot.html">1 · D365 Copilot &amp; Agents</a>
+  <a href="design-visual-2-copilot-studio.html">2 · Copilot Studio &amp; Power Platform</a>
+  <a href="design-visual-3-extensibility.html">3 · Extensibility</a>
+  <a href="design-visual-4-orchestration.html" class="here">4 · Prebuilt Orchestration</a>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl" style="color:var(--warn)">F&amp;SCM</span><a href="#s1">Copilot experiences</a><a href="#s2">In-app help knowledge</a><a href="#s3">Agent-chat interop</a><a href="#s4">Deployment wizard &amp; agents</a></div>
+  <div class="row"><span class="gl" style="color:var(--plan)">CE &amp; service</span><a href="#s5">Orchestrating CE AI</a></div>
+  <div class="row"><span class="gl" style="color:var(--design-ink)">M365 Copilots</span><a href="#s6">Copilot for Sales</a><a href="#s7">Copilot for Service</a><a href="#s8">Propose M365 agents</a></div>
+  <div class="row"><span class="gl" style="color:var(--accent)">Power Platform</span><a href="#s9">AI hub &amp; AI Builder</a></div>
+</div>
+
+<!-- ============ F&SCM ============ -->
+<div class="ghead" style="--gc:var(--warn)"><div class="gbar"></div><h2>Dynamics 365 Finance &amp; Supply Chain</h2></div>
+
+<section class="fig" id="s1" style="--iac:#b45309">
+  <h3>1 · The three Copilot experience types &amp; the plumbing</h3>
+  <p class="cap">Every F&amp;O AI question starts with which experience type is in play — and whether the plumbing prerequisites are met.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 230">
+    <g text-anchor="middle">
+      <rect x="20" y="26" width="230" height="96" rx="13" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="135" y="52" font-size="13.5" font-weight="700" fill="#92400e">Sidecar</text>
+      <text x="135" y="72" font-size="11.6" fill="#5b6b7b">in-app chat panel —</text>
+      <text x="135" y="88" font-size="11.6" fill="#5b6b7b">Q&amp;A grounded in Microsoft Learn</text>
+      <text x="135" y="104" font-size="11.6" fill="#5b6b7b">+ your added knowledge</text>
+      <rect x="265" y="26" width="230" height="96" rx="13" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="380" y="52" font-size="13.5" font-weight="700" fill="#5b21b6">Embedded</text>
+      <text x="380" y="72" font-size="11.6" fill="#5b6b7b">AI inside pages — confirmed POs</text>
+      <text x="380" y="88" font-size="11.6" fill="#5b6b7b">with changes, collections summaries,</text>
+      <text x="380" y="104" font-size="11.6" fill="#5b6b7b">demand-planning analysis</text>
+      <rect x="510" y="26" width="230" height="96" rx="13" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="625" y="52" font-size="13.5" font-weight="700" fill="#0e7490">Outside</text>
+      <text x="625" y="72" font-size="11.6" fill="#5b6b7b">external agents working</text>
+      <text x="625" y="88" font-size="11.6" fill="#5b6b7b">over F&amp;O data</text>
+      <rect x="120" y="150" width="520" height="56" rx="12" fill="#0b2a4a"/>
+      <text x="380" y="174" font-size="12.8" font-weight="700" fill="#fff">Plumbing: AI chat control + Copilot Studio as orchestration hub + Dataverse</text>
+      <text x="380" y="193" font-size="11.5" fill="#c9d8ea">every experience rides this stack</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Three experience types</b><b>sidecar</b> (in-app chat panel) · <b>embedded</b> (AI inside pages) · <b>outside</b> (external agents over F&amp;O data).</div>
+    <div class="li"><b class="t">The plumbing</b>AI chat control + <b>Copilot Studio as the orchestration hub</b> + Dataverse — F&amp;O Copilot is a Copilot Studio agent under the hood.</div>
+    <div class="li"><b class="t">Prerequisite switches</b><b>Power Platform Integration</b> enabled per environment · tenant setting <b>“Publish bots with AI features”</b> · per-feature enablement in <b>feature management</b>.</div>
+    <div class="li"><b class="t">Newer surfaces</b><b>Immersive Home</b> (work with agents + prioritized work items) · in-app <b>Agent management</b> · <b>Dynamics 365 ERP MCP server</b> (data ops + business logic without custom code).</div>
+  </div>
+</section>
+
+<section class="fig" id="s2" style="--iac:#b45309">
+  <h3>2 · Adding knowledge to in-app help — the decision tree</h3>
+  <p class="cap">Direct exam bullet: “recommend the process of adding knowledge sources to in-app help for D365 Finance / SCM.” The source type decides the path.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 320">
+    <defs><marker id="d2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="13">
+      <rect x="230" y="14" width="300" height="52" rx="12" fill="#0b2a4a"/>
+      <text x="380" y="36" text-anchor="middle" font-weight="700" fill="#fff">What knowledge do you want to add?</text>
+      <text x="380" y="54" text-anchor="middle" font-size="11.5" fill="#c9d8ea">default grounding = public Microsoft Learn docs</text>
+      <line x1="290" y1="66" x2="180" y2="104" stroke="#8ea3b8" stroke-width="2" marker-end="url(#d2)"/>
+      <line x1="380" y1="66" x2="380" y2="104" stroke="#8ea3b8" stroke-width="2" marker-end="url(#d2)"/>
+      <line x1="470" y1="66" x2="580" y2="104" stroke="#8ea3b8" stroke-width="2" marker-end="url(#d2)"/>
+      <rect x="40" y="108" width="260" height="86" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="170" y="132" text-anchor="middle" font-weight="700" fill="#166534">Files (PDF / RTF / Word)</text>
+      <text x="170" y="152" text-anchor="middle" font-size="11.6" fill="#3c6947">Copilot Studio → agent “Copilot for finance</text>
+      <text x="170" y="167" text-anchor="middle" font-size="11.6" fill="#3c6947">and operations apps” → Knowledge → upload</text>
+      <text x="170" y="182" text-anchor="middle" font-size="11.6" fill="#3c6947">→ test → Publish · flows via boosting topic</text>
+      <rect x="320" y="108" width="220" height="86" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="430" y="132" text-anchor="middle" font-weight="700" fill="#92400e">SharePoint / other sources</text>
+      <text x="430" y="152" text-anchor="middle" font-size="11.6" fill="#5b6b7b">require creating your</text>
+      <text x="430" y="167" text-anchor="middle" font-size="11.6" fill="#5b6b7b"><tspan font-weight="700">own topic</tspan> in that agent —</text>
+      <text x="430" y="182" text-anchor="middle" font-size="11.6" fill="#5b6b7b">not the default boosting path</text>
+      <rect x="560" y="108" width="180" height="86" rx="12" fill="#fdecea" stroke="#f2c4c0"/>
+      <text x="650" y="132" text-anchor="middle" font-weight="700" fill="#c62828">Dataverse virtual entities</text>
+      <text x="650" y="152" text-anchor="middle" font-size="11.6" fill="#7a3b36">✗ NOT supported as</text>
+      <text x="650" y="167" text-anchor="middle" font-size="11.6" fill="#7a3b36">knowledge for generative</text>
+      <text x="650" y="182" text-anchor="middle" font-size="11.6" fill="#7a3b36">help (use chat-with-data)</text>
+      <rect x="150" y="232" width="460" height="56" rx="12" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="380" y="256" text-anchor="middle" font-weight="700" fill="#334155">AI general knowledge (model + Bing) — optional</text>
+      <text x="380" y="274" text-anchor="middle" font-size="11.6" fill="#5b6b7b">consulted only <tspan font-weight="700">after</tspan> custom sources are exhausted</text>
+      <line x1="380" y1="198" x2="380" y2="228" stroke="#8ea3b8" stroke-width="2" marker-end="url(#d2)"/>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Default grounding</b>the sidecar Q&amp;A is grounded in <b>public Microsoft Learn docs</b> out of the box.</div>
+    <div class="li"><b class="t">File path</b>Copilot Studio → the environment's <b>“Copilot for finance and operations apps”</b> agent → Knowledge → upload files (PDF/RTF/Word) → test → <b>Publish</b>; answers flow through the built-in <b>conversational boosting</b> topic.</div>
+    <div class="li"><b class="t">SharePoint path</b>SharePoint or other source types require <b>creating your own topic</b> in that agent — they don't ride the default boosting topic.</div>
+    <div class="li"><b class="t">The virtual-entity trap</b>Dataverse <b>virtual entities are NOT supported</b> as knowledge for generative help — they power <i>chat with data</i>, a different feature.</div>
+    <div class="li"><b class="t">AI general knowledge</b>optional model + Bing answers are used <b>only after</b> custom sources are exhausted.</div>
+  </div>
+</section>
+
+<section class="fig" id="s3" style="--iac:#b45309">
+  <h3>3 · Agent-chat interoperability — one dataset, three surfaces</h3>
+  <p class="cap">Direct exam bullet: “design interoperability of the finance and operations agent chats to use additional knowledge sources.”</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 250">
+    <defs><marker id="d3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle">
+      <rect x="20" y="80" width="200" height="90" rx="13" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="120" y="106" font-size="13" font-weight="700" fill="#92400e">F&amp;O structured data</text>
+      <text x="120" y="126" font-size="11.5" fill="#5b6b7b">virtual entities (mserp_*)</text>
+      <text x="120" y="141" font-size="11.5" fill="#5b6b7b">e.g. mserp_inventoryonhandaientity</text>
+      <text x="120" y="158" font-size="11.5" fill="#5b6b7b">or dual-write tables</text>
+      <line x1="220" y1="125" x2="278" y2="125" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#d3)"/>
+      <rect x="282" y="95" width="180" height="60" rx="12" fill="#0b2a4a"/>
+      <text x="372" y="120" font-size="13" font-weight="700" fill="#fff">Dataverse knowledge</text>
+      <text x="372" y="140" font-size="11.5" fill="#c9d8ea">one governed source</text>
+      <line x1="462" y1="110" x2="530" y2="55" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#d3)"/>
+      <line x1="462" y1="125" x2="530" y2="125" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#d3)"/>
+      <line x1="462" y1="140" x2="530" y2="195" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#d3)"/>
+      <rect x="534" y="26" width="206" height="52" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="637" y="48" font-size="12.4" font-weight="700" fill="#0e7490">F&amp;O in-app agent</text>
+      <text x="637" y="66" font-size="11.3" fill="#5b6b7b">chat with your ERP data</text>
+      <rect x="534" y="99" width="206" height="52" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="637" y="121" font-size="12.4" font-weight="700" fill="#5b21b6">Custom Copilot Studio agents</text>
+      <text x="637" y="139" font-size="11.3" fill="#5b6b7b">same knowledge source</text>
+      <rect x="534" y="172" width="206" height="52" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="637" y="194" font-size="12.4" font-weight="700" fill="#166534">Declarative agents in M365 Copilot</text>
+      <text x="637" y="212" font-size="11.3" fill="#5b6b7b">always respecting user access</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">The interop pattern</b>expose F&amp;O data via <b>virtual entities</b> (<code>mserp_*</code>) or <b>dual-write</b> tables → add as <b>Dataverse knowledge</b>.</div>
+    <div class="li"><b class="t">Three consuming surfaces</b>(a) the F&amp;O in-app agent, (b) custom Copilot Studio agents, (c) <b>declarative agents in M365 Copilot</b> — same knowledge, three chats.</div>
+    <div class="li"><b class="t">Security constant</b>every surface answers <b>only within the querying user's data access</b> — interop never bypasses permissions.</div>
+  </div>
+</section>
+
+<section class="fig" id="s4" style="--iac:#b45309">
+  <h3>4 · Agent deployment wizard &amp; the F&amp;O first-party roster</h3>
+  <p class="cap">F&amp;O-side agents deploy through a wizard in the PPAC Copilot hub — the steps are testable, and so is the roster.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 110">
+    <defs><marker id="d4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="11.4">
+      <rect x="10" y="28" width="112" height="56" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="66" y="52" font-weight="700" fill="#0e7490">Prereq check</text><text x="66" y="68" fill="#5b6b7b">PPAC Copilot hub</text>
+      <line x1="122" y1="56" x2="140" y2="56" stroke="#5b6b7b" stroke-width="2" marker-end="url(#d4)"/>
+      <rect x="144" y="28" width="118" height="56" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="203" y="52" font-weight="700" fill="#0e7490">Refresh virtual</text><text x="203" y="68" fill="#5b6b7b">entities</text>
+      <line x1="262" y1="56" x2="280" y2="56" stroke="#5b6b7b" stroke-width="2" marker-end="url(#d4)"/>
+      <rect x="284" y="28" width="150" height="56" rx="10" fill="#fffbeb" stroke="#f3e3bb"/><text x="359" y="46" font-weight="700" fill="#92400e">Agent identity user</text><text x="359" y="62" fill="#5b6b7b">roles in BOTH Dataverse</text><text x="359" y="76" fill="#5b6b7b">and the F&amp;O app</text>
+      <line x1="434" y1="56" x2="452" y2="56" stroke="#5b6b7b" stroke-width="2" marker-end="url(#d4)"/>
+      <rect x="456" y="28" width="130" height="56" rx="10" fill="#ecfeff" stroke="#bfe9f2"/><text x="521" y="46" font-weight="700" fill="#0e7490">Connection refs</text><text x="521" y="62" fill="#5b6b7b">create + activate</text><text x="521" y="76" fill="#5b6b7b">flows</text>
+      <line x1="586" y1="56" x2="604" y2="56" stroke="#5b6b7b" stroke-width="2" marker-end="url(#d4)"/>
+      <rect x="608" y="28" width="112" height="56" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/><text x="664" y="56" font-weight="700" fill="#166534">Publish</text><text x="664" y="72" fill="#5b6b7b">agent live</text>
+    </g>
+  </svg>
+  </div>
+  <div class="matrix">
+    <table>
+      <tr><th>Agent</th><th>Purpose</th></tr>
+      <tr><td>Account Reconciliation Agent (Finance)</td><td>proactive subledger↔GL matching, exception flagging, suggested/executed resolutions</td></tr>
+      <tr><td>Supplier Communications Agent (SCM)</td><td>automates supplier follow-ups, PO updates/change requests per rules</td></tr>
+      <tr><td>Expense / Time / Approvals agents (Project Ops)</td><td>receipt-to-expense automation · time entry · policy-based approval classification</td></tr>
+      <tr><td>Sales Order Agent / Payables Agent (Business Central)</td><td>captures sales orders from customer emails · drafts vendor invoices from a monitored mailbox</td></tr>
+    </table>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">Wizard order</b>prereq check → refresh virtual entities → select a dedicated <b>agent identity user with roles in both Dataverse and the F&amp;O app</b> → create connection references → activate flows → publish.</div>
+    <div class="li"><b class="t">Finance flagship</b><b>Account Reconciliation Agent</b> — proactive subledger↔GL matching with exception flagging.</div>
+    <div class="li"><b class="t">SCM flagship</b><b>Supplier Communications Agent</b> — rule-based supplier follow-ups and PO change requests.</div>
+    <div class="li"><b class="t">Project Ops &amp; BC</b>Expense/Time/Approvals agents (<i>Classify</i> vs <i>Classify and auto approve</i>) · Business Central's Sales Order and Payables agents work from monitored mailboxes.</div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> F&amp;O agent questions hinge on the <b>dual-role agent identity user</b> — a Dataverse-only identity is the classic wrong answer.</div>
+</section>
+
+<!-- ============ CE ============ -->
+<div class="ghead" style="--gc:var(--plan)"><div class="gbar"></div><h2>Customer experience &amp; service orchestration</h2></div>
+
+<section class="fig" id="s5" style="--iac:#0e7490">
+  <h3>5 · Orchestrating AI features in CE &amp; service apps</h3>
+  <p class="cap">The admin-orchestration view of what page 1 covered in design depth — switches, admin centers, agent prerequisites.</p>
+  <div class="items">
+    <div class="li"><b class="t">Master switches</b>PPAC <b>“Enable AI-powered Copilot features”</b> per environment (service) · PPAC Copilot hub <b>“turn on AI for D365 Sales”</b> (sales) — always the first checkbox in an orchestration sequence.</div>
+    <div class="li"><b class="t">Admin surfaces</b>Sales: Sales Hub <b>App Settings → Copilot</b> · Service: <b>Copilot Service admin center → Productivity</b> · rollout to rep groups via <b>experience profiles</b>.</div>
+    <div class="li"><b class="t">Cross-geo consent</b>regions without a local Azure OpenAI endpoint need <b>cross-region data-movement consent</b> before Copilot features light up.</div>
+    <div class="li"><b class="t">Agent prerequisites recap</b>Customer Service agents need <b>pay-as-you-go billing</b>; Customer Intent Agent needs the <b>Intent Manager</b> role; Knowledge Management needs configured knowledge + connection references + flows + published agent.</div>
+    <div class="li"><b class="t">Sales Qualification recap</b>Azure app registration → Dataverse application user with <b>AISalesPerson</b>; <i>Research and engage</i> needs a shared mailbox + server-side sync; <b>one mode per org</b>; BANT handoff.</div>
+  </div>
+</section>
+
+<!-- ============ M365 COPILOTS ============ -->
+<div class="ghead" style="--gc:var(--design-ink)"><div class="gbar"></div><h2>Microsoft 365 Copilot for Sales &amp; Service</h2></div>
+
+<section class="fig" id="s6" style="--iac:#6d28d9">
+  <h3>6 · Copilot for Sales — configuration chain</h3>
+  <p class="cap">Direct exam bullet: “orchestrate the configuration of Microsoft 365 Copilot for Sales.” Seller assistant in Outlook/Teams, CRM behind it.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 120">
+    <defs><marker id="d6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="11.4">
+      <rect x="10" y="28" width="150" height="60" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/><text x="85" y="50" font-weight="700" fill="#5b21b6">M365 admin center</text><text x="85" y="66" fill="#5b6b7b">integrated apps —</text><text x="85" y="80" fill="#5b6b7b">fixed / auto-deployed</text>
+      <line x1="160" y1="58" x2="180" y2="58" stroke="#5b6b7b" stroke-width="2" marker-end="url(#d6)"/>
+      <rect x="184" y="28" width="140" height="60" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/><text x="254" y="50" font-weight="700" fill="#5b21b6">Teams setup policy</text><text x="254" y="66" fill="#5b6b7b">pin the app</text>
+      <line x1="324" y1="58" x2="344" y2="58" stroke="#5b6b7b" stroke-width="2" marker-end="url(#d6)"/>
+      <rect x="348" y="28" width="150" height="60" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/><text x="423" y="50" font-weight="700" fill="#5b21b6">Enable transcription</text><text x="423" y="66" fill="#5b6b7b">for meeting</text><text x="423" y="80" fill="#5b6b7b">summaries</text>
+      <line x1="498" y1="58" x2="518" y2="58" stroke="#5b6b7b" stroke-width="2" marker-end="url(#d6)"/>
+      <rect x="522" y="28" width="120" height="60" rx="10" fill="#fffbeb" stroke="#f3e3bb"/><text x="582" y="50" font-weight="700" fill="#92400e">License check</text><text x="582" y="66" fill="#5b6b7b">M365 Copilot</text><text x="582" y="80" fill="#5b6b7b">per user</text>
+      <line x1="642" y1="58" x2="662" y2="58" stroke="#5b6b7b" stroke-width="2" marker-end="url(#d6)"/>
+      <rect x="666" y="28" width="84" height="60" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/><text x="708" y="55" font-weight="700" fill="#166534">Configure</text><text x="708" y="71" fill="#5b6b7b">glossary +</text><text x="708" y="85" fill="#5b6b7b">summary fields</text>
+    </g>
+  </svg>
+  </div>
+  <div class="items">
+    <div class="li"><b class="t">What &amp; where</b>the Sales agent lives in <b>Outlook, Teams, and M365 Copilot Chat</b>, connected to <b>Dynamics 365 Sales or Salesforce</b>.</div>
+    <div class="li"><b class="t">Deployment chain</b>M365 admin center <b>integrated apps</b> (fixed/auto-deploy) → Teams <b>setup policy</b> to pin → enable <b>transcription</b> for meeting summaries → <b>each user needs an M365 Copilot license</b>.</div>
+    <div class="li"><b class="t">Configuration reuse</b>glossary is <b>shared with Copilot in D365 Sales</b>; configure summary fields once for both.</div>
+    <div class="li"><b class="t">Extensibility</b>Copilot Studio connector actions + partner insights + enrichment APIs extend seller experiences.</div>
+  </div>
+</section>
+
+<section class="fig" id="s7" style="--iac:#6d28d9">
+  <h3>7 · Copilot for Service — AI without rip-and-replace</h3>
+  <p class="cap">The pitch is the design: keep the incumbent CRM, layer generative AI on top of existing knowledge.</p>
+  <div class="items">
+    <div class="li"><b class="t">Core promise</b>generative AI for service reps <b>without rip-and-replace</b> — grounds on existing websites, SharePoint, KBs and files.</div>
+    <div class="li"><b class="t">Out-of-the-box CRM integrations</b><b>Salesforce, ServiceNow, Zendesk</b> + Dynamics 365 — the differentiator vs rebuilding on a new platform.</div>
+    <div class="li"><b class="t">Where reps feel it</b>Outlook/Teams experiences: case summaries, drafted replies, updating CRM records in the flow of work.</div>
+    <div class="li"><b class="t">Extending it</b><b>“Extend with Copilot Studio”</b> adds custom topics and actions on top.</div>
+    <div class="li"><b class="t">Related: Service Agent</b>an M365 Copilot agent for D365 Customer Service reps — prioritize cases, summarize, retrieve knowledge, <b>case write actions</b>.</div>
+  </div>
+</section>
+
+<section class="fig" id="s8" style="--iac:#6d28d9">
+  <h3>8 · Propose the right Microsoft 365 agent — the matching wall</h3>
+  <p class="cap">Direct exam bullet: pure matching questions. Scenario keyword → agent, eight times.</p>
+  <div class="items">
+    <div class="li"><b class="t">Researcher</b>deep multi-step research over web + work content with cited, shareable reports; first-party under Copilot Chat “Tools”, auto-available to licensed users.</div>
+    <div class="li"><b class="t">Analyst</b>advanced data analysis over datasets and spreadsheets — the “analyze this data” keyword.</div>
+    <div class="li"><b class="t">Facilitator</b>real-time collaborative meeting notes + in-meeting Q&amp;A in Teams; notes visible to all participants.</div>
+    <div class="li"><b class="t">Channel Agent</b>Teams channel collaboration: deadlines, status summaries, task assignment.</div>
+    <div class="li"><b class="t">SharePoint agents</b>site/library-scoped Q&amp;A, created by end users, permission-trimmed, <b>one approved agent per site</b>.</div>
+    <div class="li"><b class="t">Sales agent / Sales Chat</b>CRM-connected selling in the flow of work (see §6).</div>
+    <div class="li"><b class="t">Planner agent / Project Manager</b>plan creation and task execution in Planner (premium).</div>
+    <div class="li"><b class="t">Skill coaches</b>Prompt Coach, Idea Coach, Writing Coach… — upskilling scenarios.</div>
+    <div class="li"><b class="t">Governance layer</b>M365 admin center (enable/disable/assign/block) · <b>Agent Store</b> for distribution · <b>Microsoft Agent 365</b> as the cross-origin control plane.</div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> research → <b>Researcher</b> · data analysis → <b>Analyst</b> · meetings → <b>Facilitator</b> · site Q&amp;A → <b>SharePoint agent</b>. Don't over-engineer: if a first-party agent matches, never propose a custom build.</div>
+</section>
+
+<!-- ============ POWER PLATFORM ============ -->
+<div class="ghead" style="--gc:var(--accent)"><div class="gbar"></div><h2>Power Platform AI features</h2></div>
+
+<section class="fig" id="s9" style="--iac:#166534">
+  <h3>9 · AI hub, AI Builder &amp; the plan designer</h3>
+  <p class="cap">Direct exam bullet: “propose Microsoft Power Platform AI features, including AI hub.”</p>
+  <div class="items">
+    <div class="li"><b class="t">AI hub — where</b>in the Power Apps and Power Automate maker portals (“… More → AI hub”) — the entry point to <b>AI models</b> and <b>Prompts</b>.</div>
+    <div class="li"><b class="t">AI Builder prebuilt models</b>receipt/invoice/business-card processing, text recognition, sentiment… — consume instantly from apps, flows and agents.</div>
+    <div class="li"><b class="t">AI Builder custom models</b>document processing, prediction, category classification, entity extraction, object detection — train on your data; requires Dataverse, enabled per environment.</div>
+    <div class="li"><b class="t">AI Builder governance</b>licensed via <b>AI Builder credits</b>; admins can disable preview models per environment.</div>
+    <div class="li"><b class="t">Prompts are solution-aware</b>generative prompts grounded in Dataverse, multimodal inputs, reusable across copilots, apps (Power Fx), flows and Dataverse.</div>
+    <div class="li"><b class="t">Plan designer (GA)</b>“copilot-first development”: describe the business problem (+ process images) → generates roles, user stories, data model and the solution set (tables, apps, Power Pages, flows, <b>Copilot Studio agents</b>, Power BI); can also generate a plan <b>from an existing solution</b>; the plan doubles as documentation.</div>
+    <div class="li"><b class="t">When to propose plan designer</b>greenfield envisioning and requirements-to-solution acceleration — the answer to “turn a described business problem into a scaffolded Power Platform solution.”</div>
+  </div>
+</section>
+
+<div class="footnav">
+  <a href="design-visual-3-extensibility.html"><span class="dir">← Previous</span>3 · Extensibility: Foundry, MCP, computer use</a>
+  <a href="visual-learn.html" style="text-align:right"><span class="dir">Finish →</span>Back to Visual Learn — all domains</a>
+</div>
+
+</div>
+<script>document.getElementById('icount').textContent=document.querySelectorAll('.li').length;</script>
+</body>
+</html>

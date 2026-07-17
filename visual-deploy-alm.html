@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Learn · Deploy 3/4 — Design the ALM Process</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --accent:#0f6cbd; --soft:#e8f1fa; --dark:#0b2a4a;
+  --pg:#b45309; --pg-deep:#92400e; --pg-soft:#fffbeb; --pg-line:#f3e3bb;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,#451a03 0%,#b45309 130%);color:#fff;padding:26px 20px 20px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06);align-items:center}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--pg);border-bottom-color:var(--pg)}
+.pwrap{margin-left:auto;display:flex;align-items:center;gap:8px;padding:8px 4px;flex:0 0 auto}
+.pmeter{width:110px;height:8px;background:#eef1f6;border-radius:99px;overflow:hidden}
+.pmeter i{display:block;height:100%;width:0;background:var(--good);border-radius:99px;transition:width .25s}
+#ptext{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:110px;letter-spacing:.03em;color:var(--pg-deep)}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--pg);color:var(--pg)}
+.toc .use{font-size:12.5px;color:var(--muted);margin-top:8px}
+.toc button{border:1px solid var(--line);background:#fff;color:#475569;border-radius:8px;padding:4px 12px;font-size:12px;cursor:pointer;margin-left:8px}
+.toc button:hover{border-color:var(--bad);color:var(--bad)}
+
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--pg)}
+.ghead h2{font-size:21px;color:var(--pg-deep)}
+
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+
+.n{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:21px;border-radius:999px;background:var(--pg-soft);color:var(--pg);font-size:11.5px;font-weight:800;cursor:pointer;border:1px solid var(--pg-line);padding:0 5px;user-select:none;margin-right:7px;vertical-align:1px;flex:0 0 auto}
+.n:hover{border-color:var(--pg)}
+.n.done{background:var(--good);border-color:var(--good);color:#fff}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:6px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:21px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.tile .n{margin:0 auto 6px;display:flex;width:fit-content}
+
+.gcse{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:10px}
+.gcse div.c{border:1px solid var(--line);border-radius:12px;padding:13px 15px;background:#fbfcfe;font-size:13.1px;color:var(--muted)}
+.gcse b{display:flex;align-items:center;gap:4px;font-size:14px;color:#12293f;margin-bottom:5px}
+
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0;list-style:none;font-size:13.4px;color:#33475c}
+.panel li{margin:7px 0;display:flex;align-items:flex-start}
+.panel li b{color:#12293f}
+
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:600px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td.sig{font-weight:700;color:#12293f}
+.matrix tr:last-child td{border-bottom:none}
+code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:1px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.87em;color:#334155}
+@media print{nav.bar,.toc{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Visual Learn · Deploy deep dive 3 of 4</div>
+  <h1>🔁 Design the ALM Process for AI-Powered Solutions</h1>
+  <p class="sub">Covers six exam bullets: ALM for data used in AI models &amp; agents · Copilot Studio agents, connectors &amp; actions · Microsoft Foundry Agents service · custom AI models · AI in Dynamics 365 finance &amp; supply chain · AI in Dynamics 365 customer experience &amp; service.</p>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="visual-deploy-monitor.html">📈 Monitor &amp; Tune</a>
+  <a href="visual-deploy-testing.html">🧪 Testing</a>
+  <a href="visual-deploy-alm.html" class="here">🔁 ALM</a>
+  <a href="visual-deploy-rai.html">🛡 RAI &amp; Security</a>
+  <div class="pwrap"><div class="pmeter"><i id="pbar"></i></div><span id="ptext"></span></div>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl">Foundations</span><a href="#f1">The solution highway</a><a href="#f2">Config carriers</a><a href="#f3">Pipeline rules</a><a href="#f4">Tooling ladder</a></div>
+  <div class="row"><span class="gl">Copilot Studio</span><a href="#f5">Golden rules</a><a href="#f6">NOT solution-aware wall</a><a href="#f7">Component collections</a></div>
+  <div class="row"><span class="gl">Foundry &amp; models</span><a href="#f8">Foundry agent ALM</a><a href="#f9">The Ops stack</a><a href="#f10">Model lifecycle</a></div>
+  <div class="row"><span class="gl">Data &amp; D365</span><a href="#f11">Data ALM</a><a href="#f12">D365 F&amp;SCM</a><a href="#f13">D365 CE &amp; service</a></div>
+  <p class="use">💡 Tap a numbered chip when you've truly learned that item — progress is saved on this device.<button id="reset">reset progress</button></p>
+</div>
+
+<!-- ============ FOUNDATIONS ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Power Platform ALM foundations</h2></div>
+
+<section class="fig" id="f1">
+  <h3>1 · The solution highway — how anything reaches production</h3>
+  <p class="cap">Solutions are the vehicle; environments are the road. Unmanaged only in dev — managed everywhere else.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 190">
+    <defs><marker id="sa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="12">
+      <rect x="30" y="40" width="200" height="92" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="130" y="66" font-size="14" font-weight="700" fill="#92400e">DEV</text>
+      <text x="130" y="86" fill="#5b6b7b">unmanaged solution</text>
+      <text x="130" y="102" fill="#5b6b7b">custom publisher + prefix</text>
+      <text x="130" y="118" fill="#5b6b7b">the only place you customize</text>
+      <line x1="230" y1="86" x2="290" y2="86" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#sa)"/>
+      <text x="260" y="74" fill="#5b6b7b" font-size="11">export</text>
+      <text x="260" y="102" fill="#92400e" font-size="11" font-weight="800">managed</text>
+      <rect x="294" y="40" width="180" height="92" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="384" y="66" font-size="14" font-weight="700" fill="#5b21b6">TEST</text>
+      <text x="384" y="86" fill="#5b6b7b">managed solution</text>
+      <text x="384" y="102" fill="#5b6b7b">test suites gate the</text>
+      <text x="384" y="118" fill="#5b6b7b">next hop</text>
+      <line x1="474" y1="86" x2="534" y2="86" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#sa)"/>
+      <rect x="538" y="40" width="192" height="92" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="634" y="66" font-size="14" font-weight="700" fill="#166534">PROD</text>
+      <text x="634" y="86" fill="#5b6b7b">managed only —</text>
+      <text x="634" y="102" fill="#5b6b7b">no unmanaged layers,</text>
+      <text x="634" y="118" fill="#5b6b7b">no direct edits</text>
+      <text x="380" y="168" fill="#5b6b7b" font-size="12.3">a solution carries: tables · apps · flows · <tspan font-weight="700" fill="#1a2733">agents</tspan> · prompts · connectors</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:8px">
+    <ul>
+      <li><i class="n"></i><span><b>Solutions are the ALM vehicle</b> — containers for tables, apps, flows, <b>agents</b>, prompts and connectors moved dev → test → prod.</span></li>
+      <li><i class="n"></i><span><b>Every ALM environment needs Dataverse</b> — no Dataverse, no solutions, no ALM.</span></li>
+      <li><i class="n"></i><span>Customize <b>only in dev (unmanaged)</b>; deploy <b>managed</b> everywhere else.</span></li>
+      <li><i class="n"></i><span><b>You cannot export a managed solution</b> — a classic trick answer.</span></li>
+      <li><i class="n"></i><span><b>Remove unmanaged layers in target environments</b> so managed updates can flow.</span></li>
+      <li><i class="n"></i><span>Use a <b>custom publisher with your own prefix</b> — and in Copilot Studio set a <b>preferred solution</b>; never build in the Default solution.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fig" id="f2">
+  <h3>2 · The two config carriers — variables and connection references</h3>
+  <p class="cap">Nothing environment-specific is ever hardcoded. Two mechanisms carry configuration across the highway.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-deep)">Environment variables</h4>
+      <ul>
+        <li><i class="n"></i><span>The solution ships the <b>definition</b>; each environment supplies its own <b>value</b> at deploy time — never hardcode secrets, URLs or config.</span></li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-deep)">Connection references</h4>
+      <ul>
+        <li><i class="n"></i><span>Decouple <b>connections (credentials)</b> from flows; pre-populate them via a <b>deployment settings file</b> so pipelines run unattended.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="fig" id="f3">
+  <h3>3 · Pipeline rules — what moves, what doesn't, what's forbidden</h3>
+  <p class="cap">Power Platform pipelines have five hard rules. Each one is a distractor in someone's exam question.</p>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>Payload</b>Pipelines deploy <b>solutions + configuration</b> (connections, environment variables) — <b>not table data</b>.</div>
+    <div class="c"><b><i class="n"></i>Order is law</b>Stages run <b>in order — you can't bypass QA</b>; deployed artifacts are <b>tamper-proof</b>.</div>
+    <div class="c"><b><i class="n"></i>Delegated deployments</b>Run as <b>service principals</b> with <b>approvals</b> — makers don't need prod access.</div>
+    <div class="c"><b><i class="n"></i>No cross-tenant</b>Pipelines can't deploy across tenants — that's a job for <b>Azure DevOps / GitHub</b>.</div>
+    <div class="c"><b><i class="n"></i>Managed Environments only</b>Pipeline <b>target</b> environments must be Managed Environments.</div>
+  </div>
+</section>
+
+<section class="fig" id="f4">
+  <h3>4 · The tooling ladder — citizen to pro</h3>
+  <p class="cap">Three rungs, increasing control. Pick by team maturity, not fashion.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 190">
+    <g text-anchor="middle" font-size="12">
+      <rect x="40" y="112" width="210" height="58" rx="10" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="145" y="136" font-weight="700" fill="#92400e">Power Platform pipelines</text>
+      <text x="145" y="154" fill="#5b6b7b" font-size="11.5">in-product · citizen-friendly</text>
+      <rect x="275" y="62" width="210" height="58" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="380" y="86" font-weight="700" fill="#5b21b6">Azure DevOps</text>
+      <text x="380" y="104" fill="#5b6b7b" font-size="11.5">Build Tools · Dataverse Git integration</text>
+      <rect x="510" y="12" width="210" height="58" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="615" y="36" font-weight="700" fill="#166534">GitHub Actions</text>
+      <text x="615" y="54" fill="#5b6b7b" font-size="11.5">for Power Platform · full pro-code</text>
+      <line x1="60" y1="182" x2="700" y2="182" stroke="#8ea3b8" stroke-width="2"/>
+      <path d="M700,182 l-9,-4 v8 z" fill="#8ea3b8"/>
+      <text x="380" y="177" font-size="11.5" fill="#5b6b7b" font-weight="600" y="176">control &amp; automation increase →</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:8px">
+    <ul>
+      <li><i class="n"></i><span>The ladder: <b>Power Platform pipelines</b> (citizen-friendly) → <b>Azure DevOps</b> (Power Platform Build Tools, Dataverse Git integration) → <b>GitHub Actions for Power Platform</b>.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ COPILOT STUDIO ============ -->
+<div class="ghead"><div class="gbar"></div><h2>ALM for Copilot Studio agents, connectors &amp; actions</h2></div>
+
+<section class="fig" id="f5">
+  <h3>5 · The six golden rules for agent ALM</h3>
+  <p class="cap">Copilot Studio agents are solution-aware — so agent ALM is Power Platform ALM plus discipline.</p>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>Never customize outside dev</b>All changes originate in the dev environment's unmanaged solution.</div>
+    <div class="c"><b><i class="n"></i>Always work in solutions</b>Copilot Studio embeds a <b>solution explorer</b>; set a <b>preferred solution</b> so new components land correctly.</div>
+    <div class="c"><b><i class="n"></i>Environment variables for settings</b>Knowledge-source URLs and configuration ride as variables — different values per environment.</div>
+    <div class="c"><b><i class="n"></i>Export / deploy managed</b>Managed artifacts into test and prod, every time.</div>
+    <div class="c"><b><i class="n"></i>Automate source control + deployment</b>Git-backed, pipeline-driven — no manual exports as a process.</div>
+    <div class="c"><b><i class="n"></i>Minimum three environments</b><b>Dev / test / prod</b>, each secured by <b>Entra security groups</b>.</div>
+  </div>
+</section>
+
+<section class="fig" id="f6">
+  <h3>6 · The NOT-solution-aware wall — reconfigure after every deployment</h3>
+  <p class="cap">The single most-tested ALM fact set. These settings do <em>not</em> travel in the solution — someone must re-set them in the target.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 210">
+    <g text-anchor="middle" font-size="12.3">
+      <rect x="20" y="20" width="330" height="170" rx="14" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="185" y="46" font-weight="800" fill="#166534" font-size="13.5">✓ Travels in the solution</text>
+      <text x="185" y="72" fill="#3c6947">topics · tools · knowledge config</text>
+      <text x="185" y="92" fill="#3c6947">instructions · prompts</text>
+      <text x="185" y="112" fill="#3c6947">environment-variable definitions</text>
+      <text x="185" y="132" fill="#3c6947">connection references</text>
+      <text x="185" y="152" fill="#3c6947">component collections</text>
+      <rect x="410" y="20" width="330" height="170" rx="14" fill="#fdecea" stroke="#f2c4c0"/>
+      <text x="575" y="46" font-weight="800" fill="#c62828" font-size="13.5">✗ Re-configure per environment</text>
+      <text x="575" y="72" fill="#7a3b36">Application Insights settings</text>
+      <text x="575" y="92" fill="#7a3b36">manual authentication settings</text>
+      <text x="575" y="112" fill="#7a3b36">Direct Line / web-channel security</text>
+      <text x="575" y="132" fill="#7a3b36">deployed channels</text>
+      <text x="575" y="152" fill="#7a3b36">sharing (makers &amp; viewers)</text>
+      <text x="575" y="178" fill="#c62828" font-size="11.5" font-weight="700">← memorize these five</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--bad);margin-top:8px">
+    <ul>
+      <li><i class="n"></i><span><b>App Insights settings</b> — reconnect telemetry in each environment.</span></li>
+      <li><i class="n"></i><span><b>Manual authentication settings</b> — re-enter OAuth config in the target.</span></li>
+      <li><i class="n"></i><span><b>Direct Line / web-channel security</b> — re-enable secrets/tokens per environment.</span></li>
+      <li><i class="n"></i><span><b>Deployed channels</b> — republish to Teams/web/etc. after each deployment.</span></li>
+      <li><i class="n"></i><span><b>Sharing (makers and viewers)</b> — re-share in the target; permissions don't travel.</span></li>
+      <li><i class="n"></i><span>Also: <b>exports drop topic comments</b>.</span></li>
+      <li><i class="n"></i><span>A topic name containing a <b>period blocks export</b> — rename before shipping.</span></li>
+      <li><i class="n"></i><span><b>Don't delete agent subcomponents directly from a solution</b> — remove them in the agent designer.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fig" id="f7">
+  <h3>7 · Component collections &amp; test gates</h3>
+  <p class="cap">Reuse across agents, and let tests decide what ships.</p>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>Component collections</b>Reusable sets of <b>topics / knowledge / tools</b> shared across agents and exported between environments — modular multi-team development with <b>independent release cadences</b>.</div>
+    <div class="c"><b><i class="n"></i>Test gates in pipelines</b>Run <b>Copilot Agent Kit test suites inside Power Platform pipelines</b> — promotion is gated on passing tests, not on optimism.</div>
+  </div>
+</section>
+
+<!-- ============ FOUNDRY & MODELS ============ -->
+<div class="ghead"><div class="gbar"></div><h2>ALM for Foundry agents &amp; custom models</h2></div>
+
+<section class="fig" id="f8">
+  <h3>8 · Foundry Agent Service ALM — config vs containers</h3>
+  <p class="cap">Two agent shapes, one CI/CD loop. The evaluate→gate→deploy→monitor cycle is the GenAIOps answer the exam wants.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 230">
+    <defs><marker id="fy" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#b45309"/></marker></defs>
+    <g text-anchor="middle" font-size="12">
+      <rect x="30" y="20" width="330" height="64" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="195" y="44" font-weight="700" fill="#92400e">Prompt agents = configuration</text>
+      <text x="195" y="63" fill="#5b6b7b">author code-first via SDK / REST inside the pipeline</text>
+      <rect x="400" y="20" width="330" height="64" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="565" y="44" font-weight="700" fill="#5b21b6">Hosted agents = container images</text>
+      <text x="565" y="63" fill="#5b6b7b">agent versions (name:version) · managed endpoints</text>
+      <rect x="55" y="130" width="150" height="56" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="130" y="153" font-weight="700" fill="#5b21b6">Evaluate</text>
+      <text x="130" y="171" fill="#5b6b7b" font-size="11.3">offline eval action</text>
+      <line x1="205" y1="158" x2="235" y2="158" stroke="#b45309" stroke-width="2.5" marker-end="url(#fy)"/>
+      <rect x="239" y="130" width="130" height="56" rx="10" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="304" y="153" font-weight="700" fill="#92400e">Gate</text>
+      <text x="304" y="171" fill="#5b6b7b" font-size="11.3">baseline + significance</text>
+      <line x1="369" y1="158" x2="399" y2="158" stroke="#b45309" stroke-width="2.5" marker-end="url(#fy)"/>
+      <rect x="403" y="130" width="130" height="56" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="468" y="153" font-weight="700" fill="#166534">Deploy</text>
+      <text x="468" y="171" fill="#5b6b7b" font-size="11.3">azd pipeline config</text>
+      <line x1="533" y1="158" x2="563" y2="158" stroke="#b45309" stroke-width="2.5" marker-end="url(#fy)"/>
+      <rect x="567" y="130" width="140" height="56" rx="10" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="637" y="153" font-weight="700" fill="#0e7490">Monitor</text>
+      <text x="637" y="171" fill="#5b6b7b" font-size="11.3">continuous evaluation</text>
+      <path d="M637,186 v22 H130 v-22" fill="none" stroke="#b45309" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#fy)"/>
+      <text x="384" y="222" fill="#92400e" font-size="11.5" font-weight="700">↻ the GenAIOps loop</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:8px">
+    <ul>
+      <li><i class="n"></i><span><b>Prompt agents are configuration</b> — author them <b>code-first via SDK/REST inside the deployment pipeline</b> for version control, code review, automated rollout.</span></li>
+      <li><i class="n"></i><span><b>Hosted agents ship as container images</b> with agent versions (<code>name:version</code>) and managed endpoints.</span></li>
+      <li><i class="n"></i><span><code>azd pipeline config</code> bootstraps CI/CD — it generates GitHub Actions / Azure DevOps workflows (provision + deploy + smoke test).</span></li>
+      <li><i class="n"></i><span>The <b>AI agent evaluation GitHub Action</b> (preview) runs offline evaluation pre-release — test queries + catalog evaluators, comparing versions against a <b>baseline with statistical significance</b>.</span></li>
+      <li><i class="n"></i><span>The full loop: <b>evaluate → gate → deploy → monitor</b>, paired with continuous evaluation in production.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fig" id="f9">
+  <h3>9 · The Ops stack — four methodologies, one solution</h3>
+  <p class="cap">Custom-model ALM stacks four disciplines. GenAIOps is MLOps with the effort moved.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 210">
+    <g text-anchor="middle" font-size="12.5">
+      <rect x="150" y="20" width="460" height="38" rx="9" fill="#0b2a4a"/>
+      <text x="380" y="44" font-weight="700" fill="#fff">GenAIOps — prompts · RAG · fine-tuning · output safety · token cost</text>
+      <rect x="150" y="66" width="460" height="38" rx="9" fill="#123f6e"/>
+      <text x="380" y="90" font-weight="700" fill="#fff">MLOps — train · test · deploy classic models</text>
+      <rect x="150" y="112" width="460" height="38" rx="9" fill="#28527f"/>
+      <text x="380" y="136" font-weight="700" fill="#fff">DataOps — data pipelines</text>
+      <rect x="150" y="158" width="460" height="38" rx="9" fill="#3f6a99"/>
+      <text x="380" y="182" font-weight="700" fill="#fff">DevOps — the application</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:8px">
+    <ul>
+      <li><i class="n"></i><span>The stack: <b>DevOps</b> (app) + <b>DataOps</b> (pipelines) + <b>MLOps</b> (classic models) + <b>GenAIOps</b> (generative).</span></li>
+      <li><i class="n"></i><span><b>GenAIOps shifts the effort</b> — from training to <b>model selection, prompts, RAG, fine-tuning</b>; it adds prompt lifecycle, retrieval augmentation, output safety, and <b>token-cost governance</b>.</span></li>
+      <li><i class="n"></i><span><b>MLOps maturity model: L0 (manual) → L4 (fully automated)</b> — questions describe a team and ask you to place it.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fig" id="f10">
+  <h3>10 · The custom-model lifecycle practices</h3>
+  <p class="cap">Five practices turn a trained model into a governed asset.</p>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>Experiment tracking</b><b>MLflow</b> logs runs, parameters, metrics — experiments become comparable and reproducible.</div>
+    <div class="c"><b><i class="n"></i>Version everything</b>Version the <b>training code <em>and</em> the models</b> — a model without its code lineage is unreproducible.</div>
+    <div class="c"><b><i class="n"></i>Automated pipelines</b>Training and deployment run as pipelines, not notebooks-by-hand.</div>
+    <div class="c"><b><i class="n"></i>Progressive exposure</b><b>Canary / blue-green</b> deployments — new model versions earn traffic gradually.</div>
+    <div class="c"><b><i class="n"></i>Drift &amp; decay monitoring</b>Watch for data/model drift with <b>automated retraining triggers</b>.</div>
+  </div>
+</section>
+
+<!-- ============ DATA & D365 ============ -->
+<div class="ghead"><div class="gbar"></div><h2>ALM for data &amp; Dynamics 365 AI</h2></div>
+
+<section class="fig" id="f11">
+  <h3>11 · ALM for data used by AI — version the grounding pipeline like code</h3>
+  <p class="cap">A direct exam bullet with a memorable framing: your index deserves the same rigor as your code.</p>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>The five test types</b><b>Ingestion tests · index schema backward-compatibility tests · freshness/staleness checks · load tests · security-trimming tests</b>.</div>
+    <div class="c"><b><i class="n"></i>Side-by-side index deploys</b>Deploy index changes <b>side-by-side, coordinated with code</b> — swap when both are proven, roll back cleanly.</div>
+    <div class="c"><b><i class="n"></i>Secure lower environments</b>Keep <b>dev/test data as secure as prod</b> — grounding data is still sensitive data in a sandbox.</div>
+    <div class="c"><b><i class="n"></i>Parameterize sources</b>Carry <b>data-source parameters via environment variables</b>, so each environment grounds on its own copies.</div>
+  </div>
+</section>
+
+<section class="fig" id="f12">
+  <h3>12 · D365 finance &amp; supply chain — three switches, then Power Platform ALM</h3>
+  <p class="cap">F&amp;SCM Copilot has prerequisites at three levels; after that, agent customizations follow the standard solution highway.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 120">
+    <defs><marker id="fo" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <g text-anchor="middle" font-size="12">
+      <rect x="20" y="30" width="220" height="62" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="130" y="54" font-weight="700" fill="#92400e">Power Platform Integration</text>
+      <text x="130" y="73" fill="#5b6b7b">per environment</text>
+      <line x1="240" y1="61" x2="270" y2="61" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#fo)"/>
+      <rect x="274" y="30" width="200" height="62" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="374" y="54" font-weight="700" fill="#92400e">Feature-management flags</text>
+      <text x="374" y="73" fill="#5b6b7b">per Copilot feature</text>
+      <line x1="474" y1="61" x2="504" y2="61" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#fo)"/>
+      <rect x="508" y="30" width="232" height="62" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="624" y="54" font-weight="700" fill="#92400e">Tenant switch</text>
+      <text x="624" y="73" fill="#5b6b7b">“Publish bots with AI features”</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:8px">
+    <ul>
+      <li><i class="n"></i><span>The three prerequisites: <b>Power Platform Integration per environment</b> + <b>feature-management flags</b> + the tenant <b>“Publish bots with AI features”</b> switch.</span></li>
+      <li><i class="n"></i><span>Extensions run through <b>Copilot Studio + Dataverse</b> — so F&amp;SCM agent customizations follow <b>Power Platform solution ALM</b>, not X++ ALM.</span></li>
+      <li><i class="n"></i><span>The <b>ERP MCP server</b> and in-app agent management are <b>production-ready preview</b> — current-state awareness the exam may probe.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fig" id="f13">
+  <h3>13 · D365 customer experience &amp; service — managed solutions and the linkage decision</h3>
+  <p class="cap">CE-side agent ALM is standard solution ALM plus two service-specific facts and one billing nuance.</p>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>Move as managed solutions</b>Copilot Studio agents integrated with Customer Service travel the same dev→test→prod highway as anything else.</div>
+    <div class="c"><b><i class="n"></i>The known issue &amp; fix</b>“Can't determine Dynamics 365 capabilities” → <b>re-export the latest solution and remove unmanaged layers</b> in the target.</div>
+    <div class="c"><b><i class="n"></i>Copilot experience profiles</b>Are <b>solution-aware</b> — profile config travels with the solution.</div>
+    <div class="c"><b><i class="n"></i>The billing nuance</b>Sales/Service agent capabilities bill <b>Copilot Studio credits on the linked environment</b> — environment linkage is itself an ALM/environment design decision.</div>
+  </div>
+  <div class="hook">💡 <b>Final hook:</b> the exam's favorite ALM traps — the <b>five re-configure items</b> (channels · sharing · manual auth · App Insights · web-channel security), <b>managed-into-prod</b> discipline, <b>environment variables for knowledge URLs</b>, pipelines needing <b>Managed Environment targets</b>, and Foundry's <b>evaluation gate</b> in CI/CD.</div>
+</section>
+
+</div>
+<script>
+const KEY='ab100-vl-alm';
+const chips=[...document.querySelectorAll('.n')];
+chips.forEach((c,i)=>{c.dataset.i=i;c.textContent=i+1;c.title='Tap to mark learned';});
+let st;
+try{st=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){st=[]}
+function paint(){
+  chips.forEach(c=>c.classList.toggle('done',st.includes(+c.dataset.i)));
+  document.getElementById('ptext').textContent=st.length+'/'+chips.length+' learned';
+  document.getElementById('pbar').style.width=(chips.length?100*st.length/chips.length:0)+'%';
+}
+chips.forEach(c=>c.addEventListener('click',()=>{
+  const i=+c.dataset.i;
+  st=st.includes(i)?st.filter(x=>x!==i):[...st,i];
+  localStorage.setItem(KEY,JSON.stringify(st));paint();
+}));
+document.getElementById('reset').addEventListener('click',()=>{st=[];localStorage.setItem(KEY,'[]');paint();});
+paint();
+</script>
+</body>
+</html>

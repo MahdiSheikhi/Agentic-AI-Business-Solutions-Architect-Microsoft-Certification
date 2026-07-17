@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Learn · Deploy 1/4 — Analyze, Monitor &amp; Tune</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --accent:#0f6cbd; --soft:#e8f1fa; --dark:#0b2a4a;
+  --pg:#0e7490; --pg-deep:#155e75; --pg-soft:#ecfeff; --pg-line:#bfe9f2;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+  --warn:#b45309; --warn-soft:#fffbeb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,#083344 0%,#0e7490 120%);color:#fff;padding:26px 20px 20px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06);align-items:center}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--pg);border-bottom-color:var(--pg)}
+.pwrap{margin-left:auto;display:flex;align-items:center;gap:8px;padding:8px 4px;flex:0 0 auto}
+.pmeter{width:110px;height:8px;background:#eef1f6;border-radius:99px;overflow:hidden}
+.pmeter i{display:block;height:100%;width:0;background:var(--good);border-radius:99px;transition:width .25s}
+#ptext{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:110px;letter-spacing:.03em;color:var(--pg-deep)}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--pg);color:var(--pg)}
+.toc .use{font-size:12.5px;color:var(--muted);margin-top:8px}
+.toc button{border:1px solid var(--line);background:#fff;color:#475569;border-radius:8px;padding:4px 12px;font-size:12px;cursor:pointer;margin-left:8px}
+.toc button:hover{border-color:var(--bad);color:var(--bad)}
+
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--pg)}
+.ghead h2{font-size:21px;color:var(--pg-deep)}
+
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+
+.n{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:21px;border-radius:999px;background:var(--pg-soft);color:var(--pg);font-size:11.5px;font-weight:800;cursor:pointer;border:1px solid var(--pg-line);padding:0 5px;user-select:none;margin-right:7px;vertical-align:1px;flex:0 0 auto}
+.n:hover{border-color:var(--pg)}
+.n.done{background:var(--good);border-color:var(--good);color:#fff}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:6px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:23px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.tile .n{margin:0 auto 6px;display:flex;width:fit-content}
+
+.gcse{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:10px}
+.gcse div.c{border:1px solid var(--line);border-radius:12px;padding:13px 15px;background:#fbfcfe;font-size:13.1px;color:var(--muted)}
+.gcse b{display:flex;align-items:center;gap:4px;font-size:14px;color:#12293f;margin-bottom:5px}
+
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0;list-style:none;font-size:13.4px;color:#33475c}
+.panel li{margin:7px 0;display:flex;align-items:flex-start}
+.panel li b{color:#12293f}
+
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:600px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td.sig{font-weight:700;color:#12293f}
+.matrix tr:last-child td{border-bottom:none}
+@media print{nav.bar,.toc{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Visual Learn · Deploy deep dive 1 of 4</div>
+  <h1>📈 Analyze, Monitor &amp; Tune AI-Powered Solutions</h1>
+  <p class="sub">Covers five exam bullets: recommend the monitoring process &amp; tools · analyze backlog and user feedback of AI and agent usage · apply AI-based tools to analyze issues and tune · monitor agent performance and metrics · interpret telemetry for performance and model tuning.</p>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="visual-deploy-monitor.html" class="here">📈 Monitor &amp; Tune</a>
+  <a href="visual-deploy-testing.html">🧪 Testing</a>
+  <a href="visual-deploy-alm.html">🔁 ALM</a>
+  <a href="visual-deploy-rai.html">🛡 RAI &amp; Security</a>
+  <div class="pwrap"><div class="pmeter"><i id="pbar"></i></div><span id="ptext"></span></div>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl">Instruments</span><a href="#f1">The monitoring tool map</a><a href="#f2">Dashboard → stakeholder</a></div>
+  <div class="row"><span class="gl">Metrics</span><a href="#f3">The KPI funnel</a><a href="#f4">Retention clock</a><a href="#f5">Three analytics views</a></div>
+  <div class="row"><span class="gl">AI-based tools</span><a href="#f6">The feedback toolbox</a><a href="#f7">Foundry observability</a><a href="#f8">Alert thresholds</a></div>
+  <div class="row"><span class="gl">Tuning</span><a href="#f9">Signal → action matrix</a><a href="#f10">The improvement loop</a></div>
+  <p class="use">💡 Tap a numbered chip when you've truly learned that item — progress is saved on this device.<button id="reset">reset progress</button></p>
+</div>
+
+<!-- ============ INSTRUMENTS ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Instruments — recommend the process &amp; tools</h2></div>
+
+<section class="fig" id="f1">
+  <h3>1 · The monitoring tool map — five layers, five instruments</h3>
+  <p class="cap">Every monitoring question names a layer; every layer has exactly one right instrument. Learn the pairs.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 210">
+    <g text-anchor="middle" font-size="12.5">
+      <rect x="20" y="30" width="136" height="70" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="88" y="56" font-weight="700" fill="#0e7490">Agent layer</text>
+      <text x="88" y="74" font-size="11.3" fill="#5b6b7b">Studio analytics +</text>
+      <text x="88" y="89" font-size="11.3" fill="#5b6b7b">App Insights</text>
+      <rect x="172" y="30" width="136" height="70" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="240" y="56" font-weight="700" fill="#5b21b6">Model layer</text>
+      <text x="240" y="74" font-size="11.3" fill="#5b6b7b">Foundry tracing,</text>
+      <text x="240" y="89" font-size="11.3" fill="#5b6b7b">dashboard, cont. eval</text>
+      <rect x="324" y="30" width="136" height="70" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="392" y="56" font-weight="700" fill="#92400e">Platform layer</text>
+      <text x="392" y="74" font-size="11.3" fill="#5b6b7b">PPAC — credits,</text>
+      <text x="392" y="89" font-size="11.3" fill="#5b6b7b">caps, inventory</text>
+      <rect x="476" y="30" width="136" height="70" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="544" y="56" font-weight="700" fill="#166534">Adoption layer</text>
+      <text x="544" y="74" font-size="11.3" fill="#5b6b7b">Viva Insights +</text>
+      <text x="544" y="89" font-size="11.3" fill="#5b6b7b">M365 usage reports</text>
+      <rect x="628" y="30" width="112" height="70" rx="12" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="684" y="56" font-weight="700" fill="#334155">Business layer</text>
+      <text x="684" y="74" font-size="11.3" fill="#5b6b7b">D365 Copilot</text>
+      <text x="684" y="89" font-size="11.3" fill="#5b6b7b">analytics</text>
+      <rect x="180" y="140" width="400" height="46" rx="12" fill="#0b2a4a"/>
+      <text x="380" y="160" fill="#fff" font-weight="700" font-size="13">Power CAT Agent Insights Hub</text>
+      <text x="380" y="177" fill="#c9d8ea" font-size="11.5">merges App Insights + transcripts + PPAC credit usage into one view</text>
+      <line x1="88" y1="100" x2="240" y2="140" stroke="#c8d4e0" stroke-width="2"/>
+      <line x1="392" y1="100" x2="392" y2="140" stroke="#c8d4e0" stroke-width="2"/>
+      <line x1="240" y1="100" x2="300" y2="140" stroke="#c8d4e0" stroke-width="2"/>
+    </g>
+  </svg>
+  </div>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>Copilot Studio analytics</b>Per-agent KPI home: sessions, engagement, resolution, escalation, CSAT. Retained <b>360 days</b>, timestamps <b>UTC</b>, <b>test-panel traffic excluded</b>.</div>
+    <div class="c"><b><i class="n"></i>Application Insights</b>Connect by pasting the <b>connection string</b> in Settings → Advanced. Streams messages/events, topic triggers, node execution; options to log conversation details &amp; sensitive properties.</div>
+    <div class="c"><b><i class="n"></i>KQL over customEvents</b>The documented way to find <b>ContentFiltered</b> (content-filter block) events in an agent's telemetry — query <code>customEvents</code> in App Insights.</div>
+    <div class="c"><b><i class="n"></i>Foundry observability</b>Three pillars: <b>tracing · agent monitoring dashboard · continuous evaluation</b> (each gets its own figure below).</div>
+    <div class="c"><b><i class="n"></i>PPAC Licensing → Copilot Studio</b>Credit burn <b>billed vs non-billed by feature</b>, per environment and per agent — where you check burn rate and set per-agent caps.</div>
+    <div class="c"><b><i class="n"></i>Agent Insights Hub (Power CAT Kit)</b>One dashboard merging <b>App Insights + transcripts + PPAC credit usage</b> — the "single pane of glass" answer.</div>
+  </div>
+</section>
+
+<section class="fig" id="f2">
+  <h3>2 · Which dashboard answers which stakeholder</h3>
+  <p class="cap">The exam gives you a persona and a question — you name the instrument. Denominators and roles matter.</p>
+  <div class="matrix">
+  <table>
+    <tr><th>Stakeholder asks…</th><th>Instrument</th></tr>
+    <tr><td class="sig"><i class="n"></i>“How is license rollout &amp; per-app Copilot usage going?”</td><td><b>M365 admin center usage reports</b> — needs the <b>AI Administrator</b> role</td></tr>
+    <tr><td class="sig"><i class="n"></i>“Show leaders adoption, impact, sentiment, assisted-hours value”</td><td><b>Copilot Dashboard (Viva Insights)</b> — <b>28-day</b> window, privacy minimums apply</td></tr>
+    <tr><td class="sig"><i class="n"></i>“Agent-level org adoption + credit consumption?”</td><td><b>Viva Insights Agent &amp; Consumption dashboards</b> + M365 Copilot Credits report</td></tr>
+    <tr><td class="sig"><i class="n"></i>“Did Copilot make service reps faster?”</td><td><b>D365 Customer Service / Contact Center Copilot analytics</b> — daily active Copilot users, responses-used %, handle time <b>split by Copilot-used vs not</b>; data in <code>msdyn_copilotinteraction*</code> Dataverse tables</td></tr>
+    <tr><td class="sig"><i class="n"></i>“Is our knowledge base healthy?”</td><td><b>Knowledge analytics + CKMA insights</b> — articles published, quality scores, revise-list</td></tr>
+    <tr><td class="sig"><i class="n"></i>“What agents exist in this tenant?”</td><td><b>PPAC Power Platform inventory</b> (everything, <b>including drafts</b>) vs <b>M365 CCS inventory</b> (what's available to users) — two different questions!</td></tr>
+  </table>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> PPAC inventory = <b>what exists</b> (maker view, drafts included) · CCS inventory = <b>what users can reach</b>. A question about “finding shadow agents nobody published” points at PPAC.</div>
+</section>
+
+<!-- ============ METRICS ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Metrics — monitor agent performance</h2></div>
+
+<section class="fig" id="f3">
+  <h3>3 · The KPI funnel — definitions, exactly</h3>
+  <p class="cap">Every KPI is a percentage of the stage above it. The exam tests the denominators and the resolved/escalated sub-definitions.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 260">
+    <g font-size="12.5">
+      <rect x="80" y="16" width="600" height="46" rx="9" fill="#0891b2"/>
+      <text x="380" y="38" text-anchor="middle" fill="#fff" font-weight="700" font-size="13.5">TOTAL SESSIONS</text>
+      <text x="380" y="54" text-anchor="middle" fill="#e0f6fb" font-size="11.5">a session runs ≤ 60 min / 100 turns · one conversation can spawn several</text>
+      <rect x="150" y="82" width="460" height="46" rx="9" fill="#0e7490"/>
+      <text x="380" y="104" text-anchor="middle" fill="#fff" font-weight="700" font-size="13.5">ENGAGED</text>
+      <text x="380" y="120" text-anchor="middle" fill="#d3f1f7" font-size="11.5">triggered a custom topic · boosting · escalate · fallback</text>
+      <g>
+        <rect x="80" y="158" width="180" height="80" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+        <text x="170" y="182" text-anchor="middle" fill="#166534" font-weight="700">✓ Resolved</text>
+        <text x="170" y="201" text-anchor="middle" fill="#3c6947" font-size="11.5">confirmed (“yes” to the</text>
+        <text x="170" y="216" text-anchor="middle" fill="#3c6947" font-size="11.5">survey) or implied</text>
+        <rect x="290" y="158" width="180" height="80" rx="10" fill="#fffbeb" stroke="#f3e3bb"/>
+        <text x="380" y="182" text-anchor="middle" fill="#92400e" font-weight="700">↗ Escalated</text>
+        <text x="380" y="201" text-anchor="middle" fill="#5b6b7b" font-size="11.5">system intended · system</text>
+        <text x="380" y="216" text-anchor="middle" fill="#5b6b7b" font-size="11.5">unintended · user requested</text>
+        <rect x="500" y="158" width="180" height="80" rx="10" fill="#fdecea" stroke="#f2c4c0"/>
+        <text x="590" y="182" text-anchor="middle" fill="#c62828" font-weight="700">✗ Abandoned</text>
+        <text x="590" y="201" text-anchor="middle" fill="#7a3b36" font-size="11.5">engaged, unresolved &amp;</text>
+        <text x="590" y="216" text-anchor="middle" fill="#7a3b36" font-size="11.5">unescalated after 60 min</text>
+      </g>
+      <line x1="230" y1="128" x2="180" y2="154" stroke="#8ea3b8" stroke-width="2"/>
+      <line x1="380" y1="128" x2="380" y2="154" stroke="#8ea3b8" stroke-width="2"/>
+      <line x1="530" y1="128" x2="580" y2="154" stroke="#8ea3b8" stroke-width="2"/>
+    </g>
+  </svg>
+  </div>
+  <div class="matrix">
+  <table>
+    <tr><th>KPI</th><th>Exact definition</th></tr>
+    <tr><td class="sig"><i class="n"></i>Total sessions</td><td>Count of analytics sessions — a session caps at <b>60 minutes / 100 turns</b>, so one conversation can produce several sessions</td></tr>
+    <tr><td class="sig"><i class="n"></i>Engagement rate</td><td>% of sessions that trigger a <b>custom topic</b> or enter <b>Conversational boosting / Escalate / Fallback</b> (generative mode: the plan includes a non-system topic, knowledge, or tool)</td></tr>
+    <tr><td class="sig"><i class="n"></i>Resolution rate</td><td>% of <b>engaged</b> sessions resolved — <b>confirmed</b> (user answers “yes” to “Did that answer your question?”) or <b>implied</b> (ends without escalation and logic implies success)</td></tr>
+    <tr><td class="sig"><i class="n"></i>Escalation rate</td><td>% of <b>engaged</b> sessions escalated; three logged reasons: <b>System intended · System unintended · User requested</b></td></tr>
+    <tr><td class="sig"><i class="n"></i>Abandon rate</td><td>Engaged sessions ending <b>unresolved and unescalated</b> after the 60-minute window closes</td></tr>
+    <tr><td class="sig"><i class="n"></i>CSAT</td><td>Average of the <b>1–5</b> End-of-Conversation survey</td></tr>
+  </table>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> engagement and resolution use <b>different denominators</b> — resolution/escalation/abandon are all “% of <b>engaged</b>”, never “% of total”. <b>Resolved-implied</b> exists: no “yes” needed.</div>
+</section>
+
+<section class="fig" id="f4">
+  <h3>4 · The retention clock — 28 · 30 · 89 · 360</h3>
+  <p class="cap">Four retention windows, one chant. Anchor each number to what it holds.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 190">
+    <g font-size="12.5">
+      <text x="160" y="34" text-anchor="end" fill="#33475c">Session details &amp; reactions</text>
+      <rect x="170" y="20" width="56" height="20" rx="5" fill="#0891b2"/>
+      <text x="236" y="35" fill="#12293f" font-weight="800">28 d</text>
+      <text x="160" y="74" text-anchor="end" fill="#33475c">Dataverse transcripts (default)</text>
+      <rect x="170" y="60" width="60" height="20" rx="5" fill="#0e7490"/>
+      <text x="240" y="75" fill="#12293f" font-weight="800">~30 d</text>
+      <text x="160" y="114" text-anchor="end" fill="#33475c">Agent-evaluation results</text>
+      <rect x="170" y="100" width="178" height="20" rx="5" fill="#155e75"/>
+      <text x="358" y="115" fill="#12293f" font-weight="800">89 d</text>
+      <text x="160" y="154" text-anchor="end" fill="#33475c">Analytics</text>
+      <rect x="170" y="140" width="560" height="20" rx="5" fill="#0b3a4a"/>
+      <text x="724" y="135" text-anchor="end" fill="#12293f" font-weight="800">360 d</text>
+      <line x1="170" y1="12" x2="170" y2="168" stroke="#c8d4e0" stroke-width="1.5"/>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg)">
+    <ul>
+      <li><i class="n"></i><span><b>28 days</b> — session details and <b>Reactions</b> (thumbs up/down + comments) live in-product this long. Reactions are <b>not available on the M365 Copilot channel</b>.</span></li>
+      <li><i class="n"></i><span><b>~30 days</b> — transcripts sit in the Dataverse <b>ConversationTranscript</b> table (default bulk-delete; extendable). Long-term custom analytics = <b>Azure Synapse Link → ADLS Gen2</b>.</span></li>
+      <li><i class="n"></i><span><b>360 days</b> — the analytics dashboards themselves. Timestamps are <b>UTC</b>; test-panel chats never appear.</span></li>
+      <li><i class="n"></i><span>Reading transcripts requires the <b>Bot Transcript Viewer</b> role — CSAT drill-downs and thumbs-down investigations start here.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fig" id="f5">
+  <h3>5 · Three analytics views — the page adapts to the agent</h3>
+  <p class="cap">Conversational, autonomous, or hybrid — Copilot Studio switches its analytics layout to match how the agent works.</p>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>Conversational view</b>The funnel above: sessions → engaged → resolved / escalated / abandoned + CSAT. For chat-first agents.</div>
+    <div class="c"><b><i class="n"></i>Autonomous view</b><b>Run outcomes</b>, trigger/tool/knowledge usage, and <b>Savings estimates</b> (time/money the runs saved). For trigger-driven agents there is no “conversation” to grade.</div>
+    <div class="c"><b><i class="n"></i>Hybrid view</b>Both sets side-by-side when an agent chats <em>and</em> runs autonomously.</div>
+  </div>
+</section>
+
+<!-- ============ AI-BASED TOOLS ============ -->
+<div class="ghead"><div class="gbar"></div><h2>AI-based analysis — the tools that find issues for you</h2></div>
+
+<section class="fig" id="f6">
+  <h3>6 · The feedback toolbox — AI analyzing your users' feedback</h3>
+  <p class="cap">The “apply AI-based tools to analyze and identify issues” bullet maps to these five in-product features.</p>
+  <div class="gcse">
+    <div class="c"><b><i class="n"></i>Themes</b>AI-clusters user questions into topics — and converts a theme into an <b>evaluation test set in one click</b>. Production telemetry becomes regression tests.</div>
+    <div class="c"><b><i class="n"></i>Generated answer rate &amp; quality</b>AI labels sampled answers <b>Good / Poor</b> against four checks: <b>completeness, relevance, groundedness, abstention</b>.</div>
+    <div class="c"><b><i class="n"></i>AI-generated insights (preview)</b>Daily recommendations on <b>coverage gaps</b> — which questions the agent keeps failing and what knowledge to add.</div>
+    <div class="c"><b><i class="n"></i>Custom metrics</b>Define up to <b>three natural-language business metrics</b> and let AI score conversations against them.</div>
+    <div class="c"><b><i class="n"></i>Reactions</b>Thumbs up/down + free-text comments; <b>28-day retention</b>; feeds the backlog. Not on the M365 Copilot channel.</div>
+  </div>
+</section>
+
+<section class="fig" id="f7">
+  <h3>7 · Foundry observability — the three pillars</h3>
+  <p class="cap">Trace it, watch it, evaluate it forever. Each pillar answers a different production question.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 170">
+    <g text-anchor="middle" font-size="12">
+      <rect x="30" y="30" width="220" height="105" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="140" y="56" font-size="14" font-weight="700" fill="#0e7490">Tracing</text>
+      <text x="140" y="76" fill="#5b6b7b">OpenTelemetry GenAI spans</text>
+      <text x="140" y="92" fill="#5b6b7b">→ Application Insights</text>
+      <text x="140" y="108" fill="#5b6b7b">model calls · tools · decisions</text>
+      <rect x="270" y="30" width="220" height="105" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="380" y="56" font-size="14" font-weight="700" fill="#5b21b6">Monitoring dashboard</text>
+      <text x="380" y="76" fill="#5b6b7b">tokens · latency · run success</text>
+      <text x="380" y="92" fill="#5b6b7b">evaluation scores</text>
+      <text x="380" y="108" fill="#5b6b7b">red-team results</text>
+      <rect x="510" y="30" width="220" height="105" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="620" y="56" font-size="14" font-weight="700" fill="#166534">Continuous evaluation</text>
+      <text x="620" y="76" fill="#5b6b7b">evaluators on sampled prod</text>
+      <text x="620" y="92" fill="#5b6b7b">responses ~100/hour default</text>
+      <text x="620" y="108" fill="#5b6b7b">+ scheduled evals &amp; red-team scans</text>
+      <text x="380" y="160" fill="#5b6b7b" font-size="12.3">pre-production evals catch regressions · production pillars catch drift</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:10px">
+    <ul>
+      <li><i class="n"></i><span><b>Tracing</b> follows OpenTelemetry GenAI conventions into App Insights — a span per <b>model call, tool invocation, agent decision</b>. Supported for Agent Framework, LangChain/LangGraph, and the OpenAI Agents SDK.</span></li>
+      <li><i class="n"></i><span>The <b>agent monitoring dashboard</b> (preview) unifies token usage, latency, run success rate, evaluation scores and red-team results in one place.</span></li>
+      <li><i class="n"></i><span><b>Continuous evaluation</b> samples production responses (rate-limited <b>~100/hour</b> by default), plus scheduled evaluations against benchmarks and <b>scheduled red-team scans</b>; alerts fire on latency / tokens / eval scores.</span></li>
+      <li><i class="n"></i><span><b>Evaluation run comparison</b> applies <b>statistical significance</b> — verdicts <b>Improved / Degraded / Inconclusive</b>. This is the documented way to justify a model swap.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fig" id="f8">
+  <h3>8 · The alert thresholds — two numbers to investigate</h3>
+  <p class="cap">Foundry's dashboard documents two “go look now” trip-wires. They appear verbatim in questions.</p>
+  <div class="tiles">
+    <div class="tile"><i class="n"></i><b>&gt; 10 s</b><span>latency → investigate the bottleneck span</span></div>
+    <div class="tile"><i class="n"></i><b>&lt; 95%</b><span>run success rate → investigate failed runs</span></div>
+    <div class="tile"><i class="n"></i><b>~100/hr</b><span>continuous-evaluation sampling rate (default)</span></div>
+  </div>
+  <div class="hook">💡 <b>Hook:</b> latency &gt; 10 s → <b>trace the span</b>, shorten prompts, check throttling. Success &lt; 95% → read the <b>failed run</b> details. Neither says “swap the model” — that needs an <b>evaluation run comparison</b> first.</div>
+</section>
+
+<!-- ============ TUNING ============ -->
+<div class="ghead"><div class="gbar"></div><h2>Tuning — interpret telemetry, then act</h2></div>
+
+<section class="fig" id="f9">
+  <h3>9 · The signal → action matrix (the exam's favorite table)</h3>
+  <p class="cap">A scenario names a symptom; you pick the architect's move. Read each row until the pairing is reflex.</p>
+  <div class="matrix">
+  <table>
+    <tr><th>Telemetry signal</th><th>Architect's action</th></tr>
+    <tr><td class="sig"><i class="n"></i>Low engagement rate</td><td>Coverage gap or unclear entry points → <b>add topics / trigger phrases</b>, clarify the agent's description &amp; greeting</td></tr>
+    <tr><td class="sig"><i class="n"></i>Unanswered questions / low generated-answer rate</td><td><b>Add or expand knowledge sources</b>; act on AI-generated insights</td></tr>
+    <tr><td class="sig"><i class="n"></i>Answers labeled ungrounded / irrelevant / incomplete</td><td>Tune knowledge content, instructions, topic config; consider <b>stricter grounding</b> (e.g., Bing Custom Search scoping)</td></tr>
+    <tr><td class="sig"><i class="n"></i>Thumbs-down · low CSAT · negative sentiment</td><td>Drill into <b>transcripts</b> (Bot Transcript Viewer); fix the offending topic/knowledge; <b>prioritize by Themes volume</b></td></tr>
+    <tr><td class="sig"><i class="n"></i>High escalation — “System unintended”</td><td>Users are getting stuck → <b>fix topic flows</b>; note Omnichannel deflection analytics <b>compute differently</b> — don't compare raw numbers</td></tr>
+    <tr><td class="sig"><i class="n"></i>Knowledge-source errors</td><td><b>Repair or replace</b> the failing sources (source/tool error panels show which)</td></tr>
+    <tr><td class="sig"><i class="n"></i>Content-filter blocks</td><td>KQL for <b>ContentFiltered</b> events + transcripts → adjust the moderation level or user guidance</td></tr>
+    <tr><td class="sig"><i class="n"></i>Foundry: slow / token-hungry / failing runs</td><td>Trace the bottleneck span · shorten prompts · check throttling · investigate failed runs</td></tr>
+    <tr><td class="sig"><i class="n"></i>Everything prompt-tuning can't fix</td><td>Compare models via evaluations → <b>swap model or fine-tune</b>, validated by run comparison with statistical significance</td></tr>
+  </table>
+  </div>
+</section>
+
+<section class="fig" id="f10">
+  <h3>10 · The continuous-improvement loop — feedback becomes backlog becomes tests</h3>
+  <p class="cap">“Analyze backlog and user feedback” is a cycle, not a report. Four stages, one monthly ritual, one golden rule.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 250">
+    <defs><marker id="loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#0e7490"/></marker></defs>
+    <g text-anchor="middle" font-size="12.3">
+      <rect x="60" y="30" width="180" height="62" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="150" y="56" font-weight="700" fill="#0e7490">1 · Assess usage</text>
+      <text x="150" y="74" fill="#5b6b7b">KPIs · reactions · themes</text>
+      <rect x="520" y="30" width="180" height="62" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="610" y="56" font-weight="700" fill="#0e7490">2 · Define outcomes</text>
+      <text x="610" y="74" fill="#5b6b7b">what “better” means</text>
+      <rect x="520" y="150" width="180" height="62" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="610" y="176" font-weight="700" fill="#0e7490">3 · Analytics strategy</text>
+      <text x="610" y="194" fill="#5b6b7b">instrument the gaps</text>
+      <rect x="60" y="150" width="180" height="62" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="150" y="176" font-weight="700" fill="#0e7490">4 · Optimize</text>
+      <text x="150" y="194" fill="#5b6b7b">data-driven fixes, on a cadence</text>
+      <line x1="240" y1="61" x2="514" y2="61" stroke="#0e7490" stroke-width="2.5" marker-end="url(#loop)"/>
+      <line x1="610" y1="92" x2="610" y2="144" stroke="#0e7490" stroke-width="2.5" marker-end="url(#loop)"/>
+      <line x1="520" y1="181" x2="246" y2="181" stroke="#0e7490" stroke-width="2.5" marker-end="url(#loop)"/>
+      <line x1="150" y1="150" x2="150" y2="98" stroke="#0e7490" stroke-width="2.5" marker-end="url(#loop)"/>
+      <text x="380" y="130" fill="#155e75" font-weight="700" font-size="13">↻ repeat monthly</text>
+    </g>
+  </svg>
+  </div>
+  <div class="panel" style="border-left:4px solid var(--pg);margin-top:10px">
+    <ul>
+      <li><i class="n"></i><span>The documented loop: <b>assess usage → define outcomes → analytics strategy → data-driven optimization</b>, repeated on a cadence.</span></li>
+      <li><i class="n"></i><span><b>Monthly optimization review</b> agenda: deflection, resolution, <b>low-resolution topics</b>, <b>unrecognized utterances</b>, per-channel performance.</span></li>
+      <li><i class="n"></i><span>Feed <b>Reactions + CSAT + Themes + unanswered-question lists</b> into a <b>prioritized backlog</b> — feedback is triaged like product work, not read like fan mail.</span></li>
+      <li><i class="n"></i><span>Golden rule: <b>every fix becomes a regression test set</b> (Themes → test set in one click) so the same failure can never return unnoticed.</span></li>
+    </ul>
+  </div>
+  <div class="hook">💡 <b>Final hook:</b> the chant for this whole page — <b>28 · 30 · 89 · 360</b> retention, <b>10 s · 95% · 100/hr</b> thresholds, and “resolution is a % of <b>engaged</b>”.</div>
+</section>
+
+</div>
+<script>
+const KEY='ab100-vl-monitor';
+const chips=[...document.querySelectorAll('.n')];
+chips.forEach((c,i)=>{c.dataset.i=i;c.textContent=i+1;c.title='Tap to mark learned';});
+let st;
+try{st=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){st=[]}
+function paint(){
+  chips.forEach(c=>c.classList.toggle('done',st.includes(+c.dataset.i)));
+  document.getElementById('ptext').textContent=st.length+'/'+chips.length+' learned';
+  document.getElementById('pbar').style.width=(chips.length?100*st.length/chips.length:0)+'%';
+}
+chips.forEach(c=>c.addEventListener('click',()=>{
+  const i=+c.dataset.i;
+  st=st.includes(i)?st.filter(x=>x!==i):[...st,i];
+  localStorage.setItem(KEY,JSON.stringify(st));paint();
+}));
+document.getElementById('reset').addEventListener('click',()=>{st=[];localStorage.setItem(KEY,'[]');paint();});
+paint();
+</script>
+</body>
+</html>
