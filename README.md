@@ -95,6 +95,10 @@ Detailed research notes for all 74 skills, with Microsoft Learn source links thr
 - [Official AB-100 study guide](https://learn.microsoft.com/credentials/certifications/resources/study-guides/ab-100)
 - [Certification page](https://learn.microsoft.com/credentials/certifications/agentic-ai-business-solutions-architect)
 
+## Credits
+
+Curated & consolidated by **[Mahdi Sheikhi](https://github.com/MahdiSheikhi)** · Developed by [Claude Code](https://claude.com/claude-code) · [Source repository](https://github.com/MahdiSheikhi/Agentic-AI-Business-Solutions-Architect-Microsoft-Certification)
+
 ## Disclaimer
 
 This is an unofficial, personal study library and is not affiliated with or endorsed by Microsoft. Content is grounded in Microsoft Learn documentation as of July 2026 — product names, features, and exam details change over time, so always verify against the official study guide before your exam. Microsoft, Dynamics 365, Copilot, and related marks are trademarks of Microsoft Corporation.
