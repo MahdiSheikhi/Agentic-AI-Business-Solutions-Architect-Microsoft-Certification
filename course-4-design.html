@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Course Companion 4 — Design: Components, Orchestration, Copilots &amp; Well-Architected AI</title>
+<title>Concept Guide 4 — Design: Components, Orchestration, Copilots &amp; Well-Architected AI</title>
 <style>
 :root{
   --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
@@ -84,11 +84,11 @@ footer.src a{color:var(--pg-ink)}
 </head>
 <body>
 <header class="hero">
-  <div class="badge">AB-100 · Video Course Companion · Unit 4 of 5</div>
+  <div class="badge">AB-100 · Concept Guides · Guide 4 of 5</div>
   <h1>Design — Components, Orchestration, Copilots &amp; Well-Architected AI</h1>
-  <p class="sub">Episodes 4.1–4.10 in pictures: the six-component anatomy, five orchestration patterns, Copilot Studio's design vocabulary, prebuilt copilots across Dynamics 365 and Microsoft 365, grounding with RAG, advanced extensibility, the Well-Architected pillars, and custom models in Foundry.</p>
+  <p class="sub">The Design domain in pictures: the six-component anatomy, five orchestration patterns, Copilot Studio's design vocabulary, prebuilt copilots across Dynamics 365 and Microsoft 365, grounding with RAG, advanced extensibility, the Well-Architected pillars, and custom models in Foundry.</p>
   <div class="hero-stats">
-    <span class="hero-stat"><b>10</b>episodes covered</span>
+    <span class="hero-stat"><b>10</b>topics covered</span>
     <span class="hero-stat"><b>18</b>visuals</span>
     <span class="hero-stat"><b>33</b>learn items</span>
     <span class="hero-stat"><b>25–30%</b>Design domain weight</span>
@@ -114,9 +114,9 @@ footer.src a{color:var(--pg-ink)}
   <div class="row"><span class="gl">Foundations</span><a href="#f15">RAG architecture</a><a href="#f16">MCP · RPA · behaviors</a><a href="#f17">WAF pillars</a><a href="#f18">Custom-model workflow</a></div>
 </div>
 
-<div class="ghead"><div class="gbar"></div><h2>Ep 4.1 · System components &amp; autonomy</h2><span class="w">the anatomy of every agent</span></div>
+<div class="ghead"><div class="gbar"></div><h2>System components &amp; autonomy</h2><span class="w">the anatomy of every agent</span></div>
 
-<div class="epsum"><b>Narration in brief:</b> every agentic system — from a Studio chatbot to a Foundry multi-agent fleet — has six components: perception, reasoning, memory, tools, execution runtime, and guardrails, each with a specific Microsoft platform home. They run as a cycle, illustrated by a Teams order-status inquiry that remembers a repeat customer. The other core design choice is autonomy — copilot mode, semi-autonomous, or fully autonomous — decided by business risk, not technology, and shiftable per action within one agent.</div>
+<div class="epsum"><b>In brief:</b> every agentic system — from a Studio chatbot to a Foundry multi-agent fleet — has six components: perception, reasoning, memory, tools, execution runtime, and guardrails, each with a specific Microsoft platform home. They run as a cycle, illustrated by a Teams order-status inquiry that remembers a repeat customer. The other core design choice is autonomy — copilot mode, semi-autonomous, or fully autonomous — decided by business risk, not technology, and shiftable per action within one agent.</div>
 
 <section class="fig" id="f1">
   <h3>1 · The six components — and their Microsoft homes</h3>
@@ -172,9 +172,9 @@ footer.src a{color:var(--pg-ink)}
   </div>
 </section>
 
-<div class="ghead"><div class="gbar"></div><h2>Ep 4.2 · Orchestration patterns</h2><span class="w">making agents work together</span></div>
+<div class="ghead"><div class="gbar"></div><h2>Orchestration patterns</h2><span class="w">making agents work together</span></div>
 
-<div class="epsum"><b>Narration in brief:</b> orchestration is the conductor: needed whenever a problem takes more than one step or agent. Five patterns — sequential, parallel, hierarchical, dynamic, event-driven — each with a signature example and trade-off; real solutions mix them, as in the manufacturing reorder scenario that layers an event trigger, a supervisor, three parallel specialists, and a human above $50K. Agents hand off via A2A (speed), MCP-wrapped tools (governance), or shared Dataverse tables (async + audit), and reliability patterns — circuit breakers, backoff, timeouts, fallbacks, observability — keep multi-agent systems from cascading failure.</div>
+<div class="epsum"><b>In brief:</b> orchestration is the conductor: needed whenever a problem takes more than one step or agent. Five patterns — sequential, parallel, hierarchical, dynamic, event-driven — each with a signature example and trade-off; real solutions mix them, as in the manufacturing reorder scenario that layers an event trigger, a supervisor, three parallel specialists, and a human above $50K. Agents hand off via A2A (speed), MCP-wrapped tools (governance), or shared Dataverse tables (async + audit), and reliability patterns — circuit breakers, backoff, timeouts, fallbacks, observability — keep multi-agent systems from cascading failure.</div>
 
 <section class="fig" id="f3">
   <h3>3 · The five patterns at a glance</h3>
@@ -257,9 +257,9 @@ footer.src a{color:var(--pg-ink)}
   </div>
 </section>
 
-<div class="ghead"><div class="gbar"></div><h2>Ep 4.3 · Copilot Studio design</h2><span class="w">topics · tools · flows — and three methods by name</span></div>
+<div class="ghead"><div class="gbar"></div><h2>Copilot Studio design</h2><span class="w">topics · tools · flows — and three methods by name</span></div>
 
-<div class="epsum"><b>Narration in brief:</b> every Studio agent is topics (ears — what it understands), tools (hands — what it does), and flows (brain — the wiring, including every failure path). The exam tests three topic-routing methods <em>by name</em>: classic NLU (trigger phrases, brittle), CLU (trained intent model with entities), and generative orchestration (the LLM routes by your descriptions — now the default). Prompt actions turn the LLM itself into a tool, and the three agent types return with design considerations and a password-reset walkthrough.</div>
+<div class="epsum"><b>In brief:</b> every Studio agent is topics (ears — what it understands), tools (hands — what it does), and flows (brain — the wiring, including every failure path). The exam tests three topic-routing methods <em>by name</em>: classic NLU (trigger phrases, brittle), CLU (trained intent model with entities), and generative orchestration (the LLM routes by your descriptions — now the default). Prompt actions turn the LLM itself into a tool, and the three agent types return with design considerations and a password-reset walkthrough.</div>
 
 <section class="fig" id="f6">
   <h3>6 · Ears, hands, brain</h3>
@@ -333,13 +333,13 @@ footer.src a{color:var(--pg-ink)}
   </div>
 </section>
 
-<div class="ghead"><div class="gbar"></div><h2>Ep 4.4 · Copilot for Sales &amp; Service</h2><span class="w">prebuilt, then extended</span></div>
+<div class="ghead"><div class="gbar"></div><h2>Copilot for Sales &amp; Service</h2><span class="w">prebuilt, then extended</span></div>
 
-<div class="epsum"><b>Narration in brief:</b> Copilot for Sales lives in Dynamics 365 Sales <em>and</em> Outlook/Teams — a bidirectional CRM↔productivity bridge powering lead scoring, two-minute meeting prep, contextual email drafting, and automatic win-loss analysis. Copilot for Service pairs with Contact Center (the omnichannel infrastructure) to summarize cases, suggest resolutions, draft knowledge articles, and route intelligently. Know the business vocabulary the exam won't define, and extend progressively: configuration → Studio topics → connectors → Power Automate.</div>
+<div class="epsum"><b>In brief:</b> Copilot for Sales lives in Dynamics 365 Sales <em>and</em> Outlook/Teams — a bidirectional CRM↔productivity bridge powering lead scoring, two-minute meeting prep, contextual email drafting, and automatic win-loss analysis. Copilot for Service pairs with Contact Center (the omnichannel infrastructure) to summarize cases, suggest resolutions, draft knowledge articles, and route intelligently. Know the business vocabulary the exam won't define, and extend progressively: configuration → Studio topics → connectors → Power Automate.</div>
 
 <section class="fig" id="f9">
   <h3>9 · What the two copilots actually do</h3>
-  <p class="cap">Capabilities with the course's own numbers attached.</p>
+  <p class="cap">Capabilities with concrete reference numbers attached.</p>
   <div class="duo">
     <div class="panel" style="border-left:4px solid #0f6cbd">
       <h4 style="color:#0d5ca8">💼 Copilot for Sales — D365 Sales + Outlook + Teams</h4>
@@ -408,9 +408,9 @@ footer.src a{color:var(--pg-ink)}
   </div>
 </section>
 
-<div class="ghead"><div class="gbar"></div><h2>Ep 4.5 · Finance &amp; Supply Chain AI</h2><span class="w">the operations side + cross-module</span></div>
+<div class="ghead"><div class="gbar"></div><h2>Finance &amp; Supply Chain AI</h2><span class="w">the operations side + cross-module</span></div>
 
-<div class="epsum"><b>Narration in brief:</b> Copilot for Finance automates three-way invoice matching, anomaly detection, compliance checks, accruals, and variance analysis — always with audit trails. The Supply Chain copilot is more autonomous: stockout prediction, quality flagging, logistics optimization, inventory monitoring — event-driven agents governed by confidence thresholds and escalation rules. The real enterprise value is cross-module orchestration over the shared Dataverse backbone, and F&amp;O agent chat can be extended with custom knowledge sources mapped to user roles.</div>
+<div class="epsum"><b>In brief:</b> Copilot for Finance automates three-way invoice matching, anomaly detection, compliance checks, accruals, and variance analysis — always with audit trails. The Supply Chain copilot is more autonomous: stockout prediction, quality flagging, logistics optimization, inventory monitoring — event-driven agents governed by confidence thresholds and escalation rules. The real enterprise value is cross-module orchestration over the shared Dataverse backbone, and F&amp;O agent chat can be extended with custom knowledge sources mapped to user roles.</div>
 
 <section class="fig" id="f12">
   <h3>12 · Finance vs SCM copilots — and the warranty-claim relay</h3>
@@ -460,9 +460,9 @@ footer.src a{color:var(--pg-ink)}
   </div>
 </section>
 
-<div class="ghead"><div class="gbar"></div><h2>Ep 4.6 · Microsoft 365 Copilot &amp; Teams agents</h2><span class="w">four extensibility routes</span></div>
+<div class="ghead"><div class="gbar"></div><h2>Microsoft 365 Copilot &amp; Teams agents</h2><span class="w">four extensibility routes</span></div>
 
-<div class="epsum"><b>Narration in brief:</b> M365 Copilot extends four ways — Copilot Studio plugins (multi-step logic), declarative agents (JSON-manifest, no-code, the exam's favorite new concept), Graph connectors (external data as native M365 content, with mandatory item-level ACLs), and message extensions (quick card actions in Teams). Governance rides on data classification: sensitivity labels first, then DLP, conditional access, and audit logging; admins scope agent availability through the Teams admin center. The HR worked example combines a Graph connector, SharePoint policies, and a declarative agent.</div>
+<div class="epsum"><b>In brief:</b> M365 Copilot extends four ways — Copilot Studio plugins (multi-step logic), declarative agents (JSON-manifest, no-code, the exam's favorite new concept), Graph connectors (external data as native M365 content, with mandatory item-level ACLs), and message extensions (quick card actions in Teams). Governance rides on data classification: sensitivity labels first, then DLP, conditional access, and audit logging; admins scope agent availability through the Teams admin center. The HR worked example combines a Graph connector, SharePoint policies, and a declarative agent.</div>
 
 <section class="fig" id="f13">
   <h3>13 · Match the route to the scenario</h3>
@@ -515,9 +515,9 @@ footer.src a{color:var(--pg-ink)}
   </div>
 </section>
 
-<div class="ghead"><div class="gbar"></div><h2>Ep 4.7 · Grounding, knowledge sources &amp; RAG</h2><span class="w">real data in, accurate answers out</span></div>
+<div class="ghead"><div class="gbar"></div><h2>Grounding, knowledge sources &amp; RAG</h2><span class="w">real data in, accurate answers out</span></div>
 
-<div class="epsum"><b>Narration in brief:</b> an ungrounded agent answers "30 days" because that's common in training data, when your refund policy says 60. RAG — retrieve, augment, generate — is the fix and the most important enterprise pattern. Sources match data types (Dataverse for structured, SharePoint + Azure AI Search for documents, Graph for M365 context, MCP for legacy), Copilot Studio combines five knowledge-source types in one agent, and data processing (chunking, embeddings, hybrid search, cleaning, freshness) makes retrieval precise. Citations and verification are not optional.</div>
+<div class="epsum"><b>In brief:</b> an ungrounded agent answers "30 days" because that's common in training data, when your refund policy says 60. RAG — retrieve, augment, generate — is the fix and the most important enterprise pattern. Sources match data types (Dataverse for structured, SharePoint + Azure AI Search for documents, Graph for M365 context, MCP for legacy), Copilot Studio combines five knowledge-source types in one agent, and data processing (chunking, embeddings, hybrid search, cleaning, freshness) makes retrieval precise. Citations and verification are not optional.</div>
 
 <section class="fig" id="f15">
   <h3>15 · The full RAG pipeline — plus the source-selection table</h3>
@@ -563,9 +563,9 @@ footer.src a{color:var(--pg-ink)}
   </div>
 </section>
 
-<div class="ghead"><div class="gbar"></div><h2>Ep 4.8 · MCP, RPA &amp; agent behaviors</h2><span class="w">advanced extensibility</span></div>
+<div class="ghead"><div class="gbar"></div><h2>MCP, RPA &amp; agent behaviors</h2><span class="w">advanced extensibility</span></div>
 
-<div class="epsum"><b>Narration in brief:</b> MCP puts a governed middleman between agents and APIs — permission checks, input validation, rate limits, full logging, and no API keys in agent hands; REST API tools and prebuilt skills are the lighter-weight alternatives for single integrations. UI automation/RPA drives legacy screens when no API exists — always with whitelisted actions, confirmations, and timeouts. Configurable behaviors round it out: reasoning mode, voice mode, autonomous triggers, and grounded generative answers.</div>
+<div class="epsum"><b>In brief:</b> MCP puts a governed middleman between agents and APIs — permission checks, input validation, rate limits, full logging, and no API keys in agent hands; REST API tools and prebuilt skills are the lighter-weight alternatives for single integrations. UI automation/RPA drives legacy screens when no API exists — always with whitelisted actions, confirmations, and timeouts. Configurable behaviors round it out: reasoning mode, voice mode, autonomous triggers, and grounded generative answers.</div>
 
 <section class="fig" id="f16">
   <h3>16 · The extensibility decision rules</h3>
@@ -587,9 +587,9 @@ footer.src a{color:var(--pg-ink)}
   </div>
 </section>
 
-<div class="ghead"><div class="gbar"></div><h2>Ep 4.9 · Power Platform Well-Architected</h2><span class="w">five pillars + responsible AI</span></div>
+<div class="ghead"><div class="gbar"></div><h2>Power Platform Well-Architected</h2><span class="w">five pillars + responsible AI</span></div>
 
-<div class="epsum"><b>Narration in brief:</b> the Power Platform Well-Architected Framework adapts Azure's five pillars — reliability, security, cost optimization, operational excellence, performance efficiency — for agentic AI, and layers responsible AI (fairness, transparency, accountability, safety) on top. WAF questions are scenario-based: "which principle is most at risk?" — and the best answers apply several pillars at once, as the health-insurance claims walkthrough shows. Generative pages, the AI Hub, and AI Builder each tie back to specific pillars.</div>
+<div class="epsum"><b>In brief:</b> the Power Platform Well-Architected Framework adapts Azure's five pillars — reliability, security, cost optimization, operational excellence, performance efficiency — for agentic AI, and layers responsible AI (fairness, transparency, accountability, safety) on top. WAF questions are scenario-based: "which principle is most at risk?" — and the best answers apply several pillars at once, as the health-insurance claims walkthrough shows. Generative pages, the AI Hub, and AI Builder each tie back to specific pillars.</div>
 
 <section class="fig" id="f17">
   <h3>17 · Six lenses on one design</h3>
@@ -610,9 +610,9 @@ footer.src a{color:var(--pg-ink)}
   </div>
 </section>
 
-<div class="ghead"><div class="gbar"></div><h2>Ep 4.10 · Custom models in Foundry</h2><span class="w">the end-to-end toolchain</span></div>
+<div class="ghead"><div class="gbar"></div><h2>Custom models in Foundry</h2><span class="w">the end-to-end toolchain</span></div>
 
-<div class="epsum"><b>Narration in brief:</b> the design-level decision framework: prebuilt models for standard tasks, fine-tuned for specialized language, custom-trained only for truly unique problems, SLMs for high-volume cost-sensitive work. Foundry covers the whole lifecycle — model catalog, prompt flow for prototyping, evaluation tools, fine-tuning, managed-endpoint deployment — and a seven-step workflow runs from task definition to integrated, drift-monitored production models connected to agents via MCP or Copilot Studio actions.</div>
+<div class="epsum"><b>In brief:</b> the design-level decision framework: prebuilt models for standard tasks, fine-tuned for specialized language, custom-trained only for truly unique problems, SLMs for high-volume cost-sensitive work. Foundry covers the whole lifecycle — model catalog, prompt flow for prototyping, evaluation tools, fine-tuning, managed-endpoint deployment — and a seven-step workflow runs from task definition to integrated, drift-monitored production models connected to agents via MCP or Copilot Studio actions.</div>
 
 <section class="fig" id="f18">
   <h3>18 · The decision framework &amp; the seven-step workflow</h3>
@@ -653,11 +653,11 @@ footer.src a{color:var(--pg-ink)}
 </section>
 
 <div class="pager">
-  <a href="course-3-plan.html"><span>Previous unit</span><b>← 3 · Plan Solutions</b></a>
-  <a class="next" href="course-5-operate.html"><span>Next unit</span><b>5 · Deploy, Govern &amp; Secure →</b></a>
+  <a href="course-3-plan.html"><span>Previous guide</span><b>← 3 · Plan Solutions</b></a>
+  <a class="next" href="course-5-operate.html"><span>Next guide</span><b>5 · Deploy, Govern &amp; Secure →</b></a>
 </div>
 
 </div>
-<footer class="src">Companion notes to Unit 4 (Eps 4.1–4.10) of the <a href="https://www.youtube.com/playlist?list=PLXd94bZTzZ-SGw8yMHD44d9xKgMKTZUVF" target="_blank" rel="noopener">Microsoft AB-100 Agentic AI Exam Prep</a> video course — summaries and visuals are original study notes; watch the episodes for the full narration.</footer>
+<footer class="src">AB-100 · Agentic AI Business Solutions Architect · original study notes and visuals</footer>
 </body>
 </html>
