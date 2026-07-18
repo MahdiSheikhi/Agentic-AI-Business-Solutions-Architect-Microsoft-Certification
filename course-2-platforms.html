@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Companion 2 — Microsoft AI Platforms: Copilot Studio, Foundry &amp; the Protocols</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --dark:#0b2a4a; --soft:#e8f1fa;
+  --pg:#0f6cbd; --pg-ink:#0d5ca8; --pg-soft:#e8f1fa; --pg-line:#bcd6ee;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#0f6cbd 170%);color:#fff;padding:26px 20px 22px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+.hero-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hero-stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:7px 16px;font-size:12px;color:#cfe2f4}
+.hero-stat b{display:block;font-size:16px;color:#fff}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--pg-ink);border-bottom-color:var(--pg)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:120px;letter-spacing:.03em;color:var(--pg-ink)}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--pg);color:var(--pg-ink)}
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--pg)}
+.ghead h2{font-size:21px;color:var(--pg-ink)}
+.ghead span.w{font-size:12.5px;font-weight:700;background:var(--pg-soft);color:var(--pg-ink);border-radius:8px;padding:3px 12px}
+.epsum{background:var(--soft);border:1px solid #cfe0f2;border-left:4px solid var(--pg);border-radius:11px;padding:12px 16px;font-size:13.6px;color:#2c4258;margin-bottom:16px}
+.epsum b{color:#12293f}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+.learns{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:8px;margin-top:14px}
+.learn{display:flex;gap:10px;align-items:flex-start;font-size:13.1px;color:#33475c;background:#fbfcfe;border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.learn .n{flex:0 0 auto;min-width:23px;height:23px;border-radius:50%;background:var(--pg);color:#fff;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.learn b{color:#12293f}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:6px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:22px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0 0 0 18px;font-size:13.4px;color:#33475c}
+.panel li{margin:5px 0}
+.panel li b{color:#12293f}
+.gcse{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.gcse div{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfe;font-size:13.2px;color:var(--muted)}
+.gcse b{display:flex;align-items:center;gap:9px;font-size:14.5px;color:#12293f;margin-bottom:6px}
+.gcse b i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;color:#fff;font-weight:800;font-size:16px;flex:0 0 auto}
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:560px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td:first-child{font-weight:700;color:#12293f;white-space:nowrap}
+.matrix tr:last-child td{border-bottom:none}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+.pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;text-decoration:none;color:#33475c;font-size:13px}
+.pager a:hover{border-color:var(--pg)}
+.pager a b{display:block;color:var(--pg-ink);font-size:14.5px;margin-top:2px}
+.pager a.next{text-align:right}
+footer.src{text-align:center;color:var(--muted);font-size:12.3px;padding:8px 16px 30px}
+footer.src a{color:var(--pg-ink)}
+@media print{nav.bar,.toc,.pager{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Video Course Companion · Unit 2 of 5</div>
+  <h1>Microsoft AI Platforms — the Ecosystem, the Agents &amp; the Protocols</h1>
+  <p class="sub">Episodes 2.1–2.6 in pictures: the five-platform landscape, the three agent types, Copilot Studio's four building blocks, when Azure AI Foundry earns its complexity, how MCP and A2A wire everything together, and the custom-model escalation ladder.</p>
+  <div class="hero-stats">
+    <span class="hero-stat"><b>6</b>episodes covered</span>
+    <span class="hero-stat"><b>14</b>visuals</span>
+    <span class="hero-stat"><b>28</b>learn items</span>
+    <span class="hero-stat"><b>5</b>platforms to master</span>
+  </div>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="course-1-foundations.html">1 · Foundations</a>
+  <a href="course-2-platforms.html" class="here">2 · Platforms</a>
+  <a href="course-3-plan.html">3 · Plan</a>
+  <a href="course-4-design.html">4 · Design</a>
+  <a href="course-5-operate.html">5 · Operate</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl">Ep 2.1 · Landscape</span><a href="#f1">Five-platform map</a><a href="#f2">One request, five platforms</a><a href="#f3">The trade-off axes</a></div>
+  <div class="row"><span class="gl">Ep 2.2 · Agent types</span><a href="#f4">Autonomy ladder</a><a href="#f5">Three-question sorter</a><a href="#f6">Type × platform matrix</a></div>
+  <div class="row"><span class="gl">Ep 2.3 · Copilot Studio</span><a href="#f7">Four building blocks</a><a href="#f8">Guardrails &amp; the demo</a></div>
+  <div class="row"><span class="gl">Ep 2.4 · Foundry</span><a href="#f9">When Foundry wins</a><a href="#f10">Studio vs Foundry</a></div>
+  <div class="row"><span class="gl">Ep 2.5 · Protocols</span><a href="#f11">MCP explained</a><a href="#f12">A2A pipelines</a></div>
+  <div class="row"><span class="gl">Ep 2.6 · Custom models</span><a href="#f13">Escalation ladder</a><a href="#f14">Fine-tuning pipeline</a></div>
+</div>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 2.1 · The Microsoft AI landscape</h2><span class="w">five platforms, one ecosystem</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> agentic solutions are almost never built on one tool — the exam repeatedly hands you a scenario and asks for the right <em>combination</em> of platforms. The episode maps the five you must know, shows how a single customer request can flow through all of them in one afternoon, and names the trade-offs (speed vs customization, cost vs capability, simplicity vs scale) that scenario answers hinge on. Business alignment beats deep tool expertise.</div>
+
+<section class="fig" id="f1">
+  <h3>1 · The five-platform map</h3>
+  <p class="cap">Know each platform's one-line identity and the moment it's the right choice — that's the core of what the exam tests.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0f6cbd">⚡</i>Copilot Studio</b>the <b>no-code agent builder</b> — quick deployment, easy to use, builds all three agent types. Idea → deployed agent in hours, not months.</div>
+    <div><b><i style="background:#7c3aed">🏭</i>Azure AI Foundry</b>the <b>heavy machinery</b> — custom tools &amp; models, fine-tuning, enterprise-scale orchestration. Go here when off-the-shelf stops cutting it.</div>
+    <div><b><i style="background:#0e7490">🔌</i>Power Platform</b>the <b>integration layer / glue</b> — hundreds of connectors and automated flows bridging agents to back-end systems. How agents actually get work done.</div>
+    <div><b><i style="background:#b45309">🏢</i>Dynamics 365</b><b>domain-specific apps</b> — sales, service, finance, supply chain — each with embedded, purpose-built AI that understands CRM/ERP out of the box.</div>
+    <div><b><i style="background:#166534">📎</i>Microsoft 365 Copilot</b>AI <b>where users already work</b> — Teams, Outlook, Word, PowerPoint. Meet people in their natural workflow.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">1</span><span><b>The ecosystem is modular</b> — mix and match; there is no single right tool for everything.</span></div>
+    <div class="learn"><span class="n">2</span><span>The exam tests <b>platform selection from business requirements</b>, not developer-level expertise in any one tool.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f2">
+  <h3>2 · One customer request, five platforms — "a Tuesday afternoon"</h3>
+  <p class="cap">The episode's signature picture: the platforms don't work in isolation, they hand off to each other under one governance umbrella.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 210">
+    <defs><marker id="arrP" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="12">
+      <rect x="20" y="30" width="160" height="66" rx="11" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="100" y="55" text-anchor="middle" font-weight="700" fill="#0b2a4a">Copilot Studio agent</text>
+      <text x="100" y="73" text-anchor="middle" fill="#5b6b7b" font-size="11">receives customer request</text>
+      <rect x="210" y="30" width="160" height="66" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="290" y="55" text-anchor="middle" font-weight="700" fill="#5b21b6">Foundry custom model</text>
+      <text x="290" y="73" text-anchor="middle" fill="#5b6b7b" font-size="11">specialized reasoning</text>
+      <rect x="400" y="30" width="160" height="66" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="480" y="55" text-anchor="middle" font-weight="700" fill="#0e7490">Power Automate flow</text>
+      <text x="480" y="73" text-anchor="middle" fill="#5b6b7b" font-size="11">triggered by the answer</text>
+      <rect x="590" y="30" width="150" height="66" rx="11" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="665" y="55" text-anchor="middle" font-weight="700" fill="#92400e">Dynamics 365</text>
+      <text x="665" y="73" text-anchor="middle" fill="#5b6b7b" font-size="11">record updated</text>
+      <line x1="180" y1="63" x2="208" y2="63" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrP)"/>
+      <line x1="370" y1="63" x2="398" y2="63" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrP)"/>
+      <line x1="560" y1="63" x2="588" y2="63" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrP)"/>
+      <rect x="20" y="128" width="720" height="44" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="380" y="150" text-anchor="middle" font-weight="700" fill="#166534" font-size="13">Microsoft 365 governance &amp; security policies — enforced across the whole chain</text>
+      <text x="380" y="166" text-anchor="middle" fill="#3c6947" font-size="11.5">"that's not hypothetical — it's a Tuesday afternoon in an enterprise environment"</text>
+      <line x1="380" y1="126" x2="380" y2="100" stroke="#7fb08a" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="380" y="198" text-anchor="middle" fill="#5b6b7b" font-size="12">exam scenarios ask for the <tspan font-weight="700" fill="#1a2733">best combination</tspan>, not the best single tool</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">3</span><span>A typical enterprise answer chains <b>Studio (front door) → Foundry (specialist brain) → Power Platform (hands) → D365 (system of record)</b> under M365 governance.</span></div>
+    <div class="learn"><span class="n">4</span><span><b>Governance and security belong in every answer</b> — even at the cost of some other nice-to-have feature in the scenario.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f3">
+  <h3>3 · The three trade-off axes behind every platform question</h3>
+  <p class="cap">Scenario answers live somewhere on these sliders — the exam wants to see you navigate them, not max them out.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 190">
+    <g font-size="13">
+      <g>
+        <text x="120" y="38" text-anchor="end" font-weight="700" fill="#0d5ca8">Speed</text>
+        <rect x="140" y="28" width="480" height="10" rx="5" fill="#dbe7f3"/>
+        <circle cx="260" cy="33" r="9" fill="#0f6cbd"/>
+        <text x="640" y="38" font-weight="700" fill="#6d28d9">Customization</text>
+        <text x="260" y="60" text-anchor="middle" fill="#5b6b7b" font-size="11.5">Copilot Studio ←→ Foundry: the most common decision point</text>
+      </g>
+      <g>
+        <text x="120" y="98" text-anchor="end" font-weight="700" fill="#0d5ca8">Cost</text>
+        <rect x="140" y="88" width="480" height="10" rx="5" fill="#dbe7f3"/>
+        <circle cx="380" cy="93" r="9" fill="#0f6cbd"/>
+        <text x="640" y="98" font-weight="700" fill="#6d28d9">Capability</text>
+        <text x="380" y="120" text-anchor="middle" fill="#5b6b7b" font-size="11.5">premium models &amp; custom builds must justify their bill</text>
+      </g>
+      <g>
+        <text x="120" y="158" text-anchor="end" font-weight="700" fill="#0d5ca8">Simplicity</text>
+        <rect x="140" y="148" width="480" height="10" rx="5" fill="#dbe7f3"/>
+        <circle cx="330" cy="153" r="9" fill="#0f6cbd"/>
+        <text x="640" y="158" font-weight="700" fill="#6d28d9">Scale</text>
+        <text x="380" y="180" text-anchor="middle" fill="#5b6b7b" font-size="11.5">don't over-engineer what a simple tool already handles</text>
+      </g>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">5</span><span>The three recurring trade-offs: <b>speed vs customization · cost vs capability · simplicity vs scale</b>.</span></div>
+    <div class="learn"><span class="n">6</span><span><b>Speed → Copilot Studio; customization → Azure AI Foundry</b> — the single most common decision point on the exam.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 2.2 · The three agent types</h2><span class="w">organized by autonomy</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> Microsoft defines three agent types by how much autonomy they have — prompt-and-response (waits to be asked), task (executes bounded actions with tools, usually human-initiated), and autonomous (plans, reasons, and acts independently across steps). Higher autonomy means more power <em>and</em> more risk, so governance scales with it. A three-question sorter classifies any scenario, and each type maps onto specific platforms.</div>
+
+<section class="fig" id="f4">
+  <h3>4 · The autonomy ladder</h3>
+  <p class="cap">Same ladder the exam climbs in its questions — with the risk curve riding alongside.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 240">
+    <g font-size="12.5">
+      <rect x="40" y="150" width="200" height="60" rx="11" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="140" y="173" text-anchor="middle" font-weight="700" fill="#0b2a4a">Prompt &amp; response</text>
+      <text x="140" y="191" text-anchor="middle" fill="#5b6b7b" font-size="11.5">waits for input · answers · stops</text>
+      <rect x="280" y="95" width="200" height="60" rx="11" fill="#dbeafe" stroke="#a9c8ef"/>
+      <text x="380" y="118" text-anchor="middle" font-weight="700" fill="#1d4ed8">Task agent</text>
+      <text x="380" y="136" text-anchor="middle" fill="#5b6b7b" font-size="11.5">bounded actions with tools · human kicks off</text>
+      <rect x="520" y="40" width="200" height="60" rx="11" fill="#0b2a4a"/>
+      <text x="620" y="63" text-anchor="middle" font-weight="700" fill="#fff">Autonomous agent</text>
+      <text x="620" y="81" text-anchor="middle" fill="#c9d8ea" font-size="11.5">plans · reasons · acts over multiple steps</text>
+      <text x="140" y="230" text-anchor="middle" fill="#0d5ca8" font-weight="700" font-size="11.5">LOW autonomy</text>
+      <text x="380" y="230" text-anchor="middle" fill="#1d4ed8" font-weight="700" font-size="11.5">MEDIUM · "bounded"</text>
+      <text x="620" y="230" text-anchor="middle" fill="#0b2a4a" font-weight="700" font-size="11.5">HIGH · needs most governance</text>
+      <path d="M60 140 Q 380 130 700 30" fill="none" stroke="#c62828" stroke-width="2" stroke-dasharray="5 4"/>
+      <text x="676" y="20" text-anchor="end" fill="#c62828" font-size="11.5" font-weight="700">power ↑ and risk ↑ together</text>
+      <text x="140" y="130" text-anchor="middle" fill="#5b6b7b" font-size="11">support Q&amp;A bot</text>
+      <text x="380" y="80" text-anchor="middle" fill="#5b6b7b" font-size="11">escalate · look up · trigger approval</text>
+      <text x="620" y="125" text-anchor="middle" fill="#5b6b7b" font-size="11">supply-chain monitor that adjusts orders</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">7</span><span><b>Prompt-and-response</b> = low autonomy: processes input, maybe reasons, answers — never acts on its own.</span></div>
+    <div class="learn"><span class="n">8</span><span><b>Task agents</b> = medium autonomy: execute <b>bounded</b> tasks with tools (escalate, look up, trigger a workflow) but typically need a human to start them.</span></div>
+    <div class="learn"><span class="n">9</span><span><b>Autonomous agents</b> = high autonomy: plan, reason, and act independently over multiple steps — e.g., proactively watch inventory, flag issues, adjust orders.</span></div>
+    <div class="learn"><span class="n">10</span><span><b>Higher autonomy = more power = more risk.</b> An autonomous agent in a scenario with no guardrails mentioned is a red flag answer.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f5">
+  <h3>5 · The three-question sorter</h3>
+  <p class="cap">Ask these in order and any scenario classifies itself.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 150">
+    <defs><marker id="arrQ" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="12">
+      <rect x="14" y="26" width="220" height="58" rx="11" fill="#f6f9fc" stroke="#d9e4ee"/>
+      <text x="124" y="49" text-anchor="middle" font-weight="700" fill="#12293f">Only responds when asked?</text>
+      <text x="124" y="67" text-anchor="middle" fill="#5b6b7b" font-size="11">no tools, no initiative</text>
+      <rect x="270" y="26" width="220" height="58" rx="11" fill="#f6f9fc" stroke="#d9e4ee"/>
+      <text x="380" y="49" text-anchor="middle" font-weight="700" fill="#12293f">Uses tools / takes actions?</text>
+      <text x="380" y="67" text-anchor="middle" fill="#5b6b7b" font-size="11">bounded, human-initiated</text>
+      <rect x="526" y="26" width="220" height="58" rx="11" fill="#f6f9fc" stroke="#d9e4ee"/>
+      <text x="636" y="49" text-anchor="middle" font-weight="700" fill="#12293f">Works independently, in background?</text>
+      <text x="636" y="67" text-anchor="middle" fill="#5b6b7b" font-size="11">plans its own steps</text>
+      <line x1="234" y1="55" x2="268" y2="55" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrQ)"/>
+      <line x1="490" y1="55" x2="524" y2="55" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrQ)"/>
+      <text x="124" y="116" text-anchor="middle" fill="#0d5ca8" font-weight="800" font-size="12.5">→ prompt &amp; response</text>
+      <text x="380" y="116" text-anchor="middle" fill="#1d4ed8" font-weight="800" font-size="12.5">→ task agent</text>
+      <text x="636" y="116" text-anchor="middle" fill="#0b2a4a" font-weight="800" font-size="12.5">→ autonomous agent</text>
+    </g>
+  </svg>
+  </div>
+  <div class="hook">🧠 <b>Hook:</b> the classic exam scenario — "proactive supply-chain agent that monitors inventory and flags issues before they escalate" → <b>autonomous</b> (works without user input). Platform: Copilot Studio if simple, <b>Foundry if custom models or complex reasoning are mentioned</b>.</div>
+</section>
+
+<section class="fig" id="f6">
+  <h3>6 · Agent type × platform matrix</h3>
+  <p class="cap">Which platform builds which type — the pairing questions come straight from this table.</p>
+  <div class="matrix"><table>
+    <tr><th>Platform</th><th>Prompt &amp; response</th><th>Task</th><th>Autonomous</th><th>Note</th></tr>
+    <tr><td>Copilot Studio</td><td>✔</td><td>✔</td><td>✔</td><td>all three, no-code — rapid development without heavy customization</td></tr>
+    <tr><td>Azure AI Foundry</td><td>—</td><td>—</td><td>✔ enhanced</td><td>custom models, sophisticated reasoning, multi-agent orchestration</td></tr>
+    <tr><td>Dynamics 365</td><td>—</td><td>✔ prebuilt</td><td>✔ prebuilt</td><td>purpose-built for sales &amp; service domains, no coding</td></tr>
+    <tr><td>Microsoft 365 Copilot</td><td>✔ mostly</td><td>—</td><td>—</td><td>docs, email, meetings — extensible with Copilot Studio agents</td></tr>
+  </table></div>
+  <div class="learns">
+    <div class="learn"><span class="n">11</span><span><b>Copilot Studio supports all three agent types</b> — that's a favorite trick fact.</span></div>
+    <div class="learn"><span class="n">12</span><span><b>Foundry doesn't replace Studio for basic agents</b> — it <em>enhances autonomous</em> scenarios that need custom models or multi-agent coordination.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 2.3 · Copilot Studio core concepts</h2><span class="w">topics · tools · connectors · knowledge</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> Copilot Studio structures no-code agent building around four components — topics (which conversations it handles), tools/actions (what it can do), connectors (how it reaches data — 1,000+ prebuilt), and knowledge (what grounds its answers). A live demo builds a customer-support agent: the instructions panel acts as the guardrail/system prompt (the user can never see or override it), knowledge comes from an uploaded product catalog, and two Dataverse-backed workflows check order status and create support tickets. Exam answers that mention grounding + DLP are usually the keyed ones.</div>
+
+<section class="fig" id="f7">
+  <h3>7 · Four building blocks, one request cycle</h3>
+  <p class="cap">Each block answers one question about the agent — and a single support request touches all four in order.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 300">
+    <defs><marker id="arrS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="12.5">
+      <rect x="20" y="20" width="172" height="74" rx="12" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="106" y="45" text-anchor="middle" font-weight="700" fill="#0b2a4a">1 · Topics</text>
+      <text x="106" y="63" text-anchor="middle" fill="#5b6b7b" font-size="11">"what conversations does it handle?"</text>
+      <text x="106" y="79" text-anchor="middle" fill="#5b6b7b" font-size="11">triggers &amp; branching logic</text>
+      <rect x="208" y="20" width="172" height="74" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="294" y="45" text-anchor="middle" font-weight="700" fill="#92400e">2 · Tools / actions</text>
+      <text x="294" y="63" text-anchor="middle" fill="#5b6b7b" font-size="11">"what can it actually do?"</text>
+      <text x="294" y="79" text-anchor="middle" fill="#5b6b7b" font-size="11">send email · create record · call API</text>
+      <rect x="396" y="20" width="172" height="74" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="482" y="45" text-anchor="middle" font-weight="700" fill="#0e7490">3 · Connectors</text>
+      <text x="482" y="63" text-anchor="middle" fill="#5b6b7b" font-size="11">"how does it access data?"</text>
+      <text x="482" y="79" text-anchor="middle" fill="#5b6b7b" font-size="11">1,000+ bridges to business systems</text>
+      <rect x="584" y="20" width="156" height="74" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="662" y="45" text-anchor="middle" font-weight="700" fill="#166534">4 · Knowledge</text>
+      <text x="662" y="63" text-anchor="middle" fill="#5b6b7b" font-size="11">"what grounds its answers?"</text>
+      <text x="662" y="79" text-anchor="middle" fill="#5b6b7b" font-size="11">SharePoint · sites · documents</text>
+      <line x1="192" y1="57" x2="206" y2="57" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrS)"/>
+      <line x1="380" y1="57" x2="394" y2="57" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrS)"/>
+      <line x1="568" y1="57" x2="582" y2="57" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrS)"/>
+      <rect x="110" y="146" width="540" height="52" rx="11" fill="#f6f9fc" stroke="#d9e4ee"/>
+      <text x="380" y="168" text-anchor="middle" font-weight="700" fill="#12293f">The request cycle</text>
+      <text x="380" y="186" text-anchor="middle" fill="#5b6b7b" font-size="11.5">topic detects intent → action calls a tool → connector fetches/updates data → knowledge adds context → response</text>
+      <rect x="60" y="226" width="640" height="52" rx="11" fill="#fbfcfe" stroke="#e3e8ee"/>
+      <text x="380" y="248" text-anchor="middle" fill="#12293f" font-weight="700" font-size="12">Worked example — "escalate issue"</text>
+      <text x="380" y="266" text-anchor="middle" fill="#5b6b7b" font-size="11.5">escalation topic → action creates a case in Dynamics 365 → via the Dynamics connector → SharePoint knowledge supplies resolution history</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">13</span><span>The four blocks answer four questions: topics = <b>which conversations</b>, tools = <b>which actions</b>, connectors = <b>which data</b>, knowledge = <b>which grounding</b>.</span></div>
+    <div class="learn"><span class="n">14</span><span><b>Knowledge sources reduce hallucinations</b> — the agent answers from your data, not just its training.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f8">
+  <h3>8 · Built-in guardrails — and what the live demo taught</h3>
+  <p class="cap">Copilot Studio ships with governance features the exam loves to see in answers, and the demo showed where they live in practice.</p>
+  <div class="gcse">
+    <div><b><i style="background:#c62828">🚫</i>Content filters</b>block harmful outputs before they reach users.</div>
+    <div><b><i style="background:#b45309">🔒</i>DLP policies</b>control what data can flow where.</div>
+    <div><b><i style="background:#0e7490">🧪</i>Environment isolation</b>separate dev / test / production environments.</div>
+    <div><b><i style="background:#7c3aed">👤</i>Role-based access</b>RBAC over agents and environments.</div>
+  </div>
+  <div class="duo" style="margin-top:12px">
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">🎬 From the demo — the instructions panel IS the guardrail</h4>
+      <ul>
+        <li>The agent's <b>instructions</b> work like a <b>system prompt</b>: purpose, allowed and forbidden behavior.</li>
+        <li>Users <b>can't see or override it</b> — your defense against prompt-injection / hijacking.</li>
+        <li>Demo agent was told: no internet, no general knowledge — <b>only the uploaded product catalog</b>.</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">🎬 From the demo — tools are just workflows</h4>
+      <ul>
+        <li>Two Dataverse-backed workflows: <b>get order status</b> and <b>create support ticket</b> — the agent parses parameters from the user's message.</li>
+        <li>"Order 2004 was delivered but I didn't get it" → status lookup <b>plus</b> automatic ticket creation.</li>
+        <li>Activity traces show each step — debugging matters; AI-generated scaffolding needed manual rework, especially the database side.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">15</span><span>Four built-in protections: <b>content filters · DLP · environment isolation · RBAC</b>.</span></div>
+    <div class="learn"><span class="n">16</span><span>Exam tip: answers pairing <b>knowledge grounding + DLP</b> are the "safer, smarter choice" — the exam rewards governance thinking.</span></div>
+    <div class="learn"><span class="n">17</span><span>Use Copilot Studio when <b>speed and simplicity</b> are the priorities — don't overcomplicate what it can already handle.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 2.4 · Azure AI Foundry</h2><span class="w">custom models &amp; enterprise scale</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> Foundry is Microsoft's centralized platform for model discovery, hosting, and customization — a catalog of ~11,000 models (Azure OpenAI, Anthropic Claude, Meta Llama, Mistral and more), fine-tuning tools, and an Agent Service that hosts custom agents (built with frameworks like LangChain or Semantic Kernel) with scaling, observability, and cost tracking built in. The demo walks the model catalog: filtering by capability, comparing models, and finding which ones expose the fine-tune button.</div>
+
+<section class="fig" id="f9">
+  <h3>9 · What Foundry is — and the four trigger conditions</h3>
+  <p class="cap">"Model headquarters": when a scenario contains one of these four signals, the answer leans Foundry.</p>
+  <div class="tiles">
+    <div class="tile"><b>~11,000</b><span>models in the catalog — OpenAI, Claude, Llama, Mistral… no vendor lock-in</span></div>
+    <div class="tile"><b>🎛️</b><span><b>Fine-tuning tools</b> to adapt models to your domain</span></div>
+    <div class="tile"><b>☁️</b><span><b>Agent Service</b> — managed runtime, scaling, telemetry, cost tracking</span></div>
+    <div class="tile"><b>🔌</b><span>agents exposed via <b>MCP</b> to other systems</span></div>
+  </div>
+  <div class="gcse" style="margin-top:12px">
+    <div><b><i style="background:#7c3aed">🎓</i>Domain accuracy gaps</b>off-the-shelf models fumble your financial jargon, medical terminology, legal language.</div>
+    <div><b><i style="background:#0e7490">🔀</i>Dynamic model routing</b>cheap models for simple queries, premium for complex — cost optimization at scale.</div>
+    <div><b><i style="background:#b45309">🕸️</i>Multi-agent orchestration</b>agents coordinating with each other, plus complex custom tool integration.</div>
+    <div><b><i style="background:#166534">🛡️</i>Strict privacy / compliance</b>full control over data location and model deployment.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">18</span><span><b>Foundry = custom models + agent hosting at enterprise scale</b> — trigger words: fine-tuning, dynamic routing, complex workflows, high scale.</span></div>
+    <div class="learn"><span class="n">19</span><span>Agent Service means <b>no VM management</b> — deploy agents, the platform handles infrastructure, observability, and cost tracking.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f10">
+  <h3>10 · Copilot Studio vs Azure AI Foundry — the head-to-head</h3>
+  <p class="cap">The most-tested contrast in the unit. Read the scenario's emphasis; it names the winner.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid #0f6cbd">
+      <h4 style="color:#0d5ca8">⚡ Copilot Studio — speed &amp; accessibility</h4>
+      <ul>
+        <li>No-code, hours-to-deploy</li>
+        <li>Built-in models are enough</li>
+        <li>All three agent types, quick iterations</li>
+        <li>Scenario emphasis: <b>speed, simplicity, business users</b></li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid #7c3aed">
+      <h4 style="color:#6d28d9">🏭 Azure AI Foundry — customization, scale &amp; control</h4>
+      <ul>
+        <li>Fine-tuned / custom / domain models</li>
+        <li>Multi-agent orchestration infrastructure</li>
+        <li>Full control for privacy &amp; compliance</li>
+        <li>Scenario emphasis: <b>accuracy, compliance, scale</b></li>
+      </ul>
+    </div>
+  </div>
+  <div class="hook">🧠 <b>Hook:</b> "Is it <b>speed</b>? Studio. Is it <b>accuracy, compliance, or scale</b>? Foundry." — and simpler is better when it meets the requirements: <b>don't over-engineer</b>.</div>
+  <div class="learns">
+    <div class="learn"><span class="n">20</span><span>Foundry is the answer <b>when off-the-shelf isn't enough</b> — that's the core decision point of the whole unit.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 2.5 · MCP &amp; Agent2Agent</h2><span class="w">the open protocols</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> two open standards prevent vendor lock-in and make enterprise agentic systems possible. MCP (Model Context Protocol, originated by Anthropic, adopted by Microsoft) is how agents securely reach tools, APIs, and context through a governed intermediary server instead of hard-coded endpoints. A2A (Agent2Agent, originated by Google, supported by Microsoft) is how agents communicate, delegate, and collaborate across platforms. Different problems, different protocols — and complex exam answers usually need both.</div>
+
+<section class="fig" id="f11">
+  <h3>11 · MCP — the governed doorway to tools</h3>
+  <p class="cap">Instead of fragile hard-coded API calls, every tool request goes through an MCP server you control, log, and reuse.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 250">
+    <defs><marker id="arrM" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="12.5">
+      <rect x="30" y="30" width="150" height="50" rx="11" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="105" y="60" text-anchor="middle" font-weight="700" fill="#0b2a4a">Studio agent</text>
+      <rect x="30" y="100" width="150" height="50" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="105" y="130" text-anchor="middle" font-weight="700" fill="#5b21b6">Foundry agent</text>
+      <rect x="30" y="170" width="150" height="50" rx="11" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="105" y="200" text-anchor="middle" font-weight="700" fill="#334155">Custom-code agent</text>
+      <rect x="300" y="90" width="180" height="76" rx="13" fill="#0b2a4a"/>
+      <text x="390" y="121" text-anchor="middle" fill="#fff" font-weight="700" font-size="14">MCP server</text>
+      <text x="390" y="141" text-anchor="middle" fill="#c9d8ea" font-size="11">secure intermediary · governed ·</text>
+      <text x="390" y="155" text-anchor="middle" fill="#c9d8ea" font-size="11">every call logged &amp; traceable</text>
+      <rect x="590" y="30" width="140" height="50" rx="11" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="660" y="60" text-anchor="middle" font-weight="700" fill="#92400e">APIs &amp; tools</text>
+      <rect x="590" y="100" width="140" height="50" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="660" y="130" text-anchor="middle" font-weight="700" fill="#0e7490">Private database</text>
+      <rect x="590" y="170" width="140" height="50" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="660" y="200" text-anchor="middle" font-weight="700" fill="#166534">Context sources</text>
+      <line x1="180" y1="55" x2="298" y2="112" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrM)"/>
+      <line x1="180" y1="125" x2="298" y2="127" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrM)"/>
+      <line x1="180" y1="195" x2="298" y2="144" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrM)"/>
+      <line x1="480" y1="112" x2="588" y2="58" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrM)"/>
+      <line x1="480" y1="127" x2="588" y2="125" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrM)"/>
+      <line x1="480" y1="144" x2="588" y2="192" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrM)"/>
+      <text x="380" y="240" text-anchor="middle" fill="#5b6b7b" font-size="12">build your own with <tspan font-weight="700" fill="#1a2733">Azure Functions</tspan> · share one server across many agents</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">21</span><span><b>MCP is an open industry standard</b> — originally developed by Anthropic, adopted by Microsoft across its AI platforms. No vendor lock-in.</span></div>
+    <div class="learn"><span class="n">22</span><span>Four wins over direct API calls: <b>secure central control · auditability · reusability · interoperability</b> (works across Studio, Foundry, custom code).</span></div>
+    <div class="learn"><span class="n">23</span><span>Exam pattern: "Foundry agent needs secure access to a private database?" → <b>register an MCP server</b> that owns the connection, credentials, and access control.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f12">
+  <h3>12 · A2A — agents delegating to agents</h3>
+  <p class="cap">MCP connects agents to tools; A2A connects agents to each other — across platforms.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 190">
+    <defs><marker id="arrA2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="12.5">
+      <rect x="40" y="40" width="180" height="70" rx="12" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="130" y="66" text-anchor="middle" font-weight="700" fill="#0b2a4a">Research agent</text>
+      <text x="130" y="86" text-anchor="middle" fill="#5b6b7b" font-size="11.5">finds relevant documents</text>
+      <rect x="290" y="40" width="180" height="70" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="380" y="66" text-anchor="middle" font-weight="700" fill="#5b21b6">Summarizer agent</text>
+      <text x="380" y="86" text-anchor="middle" fill="#5b6b7b" font-size="11.5">distills the key points</text>
+      <rect x="540" y="40" width="180" height="70" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="630" y="66" text-anchor="middle" font-weight="700" fill="#166534">Approver agent</text>
+      <text x="630" y="86" text-anchor="middle" fill="#5b6b7b" font-size="11.5">validates before surfacing</text>
+      <line x1="220" y1="75" x2="288" y2="75" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrA2)"/>
+      <line x1="470" y1="75" x2="538" y2="75" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrA2)"/>
+      <text x="254" y="65" text-anchor="middle" fill="#0d5ca8" font-size="10.5" font-weight="700">A2A</text>
+      <text x="504" y="65" text-anchor="middle" fill="#0d5ca8" font-size="10.5" font-weight="700">A2A</text>
+      <text x="380" y="145" text-anchor="middle" fill="#5b6b7b" font-size="12">one plans · one executes · one validates — and they can live on <tspan font-weight="700" fill="#1a2733">different platforms</tspan></text>
+      <text x="380" y="168" text-anchor="middle" fill="#5b6b7b" font-size="12">a Copilot Studio agent can delegate to a Foundry agent, hand off to a more capable agent, or ask for clarification</text>
+    </g>
+  </svg>
+  </div>
+  <div class="matrix"><table>
+    <tr><th></th><th>MCP</th><th>A2A</th></tr>
+    <tr><td>Solves</td><td>agent <b>→ tool</b> communication</td><td>agent <b>→ agent</b> communication</td></tr>
+    <tr><td>Origin</td><td>Anthropic → adopted by Microsoft</td><td>Google → supported by Microsoft</td></tr>
+    <tr><td>Gives you</td><td>secure, auditable, reusable tool access</td><td>delegation, collaboration, cross-platform workflows</td></tr>
+  </table></div>
+  <div class="learns">
+    <div class="learn"><span class="n">24</span><span><b>"Orchestrate multiple agents securely" → A2A + MCP together</b> — A2A for the coordination, MCP for the tool calls. Neither alone covers a complex scenario.</span></div>
+    <div class="learn"><span class="n">25</span><span>Using both standards in an answer <b>signals enterprise-grade design</b> — governance, scalability, interoperability.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 2.6 · When to build custom models</h2><span class="w">build vs buy vs extend</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> the pragmatic hierarchy: off-the-shelf model + prompt engineering + RAG solves most business problems — escalate to fine-tuning only when that provably fails for a specific reason (domain accuracy, privacy control, cost at scale, genuinely unique data patterns). When custom is justified, Foundry's six-step pipeline runs from base-model selection through rigorous evaluation to MCP-exposed deployment. The exam punishes answers that jump straight to custom; its mantra is "start simple, escalate thoughtfully, with strong governance and evaluation."</div>
+
+<section class="fig" id="f13">
+  <h3>13 · The escalation ladder — and the four legitimate reasons to climb it</h3>
+  <p class="cap">Stay on step one until a named requirement forces you up.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 200">
+    <g font-size="12.5">
+      <rect x="40" y="120" width="320" height="58" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="200" y="144" text-anchor="middle" font-weight="700" fill="#166534">Start: off-the-shelf + prompts + RAG</text>
+      <text x="200" y="162" text-anchor="middle" fill="#3c6947" font-size="11.5">works for most business problems — done</text>
+      <rect x="420" y="30" width="300" height="58" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="570" y="54" text-anchor="middle" font-weight="700" fill="#5b21b6">Escalate: fine-tune in Foundry</text>
+      <text x="570" y="72" text-anchor="middle" fill="#5b6b7b" font-size="11.5">only when the simple approach demonstrably fails</text>
+      <path d="M362 132 L 420 78" fill="none" stroke="#8ea3b8" stroke-width="2.5" stroke-dasharray="6 4"/>
+      <text x="368" y="94" fill="#c62828" font-weight="700" font-size="11.5">only with a named reason ↑</text>
+    </g>
+  </svg>
+  </div>
+  <div class="gcse">
+    <div><b><i style="background:#7c3aed">⚖️</i>Domain accuracy critical</b>legal, financial, medical vocabulary that generic models consistently get wrong.</div>
+    <div><b><i style="background:#166534">🔐</i>Privacy / compliance control</b>model stays on your infrastructure, your audit trails, no data leaving.</div>
+    <div><b><i style="background:#0e7490">💰</i>Cost at scale</b>thousands of queries/day — a small fine-tuned model can beat per-token premium pricing (if the math works).</div>
+    <div><b><i style="background:#b45309">🧬</i>Proprietary patterns</b>internal jargon and business logic no public model saw — <b>genuinely rare</b>.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">26</span><span><b>The exam punishes rushing to custom.</b> "Custom sounds impressive" is never a reason; a failed simpler approach is.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f14">
+  <h3>14 · The six-step custom-model pipeline</h3>
+  <p class="cap">Foundry's fine-tuning workflow — with evaluation as the step you may never skip.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 168">
+    <defs><marker id="arrF" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="11.5" text-anchor="middle">
+      <rect x="14" y="30" width="108" height="60" rx="10" fill="#f6f9fc" stroke="#d9e4ee"/>
+      <text x="68" y="53" font-weight="700" fill="#12293f">1 · Base model</text><text x="68" y="70" fill="#5b6b7b" font-size="10.5">from the catalog —</text><text x="68" y="83" fill="#5b6b7b" font-size="10.5">never from scratch</text>
+      <rect x="138" y="30" width="108" height="60" rx="10" fill="#f6f9fc" stroke="#d9e4ee"/>
+      <text x="192" y="53" font-weight="700" fill="#12293f">2 · Prep data</text><text x="192" y="70" fill="#5b6b7b" font-size="10.5">clean · label · format</text><text x="192" y="83" fill="#5b6b7b" font-size="10.5">most of the work lives here</text>
+      <rect x="262" y="30" width="108" height="60" rx="10" fill="#f6f9fc" stroke="#d9e4ee"/>
+      <text x="316" y="53" font-weight="700" fill="#12293f">3 · Fine-tune</text><text x="316" y="70" fill="#5b6b7b" font-size="10.5">supervised FT ·</text><text x="316" y="83" fill="#5b6b7b" font-size="10.5">LoRA for efficiency</text>
+      <rect x="386" y="26" width="108" height="68" rx="10" fill="#fdecea" stroke="#f2c7c3"/>
+      <text x="440" y="49" font-weight="800" fill="#c62828">4 · EVALUATE</text><text x="440" y="66" fill="#a94442" font-size="10.5">accuracy · safety · bias ·</text><text x="440" y="79" fill="#a94442" font-size="10.5">hallucination rate — rigorously</text>
+      <rect x="510" y="30" width="108" height="60" rx="10" fill="#f6f9fc" stroke="#d9e4ee"/>
+      <text x="564" y="53" font-weight="700" fill="#12293f">5 · Deploy</text><text x="564" y="70" fill="#5b6b7b" font-size="10.5">Agent Service —</text><text x="564" y="83" fill="#5b6b7b" font-size="10.5">scales automatically</text>
+      <rect x="634" y="30" width="108" height="60" rx="10" fill="#f6f9fc" stroke="#d9e4ee"/>
+      <text x="688" y="53" font-weight="700" fill="#12293f">6 · Expose via MCP</text><text x="688" y="70" fill="#5b6b7b" font-size="10.5">other agents call it</text><text x="688" y="83" fill="#5b6b7b" font-size="10.5">securely, like any tool</text>
+      <line x1="122" y1="60" x2="136" y2="60" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrF)"/>
+      <line x1="246" y1="60" x2="260" y2="60" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrF)"/>
+      <line x1="370" y1="60" x2="384" y2="60" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrF)"/>
+      <line x1="494" y1="60" x2="508" y2="60" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrF)"/>
+      <line x1="618" y1="60" x2="632" y2="60" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrF)"/>
+      <text x="380" y="130" fill="#5b6b7b" font-size="12">advanced options: <tspan font-weight="700" fill="#1a2733">dynamic routing</tspan> (cheap ↔ premium per query) · multi-agent orchestration · built-in telemetry tracking usage, cost &amp; hallucination rates</text>
+      <text x="380" y="154" fill="#5b6b7b" font-size="12">"garbage in, garbage out" applies <tspan font-weight="700" fill="#c62828">double</tspan> for fine-tuning</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">27</span><span><b>Evaluate first, deploy second, monitor continuously</b> — deploying without evaluation is <em>always</em> a wrong answer.</span></div>
+    <div class="learn"><span class="n">28</span><span>Justify custom with <b>business trade-offs</b> — cost, governance, performance — never with novelty.</span></div>
+  </div>
+  <div class="hook">🧠 <b>Hook — the exam mantra:</b> "<b>start simple, escalate thoughtfully, with strong governance and evaluation</b>." If an option jumps straight to custom models without trying prompts + RAG first, it's almost always wrong.</div>
+</section>
+
+<div class="pager">
+  <a href="course-1-foundations.html"><span>Previous unit</span><b>← 1 · Foundations</b></a>
+  <a class="next" href="course-3-plan.html"><span>Next unit</span><b>3 · Plan Solutions →</b></a>
+</div>
+
+</div>
+<footer class="src">Companion notes to Unit 2 (Eps 2.1–2.6) of the <a href="https://www.youtube.com/playlist?list=PLXd94bZTzZ-SGw8yMHD44d9xKgMKTZUVF" target="_blank" rel="noopener">Microsoft AB-100 Agentic AI Exam Prep</a> video course — summaries and visuals are original study notes; watch the episodes for the full narration.</footer>
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual — The Agentic AI Adoption Maturity Model: 5 Levels × 5 Pillars</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --dark:#0b2a4a; --soft:#f5f3ff;
+  --pg:#6d28d9; --pg-ink:#5b21b6; --pg-soft:#f5f3ff; --pg-line:#ddd6fe;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+  --l100:#94a3b8; --l200:#0ea5e9; --l300:#0f766e; --l400:#7c3aed; --l500:#d97706;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#6d28d9 170%);color:#fff;padding:26px 20px 22px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:800px;margin-left:auto;margin-right:auto}
+.hero-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hero-stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:7px 16px;font-size:12px;color:#ede9fe}
+.hero-stat b{display:block;font-size:16px;color:#fff}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--pg-ink);border-bottom-color:var(--pg)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:120px;letter-spacing:.03em;color:var(--pg-ink)}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--pg);color:var(--pg-ink)}
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--pg)}
+.ghead h2{font-size:21px;color:var(--pg-ink)}
+.ghead span.w{font-size:12.5px;font-weight:700;background:var(--pg-soft);color:var(--pg-ink);border-radius:8px;padding:3px 12px}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+.learns{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:8px;margin-top:14px}
+.learn{display:flex;gap:10px;align-items:flex-start;font-size:13.1px;color:#33475c;background:#fbfcfe;border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.learn .n{flex:0 0 auto;min-width:23px;height:23px;border-radius:50%;background:var(--pg);color:#fff;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.learn b{color:#12293f}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0 0 0 18px;font-size:13.4px;color:#33475c}
+.panel li{margin:5px 0}
+.panel li b{color:#12293f}
+.panel.good{background:var(--good-soft);border-color:#bfe3c8}
+.panel.good h4{color:var(--good)}
+.panel.bad{background:var(--bad-soft);border-color:#f3c1bd}
+.panel.bad h4{color:var(--bad)}
+.gcse{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.gcse div{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfe;font-size:13.2px;color:var(--muted)}
+.gcse b{display:flex;align-items:center;gap:9px;font-size:14.5px;color:#12293f;margin-bottom:6px}
+.gcse b i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;color:#fff;font-weight:800;font-size:16px;flex:0 0 auto}
+.lvlcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.lvlcards div{border:1px solid var(--line);border-top:4px solid var(--lv,#94a3b8);border-radius:12px;padding:13px 15px;background:#fbfcfe;font-size:12.9px;color:var(--muted)}
+.lvlcards b{display:block;font-size:14.3px;color:#12293f;margin-bottom:2px}
+.lvlcards span.tell{display:block;margin-top:7px;font-size:12.2px;font-style:italic;color:#475569;border-left:3px solid var(--lv,#94a3b8);padding-left:8px}
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:560px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td:first-child{font-weight:700;color:#12293f;white-space:nowrap}
+.matrix tr:last-child td{border-bottom:none}
+.matrix.mm{font-size:12.4px}
+.matrix.mm table{min-width:860px;font-size:12.4px}
+.matrix.mm td{padding:8px 10px}
+.matrix.mm td:first-child{border-left:4px solid var(--lv,#94a3b8);white-space:normal;min-width:96px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.chips span{border:1px solid var(--pg-line);background:var(--pg-soft);color:var(--pg-ink);border-radius:999px;padding:5px 13px;font-size:12.8px;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+.pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;text-decoration:none;color:#33475c;font-size:13px}
+.pager a:hover{border-color:var(--pg)}
+.pager a b{display:block;color:var(--pg-ink);font-size:14.5px;margin-top:2px}
+.pager a.next{text-align:right}
+@media print{nav.bar,.toc,.pager{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Visual Learn — Agentic AI Adoption Maturity Model</div>
+  <h1>From Pilots to Agent-First — The Agentic AI Adoption Maturity Model</h1>
+  <p class="sub">Microsoft's framework for scaling agents responsibly: five maturity levels (100 Initial → 500 Efficient) assessed across five capability pillars — with a seven-step method, a radar-chart profile, and the progression rules that keep adoption from stalling in pilot purgatory.</p>
+  <div class="hero-stats">
+    <span class="hero-stat"><b>5</b>maturity levels</span>
+    <span class="hero-stat"><b>5</b>capability pillars</span>
+    <span class="hero-stat"><b>7</b>step assessment method</span>
+    <span class="hero-stat"><b>41</b>numbered learn items</span>
+  </div>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+  <a href="visual-adoption-maturity.html" class="here">📶 Maturity Model</a>
+  <a href="visual-plan-2-strategy.html">🧭 CAF &amp; Strategy</a>
+  <a href="AB-100-Study-Guide-Modules/23-adoption.html">📚 Adoption module</a>
+<a href="course-3-plan.html">🎬 Course: Plan</a></nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl">Why &amp; lineage</span><a href="#s1">Pilot purgatory</a><a href="#s2">CMM roots &amp; neighbors</a></div>
+  <div class="row"><span class="gl">The model</span><a href="#s3">Five-level staircase</a><a href="#s4">Level identity cards</a><a href="#s5">Five pillars</a><a href="#s6">5×5 quick-reference matrix</a></div>
+  <div class="row"><span class="gl">Using it</span><a href="#s7">Seven-step method</a><a href="#s8">Radar profile</a><a href="#s9">Do / don't rules</a></div>
+  <div class="row"><span class="gl">Wrap-up</span><a href="#s10">Audience &amp; exam tie-in</a><a href="#s11">Trigger wall</a></div>
+</div>
+<div class="ghead"><div class="gbar"></div><h2>A · Why a maturity model at all</h2><span class="w">the scaling problem</span></div>
+
+<section class="fig" id="s1">
+  <h3>1 · Pilot purgatory — why early wins stall</h3>
+  <p class="cap">Many AI initiatives succeed as pilots but never become an enterprise operating model. The model exists to answer four questions every organization eventually asks.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 300">
+    <defs><marker id="ar1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6b7b"/></marker></defs>
+    <text x="150" y="28" text-anchor="middle" font-size="13.5" font-weight="700" fill="#334155">Experimentation</text>
+    <rect x="35" y="44" width="105" height="42" rx="9" fill="#f1f5f9" stroke="#cbd5e1"/><text x="87" y="62" text-anchor="middle" font-size="11.5" fill="#475569">Pilot A</text><text x="87" y="77" text-anchor="middle" font-size="10.5" fill="#94a3b8">one team, one hero</text>
+    <rect x="160" y="44" width="105" height="42" rx="9" fill="#f1f5f9" stroke="#cbd5e1"/><text x="212" y="62" text-anchor="middle" font-size="11.5" fill="#475569">Pilot B</text><text x="212" y="77" text-anchor="middle" font-size="10.5" fill="#94a3b8">siloed use case</text>
+    <rect x="35" y="98" width="105" height="42" rx="9" fill="#f1f5f9" stroke="#cbd5e1"/><text x="87" y="116" text-anchor="middle" font-size="11.5" fill="#475569">Pilot C</text><text x="87" y="131" text-anchor="middle" font-size="10.5" fill="#94a3b8">no measurement</text>
+    <rect x="160" y="98" width="105" height="42" rx="9" fill="#f1f5f9" stroke="#cbd5e1"/><text x="212" y="116" text-anchor="middle" font-size="11.5" fill="#475569">Pilot D</text><text x="212" y="131" text-anchor="middle" font-size="10.5" fill="#94a3b8">ungoverned</text>
+    <rect x="300" y="40" width="16" height="110" rx="4" fill="#c62828" opacity=".82"/>
+    <text x="308" y="176" text-anchor="middle" font-size="11.5" font-weight="700" fill="#c62828">the scale wall</text>
+    <line x1="270" y1="95" x2="296" y2="95" stroke="#5b6b7b" stroke-width="2.5" marker-end="url(#ar1)"/>
+    <line x1="320" y1="95" x2="356" y2="95" stroke="#5b6b7b" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#ar1)"/>
+    <rect x="360" y="40" width="368" height="112" rx="12" fill="#f5f3ff" stroke="#ddd6fe"/>
+    <text x="544" y="63" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5b21b6">Enterprise-scale, agent-first operation</text>
+    <text x="544" y="84" text-anchor="middle" font-size="11.5" fill="#5b6b7b">secure · measurable · embedded in how work gets done</text>
+    <text x="544" y="102" text-anchor="middle" font-size="11.5" fill="#5b6b7b">autonomous decision-making · multistep orchestration</text>
+    <text x="544" y="120" text-anchor="middle" font-size="11.5" fill="#5b6b7b">human–agent collaboration → a new operating model</text>
+    <text x="544" y="141" text-anchor="middle" font-size="11" font-weight="700" fill="#6d28d9">the maturity model is the map across the wall</text>
+    <rect x="35" y="196" width="693" height="88" rx="12" fill="#fbfcfe" stroke="#e3e8ee"/>
+    <text x="55" y="219" font-size="12.3" font-weight="700" fill="#12293f">The four questions the model answers</text>
+    <text x="55" y="241" font-size="11.8" fill="#33475c">1 · How do we move from experimentation to enterprise-scale adoption?</text>
+    <text x="55" y="259" font-size="11.8" fill="#33475c">2 · How do we balance innovation with security, governance, and trust?</text>
+    <text x="400" y="241" font-size="11.8" fill="#33475c">3 · How do we ensure agents deliver measurable value over time?</text>
+    <text x="400" y="259" font-size="11.8" fill="#33475c">4 · What capabilities do we need before increasing autonomy?</text>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">1</span><span>Agentic AI adds <b>autonomous decision-making, multistep orchestration, and human–agent collaboration</b> — which is why it needs a <b>new enterprise operating model</b>, not just new tools.</span></div>
+    <div class="learn"><span class="n">2</span><span>The recurring failure mode: <b>pilots succeed, scale stalls</b> — initiatives stay isolated, siloed, and dependent on individuals.</span></div>
+    <div class="learn"><span class="n">3</span><span>The model is deliberately <b>holistic, not technology-only</b>: strategy, process transformation, governance, value realization, architecture, operations, organizational readiness, and responsible AI.</span></div>
+    <div class="learn"><span class="n">4</span><span>It is designed to be <b>actionable</b> — align leaders, architects, and delivery teams on priorities and focus investment where it matters most.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s2">
+  <h3>2 · Lineage and neighbors — where this model sits</h3>
+  <p class="cap">It borrows a proven shape and plugs into the rest of Microsoft's adoption guidance.</p>
+  <div class="gcse">
+    <div><b><i style="background:#334155">CMM</i>Built on the Capability Maturity Model</b>The classic staged model from software/IT process improvement — same idea: assess observable capability, then mature it deliberately.</div>
+    <div><b><i style="background:#6d28d9">ARF</i>Aligns with the Agent Readiness Framework</b>ARF defines the foundational capabilities required to adopt agents at scale; the maturity model measures how far along each one you are.</div>
+    <div><b><i style="background:#0f766e">PE</i>Sibling: Platform Engineering Capability Model</b>Microsoft applies the same CMM pattern to platform engineering — recognizing the shape earns easy exam points.</div>
+    <div><b><i style="background:#0891b2">🛠</i>Scope: every agent-building surface</b>Covers Copilot experiences and agents built with Agent Builder in Microsoft 365 Copilot, Copilot Studio, and Microsoft Foundry — they participate in workflows and trigger actions, not just answer questions.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">5</span><span>Based on the <b>Capability Maturity Model (CMM)</b> — a widely used development model for assessing and enhancing organizational maturity.</span></div>
+    <div class="learn"><span class="n">6</span><span>Aligns with the <b>Agent Readiness Framework</b>; a free <b>agent readiness assessment</b> exists online to score yourself.</span></div>
+    <div class="learn"><span class="n">7</span><span>As adoption grows you must evolve <b>multiple dimensions at once</b> — strategy/UX, process + value measurement, governance/security/ops, technology + data access, culture + skills.</span></div>
+    <div class="learn"><span class="n">8</span><span><b>Responsible AI and trust are embedded across all dimensions</b>, not a sixth pillar on the side.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>B · The model itself</h2><span class="w">5 levels × 5 pillars</span></div>
+
+<section class="fig" id="s3">
+  <h3>3 · The five maturity levels — 100 → 500 staircase</h3>
+  <p class="cap">Each capability pillar is graded on the same five-step ladder, from early experimentation to optimized enterprise-scale operation.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 330">
+    <defs><marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#6d28d9"/></marker></defs>
+    <line x1="40" y1="60" x2="640" y2="18" stroke="#6d28d9" stroke-width="2.2" stroke-dasharray="6 5" marker-end="url(#ar2)"/>
+    <text x="340" y="26" text-anchor="middle" font-size="11.8" font-weight="700" fill="#6d28d9">repeatability · governance · autonomy all increase ↗</text>
+    <g text-anchor="middle">
+      <rect x="24" y="238" width="134" height="66" rx="10" fill="#f1f5f9" stroke="#94a3b8"/>
+      <text x="91" y="260" font-size="13.5" font-weight="800" fill="#475569">100 · Initial</text>
+      <text x="91" y="278" font-size="10.8" fill="#5b6b7b">unplanned, experimental</text>
+      <text x="91" y="292" font-size="10.8" fill="#5b6b7b">siloed · hero-dependent</text>
+      <rect x="169" y="196" width="134" height="108" rx="10" fill="#e0f2fe" stroke="#0ea5e9"/>
+      <text x="236" y="218" font-size="13.5" font-weight="800" fill="#0369a1">200 · Repeatable</text>
+      <text x="236" y="236" font-size="10.8" fill="#5b6b7b">early patterns emerge</text>
+      <text x="236" y="250" font-size="10.8" fill="#5b6b7b">informal · uneven</text>
+      <text x="236" y="264" font-size="10.8" fill="#5b6b7b">across the org</text>
+      <rect x="314" y="154" width="134" height="150" rx="10" fill="#f0fdfa" stroke="#0f766e"/>
+      <text x="381" y="176" font-size="13.5" font-weight="800" fill="#115e59">300 · Defined</text>
+      <text x="381" y="194" font-size="10.8" fill="#5b6b7b">formally defined,</text>
+      <text x="381" y="208" font-size="10.8" fill="#5b6b7b">documented, governed</text>
+      <text x="381" y="222" font-size="10.8" fill="#5b6b7b">standards + operating models</text>
+      <text x="381" y="236" font-size="10.8" fill="#5b6b7b">aligned to business goals</text>
+      <rect x="459" y="112" width="134" height="192" rx="10" fill="#f5f3ff" stroke="#7c3aed"/>
+      <text x="526" y="134" font-size="13.5" font-weight="800" fill="#5b21b6">400 · Capable</text>
+      <text x="526" y="152" font-size="10.8" fill="#5b6b7b">agents embedded in</text>
+      <text x="526" y="166" font-size="10.8" fill="#5b6b7b">enterprise planning &amp; ops</text>
+      <text x="526" y="180" font-size="10.8" fill="#5b6b7b">process + governance + tech</text>
+      <text x="526" y="194" font-size="10.8" fill="#5b6b7b">support scaling &amp;</text>
+      <text x="526" y="208" font-size="10.8" fill="#5b6b7b">cross-team collaboration</text>
+      <rect x="604" y="70" width="134" height="234" rx="10" fill="#fffbeb" stroke="#d97706"/>
+      <text x="671" y="92" font-size="13.5" font-weight="800" fill="#92400e">500 · Efficient</text>
+      <text x="671" y="110" font-size="10.8" fill="#5b6b7b">agent-first enterprise</text>
+      <text x="671" y="124" font-size="10.8" fill="#5b6b7b">optimized, continuously</text>
+      <text x="671" y="138" font-size="10.8" fill="#5b6b7b">improved · strong</text>
+      <text x="671" y="152" font-size="10.8" fill="#5b6b7b">leadership, culture</text>
+      <text x="671" y="166" font-size="10.8" fill="#5b6b7b">and trust</text>
+    </g>
+    <line x1="20" y1="312" x2="744" y2="312" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="382" y="328" text-anchor="middle" font-size="10.8" fill="#93a3b3">CMM-style numbering (Microsoft 100–500 scale) — each pillar climbs this ladder independently</text>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">9</span><span>Recite the ladder: <b>100 Initial → 200 Repeatable → 300 Defined → 400 Capable → 500 Efficient</b>.</span></div>
+    <div class="learn"><span class="n">10</span><span><b>100 Initial</b>: unplanned, experimental; capabilities are inconsistent, siloed, and dependent on <b>individuals rather than repeatable practices</b>.</span></div>
+    <div class="learn"><span class="n">11</span><span><b>200 Repeatable</b>: teams can repeat certain activities, but approaches remain <b>informal and uneven</b> across the organization.</span></div>
+    <div class="learn"><span class="n">12</span><span><b>300 Defined</b> is the pivot: capabilities become <b>formally defined, documented, and supported by governance, standards, and operating models</b> — and initiatives align to business goals.</span></div>
+    <div class="learn"><span class="n">13</span><span><b>400 Capable</b>: agents sit inside <b>enterprise planning and operations</b>; process, governance, and technology support scaling and cross-team work. <b>500 Efficient</b>: the <b>agent-first enterprise</b>, continuously improving on leadership, culture, and trust.</span></div>
+  </div>
+  <div class="hook"><b>Don't confuse the ladders:</b> this model's <b>Levels 100–500</b> grade <i>capability pillars</i> for agent adoption. The CAF Plan phase's <b>AI maturity Levels 1–4</b> (L1 ready-made Copilots … L4 custom model training) grade <i>what an org can build</i>. Same word "maturity," two different exam answers.</div>
+</section>
+
+<section class="fig" id="s4">
+  <h3>4 · Level identity cards — the tell-tale phrases</h3>
+  <p class="cap">Exam items quote a symptom and expect the level. Match the italics to the number.</p>
+  <div class="lvlcards">
+    <div style="--lv:#94a3b8"><b>100 · Initial</b>No strategy, sponsor, or governance; human-only workflows; fragmented tooling.<span class="tell">"depends on a few individuals" · "sporadic, tactical pilots"</span></div>
+    <div style="--lv:#0ea5e9"><b>200 · Repeatable</b>Early policies and vision forming; pilots improve single workflow steps; basic dev/test/prod separation.<span class="tell">"informal and uneven" · "no end-to-end redesign yet"</span></div>
+    <div style="--lv:#0f766e"><b>300 · Defined</b>Formal strategy with an executive sponsor; documented governance; standardized architecture; formal enablement.<span class="tell">"documented, standardized, KPIs tracked"</span></div>
+    <div style="--lv:#7c3aed"><b>400 · Capable</b>AI in enterprise planning; cross-system orchestration; proactive automated governance; champions embedded.<span class="tell">"embedded in planning" · "optimization loops"</span></div>
+    <div style="--lv:#d97706"><b>500 · Efficient</b>AI-first culture; adaptive autonomous processes; predictive risk management; self-sustaining community.<span class="tell">"agent-first enterprise" · "always-on improvement"</span></div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">14</span><span>The <b>200 → 300 jump</b> is formalization: informal habits become <b>documented standards, governance, and operating models</b>.</span></div>
+    <div class="learn"><span class="n">15</span><span>The <b>300 → 400 jump</b> is integration: from having standards to <b>agents embedded in enterprise planning and operations</b> with automation and feedback loops.</span></div>
+    <div class="learn"><span class="n">16</span><span>The <b>400 → 500 jump</b> is culture: optimization becomes <b>continuous and predictive</b>, and AI-first thinking is the enterprise default.</span></div>
+  </div>
+</section>
+<section class="fig" id="s5">
+  <h3>5 · The five capability pillars — what gets graded</h3>
+  <p class="cap">Maturity is assessed per pillar. Responsible AI isn't a pillar — it's the slab everything stands on.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 320">
+    <polygon points="60,74 700,74 660,26 100,26" fill="#0b2a4a"/>
+    <text x="380" y="56" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">Agentic AI at enterprise scale</text>
+    <g text-anchor="middle">
+      <rect x="66" y="86" width="118" height="150" rx="8" fill="#f5f3ff" stroke="#6d28d9" stroke-width="1.6"/>
+      <text x="125" y="112" font-size="12.6" font-weight="800" fill="#5b21b6">AI strategy &amp;</text>
+      <text x="125" y="128" font-size="12.6" font-weight="800" fill="#5b21b6">experience</text>
+      <text x="125" y="152" font-size="10.6" fill="#5b6b7b">business alignment,</text>
+      <text x="125" y="166" font-size="10.6" fill="#5b6b7b">leadership priorities,</text>
+      <text x="125" y="180" font-size="10.6" fill="#5b6b7b">long-term strategy,</text>
+      <text x="125" y="194" font-size="10.6" fill="#5b6b7b">user-experience goals</text>
+      <rect x="196" y="86" width="118" height="150" rx="8" fill="#ecfeff" stroke="#0891b2" stroke-width="1.6"/>
+      <text x="255" y="112" font-size="12.6" font-weight="800" fill="#0e7490">Business</text>
+      <text x="255" y="128" font-size="12.6" font-weight="800" fill="#0e7490">strategy</text>
+      <text x="255" y="152" font-size="10.6" fill="#5b6b7b">redesign end-to-end</text>
+      <text x="255" y="166" font-size="10.6" fill="#5b6b7b">processes for human–</text>
+      <text x="255" y="180" font-size="10.6" fill="#5b6b7b">agent collaboration,</text>
+      <text x="255" y="194" font-size="10.6" fill="#5b6b7b">measure impact &amp; value</text>
+      <rect x="326" y="86" width="118" height="150" rx="8" fill="#fff1f2" stroke="#be123c" stroke-width="1.6"/>
+      <text x="385" y="112" font-size="12.6" font-weight="800" fill="#9f1239">AI governance</text>
+      <text x="385" y="128" font-size="12.6" font-weight="800" fill="#9f1239">&amp; security</text>
+      <text x="385" y="152" font-size="10.6" fill="#5b6b7b">guardrails, controls,</text>
+      <text x="385" y="166" font-size="10.6" fill="#5b6b7b">oversight, operational</text>
+      <text x="385" y="180" font-size="10.6" fill="#5b6b7b">management, lifecycle</text>
+      <text x="385" y="194" font-size="10.6" fill="#5b6b7b">governance for risk</text>
+      <rect x="456" y="86" width="118" height="150" rx="8" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.6"/>
+      <text x="515" y="112" font-size="12.6" font-weight="800" fill="#115e59">Technology</text>
+      <text x="515" y="128" font-size="12.6" font-weight="800" fill="#115e59">&amp; data</text>
+      <text x="515" y="152" font-size="10.6" fill="#5b6b7b">scalable, secure</text>
+      <text x="515" y="166" font-size="10.6" fill="#5b6b7b">technical foundations,</text>
+      <text x="515" y="180" font-size="10.6" fill="#5b6b7b">architectures, data</text>
+      <text x="515" y="194" font-size="10.6" fill="#5b6b7b">access patterns</text>
+      <rect x="586" y="86" width="118" height="150" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.6"/>
+      <text x="645" y="112" font-size="12.6" font-weight="800" fill="#92400e">Organization</text>
+      <text x="645" y="128" font-size="12.6" font-weight="800" fill="#92400e">&amp; culture</text>
+      <text x="645" y="152" font-size="10.6" fill="#5b6b7b">people, roles,</text>
+      <text x="645" y="166" font-size="10.6" fill="#5b6b7b">incentives, ways of</text>
+      <text x="645" y="180" font-size="10.6" fill="#5b6b7b">working that support</text>
+      <text x="645" y="194" font-size="10.6" fill="#5b6b7b">AI adoption</text>
+    </g>
+    <rect x="46" y="248" width="668" height="40" rx="8" fill="#e8f1fa" stroke="#9ec2e6"/>
+    <text x="380" y="273" text-anchor="middle" font-size="12.6" font-weight="700" fill="#0b2a4a">Responsible AI &amp; trust — embedded across every pillar, at every level</text>
+    <text x="380" y="310" text-anchor="middle" font-size="10.8" fill="#93a3b3">each pillar is assessed 100–500 independently — uneven profiles are expected and normal</text>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">17</span><span>Name all five: <b>AI strategy &amp; experience · Business strategy · AI governance &amp; security · Technology &amp; data · Organization &amp; culture</b>.</span></div>
+    <div class="learn"><span class="n">18</span><span><b>AI strategy &amp; experience</b> = aligning initiatives with business objectives, leadership priorities, long-term strategy, and UX goals.</span></div>
+    <div class="learn"><span class="n">19</span><span><b>Business strategy</b> = redesigning end-to-end processes for human–agent collaboration and <b>measuring business impact / value realization</b>.</span></div>
+    <div class="learn"><span class="n">20</span><span><b>AI governance &amp; security</b> = guardrails, controls, oversight, operational management, and <b>lifecycle governance</b> for risk and compliance at scale.</span></div>
+    <div class="learn"><span class="n">21</span><span><b>Technology &amp; data</b> = scalable, secure foundations, architectures, and <b>data access patterns</b>; <b>Organization &amp; culture</b> = people, roles, incentives, ways of working.</span></div>
+    <div class="learn"><span class="n">22</span><span>These five pillars are the same <b>five capability drivers</b> that the agent adoption patterns map their <b>scale-breakers</b> to — one framework, reused across the guidance.</span></div>
+  </div>
+  <div class="hook"><b>Exam hook:</b> when a question asks which dimension a symptom belongs to — "no champions or communities" → <b>Organization &amp; culture</b>; "no reference architecture" → <b>Technology &amp; data</b>; "no value measurement" → <b>Business strategy</b>; "no operational model" → <b>AI governance &amp; security</b>; "no executive sponsor" → <b>AI strategy &amp; experience</b>.</div>
+</section>
+
+<section class="fig" id="s6">
+  <h3>6 · The 5 × 5 quick-reference matrix</h3>
+  <p class="cap">One cell per pillar per level — the whole model on one screen. Scan a row to picture an organization at that level.</p>
+  <div class="matrix mm">
+    <table>
+      <tr><th>Level</th><th>AI strategy &amp; experience</th><th>Business strategy</th><th>AI governance &amp; security</th><th>Technology &amp; data</th><th>Organization &amp; culture</th></tr>
+      <tr style="--lv:#94a3b8"><td>100<br>Initial</td><td>No AI/agent strategy, vision, or executive sponsor; sporadic tactical pilots; no RAI awareness</td><td>Human-only, manually intensive workflows; nothing designed for automation or agent collaboration</td><td>No governance or operational/support model; only basic information compliance and security</td><td>Fragmented tooling; no technical or reference architecture; limited infrastructure for scale</td><td>No training or enablement; isolated pilots; no champions or communities; unclear business value</td></tr>
+      <tr style="--lv:#0ea5e9"><td>200<br>Repeatable</td><td>Early vision forming; limited leadership alignment; strategy still informal</td><td>Pilots improve single workflow steps; incremental gains; no end-to-end redesign; early value story forming</td><td>Early policies; separate dev/test/prod environments; basic monitoring and maintenance of AI</td><td>Basic environment structure; partial reuse of connectors and components</td><td>Sporadic training; informal communities; unclear roles and adoption ownership; awareness limited to early adopters</td></tr>
+      <tr style="--lv:#0f766e"><td>300<br>Defined</td><td>Formal AI/agent strategy; executive sponsor; cross-functional planning and goals; KPIs tracked with regular reporting</td><td>Human–agent teaming defined for priority processes; primary business metrics agreed; risks documented and mitigated</td><td>Documented governance model; standards and review gates; policies enforced consistently</td><td>Standardized/reference architecture; reusable components; telemetry and data-readiness platforms</td><td>Formal onboarding and enablement; active maker/champion communities; regular knowledge sharing and enablement assets</td></tr>
+      <tr style="--lv:#7c3aed"><td>400<br>Capable</td><td>AI integrated in enterprise planning; cross-department alignment; strategic measurement; RAI guiding design</td><td>Cross-system orchestration; domain redesign after agent optimization; measurable value with optimization loops</td><td>Proactive governance with automated monitoring and alerts; continuous-improvement loop; RAI embedded in lifecycle gates</td><td>Scalable enterprise foundations; automated deployment and QA; shared data management; performance tuning</td><td>Champions embedded across the org; shared engagement models and incentives; culture of optimization</td></tr>
+      <tr style="--lv:#d97706"><td>500<br>Efficient</td><td>AI-first culture; continuous strategic iteration; exec-level accountability</td><td>Adaptive, autonomous processes; continuous optimization; AI-enabled innovation and investment; RAI part of enterprise culture</td><td>Predictive risk management; real-time compliance monitoring and controls; automated remediation; always-on improvement loop</td><td>Advanced multi-agent patterns; predictive agents guiding reliability and performance; self-improving platform</td><td>Self-sustaining community; continuous-learning culture with clear incentives; emerging innovation agents</td></tr>
+    </table>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">23</span><span>Read <b>rows</b> to characterize an org at a level; read <b>columns</b> to see one pillar's growth path — exam scenarios usually hand you a column story.</span></div>
+    <div class="learn"><span class="n">24</span><span>The matrix is a <b>quick reference</b> — each pillar has its own detailed article with examples, risks, and progression actions per level.</span></div>
+    <div class="learn"><span class="n">25</span><span>Watch RAI travel the strategy column: <b>absent at 100 → guiding design at 400 → enterprise culture at 500</b>.</span></div>
+  </div>
+</section>
+<div class="ghead"><div class="gbar"></div><h2>C · How to use the model</h2><span class="w">7 steps · radar · rules</span></div>
+
+<section class="fig" id="s7">
+  <h3>7 · The seven-step method — planning tool, not scorecard</h3>
+  <p class="cap">Microsoft's how-to article is explicit: use it for decisions, never as a one-time assessment.</p>
+  <div class="gcse">
+    <div><b><i style="background:#6d28d9">1</i>Assess current state by pillar</b>Grade each of the five pillars independently against the 100–500 descriptions. Be <b>evidence-based, not aspirational</b>; score what is <b>consistently true</b>, not isolated wins.</div>
+    <div><b><i style="background:#7c3aed">2</i>Never collapse to one score</b>Adoption doesn't progress uniformly — a single average <b>masks critical gaps</b> that create risk later. Each pillar matures at its own pace.</div>
+    <div><b><i style="background:#8b5cf6">3</i>Visualize with a radar chart</b>Plot the five pillar levels as a pentagon. <b>The shape is more informative than the average</b> — thin areas show where scaling breaks.</div>
+    <div><b><i style="background:#0891b2">4</i>Identify gaps &amp; dependencies</b>Review progression opportunities: missing capabilities, invisible risks, and <b>cross-pillar dependencies</b> (e.g., scaling technology without matching operations or governance).</div>
+    <div><b><i style="background:#0f766e">5</i>Prioritize incrementally</b>Pick <b>one or two priority pillars</b> and move each <b>one level up</b>, aligned to specific progression opportunities — momentum with managed risk.</div>
+    <div><b><i style="background:#d97706">6</i>Use it as shared language</b>Align business, IT, security, and leadership on what "good" looks like per stage; it moves conversations <b>from opinion to evidence</b>.</div>
+    <div><b><i style="background:#be123c">7</i>Reassess regularly</b>Maturity changes as agents ship. Revisit periodically, fed by <b>usage, outcomes, incidents, and telemetry</b> — at high maturity, reassessment becomes <b>continuous</b>.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">26</span><span>Framing sentence to memorize: a <b>practical planning and decision-making tool</b>, not a one-time assessment or scorecard.</span></div>
+    <div class="learn"><span class="n">27</span><span>Four stated uses: understand readiness · <b>identify gaps that block scale</b> · prioritize investments · guide <b>safe progression toward more autonomous agents</b>.</span></div>
+    <div class="learn"><span class="n">28</span><span>Uneven profiles are <b>expected</b> — e.g., strong in security and governance while early in process redesign or organizational readiness. The model supports this.</span></div>
+    <div class="learn"><span class="n">29</span><span>Worked examples of one-level moves: clearer <b>intake, prioritization, and ownership</b> lifts organizational readiness 200 → 300; <b>consistent metrics and dashboards</b> lift value realization 200 → 300.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s8">
+  <h3>8 · The radar profile — current state vs near-term target</h3>
+  <p class="cap">The model's signature artifact. Solid = where you are; dashed = deliberate next investments. Notice the target raises only the weak pillars — not everything at once.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 415">
+    <g stroke="#e3e8ee" fill="none" stroke-width="1">
+      <polygon points="330,198 362.3,221.5 350,259.5 310,259.5 297.7,221.5"/>
+      <polygon points="330,164 394.7,211 370,287 290,287 265.3,211"/>
+      <polygon points="330,130 427,200.5 390,314.5 270,314.5 233,200.5"/>
+      <polygon points="330,96 459.3,190 410,342 250,342 200.7,190"/>
+      <polygon points="330,62 491.7,179.5 430,369.5 230,369.5 168.3,179.5" stroke="#cbd5e1" stroke-width="1.4"/>
+    </g>
+    <g stroke="#dde3ea" stroke-width="1">
+      <line x1="330" y1="232" x2="330" y2="62"/>
+      <line x1="330" y1="232" x2="491.7" y2="179.5"/>
+      <line x1="330" y1="232" x2="430" y2="369.5"/>
+      <line x1="330" y1="232" x2="230" y2="369.5"/>
+      <line x1="330" y1="232" x2="168.3" y2="179.5"/>
+    </g>
+    <g font-size="9.5" fill="#93a3b3">
+      <text x="336" y="202">100</text><text x="336" y="168">200</text><text x="336" y="134">300</text><text x="336" y="100">400</text><text x="336" y="66">500</text>
+    </g>
+    <polygon points="330,130 427,200.5 390,314.5 270,314.5 233,200.5" fill="none" stroke="#d97706" stroke-width="2.4" stroke-dasharray="7 5"/>
+    <polygon points="330,130 394.7,211 370,287 270,314.5 265.3,211" fill="#6d28d9" fill-opacity=".16" stroke="#6d28d9" stroke-width="2.4"/>
+    <g fill="#6d28d9">
+      <circle cx="330" cy="130" r="4"/><circle cx="394.7" cy="211" r="4"/><circle cx="370" cy="287" r="4"/><circle cx="270" cy="314.5" r="4"/><circle cx="265.3" cy="211" r="4"/>
+    </g>
+    <g fill="#d97706">
+      <circle cx="427" cy="200.5" r="3.4"/><circle cx="390" cy="314.5" r="3.4"/><circle cx="233" cy="200.5" r="3.4"/>
+    </g>
+    <g font-size="12" font-weight="700" fill="#334155">
+      <text x="330" y="48" text-anchor="middle">AI strategy &amp; experience</text>
+      <text x="498" y="176">Business strategy</text>
+      <text x="438" y="392">AI governance &amp; security</text>
+      <text x="222" y="392" text-anchor="end">Technology &amp; data</text>
+      <text x="162" y="176" text-anchor="end">Organization &amp; culture</text>
+    </g>
+    <g font-size="10.5" fill="#5b6b7b">
+      <text x="330" y="118" text-anchor="middle">300</text>
+      <text x="404" y="207">200</text>
+      <text x="381" y="284">200</text>
+      <text x="258" y="326" text-anchor="end">300</text>
+      <text x="256" y="207" text-anchor="end">200</text>
+    </g>
+    <g>
+      <rect x="556" y="34" width="188" height="74" rx="10" fill="#fbfcfe" stroke="#e3e8ee"/>
+      <line x1="568" y1="56" x2="596" y2="56" stroke="#6d28d9" stroke-width="3"/>
+      <rect x="568" y="52" width="28" height="8" fill="#6d28d9" fill-opacity=".16"/>
+      <text x="604" y="60" font-size="11.3" fill="#33475c">Current state</text>
+      <line x1="568" y1="84" x2="596" y2="84" stroke="#d97706" stroke-width="3" stroke-dasharray="6 4"/>
+      <text x="604" y="88" font-size="11.3" fill="#33475c">Near-term target</text>
+    </g>
+    <text x="380" y="410" text-anchor="middle" font-size="10.8" fill="#93a3b3">sample profile — strong in strategy alignment and technology; targeted lifts for business value, governance operations, and culture</text>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">30</span><span>The radar's job: give stakeholders a <b>quick view of where to focus first</b> — thin or recessed areas are <b>where scaling breaks</b> if you expand adoption anyway.</span></div>
+    <div class="learn"><span class="n">31</span><span>Core message of the chart: you <b>don't invest in every pillar at once</b> — target the few constraints most likely to limit <b>scale, trust, or value</b> next.</span></div>
+    <div class="learn"><span class="n">32</span><span>Overlay <b>current vs near-term goal</b> to show how targeted investments close critical gaps and <b>reduce scaling risk</b>.</span></div>
+    <div class="learn"><span class="n">33</span><span>Microsoft's own sample profile: <b>higher</b> in strategy alignment and technology, <b>lower</b> in operations, organizational readiness, value realization, and responsible AI.</span></div>
+    <div class="learn"><span class="n">34</span><span>Target shapes reflect <b>deliberate choices</b>, not raising all areas equally — near-term goals depend on your objectives and constraints.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="s9">
+  <h3>9 · Progression rules — do this, not that</h3>
+  <p class="cap">The how-to article is as clear about anti-patterns as it is about steps.</p>
+  <div class="duo">
+    <div class="panel good">
+      <h4>✔ Do</h4>
+      <ul>
+        <li>Grade on <b>evidence</b> — observable, consistently true behavior</li>
+        <li>Keep <b>five separate pillar scores</b>; expect an uneven profile</li>
+        <li>Move <b>1–2 pillars, one level at a time</b>, tied to named progression opportunities</li>
+        <li>Watch <b>dependencies between pillars</b> before scaling one alone</li>
+        <li>Reassess on a rhythm, fed by <b>telemetry, outcomes, and incidents</b></li>
+        <li>Use the levels as a <b>shared vocabulary</b> for leadership and roadmap talks</li>
+      </ul>
+    </div>
+    <div class="panel bad">
+      <h4>✘ Don't</h4>
+      <ul>
+        <li>Grade <b>aspirationally</b> or off one team's isolated success</li>
+        <li>Collapse the model into a <b>single overall score</b> — it masks critical gaps</li>
+        <li>Try to move <b>every pillar forward at once</b></li>
+        <li>Scale technology while <b>operations or governance lag behind</b></li>
+        <li>Treat the assessment as a <b>one-time scorecard</b></li>
+        <li>Increase agent <b>autonomy before the supporting capabilities exist</b></li>
+      </ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">35</span><span>The single-score trap is a likely exam distractor: the correct posture is <b>per-pillar assessment</b> because pillars mature at different paces.</span></div>
+    <div class="learn"><span class="n">36</span><span>"What should the organization do first?" answers usually equal: <b>fix the thinnest pillar one level</b>, not leap to 500 or buy more technology.</span></div>
+    <div class="learn"><span class="n">37</span><span>Autonomy gating: the model exists partly to answer <b>"what capabilities do we need before increasing agent autonomy?"</b> — capability first, autonomy second.</span></div>
+    <div class="learn"><span class="n">38</span><span>At higher maturity, <b>reassessment becomes continuous</b> — maturity signals embed directly into planning, governance, and operational reviews.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>D · Wrap-up</h2><span class="w">audience · exam tie-in · recall</span></div>
+
+<section class="fig" id="s10">
+  <h3>10 · Who it's for — and where it plugs into AB-100</h3>
+  <p class="cap">A common language for everyone planning adoption — and a framework the exam's adoption content leans on.</p>
+  <div class="chips">
+    <span>Business &amp; technology leaders</span>
+    <span>CoEs for AI, Copilot, or automation</span>
+    <span>Architects</span>
+    <span>Security leaders &amp; risk professionals</span>
+    <span>Change managers &amp; enablement teams</span>
+    <span>Product owners &amp; transformation leads</span>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">39</span><span>It applies <b>whether you're just starting or already running agents in production</b> — a common language for readiness and next steps.</span></div>
+    <div class="learn"><span class="n">40</span><span>AB-100 tie-in: adoption patterns each carry a <b>scale-breaker mapped to these five capability drivers</b> — assess readiness, close the largest gap first, reassess quarterly.</span></div>
+    <div class="learn"><span class="n">41</span><span>Companion assets to name-drop: the <b>Agent Readiness Framework</b>, the online <b>agent readiness assessment</b>, and CAF's <b>AI agent adoption</b> guidance.</span></div>
+  </div>
+  <p class="note">Sources: learn.microsoft.com/agents/adoption-maturity-model/ · …/maturity-model-how-to-use · pillar deep-dives (maturity-model-strategy, -business-process, -security-governance, -technology, -readiness) · aka.ms/AgentReadinessFramework</p>
+</section>
+
+<section class="fig" id="s11">
+  <h3>11 · Trigger wall — phrase → answer</h3>
+  <p class="cap">Fast recall for maturity-model questions.</p>
+  <div class="matrix">
+    <table>
+      <tr><th>Exam phrase</th><th>Answer</th></tr>
+      <tr><td>"Model this framework is based on"</td><td><b>Capability Maturity Model (CMM)</b></td></tr>
+      <tr><td>"Framework it aligns with"</td><td><b>Agent Readiness Framework</b> (+ online readiness assessment)</td></tr>
+      <tr><td>"Five levels, in order"</td><td>100 Initial · 200 Repeatable · 300 Defined · 400 Capable · <b>500 Efficient</b></td></tr>
+      <tr><td>"Five capability pillars"</td><td>AI strategy &amp; experience · Business strategy · AI governance &amp; security · Technology &amp; data · Organization &amp; culture</td></tr>
+      <tr><td>"Where does Responsible AI sit?"</td><td><b>Embedded across all pillars</b> — not a separate pillar</td></tr>
+      <tr><td>"Capabilities depend on individuals"</td><td>Level <b>100 · Initial</b></td></tr>
+      <tr><td>"Repeatable but informal and uneven"</td><td>Level <b>200 · Repeatable</b></td></tr>
+      <tr><td>"Formally defined, documented, governed"</td><td>Level <b>300 · Defined</b></td></tr>
+      <tr><td>"Embedded in enterprise planning &amp; ops"</td><td>Level <b>400 · Capable</b></td></tr>
+      <tr><td>"Agent-first enterprise"</td><td>Level <b>500 · Efficient</b></td></tr>
+      <tr><td>"Single overall maturity score?"</td><td><b>No</b> — assess each pillar separately; uneven profiles are normal</td></tr>
+      <tr><td>"Recommended visualization"</td><td><b>Radar chart</b> — current state vs near-term target</td></tr>
+      <tr><td>"How much to move at once"</td><td><b>1–2 pillars, one level up</b>, then reassess</td></tr>
+      <tr><td>"One-time assessment?"</td><td>No — <b>reassess regularly</b>; continuous at high maturity</td></tr>
+      <tr><td>"Don't confuse with…"</td><td>CAF Plan's <b>AI maturity Levels 1–4</b> (what you can build) — different ladder</td></tr>
+      <tr><td>"Adoption-pattern scale-breakers map to…"</td><td>the model's <b>five capability pillars/drivers</b></td></tr>
+    </table>
+  </div>
+</section>
+
+<div class="pager">
+  <a href="visual-learn.html">← Back to<b>🎨 Visual Learn gallery</b></a>
+  <a class="next" href="AB-100-Study-Guide-Modules/23-adoption.html">Go deeper<b>Module 23 · Adoption &amp; Enablement →</b></a>
+</div>
+
+</div>
+</body>
+</html>

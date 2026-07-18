@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Companion 1 — Foundations: What Agentic AI Is &amp; How the AB-100 Works</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --dark:#0b2a4a; --soft:#e8f1fa;
+  --pg:#475569; --pg-ink:#334155; --pg-soft:#f1f5f9; --pg-line:#d8e0e8;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#475569 170%);color:#fff;padding:26px 20px 22px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+.hero-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hero-stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:7px 16px;font-size:12px;color:#dbe3ec}
+.hero-stat b{display:block;font-size:16px;color:#fff}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--pg-ink);border-bottom-color:var(--pg)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:120px;letter-spacing:.03em;color:var(--pg-ink)}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--pg);color:var(--pg-ink)}
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--pg)}
+.ghead h2{font-size:21px;color:var(--pg-ink)}
+.ghead span.w{font-size:12.5px;font-weight:700;background:var(--pg-soft);color:var(--pg-ink);border-radius:8px;padding:3px 12px}
+.epsum{background:var(--soft);border:1px solid #cfe0f2;border-left:4px solid var(--pg);border-radius:11px;padding:12px 16px;font-size:13.6px;color:#2c4258;margin-bottom:16px}
+.epsum b{color:#12293f}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+.learns{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:8px;margin-top:14px}
+.learn{display:flex;gap:10px;align-items:flex-start;font-size:13.1px;color:#33475c;background:#fbfcfe;border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.learn .n{flex:0 0 auto;min-width:23px;height:23px;border-radius:50%;background:var(--pg);color:#fff;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.learn b{color:#12293f}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:6px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:22px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0 0 0 18px;font-size:13.4px;color:#33475c}
+.panel li{margin:5px 0}
+.panel li b{color:#12293f}
+.gcse{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.gcse div{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfe;font-size:13.2px;color:var(--muted)}
+.gcse b{display:flex;align-items:center;gap:9px;font-size:14.5px;color:#12293f;margin-bottom:6px}
+.gcse b i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;color:#fff;font-weight:800;font-size:16px;flex:0 0 auto}
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:560px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td:first-child{font-weight:700;color:#12293f;white-space:nowrap}
+.matrix tr:last-child td{border-bottom:none}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+.pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;text-decoration:none;color:#33475c;font-size:13px}
+.pager a:hover{border-color:var(--pg)}
+.pager a b{display:block;color:var(--pg-ink);font-size:14.5px;margin-top:2px}
+.pager a.next{text-align:right}
+footer.src{text-align:center;color:var(--muted);font-size:12.3px;padding:8px 16px 30px}
+footer.src a{color:var(--pg-ink)}
+@media print{nav.bar,.toc,.pager{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Video Course Companion · Unit 1 of 5</div>
+  <h1>Foundations — What Agentic AI Is &amp; How the AB-100 Works</h1>
+  <p class="sub">Episodes 1.1–1.4 of the video course, summarized and drawn: the agentic mental model, the exam-ready definition, the exam's format and scoring mechanics, and a study plan weighted the way the exam is.</p>
+  <div class="hero-stats">
+    <span class="hero-stat"><b>4</b>episodes covered</span>
+    <span class="hero-stat"><b>13</b>visuals</span>
+    <span class="hero-stat"><b>26</b>learn items</span>
+    <span class="hero-stat"><b>80 Q · 90 min</b>the exam ahead</span>
+  </div>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="course-1-foundations.html" class="here">1 · Foundations</a>
+  <a href="course-2-platforms.html">2 · Platforms</a>
+  <a href="course-3-plan.html">3 · Plan</a>
+  <a href="course-4-design.html">4 · Design</a>
+  <a href="course-5-operate.html">5 · Operate</a>
+  <a href="visual-learn.html">🎨 Visual Learn</a>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl">Ep 1.1 · Welcome</span><a href="#f1">Course roadmap</a><a href="#f2">Automation vs agentic</a><a href="#f3">Where agents earn value</a></div>
+  <div class="row"><span class="gl">Ep 1.2 · Definition</span><a href="#f4">The formula</a><a href="#f5">Six key terms</a><a href="#f6">What it's NOT</a><a href="#f7">Business benefits</a></div>
+  <div class="row"><span class="gl">Ep 1.3 · The exam</span><a href="#f8">Numbers wall</a><a href="#f9">Domain weights</a><a href="#f10">Question types &amp; pacing</a><a href="#f11">Tested vs not tested</a><a href="#f12">Scenario framework</a></div>
+  <div class="row"><span class="gl">Ep 1.4 · Study plan</span><a href="#f13">Time split &amp; habits</a></div>
+</div>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 1.1 · Course welcome &amp; what's ahead</h2><span class="w">orientation</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> the course's central goal is AB-100 certification, but built on real understanding — what makes an agent different from traditional automation, how to design agentic workflows in the Microsoft ecosystem, and how to deploy them responsibly. It's aimed at architects, product leaders, and technical professionals (no ML or Python depth required, but an associate-level Microsoft AI certification is a prerequisite for the exam). Eight sections build from orientation to a capstone, each ending in a diagnostic quiz; plan roughly 45–60 minutes per lecture and about a month end to end.</div>
+
+<section class="fig" id="f1">
+  <h3>1 · The course roadmap — eight sections, one goal</h3>
+  <p class="cap">Each section builds on the last. Sections 3–5 mirror the three exam domains — and section 5 carries the most exam weight.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 300">
+    <defs><marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="12.5">
+      <rect x="20" y="20" width="230" height="52" rx="10" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="135" y="42" text-anchor="middle" font-weight="700" fill="#334155">1 · Welcome &amp; orientation</text>
+      <text x="135" y="60" text-anchor="middle" fill="#5b6b7b" font-size="11.5">definitions · exam format</text>
+      <rect x="265" y="20" width="230" height="52" rx="10" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="380" y="42" text-anchor="middle" font-weight="700" fill="#0b2a4a">2 · Microsoft AI platform</text>
+      <text x="380" y="60" text-anchor="middle" fill="#5b6b7b" font-size="11.5">ecosystem foundations + demos</text>
+      <rect x="510" y="20" width="230" height="52" rx="10" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="625" y="42" text-anchor="middle" font-weight="700" fill="#0e7490">3 · Plan solutions</text>
+      <text x="625" y="60" text-anchor="middle" fill="#5b6b7b" font-size="11.5">requirements &amp; strategy · 25–30%</text>
+      <rect x="20" y="108" width="230" height="52" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="135" y="130" text-anchor="middle" font-weight="700" fill="#5b21b6">4 · Design solutions</text>
+      <text x="135" y="148" text-anchor="middle" fill="#5b6b7b" font-size="11.5">architecture patterns · 25–30%</text>
+      <rect x="265" y="108" width="230" height="52" rx="10" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="380" y="130" text-anchor="middle" font-weight="700" fill="#92400e">5 · Deploy, govern &amp; secure</text>
+      <text x="380" y="148" text-anchor="middle" fill="#5b6b7b" font-size="11.5">enterprise practices · 40–45% ★</text>
+      <rect x="510" y="108" width="230" height="52" rx="10" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="625" y="130" text-anchor="middle" font-weight="700" fill="#334155">6 · Scenarios &amp; case studies</text>
+      <text x="625" y="148" text-anchor="middle" fill="#5b6b7b" font-size="11.5">apply the skills</text>
+      <rect x="140" y="196" width="230" height="52" rx="10" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="255" y="218" text-anchor="middle" font-weight="700" fill="#334155">7 · Exam prep &amp; practice</text>
+      <text x="255" y="236" text-anchor="middle" fill="#5b6b7b" font-size="11.5">mock tests</text>
+      <rect x="390" y="196" width="230" height="52" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="505" y="218" text-anchor="middle" font-weight="700" fill="#166534">8 · Capstone &amp; wrap-up</text>
+      <text x="505" y="236" text-anchor="middle" fill="#5b6b7b" font-size="11.5">end-to-end design · career paths</text>
+      <line x1="250" y1="46" x2="263" y2="46" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr1)"/>
+      <line x1="495" y1="46" x2="508" y2="46" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr1)"/>
+      <line x1="625" y1="72" x2="135" y2="106" stroke="#c8d4e0" stroke-width="1.6"/>
+      <line x1="250" y1="134" x2="263" y2="134" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr1)"/>
+      <line x1="495" y1="134" x2="508" y2="134" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr1)"/>
+      <line x1="625" y1="160" x2="255" y2="194" stroke="#c8d4e0" stroke-width="1.6"/>
+      <line x1="370" y1="222" x2="388" y2="222" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arr1)"/>
+      <text x="380" y="284" text-anchor="middle" fill="#5b6b7b" font-size="12">every section ends with a quiz — a <tspan font-weight="700" fill="#1a2733">diagnostic</tspan>, not a gate: miss a question → rewatch that section</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">1</span><span><b>Course sections 3–5 map 1:1 to the exam domains</b> — Plan, Design, Deploy — with Deploy the heaviest at 40–45%.</span></div>
+    <div class="learn"><span class="n">2</span><span><b>Prerequisite:</b> AB-100 requires an active associate-level Microsoft AI-related certification before you can take it.</span></div>
+    <div class="learn"><span class="n">3</span><span><b>Audience:</b> business/technical architects, PMs and product leaders, professionals moving into AI roles — no ML math or deep Python needed, just cloud + business-process basics.</span></div>
+    <div class="learn"><span class="n">4</span><span><b>Study rhythm:</b> ~45–60 min per lecture, quizzes as diagnostics, ~1 month for the full course.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f2">
+  <h3>2 · Traditional automation vs agentic AI — flowchart vs feedback loop</h3>
+  <p class="cap">The course's founding contrast: rule-based automation is predictable but brittle; an agent is goal-oriented and adapts as new information arrives.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 250">
+    <defs><marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="12.5">
+      <text x="185" y="30" text-anchor="middle" font-weight="700" font-size="14.5" fill="#334155">Traditional automation</text>
+      <rect x="60" y="48" width="90" height="40" rx="9" fill="#f1f5f9" stroke="#d8e0e8"/><text x="105" y="72" text-anchor="middle" fill="#334155" font-weight="600">if X…</text>
+      <rect x="185" y="48" width="90" height="40" rx="9" fill="#f1f5f9" stroke="#d8e0e8"/><text x="230" y="72" text-anchor="middle" fill="#334155" font-weight="600">then Y</text>
+      <rect x="122" y="120" width="130" height="40" rx="9" fill="#fdecea" stroke="#f2c7c3"/><text x="187" y="139" text-anchor="middle" fill="#c62828" font-weight="700" font-size="12">unexpected input</text><text x="187" y="154" text-anchor="middle" fill="#a94442" font-size="11.5">breaks · needs a human</text>
+      <line x1="150" y1="68" x2="183" y2="68" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrB)"/>
+      <line x1="187" y1="88" x2="187" y2="118" stroke="#e0a8a2" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrB)"/>
+      <text x="185" y="196" text-anchor="middle" fill="#5b6b7b" font-size="12">rule-based · linear · predictable but <tspan font-weight="700" fill="#c62828">brittle</tspan></text>
+
+      <line x1="380" y1="20" x2="380" y2="230" stroke="#e3e8ee" stroke-width="1.5"/>
+
+      <text x="575" y="30" text-anchor="middle" font-weight="700" font-size="14.5" fill="#0b2a4a">Agentic AI</text>
+      <g>
+        <rect x="470" y="52" width="100" height="40" rx="9" fill="#e8f1fa" stroke="#bcd6ee"/><text x="520" y="76" text-anchor="middle" fill="#0b2a4a" font-weight="600">perceive</text>
+        <rect x="610" y="52" width="100" height="40" rx="9" fill="#e8f1fa" stroke="#bcd6ee"/><text x="660" y="76" text-anchor="middle" fill="#0b2a4a" font-weight="600">reason</text>
+        <rect x="610" y="140" width="100" height="40" rx="9" fill="#e8f1fa" stroke="#bcd6ee"/><text x="660" y="164" text-anchor="middle" fill="#0b2a4a" font-weight="600">act</text>
+        <rect x="470" y="140" width="100" height="40" rx="9" fill="#e8f1fa" stroke="#bcd6ee"/><text x="520" y="164" text-anchor="middle" fill="#0b2a4a" font-weight="600">adjust</text>
+        <line x1="570" y1="72" x2="608" y2="72" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrB)"/>
+        <line x1="660" y1="92" x2="660" y2="138" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrB)"/>
+        <line x1="610" y1="160" x2="572" y2="160" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrB)"/>
+        <line x1="520" y1="140" x2="520" y2="94" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrB)"/>
+      </g>
+      <text x="575" y="212" text-anchor="middle" fill="#5b6b7b" font-size="12">goal + tools + guardrails → <tspan font-weight="700" fill="#1a7f37">handles ambiguity &amp; novelty</tspan></text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">5</span><span><b>Traditional automation</b> = rule-based and linear: "if X then Y" — predictable, but it breaks (or escalates to a human) on anything unexpected.</span></div>
+    <div class="learn"><span class="n">6</span><span><b>Agentic AI</b> = goal-oriented and adaptive: "here's your goal, here are your tools, go figure it out" — perceive → reason → act → adjust, inside guardrails you define.</span></div>
+    <div class="learn"><span class="n">7</span><span>Mental image the course gives you: a <b>linear flowchart vs a feedback loop</b> that re-evaluates as new information arrives.</span></div>
+  </div>
+  <div class="hook">🧠 <b>Hook:</b> automation follows the map; an agent <b>reads the road</b>. When a scenario mentions ambiguity, novelty, or human-judgment work — think agent. When it's fixed rules — think flow.</div>
+</section>
+
+<section class="fig" id="f3">
+  <h3>3 · Where agents create value today — and the string attached</h3>
+  <p class="cap">The domains the course names as agent territory all share one trait: they traditionally required human judgment.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0e7490">🎧</i>Customer-support escalation</b>judgment calls on when and how to escalate — beyond scripted bots.</div>
+    <div><b><i style="background:#7c3aed">📄</i>Contract negotiation</b>unstructured documents, positions, trade-offs.</div>
+    <div><b><i style="background:#b45309">🚚</i>Supply-chain optimization</b>multi-step, trigger-driven decisions under changing conditions.</div>
+    <div><b><i style="background:#166534">🧭</i>Strategic planning</b>synthesis across ambiguous, conflicting inputs.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">8</span><span>Agents earn their keep on <b>complex, unstructured problems that once needed human judgment</b> — not on routine rule-following.</span></div>
+    <div class="learn"><span class="n">9</span><span>The power comes with responsibility: <b>safety, governance, and risk management are inseparable from deployment</b> — you can't "deploy and hope." This is why the Deploy domain dominates the exam.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 1.2 · What is agentic AI, really?</h2><span class="w">the exam-ready definition</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> the exam-ready definition — agentic AI is a system that can pursue a goal, select actions, and use tools to achieve outcomes with minimal human intervention. The episode unpacks each term, gives the project-manager analogy, and spends real time on what agentic is <em>not</em> (a chatbot, an if-then flow, a bare model) — because wrong exam answers are usually one of those three in disguise.</div>
+
+<section class="fig" id="f4">
+  <h3>4 · The one-sentence formula</h3>
+  <p class="cap">If you remember one line from the whole unit, it's this equation.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 150">
+    <g font-size="15" text-anchor="middle">
+      <rect x="20" y="40" width="150" height="66" rx="12" fill="#0b2a4a"/>
+      <text x="95" y="68" fill="#fff" font-weight="700">Agentic AI</text><text x="95" y="90" fill="#c9d8ea" font-size="11.5">the system</text>
+      <text x="192" y="80" font-size="24" fill="#8ea3b8" font-weight="700">=</text>
+      <rect x="214" y="40" width="118" height="66" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="273" y="68" fill="#0e7490" font-weight="700">Goal</text><text x="273" y="90" fill="#5b6b7b" font-size="11.5">target outcome</text>
+      <text x="352" y="80" font-size="22" fill="#8ea3b8" font-weight="700">+</text>
+      <rect x="372" y="40" width="118" height="66" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="431" y="68" fill="#5b21b6" font-weight="700">Reasoning</text><text x="431" y="90" fill="#5b6b7b" font-size="11.5">decides what's next</text>
+      <text x="510" y="80" font-size="22" fill="#8ea3b8" font-weight="700">+</text>
+      <rect x="530" y="40" width="100" height="66" rx="12" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="580" y="68" fill="#92400e" font-weight="700">Tools</text><text x="580" y="90" fill="#5b6b7b" font-size="11.5">APIs · flows · data</text>
+      <text x="648" y="80" font-size="22" fill="#8ea3b8" font-weight="700">+</text>
+      <rect x="666" y="40" width="80" height="66" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="706" y="68" fill="#166534" font-weight="700">Action</text><text x="706" y="90" fill="#5b6b7b" font-size="11.5">executes</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">10</span><span><b>Exam-ready definition:</b> a system that can pursue a goal, select actions, and use tools to achieve outcomes — often with minimal human intervention.</span></div>
+    <div class="learn"><span class="n">11</span><span>In Microsoft terms: <b>Copilot Studio agents calling connectors</b>, or <b>Foundry tools with custom models</b> — same formula, different platform.</span></div>
+  </div>
+  <div class="hook">🧠 <b>Hook:</b> <b>G·R·T·A</b> — Goal, Reasoning, Tools, Action. Four words that answer "is this agentic?" on any exam question.</div>
+</section>
+
+<section class="fig" id="f5">
+  <h3>5 · Six terms you'll meet in every scenario</h3>
+  <p class="cap">The working vocabulary of the whole exam — and the project-manager analogy that ties them together.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0b2a4a">🤖</i>Agent</b>the decision-maker that chooses actions to reach a goal.</div>
+    <div><b><i style="background:#b45309">🔧</i>Tools</b>APIs, workflows, data sources the agent can call.</div>
+    <div><b><i style="background:#0e7490">🕸️</i>Orchestration</b>the logic coordinating steps and tool calls.</div>
+    <div><b><i style="background:#7c3aed">🗺️</i>Planning</b>breaking the goal into smaller steps.</div>
+    <div><b><i style="background:#166534">🧠</i>Memory</b>what the agent retains to stay consistent over time.</div>
+    <div><b><i style="background:#c62828">🛡️</i>Guardrails</b>safety &amp; compliance constraints keeping it aligned with policy.</div>
+  </div>
+  <p class="note"><b>Analogy:</b> an agent is a <b>project manager</b> — it receives a goal, figures out the steps, uses tools and people, and adapts as new information arrives.</p>
+  <div class="learns">
+    <div class="learn"><span class="n">12</span><span>Six exam terms: <b>agent · tools · orchestration · planning · memory · guardrails</b> — know each one's one-line job.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f6">
+  <h3>6 · What agentic AI is NOT — the wrong-answer patterns</h3>
+  <p class="cap">Many wrong options on the exam describe systems that miss one of the three verbs. Run the test: can it decide, act, <em>and</em> adapt?</p>
+  <div class="gcse">
+    <div style="border-left:4px solid var(--bad)"><b><i style="background:#c62828">✗</i>Not just a chatbot</b>chat can be the interface, but an agent <b>takes actions</b> — conversation alone isn't agency.</div>
+    <div style="border-left:4px solid var(--bad)"><b><i style="background:#c62828">✗</i>Not traditional automation</b>purely "if X then Y" is a flow, not an agent — no reasoning, no adaptation.</div>
+    <div style="border-left:4px solid var(--bad)"><b><i style="background:#c62828">✗</i>Not a standalone model</b>the model is <b>one component</b>; without tools, memory, and orchestration it's just inference.</div>
+  </div>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 96">
+    <g font-size="13.5" text-anchor="middle">
+      <rect x="80" y="24" width="170" height="48" rx="24" fill="#e8f1fa" stroke="#bcd6ee"/><text x="165" y="53" font-weight="700" fill="#0b2a4a">Can it DECIDE?</text>
+      <rect x="295" y="24" width="170" height="48" rx="24" fill="#e8f1fa" stroke="#bcd6ee"/><text x="380" y="53" font-weight="700" fill="#0b2a4a">Can it ACT?</text>
+      <rect x="510" y="24" width="170" height="48" rx="24" fill="#e8f1fa" stroke="#bcd6ee"/><text x="595" y="53" font-weight="700" fill="#0b2a4a">Can it ADAPT?</text>
+      <text x="272" y="53" fill="#8ea3b8" font-weight="800">+</text><text x="487" y="53" fill="#8ea3b8" font-weight="800">+</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">13</span><span><b>The three-verb test:</b> if the system can't decide, act, and adapt, it's probably not agentic — eliminate those answer options.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f7">
+  <h3>7 · The business benefits the exam rewards</h3>
+  <p class="cap">Scenario questions ask for business impact, not technical novelty — these four are the impact vocabulary.</p>
+  <div class="tiles">
+    <div class="tile"><b>⚡</b><span><b>Faster decisions</b> through automated reasoning</span></div>
+    <div class="tile"><b>📉</b><span><b>Reduced operational load</b> by delegating routine tasks</span></div>
+    <div class="tile"><b>📈</b><span><b>Scalable workflows</b> that adapt to real-world variability</span></div>
+    <div class="tile"><b>🎯</b><span><b>Business–technology alignment</b> — systems tied to business goals</span></div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">14</span><span>When two answers are technically plausible, prefer the one framed as <b>business impact</b> (speed, load, scale, alignment) over the one framed as capability.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 1.3 · Exam structure &amp; scoring</h2><span class="w">know the game before you play</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> the AB-100 is an 80-question, 90-minute, online-proctored exam scoring 700/1000 to pass, costing $165. Question difficulty adapts to your early performance. The mix is single-answer multiple choice, all-or-nothing multiple select, time-hungry scenario blocks, and occasional drag-and-drop. Deploy is the heaviest domain, and the exam tests business reasoning about safe deployment — not ML theory, coding, or API syntax. The episode closes with a five-step framework for scenario questions.</div>
+
+<section class="fig" id="f8">
+  <h3>8 · The numbers wall</h3>
+  <p class="cap">Every hard fact about the exam's mechanics, on one card.</p>
+  <div class="tiles">
+    <div class="tile"><b>80</b><span>questions</span></div>
+    <div class="tile"><b>90</b><span>minutes</span></div>
+    <div class="tile"><b>700</b><span>/ 1000 to pass (70%)</span></div>
+    <div class="tile"><b>$165</b><span>exam fee</span></div>
+    <div class="tile"><b>~67s</b><span>average per question</span></div>
+    <div class="tile"><b>3</b><span>domains, unequal weights</span></div>
+  </div>
+  <p class="note"><b>Adaptive difficulty:</b> crush the first ~20 questions and the next batch gets noticeably harder; struggle and they ease off. Your early performance shapes the rest of the test — so a hard mid-exam stretch can be a <em>good</em> sign.</p>
+  <div class="learns">
+    <div class="learn"><span class="n">15</span><span><b>80 questions · 90 minutes · 700/1000 · $165 · online proctored</b> — the five facts to have cold.</span></div>
+    <div class="learn"><span class="n">16</span><span>The exam is <b>adaptive</b>: early answers steer later difficulty. Don't panic when questions get harder — it can mean you're doing well.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f9">
+  <h3>9 · Domain weights — where the points live</h3>
+  <p class="cap">Three domains; Deploy alone is worth nearly half the exam. The exam is telling you what it values: responsible deployment.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 170">
+    <g font-size="13">
+      <rect x="30" y="40" width="200" height="46" rx="8" fill="#0891b2"/>
+      <text x="130" y="60" text-anchor="middle" fill="#fff" font-weight="700">1 · Plan</text>
+      <text x="130" y="77" text-anchor="middle" fill="#d7f2f8" font-size="11.5">requirements · strategy · ROI</text>
+      <rect x="234" y="40" width="200" height="46" rx="8" fill="#7c3aed"/>
+      <text x="334" y="60" text-anchor="middle" fill="#fff" font-weight="700">2 · Design</text>
+      <text x="334" y="77" text-anchor="middle" fill="#e7dcfc" font-size="11.5">architecture · patterns · integration</text>
+      <rect x="438" y="40" width="292" height="46" rx="8" fill="#b45309"/>
+      <text x="584" y="60" text-anchor="middle" fill="#fff" font-weight="700">3 · Deploy ★</text>
+      <text x="584" y="77" text-anchor="middle" fill="#fbe8cd" font-size="11.5">governance · security · monitoring · evaluation</text>
+      <text x="130" y="112" text-anchor="middle" fill="#0e7490" font-weight="800" font-size="15">25–30%</text>
+      <text x="334" y="112" text-anchor="middle" fill="#6d28d9" font-weight="800" font-size="15">25–30%</text>
+      <text x="584" y="112" text-anchor="middle" fill="#92400e" font-weight="800" font-size="15">40–45%</text>
+      <text x="380" y="148" text-anchor="middle" fill="#5b6b7b" font-size="12.5">it's not about building cool AI — it's about deploying AI that is <tspan font-weight="700" fill="#1a2733">safe, compliant, and aligned with the business</tspan></text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">17</span><span><b>Plan 25–30% · Design 25–30% · Deploy 40–45%</b> — Deploy includes governance, security, monitoring, and evaluation.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f10">
+  <h3>10 · Question types &amp; the pacing plan</h3>
+  <p class="cap">Four formats, four time budgets. The scenario blocks are where the exam is won or lost.</p>
+  <div class="matrix"><table>
+    <tr><th>Format</th><th>What it looks like</th><th>Budget</th><th>Tactic</th></tr>
+    <tr><td>Multiple choice</td><td>4 options, pick 1 — the most common format</td><td>10–15 s</td><td>answer &amp; move on; flag if unsure</td></tr>
+    <tr><td>Multiple select</td><td>pick <b>all</b> correct — <b>no partial credit</b></td><td>30–45 s</td><td>verify every selection; one miss = zero</td></tr>
+    <tr><td>Scenario block</td><td>business situation + 2–3 follow-up questions</td><td>2–4 min</td><td>read carefully, apply the 5-step framework (below)</td></tr>
+    <tr><td>Drag &amp; drop</td><td>match terms or sequence steps — occasional</td><td>~1 min</td><td>place the anchors you're sure of first</td></tr>
+  </table></div>
+  <div class="learns">
+    <div class="learn"><span class="n">18</span><span><b>Multiple select is all-or-nothing</b> — that's why it feels harder <em>and is</em> harder. Check each option independently.</span></div>
+    <div class="learn"><span class="n">19</span><span><b>Reserve ~10 minutes at the end</b> to revisit flagged questions — build it into your pacing from question 1.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f11">
+  <h3>11 · What the exam tests — and pointedly doesn't</h3>
+  <p class="cap">The AB-100 is a business-and-architecture exam, not an ML-engineer exam. Study accordingly.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--good)">
+      <h4 style="color:var(--good)">✔ It tests</h4>
+      <ul>
+        <li><b>Real-world scenario reasoning</b> — mapping business problems to agentic approaches</li>
+        <li><b>Trade-off thinking</b> — speed vs safety, autonomy vs control</li>
+        <li><b>Design &amp; deployment best practices</b></li>
+        <li><b>Governance and ethical judgment</b></li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--bad)">
+      <h4 style="color:var(--bad)">✘ It doesn't test</h4>
+      <ul>
+        <li>ML theory or mathematics — no linear algebra, no calculus</li>
+        <li>Writing code or programming ability</li>
+        <li>Training or fine-tuning models</li>
+        <li>Specific API syntax for Azure or any tool</li>
+      </ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">20</span><span>If you can explain <b>why and how to deploy agentic systems responsibly</b>, you're studying the right things.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f12">
+  <h3>12 · The 5-step scenario framework</h3>
+  <p class="cap">The mental routine for every scenario block. Step 5 is the differentiator: the right answer is almost never the maximum-capability one.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 132">
+    <defs><marker id="arrC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="12" text-anchor="middle">
+      <rect x="14" y="30" width="128" height="62" rx="11" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="78" y="53" font-weight="700" fill="#334155">1 · Business goal</text><text x="78" y="71" fill="#5b6b7b" font-size="11">cost? speed? CX?</text>
+      <rect x="166" y="30" width="128" height="62" rx="11" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="230" y="53" font-weight="700" fill="#334155">2 · Constraints</text><text x="230" y="71" fill="#5b6b7b" font-size="11">budget · timeline · regs</text>
+      <rect x="318" y="30" width="128" height="62" rx="11" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="382" y="53" font-weight="700" fill="#334155">3 · Why an agent?</text><text x="382" y="71" fill="#5b6b7b" font-size="11">reasoning + tool use?</text>
+      <rect x="470" y="30" width="128" height="62" rx="11" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="534" y="53" font-weight="700" fill="#334155">4 · Weigh options</text><text x="534" y="71" fill="#5b6b7b" font-size="11">capability vs safety</text>
+      <rect x="622" y="26" width="128" height="70" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="686" y="51" font-weight="800" fill="#166534">5 · BALANCED</text><text x="686" y="68" fill="#3c6947" font-size="11">guardrails respected ·</text><text x="686" y="82" fill="#3c6947" font-size="11">responsible deployment</text>
+      <line x1="142" y1="61" x2="164" y2="61" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrC)"/>
+      <line x1="294" y1="61" x2="316" y2="61" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrC)"/>
+      <line x1="446" y1="61" x2="468" y2="61" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrC)"/>
+      <line x1="598" y1="61" x2="620" y2="61" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrC)"/>
+      <text x="380" y="120" text-anchor="middle" fill="#5b6b7b" font-size="12">goal → constraints → fit → options → <tspan font-weight="700" fill="#166534">the balanced answer wins</tspan></text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">21</span><span><b>Step 1–2:</b> name the goal precisely (cost saving? response time? CX?) and list constraints (budget, timeline, regulatory, compliance) — they shape which answer is viable.</span></div>
+    <div class="learn"><span class="n">22</span><span><b>Step 3:</b> articulate why agentic fits — is it automating complex decisions? does it need reasoning + tool use?</span></div>
+    <div class="learn"><span class="n">23</span><span><b>Step 5:</b> the correct answer <b>balances capability with safety</b> — it respects guardrails, not maximum autonomy at any cost.</span></div>
+  </div>
+  <div class="hook">🧠 <b>Hook:</b> when torn between two options, ask "which one would I defend to the risk committee?" — that's usually the keyed answer.</div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 1.4 · The study plan</h2><span class="w">allocate by weight, not curiosity</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> a practical roadmap that mirrors the exam's scoring. Prioritize Deploy/Govern/Secure first, then Plan and Design, then platform fundamentals and scenario drills. Split study time roughly 40 / 45 / 15 to match the weights, build four compounding habits (active recall, scenario mindset, trade-off thinking, wrong-answer review), and rehearse one repeatable scenario strategy: goal → constraints → the safest viable option that still delivers value.</div>
+
+<section class="fig" id="f13">
+  <h3>13 · Study-time split, priority order &amp; the four habits</h3>
+  <p class="cap">Your calendar should look like the exam's weight table — with habits that make scenario questions easier every week.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 128">
+    <g font-size="12.5">
+      <text x="20" y="30" font-weight="700" fill="#334155" font-size="13.5">Study-time allocation</text>
+      <rect x="20" y="44" width="288" height="38" rx="8" fill="#b45309"/>
+      <text x="164" y="67" text-anchor="middle" fill="#fff" font-weight="700">Deploy · Govern · Secure — 40%</text>
+      <rect x="312" y="44" width="324" height="38" rx="8" fill="#7c3aed"/>
+      <text x="474" y="67" text-anchor="middle" fill="#fff" font-weight="700">Plan + Design — 45%</text>
+      <rect x="640" y="44" width="108" height="38" rx="8" fill="#475569"/>
+      <text x="694" y="61" text-anchor="middle" fill="#fff" font-weight="700" font-size="11.5">Platform +</text>
+      <text x="694" y="75" text-anchor="middle" fill="#fff" font-weight="700" font-size="11.5">scenarios 15%</text>
+      <text x="380" y="112" text-anchor="middle" fill="#5b6b7b" font-size="12">priority order: <tspan font-weight="700" fill="#92400e">deploy/govern/secure first</tspan> → plan &amp; design → fundamentals &amp; scenario practice</text>
+    </g>
+  </svg>
+  </div>
+  <div class="gcse" style="margin-top:12px">
+    <div><b><i style="background:#0e7490">🗣️</i>Active recall</b>explain each concept in your own words — don't just re-read or re-listen.</div>
+    <div><b><i style="background:#7c3aed">🎬</i>Scenario mindset</b>always name the goal, the constraints, and the decision.</div>
+    <div><b><i style="background:#b45309">⚖️</i>Trade-off thinking</b>correct answers balance capability with safety — train for the compromise.</div>
+    <div><b><i style="background:#166534">🔁</i>Wrong-answer review</b>study the reasoning behind every miss, not the score.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">24</span><span><b>Allocate study time by exam weight, not curiosity</b> — ~40% deploy/govern/secure, ~45% plan+design, ~15% fundamentals &amp; scenario practice.</span></div>
+    <div class="learn"><span class="n">25</span><span>Scenario strategy to rehearse: identify the goal → note constraints (risk, compliance, data access, timelines) → pick the <b>safest viable option that still delivers the goal</b>.</span></div>
+    <div class="learn"><span class="n">26</span><span>The four habits <b>compound</b> — build them in week one and scenario questions get progressively easier.</span></div>
+  </div>
+</section>
+
+<div class="pager">
+  <a href="index.html"><span>Hub</span><b>⌂ All materials</b></a>
+  <a class="next" href="course-2-platforms.html"><span>Next unit</span><b>2 · Microsoft AI Platforms →</b></a>
+</div>
+
+</div>
+<footer class="src">Companion notes to Unit 1 (Eps 1.1–1.4) of the <a href="https://www.youtube.com/playlist?list=PLXd94bZTzZ-SGw8yMHD44d9xKgMKTZUVF" target="_blank" rel="noopener">Microsoft AB-100 Agentic AI Exam Prep</a> video course — summaries and visuals are original study notes; watch the episodes for the full narration.</footer>
+</body>
+</html>

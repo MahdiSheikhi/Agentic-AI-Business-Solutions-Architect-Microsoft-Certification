@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Companion 3 — Plan: Requirements, Data, Strategy &amp; ROI</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --dark:#0b2a4a; --soft:#e8f1fa;
+  --pg:#0891b2; --pg-ink:#0e7490; --pg-soft:#ecfeff; --pg-line:#bfe9f2;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#0891b2 170%);color:#fff;padding:26px 20px 22px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+.hero-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hero-stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:7px 16px;font-size:12px;color:#d3ecf4}
+.hero-stat b{display:block;font-size:16px;color:#fff}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--pg-ink);border-bottom-color:var(--pg)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:120px;letter-spacing:.03em;color:var(--pg-ink)}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--pg);color:var(--pg-ink)}
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--pg)}
+.ghead h2{font-size:21px;color:var(--pg-ink)}
+.ghead span.w{font-size:12.5px;font-weight:700;background:var(--pg-soft);color:var(--pg-ink);border-radius:8px;padding:3px 12px}
+.epsum{background:var(--pg-soft);border:1px solid var(--pg-line);border-left:4px solid var(--pg);border-radius:11px;padding:12px 16px;font-size:13.6px;color:#2c4258;margin-bottom:16px}
+.epsum b{color:#12293f}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+.learns{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:8px;margin-top:14px}
+.learn{display:flex;gap:10px;align-items:flex-start;font-size:13.1px;color:#33475c;background:#fbfcfe;border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.learn .n{flex:0 0 auto;min-width:23px;height:23px;border-radius:50%;background:var(--pg);color:#fff;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.learn b{color:#12293f}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:6px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:22px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0 0 0 18px;font-size:13.4px;color:#33475c}
+.panel li{margin:5px 0}
+.panel li b{color:#12293f}
+.gcse{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.gcse div{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfe;font-size:13.2px;color:var(--muted)}
+.gcse b{display:flex;align-items:center;gap:9px;font-size:14.5px;color:#12293f;margin-bottom:6px}
+.gcse b i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;color:#fff;font-weight:800;font-size:16px;flex:0 0 auto}
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:560px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td:first-child{font-weight:700;color:#12293f;white-space:nowrap}
+.matrix tr:last-child td{border-bottom:none}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+.pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;text-decoration:none;color:#33475c;font-size:13px}
+.pager a:hover{border-color:var(--pg)}
+.pager a b{display:block;color:var(--pg-ink);font-size:14.5px;margin-top:2px}
+.pager a.next{text-align:right}
+footer.src{text-align:center;color:var(--muted);font-size:12.3px;padding:8px 16px 30px}
+footer.src a{color:var(--pg-ink)}
+@media print{nav.bar,.toc,.pager{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Video Course Companion · Unit 3 of 5</div>
+  <h1>Plan — Requirements, Data Readiness, Strategy &amp; ROI</h1>
+  <p class="sub">Episodes 3.1–3.9 in pictures: deciding when a problem deserves an agent, grading the grounding data, scaling with CAF, choosing build vs buy vs extend, proving the business case, and the cheapest model that still solves the problem.</p>
+  <div class="hero-stats">
+    <span class="hero-stat"><b>9</b>episodes covered</span>
+    <span class="hero-stat"><b>16</b>visuals</span>
+    <span class="hero-stat"><b>32</b>learn items</span>
+    <span class="hero-stat"><b>25–30%</b>Plan domain weight</span>
+  </div>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="course-1-foundations.html">1 · Foundations</a>
+  <a href="course-2-platforms.html">2 · Platforms</a>
+  <a href="course-3-plan.html" class="here">3 · Plan</a>
+  <a href="course-4-design.html">4 · Design</a>
+  <a href="course-5-operate.html">5 · Operate</a>
+  <a href="AB100notes1plan.html">📚 Plan notes</a>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl">Requirements</span><a href="#f1">Agentic or not?</a><a href="#f2">4-step framework</a><a href="#f3">Risk assessment</a></div>
+  <div class="row"><span class="gl">Data</span><a href="#f4">Grounding dimensions</a><a href="#f5">Readiness checklist</a><a href="#f14">4-layer architecture</a></div>
+  <div class="row"><span class="gl">Strategy</span><a href="#f6">CAF cycle</a><a href="#f7">Pilot design</a><a href="#f8">Build · buy · extend</a></div>
+  <div class="row"><span class="gl">Economics</span><a href="#f9">TCO breakdown</a><a href="#f10">ROI worked example</a><a href="#f12">Model routing</a><a href="#f13">Custom-model triggers</a></div>
+  <div class="row"><span class="gl">Assets</span><a href="#f11">Prompt library</a><a href="#f15">Prebuilt copilots</a><a href="#f16">Truck vs scooter</a></div>
+</div>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 3.1 · Requirement analysis</h2><span class="w">does this even need an agent?</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> good planning starts with three questions — what problem are we solving, what are the constraints, and does this genuinely need an agentic approach? Agents shine on variable, multi-step, tool-heavy work (contract review with risk flagging); rule-based, single-step, or pure-Q&amp;A work belongs to flows and standard copilots. A four-step framework (goal → constraints → fit → recommendation) plus an explicit risk assessment (likelihood × impact × mitigation) makes a plan exam-grade.</div>
+
+<section class="fig" id="f1">
+  <h3>1 · Agentic or not? — the fit sorter</h3>
+  <p class="cap">Wrong exam answers apply agentic AI to problems a simple workflow already solves. Sort the scenario first.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--good)">
+      <h4 style="color:var(--good)">✔ Strong agent candidates</h4>
+      <ul>
+        <li><b>Real variability + multi-step decisions</b> — "evaluate this contract, flag risks, suggest approvals"</li>
+        <li><b>Ambiguous processes</b> — supply-chain exception handling</li>
+        <li><b>Multiple tools / APIs</b> in one workflow</li>
+        <li><b>High-compliance work</b> run inside guardrails</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--bad)">
+      <h4 style="color:var(--bad)">✘ Not agentic — use the simpler tool</h4>
+      <ul>
+        <li><b>Rule-based:</b> "gold customer → 15% discount" → Power Automate flow</li>
+        <li><b>Simple Q&amp;A</b> with no follow-up actions → standard copilot</li>
+        <li><b>Static single-step processes</b> → traditional automation</li>
+      </ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">1</span><span>Three opening questions of every plan: <b>what outcome? what constraints? does it need agents at all?</b></span></div>
+    <div class="learn"><span class="n">2</span><span>Agentic test: <b>multiple steps? tool/API calls? adapts when things go sideways?</b> Three yeses = agent territory.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f2">
+  <h3>2 · The four-step planning framework — with the contract-review example</h3>
+  <p class="cap">Goal → constraints → fit → recommendation. The same walk-through the exam expects in scenario answers.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 220">
+    <defs><marker id="arrK" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="12">
+      <rect x="20" y="24" width="166" height="60" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="103" y="47" text-anchor="middle" font-weight="700" fill="#0e7490">1 · Goal</text>
+      <text x="103" y="65" text-anchor="middle" fill="#5b6b7b" font-size="11">what outcome are we after?</text>
+      <rect x="206" y="24" width="166" height="60" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="289" y="47" text-anchor="middle" font-weight="700" fill="#0e7490">2 · Constraints</text>
+      <text x="289" y="65" text-anchor="middle" fill="#5b6b7b" font-size="11">budget · timeline · regulation · skills</text>
+      <rect x="392" y="24" width="166" height="60" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="475" y="47" text-anchor="middle" font-weight="700" fill="#0e7490">3 · Fit</text>
+      <text x="475" y="65" text-anchor="middle" fill="#5b6b7b" font-size="11">does agentic actually make sense?</text>
+      <rect x="578" y="24" width="166" height="60" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="661" y="47" text-anchor="middle" font-weight="700" fill="#166534">4 · Recommendation</text>
+      <text x="661" y="65" text-anchor="middle" fill="#5b6b7b" font-size="11">the solution we propose</text>
+      <line x1="186" y1="54" x2="204" y2="54" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrK)"/>
+      <line x1="372" y1="54" x2="390" y2="54" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrK)"/>
+      <line x1="558" y1="54" x2="576" y2="54" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrK)"/>
+      <rect x="20" y="116" width="724" height="84" rx="12" fill="#fbfcfe" stroke="#e3e8ee"/>
+      <text x="382" y="140" text-anchor="middle" font-weight="700" fill="#12293f" font-size="12.5">Worked example — "automate contract review with approvals"</text>
+      <text x="382" y="160" text-anchor="middle" fill="#5b6b7b" font-size="11.5">goal: faster processing, fewer errors · constraints: sensitive data, strict compliance, legal-team visibility</text>
+      <text x="382" y="178" text-anchor="middle" fill="#5b6b7b" font-size="11.5">fit: ✔ reviews clauses vs knowledge base, calls regulatory tools, escalates edge cases</text>
+      <text x="382" y="194" text-anchor="middle" font-weight="700" fill="#166534" font-size="11.5">recommendation: task agent + guardrails + clear escalation path to legal</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">3</span><span>Exam tip: the best answers <b>balance ambition with realism</b> — "we can build something powerful, and here's how we mitigate the risks." Don't oversell.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f3">
+  <h3>3 · Risk assessment — likelihood × impact × mitigation</h3>
+  <p class="cap">Planning isn't just what to build; it's what could go wrong. The contract-review agent's own risk register:</p>
+  <div class="matrix"><table>
+    <tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr>
+    <tr><td>Data staleness</td><td>Medium</td><td><b>High</b> — outdated regulations</td><td>automated data refresh + alerts</td></tr>
+    <tr><td>Hallucination on edge cases</td><td>Medium</td><td><b>High</b> — bad legal advice</td><td>mandatory human review above a risk threshold</td></tr>
+    <tr><td>Scope creep</td><td><b>High</b> — "can it also do X?"</td><td>Medium</td><td>scope boundaries documented in the project charter</td></tr>
+  </table></div>
+  <div class="learns">
+    <div class="learn"><span class="n">4</span><span>Rate every risk on <b>likelihood</b> and <b>impact</b>, then name a <b>mitigation</b>: guardrails, human review, monitoring, or a manual fallback.</span></div>
+    <div class="learn"><span class="n">5</span><span>Context sets impact: a hallucination in an internal FAQ is low-impact; the same hallucination in a customer financial recommendation is high-impact.</span></div>
+  </div>
+  <div class="hook">🧠 <b>Hook:</b> in any "plan or recommend" scenario, <b>include at least one risk + its mitigation</b> — the exam rewards candidates who think about what can go wrong.</div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 3.2 · Data grounding readiness</h2><span class="w">hallucination insurance</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> grounding means giving the agent real context — RAG, connectors, knowledge bases — instead of letting it confidently invent answers. Before building anything, grade the data on three dimensions (quality, relevance, availability), run the readiness checklist (outdated data, silos, permissions, governance), and only then pick the tooling: Copilot Studio knowledge sources for simple grounding, Foundry for advanced RAG pipelines, Power Platform connectors for live enterprise data. Garbage in, garbage out is effectively a security issue.</div>
+
+<section class="fig" id="f4">
+  <h3>4 · The three grounding dimensions</h3>
+  <p class="cap">Every readiness assessment walks these three — miss one and the agent fails in production.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 190">
+    <g font-size="12.5">
+      <circle cx="380" cy="88" r="46" fill="#0b2a4a"/>
+      <text x="380" y="84" text-anchor="middle" fill="#fff" font-weight="700" font-size="13">Grounded</text>
+      <text x="380" y="101" text-anchor="middle" fill="#c9d8ea" font-size="10.5">agent</text>
+      <rect x="40" y="30" width="200" height="66" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="140" y="55" text-anchor="middle" font-weight="700" fill="#0e7490">Quality</text>
+      <text x="140" y="73" text-anchor="middle" fill="#5b6b7b" font-size="11">accurate &amp; current — not a spreadsheet last touched in 2023</text>
+      <rect x="40" y="120" width="200" height="56" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="140" y="143" text-anchor="middle" font-weight="700" fill="#0e7490">Relevance</text>
+      <text x="140" y="161" text-anchor="middle" fill="#5b6b7b" font-size="11">matches what the agent actually does</text>
+      <rect x="520" y="60" width="210" height="60" rx="12" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="625" y="84" text-anchor="middle" font-weight="700" fill="#0e7490">Availability</text>
+      <text x="625" y="102" text-anchor="middle" fill="#5b6b7b" font-size="11">secure, fast, reliable access — no permission maze</text>
+      <line x1="240" y1="63" x2="336" y2="80" stroke="#c8d4e0" stroke-width="2"/>
+      <line x1="240" y1="146" x2="338" y2="102" stroke="#c8d4e0" stroke-width="2"/>
+      <line x1="518" y1="90" x2="426" y2="89" stroke="#c8d4e0" stroke-width="2"/>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">6</span><span><b>Without grounding the agent hallucinates</b> — plausible-sounding, confidently wrong answers. Grounding is the prevention, assessed <em>before</em> building.</span></div>
+    <div class="learn"><span class="n">7</span><span>Three dimensions to grade: <b>quality · relevance · availability</b>.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f5">
+  <h3>5 · The readiness checklist &amp; the grounding toolbox</h3>
+  <p class="cap">Four warning signs to hunt for, and the Microsoft tool that answers each grounding need.</p>
+  <div class="gcse">
+    <div><b><i style="background:#c62828">⏰</i>Outdated data</b>the first warning sign — establish a refresh cadence.</div>
+    <div><b><i style="background:#b45309">🧱</i>Silos</b>data spread across systems with no integration.</div>
+    <div><b><i style="background:#7c3aed">🔑</i>Permissions</b>can the agent actually reach it, securely?</div>
+    <div><b><i style="background:#0e7490">📋</i>Governance</b>is there a data owner? are there policies?</div>
+  </div>
+  <div class="matrix" style="margin-top:12px"><table>
+    <tr><th>Need</th><th>Tool</th><th>Use it for</th></tr>
+    <tr><td>Simple grounding</td><td>Copilot Studio knowledge sources</td><td>SharePoint, Dataverse, websites, uploaded documents</td></tr>
+    <tr><td>Advanced RAG</td><td>Azure AI Foundry pipelines</td><td>custom retrieval logic, specialized document types</td></tr>
+    <tr><td>Live enterprise data</td><td>Power Platform connectors</td><td>SQL, CRM, ERP — the agent pulls current records</td></tr>
+  </table></div>
+  <div class="learns">
+    <div class="learn"><span class="n">8</span><span>Exam answer shape for messy-data scenarios: <b>assess readiness first → name the quality/relevance/access gaps → recommend governance → set a refresh cadence → then build</b>.</span></div>
+    <div class="learn"><span class="n">9</span><span>"Garbage in, garbage out" is effectively a <b>security issue</b> — wrong AI output is a risk the exam wants identified and avoided.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 3.3 · The Cloud Adoption Framework for AI</h2><span class="w">pilot → organization-wide</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> CAF for AI is the roadmap from one pilot to a governed, organization-wide strategy: Strategy (pick high-impact use cases), Plan (data, skills, timeline), Ready (environments, security policies, ownership), Adopt (pilot then scale), Govern (continuous compliance with tools like Purview). The trap is treating it as a straight line — the phases run in parallel and loop: while use case #1 is in Adopt, use case #2 is already back in Strategy. A cross-functional AI Center of Excellence centralizes governance, and pilots are designed with scope, duration, metrics, go/no-go criteria, and a feedback loop.</div>
+
+<section class="fig" id="f6">
+  <h3>6 · The CAF cycle — five phases, running in parallel</h3>
+  <p class="cap">Iterative, not sequential. The arrow back from Adopt to Strategy is the exam's favorite detail.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 250">
+    <defs><marker id="arrC3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="11.5" text-anchor="middle">
+      <rect x="20" y="40" width="132" height="66" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="86" y="63" font-weight="700" fill="#0e7490" font-size="12.5">1 · Strategy</text>
+      <text x="86" y="80" fill="#5b6b7b" font-size="10.5">vision · high-impact</text><text x="86" y="93" fill="#5b6b7b" font-size="10.5">use cases</text>
+      <rect x="172" y="40" width="132" height="66" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="238" y="63" font-weight="700" fill="#0e7490" font-size="12.5">2 · Plan</text>
+      <text x="238" y="80" fill="#5b6b7b" font-size="10.5">data · skills ·</text><text x="238" y="93" fill="#5b6b7b" font-size="10.5">timeline roadmap</text>
+      <rect x="324" y="40" width="132" height="66" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="390" y="63" font-weight="700" fill="#0e7490" font-size="12.5">3 · Ready</text>
+      <text x="390" y="80" fill="#5b6b7b" font-size="10.5">environments · security</text><text x="390" y="93" fill="#5b6b7b" font-size="10.5">policies · ownership</text>
+      <rect x="476" y="40" width="132" height="66" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="542" y="63" font-weight="700" fill="#0e7490" font-size="12.5">4 · Adopt</text>
+      <text x="542" y="80" fill="#5b6b7b" font-size="10.5">pilot in Copilot Studio</text><text x="542" y="93" fill="#5b6b7b" font-size="10.5">prove value · scale</text>
+      <rect x="628" y="40" width="118" height="66" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="687" y="63" font-weight="700" fill="#166534" font-size="12.5">5 · Govern</text>
+      <text x="687" y="80" fill="#5b6b7b" font-size="10.5">Purview · monitoring ·</text><text x="687" y="93" fill="#5b6b7b" font-size="10.5">continuous compliance</text>
+      <line x1="152" y1="73" x2="170" y2="73" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrC3)"/>
+      <line x1="304" y1="73" x2="322" y2="73" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrC3)"/>
+      <line x1="456" y1="73" x2="474" y2="73" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrC3)"/>
+      <line x1="608" y1="73" x2="626" y2="73" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrC3)"/>
+      <path d="M542 106 C 542 170, 120 175, 88 108" fill="none" stroke="#0891b2" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#arrC3)"/>
+      <text x="320" y="176" fill="#0e7490" font-weight="700" font-size="11.5">while adopting use case #1, you're back in Strategy &amp; Plan for use case #2</text>
+      <rect x="180" y="196" width="400" height="42" rx="11" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="380" y="214" font-weight="700" fill="#92400e" font-size="12">AI Center of Excellence (CoE)</text>
+      <text x="380" y="230" fill="#7a5c22" font-size="10.5">cross-functional team centralizing governance, standards &amp; best practices</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">10</span><span><b>All five phases are ongoing, with activities in parallel</b> — "CAF is iterative, not sequential" is the tested insight.</span></div>
+    <div class="learn"><span class="n">11</span><span>The <b>CoE exists because AI needs mutually-exclusive skill sets</b> — no single person covers strategy, data, security, and change management alone.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f7">
+  <h3>7 · Anatomy of a well-designed pilot</h3>
+  <p class="cap">"Let's try and see what happens" is not a pilot. These five elements are — defined before you start.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0e7490">🎯</i>Scope</b>bounded: "password resets + account status for the NA support team" — not "automate all of customer service."</div>
+    <div><b><i style="background:#7c3aed">📅</i>Duration</b>6–8 weeks — long enough for meaningful data, short enough to keep urgency.</div>
+    <div><b><i style="background:#b45309">📊</i>Success metrics</b>resolution rate, CSAT, average handle time, escalation rate — defined <b>up front</b>.</div>
+    <div><b><i style="background:#166534">🚦</i>Go / no-go criteria</b>"resolution &gt; 70% and CSAT ≥ 4 → full rollout" — specific, agreed in advance.</div>
+    <div><b><i style="background:#c62828">🔁</i>Feedback loop</b>weekly team check-ins + automated post-interaction surveys feeding improvements.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">12</span><span>A structured pilot with clear success criteria <b>beats "we'll deploy and monitor" every single time</b>.</span></div>
+    <div class="learn"><span class="n">13</span><span>If you don't define success before the pilot, <b>you can't prove it afterward</b> — metrics come first.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 3.4 · Build vs buy vs extend</h2><span class="w">the practical decision</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> build when the workflow is truly unique and you have deep expertise plus time and budget; buy when a vendor solution covers 80%+ out of the box; extend — start from a vendor base and customize prompts, connectors, and actions — is the most common enterprise answer. The decision reduces to two questions: how unique is the problem (usually less unique than people think) and how much expertise is on staff. Maintenance and ongoing ownership cost matter more than initial delivery.</div>
+
+<section class="fig" id="f8">
+  <h3>8 · The decision tree, the trade-offs, and three worked scenarios</h3>
+  <p class="cap">One picture for the unit's most practical decision.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 180">
+    <g font-size="12">
+      <rect x="20" y="24" width="225" height="130" rx="12" fill="#fdecea" stroke="#f2c7c3"/>
+      <text x="132" y="48" text-anchor="middle" font-weight="800" fill="#c62828" font-size="14">BUILD</text>
+      <text x="132" y="70" text-anchor="middle" fill="#7a3b36" font-size="11">truly unique workflow · deep expertise ·</text>
+      <text x="132" y="85" text-anchor="middle" fill="#7a3b36" font-size="11">time &amp; budget to spare</text>
+      <text x="132" y="110" text-anchor="middle" fill="#a94442" font-size="11">highest cost · longest timeline ·</text>
+      <text x="132" y="125" text-anchor="middle" fill="#a94442" font-size="11">full control · you own maintenance</text>
+      <text x="132" y="144" text-anchor="middle" fill="#c62828" font-size="10.5" font-weight="700">(maintenance often exceeds initial build)</text>
+      <rect x="267" y="24" width="225" height="130" rx="12" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="380" y="48" text-anchor="middle" font-weight="800" fill="#166534" font-size="14">BUY</text>
+      <text x="380" y="70" text-anchor="middle" fill="#3c6947" font-size="11">vendor covers <tspan font-weight="800">≥ 80%</tspan> out of the box ·</text>
+      <text x="380" y="85" text-anchor="middle" fill="#3c6947" font-size="11">no capacity for custom maintenance</text>
+      <text x="380" y="110" text-anchor="middle" fill="#3c6947" font-size="11">fastest to value (live in weeks) ·</text>
+      <text x="380" y="125" text-anchor="middle" fill="#3c6947" font-size="11">Microsoft support &amp; updates ·</text>
+      <text x="380" y="140" text-anchor="middle" fill="#3c6947" font-size="11">constrained by the vendor's box</text>
+      <rect x="514" y="14" width="228" height="150" rx="12" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+      <text x="628" y="40" text-anchor="middle" font-weight="800" fill="#0e7490" font-size="14">EXTEND ★</text>
+      <text x="628" y="62" text-anchor="middle" fill="#155e6e" font-size="11">vendor base + your prompts,</text>
+      <text x="628" y="77" text-anchor="middle" fill="#155e6e" font-size="11">connectors &amp; actions on top</text>
+      <text x="628" y="102" text-anchor="middle" fill="#155e6e" font-size="11">reasonably fast + vendor support</text>
+      <text x="628" y="117" text-anchor="middle" fill="#155e6e" font-size="11">+ your customization</text>
+      <text x="628" y="142" text-anchor="middle" font-weight="800" fill="#0e7490" font-size="11.5">the most common enterprise answer</text>
+    </g>
+  </svg>
+  </div>
+  <div class="matrix"><table>
+    <tr><th>Scenario</th><th>Signal</th><th>Decision</th></tr>
+    <tr><td>Manufacturing schedule optimizer</td><td>highly domain-specific constraints, tight integration with plant systems</td><td><b>Build</b> — custom algorithms needed</td></tr>
+    <tr><td>Financial-services support copilot</td><td>Copilot for Service covers nearly everything; one internal policy DB</td><td><b>Extend</b> — prebuilt + one custom connector</td></tr>
+    <tr><td>Retail personalized recommendations</td><td>common problem, unique data</td><td><b>Extend</b> — Foundry base + catalog &amp; behavior data</td></tr>
+  </table></div>
+  <div class="learns">
+    <div class="learn"><span class="n">14</span><span>The decision reduces to two questions: <b>how unique is the problem × how much expertise is on staff</b> — and most "unique" problems aren't.</span></div>
+    <div class="learn"><span class="n">15</span><span>Answers citing <b>baseline-fast + lower maintenance + custom connectors on top</b> beat "we'll build everything for total control."</span></div>
+    <div class="learn"><span class="n">16</span><span>Always price in <b>maintenance and total ownership</b>, not just initial delivery.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 3.5 · ROI &amp; total cost of ownership</h2><span class="w">prove it to finance</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> TCO is everything, not just tokens — development, inference, infrastructure, governance/operations, and change management, in roughly known proportions. ROI = (benefit − TCO) ÷ TCO. The worked example: an agent absorbing 40% of support tickets frees 20 FTEs ($1.4M) and cuts churn ($750K) against a $600K year-one cost — 258% ROI, break-even in three to four months. Exam answers include all cost buckets, realistic numbers, and phased rollout thinking.</div>
+
+<section class="fig" id="f9">
+  <h3>9 · What TCO really contains</h3>
+  <p class="cap">Five buckets with typical shares — and the four levers that shrink them.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 130">
+    <g font-size="11.5">
+      <rect x="20" y="34" width="180" height="40" rx="7" fill="#0e7490"/>
+      <text x="110" y="58" text-anchor="middle" fill="#fff" font-weight="700">Development 20–30%</text>
+      <rect x="204" y="34" width="235" height="40" rx="7" fill="#0891b2"/>
+      <text x="321" y="58" text-anchor="middle" fill="#fff" font-weight="700">Model &amp; inference 25–40%</text>
+      <rect x="443" y="34" width="110" height="40" rx="7" fill="#38a8c8"/>
+      <text x="498" y="51" text-anchor="middle" fill="#fff" font-weight="700" font-size="10.5">Infrastructure</text>
+      <text x="498" y="65" text-anchor="middle" fill="#fff" font-weight="700" font-size="10.5">10–20%</text>
+      <rect x="557" y="34" width="110" height="40" rx="7" fill="#63bdd8"/>
+      <text x="612" y="51" text-anchor="middle" fill="#fff" font-weight="700" font-size="10.5">Governance &amp; ops</text>
+      <text x="612" y="65" text-anchor="middle" fill="#fff" font-weight="700" font-size="10.5">10–20%</text>
+      <rect x="671" y="34" width="72" height="40" rx="7" fill="#9ad2e4"/>
+      <text x="707" y="51" text-anchor="middle" fill="#0b2a4a" font-weight="700" font-size="10.5">Change mgmt</text>
+      <text x="707" y="65" text-anchor="middle" fill="#0b2a4a" font-weight="700" font-size="10.5">5–15%</text>
+      <text x="380" y="108" text-anchor="middle" fill="#5b6b7b" font-size="12">a 24/7 agent needs monitoring, incident response, retraining — <tspan font-weight="700" fill="#1a2733">don't underestimate the ongoing buckets</tspan></text>
+    </g>
+  </svg>
+  </div>
+  <div class="gcse">
+    <div><b><i style="background:#0e7490">🔀</i>Model routing</b>stops premium pricing on simple queries — biggest inference lever.</div>
+    <div><b><i style="background:#7c3aed">♻️</i>Reuse agents &amp; prompts</b>prompt libraries cut development cost — no rebuilding from scratch.</div>
+    <div><b><i style="background:#166534">🛰️</i>Purview + automated alerts</b>shrink governance &amp; operations cost.</div>
+    <div><b><i style="background:#b45309">🪜</i>Phased pilots</b>reduce risk — never bet the organization on one big build.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">17</span><span><b>TCO = development + inference + infrastructure + governance/ops + change management</b> — answers that count only development (or only tokens) are wrong.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f10">
+  <h3>10 · The ROI worked example — support automation</h3>
+  <p class="cap">The course's reference calculation. Learn the shape; the numbers plug in.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 240">
+    <g font-size="12">
+      <text x="190" y="30" text-anchor="middle" font-weight="800" fill="#166534" font-size="13.5">BENEFIT — $2.15M / year</text>
+      <rect x="40" y="44" width="300" height="52" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="190" y="65" text-anchor="middle" fill="#166534" font-weight="700" font-size="11.5">labor reallocation: agent takes 40% of tickets</text>
+      <text x="190" y="83" text-anchor="middle" fill="#3c6947" font-size="11">= 20 FTEs × $70K = <tspan font-weight="800">$1.40M</tspan></text>
+      <rect x="40" y="104" width="300" height="52" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="190" y="125" text-anchor="middle" fill="#166534" font-weight="700" font-size="11.5">churn −5%: first response 5 min vs 2 h</text>
+      <text x="190" y="143" text-anchor="middle" fill="#3c6947" font-size="11">on $50M revenue at 3% churn = <tspan font-weight="800">$0.75M</tspan></text>
+      <text x="570" y="30" text-anchor="middle" font-weight="800" fill="#c62828" font-size="13.5">YEAR-1 TCO — $600K</text>
+      <rect x="420" y="44" width="300" height="34" rx="10" fill="#fdecea" stroke="#f2c7c3"/>
+      <text x="570" y="65" text-anchor="middle" fill="#7a3b36" font-size="11">development &amp; helpdesk integration — <tspan font-weight="800">$400K</tspan></text>
+      <rect x="420" y="84" width="300" height="34" rx="10" fill="#fdecea" stroke="#f2c7c3"/>
+      <text x="570" y="105" text-anchor="middle" fill="#7a3b36" font-size="11">inference: 20K tickets/mo × 12 × $0.05 — <tspan font-weight="800">$120K</tspan></text>
+      <rect x="420" y="124" width="300" height="34" rx="10" fill="#fdecea" stroke="#f2c7c3"/>
+      <text x="570" y="145" text-anchor="middle" fill="#7a3b36" font-size="11">infrastructure &amp; operations — <tspan font-weight="800">$80K</tspan></text>
+      <rect x="150" y="182" width="460" height="44" rx="12" fill="#0b2a4a"/>
+      <text x="380" y="201" text-anchor="middle" fill="#fff" font-weight="800" font-size="13.5">ROI = (2.15M − 0.6M) ÷ 0.6M = 258%</text>
+      <text x="380" y="218" text-anchor="middle" fill="#c9d8ea" font-size="11">operational break-even in ~3–4 months</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">18</span><span><b>ROI = (benefit − TCO) ÷ TCO</b> — with realistic, provable, quantifiable numbers on both sides.</span></div>
+    <div class="learn"><span class="n">19</span><span>Show <b>phased thinking</b>: year 1 pilot tier-1 support, year 2 expand to tier-2 — prove value before scaling. Early visible progress also buys stakeholder buy-in.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 3.6 · Prompt engineering &amp; prompt libraries</h2><span class="w">prompts as a strategic asset</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> the prompt is the agent's constitution — priorities, boundaries, and when to ask for help. Four techniques carry the exam: chain-of-thought, few-shot examples, role prompting, and guardrails. The organizational failure mode is every team writing subtly-different prompts from scratch; the fix is a centralized prompt library — categorized, performance-tracked, change-logged — governed with ownership, review before production, quarterly testing, and versioned templates pushed to all agents. The Center of Excellence owns it.</div>
+
+<section class="fig" id="f11">
+  <h3>11 · Four techniques + the governed prompt library</h3>
+  <p class="cap">What each technique buys you, and the library workflow that scales them across 15 agents instead of one.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0e7490">🪜</i>Chain of thought</b>reason step-by-step before answering — improves reasoning, gives transparency.</div>
+    <div><b><i style="background:#7c3aed">🎯</i>Few-shot examples</b>2–3 concrete good answers — <b>examples beat descriptions every time</b>; ensures consistency.</div>
+    <div><b><i style="background:#b45309">🎭</i>Role prompting</b>tell the agent what role it plays — context changes behavior dramatically.</div>
+    <div><b><i style="background:#c62828">🛡️</i>Guardrails</b>boundaries that prevent bad decisions — "never approve without legal review if IP rights are involved."</div>
+  </div>
+  <div class="svgwrap" style="margin-top:14px">
+  <svg viewBox="0 0 760 150">
+    <defs><marker id="arrPL" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="11.5" text-anchor="middle">
+      <rect x="20" y="30" width="150" height="64" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="95" y="53" font-weight="700" fill="#0e7490">Central library</text>
+      <text x="95" y="70" fill="#5b6b7b" font-size="10.5">categorized by use case ·</text><text x="95" y="83" fill="#5b6b7b" font-size="10.5">test results · changelog</text>
+      <rect x="200" y="30" width="150" height="64" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="275" y="53" font-weight="700" fill="#0e7490">Owner + review</text>
+      <text x="275" y="70" fill="#5b6b7b" font-size="10.5">accountability like code ·</text><text x="275" y="83" fill="#5b6b7b" font-size="10.5">guardrails &amp; tone checked</text>
+      <rect x="380" y="30" width="150" height="64" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="455" y="53" font-weight="700" fill="#0e7490">Quarterly testing</text>
+      <text x="455" y="70" fill="#5b6b7b" font-size="10.5">prompts drift as models</text><text x="455" y="83" fill="#5b6b7b" font-size="10.5">&amp; business rules change</text>
+      <rect x="560" y="30" width="180" height="64" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="650" y="53" font-weight="700" fill="#166534">Versioned rollout</text>
+      <text x="650" y="70" fill="#5b6b7b" font-size="10.5">one escalation template v1.1</text><text x="650" y="83" fill="#5b6b7b" font-size="10.5">pushed to all 15 agents at once</text>
+      <line x1="170" y1="62" x2="198" y2="62" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrPL)"/>
+      <line x1="350" y1="62" x2="378" y2="62" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrPL)"/>
+      <line x1="530" y1="62" x2="558" y2="62" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrPL)"/>
+      <text x="380" y="132" fill="#5b6b7b" font-size="12">owned by the <tspan font-weight="700" fill="#92400e">Center of Excellence</tspan> — prompt governance is a CoE function</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">20</span><span><b>The prompt is the agent's constitution</b> — it defines priorities and when to ask for help vs decide alone.</span></div>
+    <div class="learn"><span class="n">21</span><span>High-scoring phrase: "<b>centralized prompt library with versioning, ownership, and governance</b>."</span></div>
+    <div class="learn"><span class="n">22</span><span>Cross-agent consistency: <b>one escalation template</b> (frustration, refunds over a threshold, legal interpretation → human) used by every agent.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 3.7 · Model routing &amp; custom models</h2><span class="w">the economics of inference</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> not every task deserves the expensive model. Routing matches queries to models — lightweight for "my password isn't working," premium for a multi-cause enterprise regression — and Foundry can do it dynamically by evaluated complexity. Four criteria drive the rules: complexity, latency, cost targets, accuracy requirements. Custom models are the rare top rung of an escalation ladder (routing → prompting + grounding → fine-tuning), justified only by mission-critical domain accuracy, compliance isolation, or volume economics.</div>
+
+<section class="fig" id="f12">
+  <h3>12 · Routing in one picture — and the four routing criteria</h3>
+  <p class="cap">Same agent, two queries, two very different bills.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 180">
+    <defs><marker id="arrR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="12">
+      <rect x="290" y="62" width="180" height="56" rx="12" fill="#0b2a4a"/>
+      <text x="380" y="86" text-anchor="middle" fill="#fff" font-weight="700">Router</text>
+      <text x="380" y="103" text-anchor="middle" fill="#c9d8ea" font-size="10.5">evaluates query complexity (Foundry: automatic)</text>
+      <rect x="30" y="30" width="220" height="50" rx="11" fill="#f6f9fc" stroke="#d9e4ee"/>
+      <text x="140" y="51" text-anchor="middle" fill="#12293f" font-weight="600" font-size="11.5">"My password isn't working"</text>
+      <text x="140" y="68" text-anchor="middle" fill="#5b6b7b" font-size="10.5">simple · closed-ended</text>
+      <rect x="30" y="104" width="220" height="50" rx="11" fill="#f6f9fc" stroke="#d9e4ee"/>
+      <text x="140" y="123" text-anchor="middle" fill="#12293f" font-weight="600" font-size="11.5">"Enterprise feature broke since last month"</text>
+      <text x="140" y="140" text-anchor="middle" fill="#5b6b7b" font-size="10.5">ambiguous root cause · blocking workflow</text>
+      <line x1="250" y1="55" x2="288" y2="80" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrR)"/>
+      <line x1="250" y1="129" x2="288" y2="102" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrR)"/>
+      <rect x="520" y="30" width="220" height="50" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="630" y="51" text-anchor="middle" fill="#166534" font-weight="700" font-size="11.5">Lightweight model</text>
+      <text x="630" y="68" text-anchor="middle" fill="#3c6947" font-size="10.5">fraction of a cent per call</text>
+      <rect x="520" y="104" width="220" height="50" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="630" y="125" text-anchor="middle" fill="#5b21b6" font-weight="700" font-size="11.5">Premium model</text>
+      <text x="630" y="142" text-anchor="middle" fill="#5b6b7b" font-size="10.5">a few cents — explores context, asks clarifying questions</text>
+      <line x1="470" y1="80" x2="518" y2="55" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrR)"/>
+      <line x1="470" y1="102" x2="518" y2="127" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrR)"/>
+    </g>
+  </svg>
+  </div>
+  <div class="tiles">
+    <div class="tile"><b>🧩</b><span><b>Complexity</b> — yes/no → cheap; open-ended analysis → premium</span></div>
+    <div class="tile"><b>⏱️</b><span><b>Latency</b> — time-sensitive tasks can justify a faster model</span></div>
+    <div class="tile"><b>💵</b><span><b>Cost targets</b> — build the per-query threshold into the rules</span></div>
+    <div class="tile"><b>🎯</b><span><b>Accuracy</b> — safety-critical / compliance → always the best model</span></div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">23</span><span>Over thousands of calls, routing <b>saves real money while keeping quality where it matters</b> — a real policy balances all four criteria.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f13">
+  <h3>13 · The escalation ladder — and the three custom-model triggers</h3>
+  <p class="cap">Most organizations never climb past rung two. Each trigger comes with the course's own numbers.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 170">
+    <g font-size="12">
+      <rect x="60" y="112" width="620" height="38" rx="9" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="370" y="136" text-anchor="middle" font-weight="700" fill="#166534">Rung 1 · Model routing — the first move, always</text>
+      <rect x="140" y="66" width="460" height="38" rx="9" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="370" y="90" text-anchor="middle" font-weight="700" fill="#0e7490">Rung 2 · Prompt engineering + grounding</text>
+      <rect x="220" y="20" width="300" height="38" rx="9" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="370" y="44" text-anchor="middle" font-weight="700" fill="#5b21b6">Rung 3 · Custom models — rarely needed</text>
+    </g>
+  </svg>
+  </div>
+  <div class="gcse">
+    <div><b><i style="background:#7c3aed">⚖️</i>Mission-critical accuracy</b>legal document analysis — a hallucination costs lawsuits; fine-tune on thousands of the firm's real contracts.</div>
+    <div><b><i style="background:#166534">🏥</i>Compliance isolation</b>healthcare data residency — fine-tuned model deployed in your own Azure subscription, full control.</div>
+    <div><b><i style="background:#0e7490">📈</i>Volume economics</b>1M emails/yr: +2% accuracy saves $500K; $50K fine-tune pays back in ~3 months.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">24</span><span>Exam default: <b>start with routing + advanced prompting, evaluate with metrics, escalate only on evidence of persistent gaps</b>.</span></div>
+    <div class="learn"><span class="n">25</span><span>Justify every model decision with <b>metrics</b> — accuracy gains, cost savings, compliance needs.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 3.8 · Data interoperability &amp; architecture</h2><span class="w">from silos to a governed layer</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> data scattered across Dynamics, legacy databases, Zendesk, SharePoint, and SAP confuses agents into hallucination. Interoperability is the ongoing practice of making information flow consistently and securely: semantic organization (one shared vocabulary), governed access (permissions + audits), and near-real-time sync. Microsoft's kit: Purview catalogs everything with lineage, Dataverse holds the critical business entities, connectors and MCP reach the rest. The exam blueprint is a four-layer architecture, illustrated with a healthcare example.</div>
+
+<section class="fig" id="f14">
+  <h3>14 · The four-layer data architecture</h3>
+  <p class="cap">The pattern to reproduce on the exam whenever a scenario says "scattered and inconsistent data."</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 300">
+    <g font-size="12">
+      <rect x="40" y="20" width="680" height="52" rx="11" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="120" y="42" font-weight="800" fill="#334155" font-size="12.5">L1 · SOURCES</text>
+      <text x="120" y="60" fill="#5b6b7b" font-size="10.5">keep them all</text>
+      <text x="450" y="42" text-anchor="middle" fill="#33475c" font-size="11.5">Dynamics 365 · SAP · SharePoint · legacy databases · ticketing systems</text>
+      <text x="450" y="60" text-anchor="middle" fill="#5b6b7b" font-size="10.5">you don't replace anything at this layer</text>
+      <rect x="40" y="86" width="680" height="52" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="120" y="108" font-weight="800" fill="#5b21b6" font-size="12.5">L2 · CATALOG</text>
+      <text x="120" y="126" fill="#5b6b7b" font-size="10.5">a map, not a move</text>
+      <text x="450" y="108" text-anchor="middle" fill="#33475c" font-size="11.5">Microsoft Purview scans &amp; classifies — unified catalog with lineage</text>
+      <text x="450" y="126" text-anchor="middle" fill="#5b6b7b" font-size="10.5">where does customer data live? what quality? who owns it?</text>
+      <rect x="40" y="152" width="680" height="52" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="120" y="174" font-weight="800" fill="#0e7490" font-size="12.5">L3 · COMMON PLATFORM</text>
+      <text x="120" y="192" fill="#5b6b7b" font-size="10.5">single source of truth</text>
+      <text x="450" y="174" text-anchor="middle" fill="#33475c" font-size="11.5">critical entities → Dataverse (transactional) · Fabric (analytics &amp; reporting)</text>
+      <text x="450" y="192" text-anchor="middle" fill="#5b6b7b" font-size="10.5">not everything moves here — the most critical business entities do</text>
+      <rect x="40" y="218" width="680" height="52" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="120" y="240" font-weight="800" fill="#166534" font-size="12.5">L4 · AGENT ACCESS</text>
+      <text x="120" y="258" fill="#5b6b7b" font-size="10.5">governance built in</text>
+      <text x="450" y="240" text-anchor="middle" fill="#33475c" font-size="11.5">agents query Dataverse under governance · connectors/MCP reach everything else</text>
+      <text x="450" y="258" text-anchor="middle" fill="#5b6b7b" font-size="10.5">permissions + audit on every path</text>
+      <text x="380" y="292" text-anchor="middle" fill="#5b6b7b" font-size="12">three practices underneath: <tspan font-weight="700" fill="#1a2733">semantic organization · governed access · near-real-time sync</tspan></text>
+    </g>
+  </svg>
+  </div>
+  <p class="note"><b>Healthcare example:</b> EHR, claims, and billing stay put (L1); Purview maps them (L2); patient ID, insurance status, balance sync daily into Dataverse (L3); the front-desk agent sees insurance status but never medical records, "what's my copay?" hits Dataverse, "what tests did I have last year?" goes to the EHR via a secure connector (L4).</p>
+  <div class="learns">
+    <div class="learn"><span class="n">26</span><span><b>Siloed data causes agent failures</b> — inconsistent context is a hallucination generator, so interoperability is foundational, and ongoing.</span></div>
+    <div class="learn"><span class="n">27</span><span><b>Semantic organization:</b> "customer" and "order status" must mean the same thing, with the same values, in every system.</span></div>
+    <div class="learn"><span class="n">28</span><span>Exam checklist: <b>catalog with Purview → critical entities into Dataverse → connect the rest → lock down governance</b>. Touch all four and you've nailed it.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 3.9 · Prebuilt agents &amp; small language models</h2><span class="w">the simplest thing that works</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> you rarely build from scratch. Prebuilt copilots — Sales (deal workflows), Service (frontline support), Microsoft 365 (productivity) — are the fastest path to demonstrable value and ideal pilot vehicles. Where they run out (specialized industry workflows, deep custom integrations), small language models like Phi-3 step in: dramatically cheaper, private, fast enough for edge devices, and fine-tunable into a domain expert. The pragmatic hierarchy: prebuilt first, SLMs for the specialized edges, custom large models only as last resort.</div>
+
+<section class="fig" id="f15">
+  <h3>15 · The prebuilt copilot lineup</h3>
+  <p class="cap">Each one maps to a workflow — activate, customize prompts from your library, and be running in days.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0e7490">💼</i>Copilot for Sales</b>deal management — summarizes relationships, suggests next actions, drafts emails, grounded in your CRM.</div>
+    <div><b><i style="background:#b45309">🎧</i>Copilot for Service</b>frontline support — suggests solutions from knowledge articles, drafts responses, handles escalations. ROI = reduced handle time + higher resolution.</div>
+    <div><b><i style="background:#166534">📎</i>Microsoft 365 Copilot</b>productivity — meeting summaries, email drafting, document creation across Teams, Word, Excel, Outlook.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">29</span><span><b>Prebuilt agents are the fastest path to demonstrating value</b> — which makes them the ideal pilot vehicle (and why "buy first" from Ep 3.4 usually wins).</span></div>
+    <div class="learn"><span class="n">30</span><span>Their limits: <b>highly specialized industry workflows and deeply customized integrations</b> — that's where you extend, or reach for SLMs.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f16">
+  <h3>16 · Truck vs scooter — when a small language model wins</h3>
+  <p class="cap">GPT-4 is the truck; Phi-3 is the scooter. You don't need a truck to go get coffee.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 150">
+    <g font-size="12.5">
+      <rect x="50" y="30" width="300" height="90" rx="14" fill="#f1f5f9" stroke="#d8e0e8"/>
+      <text x="200" y="60" text-anchor="middle" font-size="26">🚚</text>
+      <text x="200" y="88" text-anchor="middle" font-weight="700" fill="#334155">Large model (GPT-4)</text>
+      <text x="200" y="106" text-anchor="middle" fill="#5b6b7b" font-size="11.5">massive · powerful · hauls anything · costs like a truck</text>
+      <rect x="410" y="30" width="300" height="90" rx="14" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+      <text x="560" y="60" text-anchor="middle" font-size="26">🛵</text>
+      <text x="560" y="88" text-anchor="middle" font-weight="700" fill="#0e7490">Small language model (Phi-3)</text>
+      <text x="560" y="106" text-anchor="middle" fill="#155e6e" font-size="11.5">small · nimble · efficient · faster for the daily commute</text>
+    </g>
+  </svg>
+  </div>
+  <div class="tiles">
+    <div class="tile"><b>💵</b><span><b>Cost</b> — dramatically cheaper per inference at millions of queries</span></div>
+    <div class="tile"><b>🔐</b><span><b>Privacy</b> — fine-tune on proprietary data, deploy in your own Azure environment</span></div>
+    <div class="tile"><b>⚡</b><span><b>Latency</b> — runs on edge devices: factory floor, retail store, no cloud round-trip</span></div>
+    <div class="tile"><b>🎓</b><span><b>Specialization</b> — learns your terminology, processes &amp; decision patterns</span></div>
+  </div>
+  <p class="note"><b>Two reference cases:</b> factory sensors needing &lt;100 ms anomaly analysis → local fine-tuned Phi-3 answers in ~50 ms, cuts inference cost ~40%, and sensor data never leaves the plant. Proprietary trading rules → internally-deployed fine-tuned SLM with fully governed access.</p>
+  <div class="learns">
+    <div class="learn"><span class="n">31</span><span>The pragmatic hierarchy: <b>prebuilt copilot (80% fit) → SLM for the specialized edge case → custom large model only if neither works</b>.</span></div>
+    <div class="learn"><span class="n">32</span><span>The closing question of the whole Plan domain: <b>"what's the simplest solution that solves the problem?"</b></span></div>
+  </div>
+  <div class="hook">🧠 <b>Hook:</b> scooter beats truck on <b>C·P·L·S</b> — Cost, Privacy, Latency, Specialization. If a scenario stresses any two of those plus high volume, the SLM answer is in play.</div>
+</section>
+
+<div class="pager">
+  <a href="course-2-platforms.html"><span>Previous unit</span><b>← 2 · Microsoft AI Platforms</b></a>
+  <a class="next" href="course-4-design.html"><span>Next unit</span><b>4 · Design Solutions →</b></a>
+</div>
+
+</div>
+<footer class="src">Companion notes to Unit 3 (Eps 3.1–3.9) of the <a href="https://www.youtube.com/playlist?list=PLXd94bZTzZ-SGw8yMHD44d9xKgMKTZUVF" target="_blank" rel="noopener">Microsoft AB-100 Agentic AI Exam Prep</a> video course — summaries and visuals are original study notes; watch the episodes for the full narration.</footer>
+</body>
+</html>

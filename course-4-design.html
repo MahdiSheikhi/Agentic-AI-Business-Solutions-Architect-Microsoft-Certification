@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Companion 4 — Design: Components, Orchestration, Copilots &amp; Well-Architected AI</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#fff; --ink:#1a2733; --muted:#5b6b7b; --line:#e3e8ee;
+  --dark:#0b2a4a; --soft:#e8f1fa;
+  --pg:#7c3aed; --pg-ink:#6d28d9; --pg-soft:#f5f3ff; --pg-line:#ddd0f8;
+  --good:#1a7f37; --good-soft:#e7f4ea; --bad:#c62828; --bad-soft:#fdecea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.55}
+header.hero{background:linear-gradient(120deg,var(--dark) 0%,#7c3aed 170%);color:#fff;padding:26px 20px 22px;text-align:center}
+header.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+header.hero h1{font-size:clamp(20px,3vw,28px);font-weight:650}
+header.hero p.sub{margin-top:7px;color:rgba(255,255,255,.85);font-size:13.8px;max-width:780px;margin-left:auto;margin-right:auto}
+.hero-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hero-stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:7px 16px;font-size:12px;color:#e2d9f6}
+.hero-stat b{display:block;font-size:16px;color:#fff}
+nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;box-shadow:0 1px 6px rgba(15,40,70,.06)}
+nav.bar a{flex:0 0 auto;text-decoration:none;border-bottom:3px solid transparent;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.here{color:var(--pg-ink);border-bottom-color:var(--pg)}
+.wrap{max-width:960px;margin:0 auto;padding:26px 16px 70px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:24px;box-shadow:0 1px 4px rgba(15,40,70,.05)}
+.toc h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.toc .gl{font-size:12px;font-weight:800;min-width:120px;letter-spacing:.03em;color:var(--pg-ink)}
+.toc a{font-size:12.6px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:#33475c;background:#fbfcfe}
+.toc a:hover{border-color:var(--pg);color:var(--pg-ink)}
+.ghead{display:flex;align-items:center;gap:12px;margin:34px 0 14px}
+.ghead .gbar{width:6px;height:34px;border-radius:3px;background:var(--pg)}
+.ghead h2{font-size:21px;color:var(--pg-ink)}
+.ghead span.w{font-size:12.5px;font-weight:700;background:var(--pg-soft);color:var(--pg-ink);border-radius:8px;padding:3px 12px}
+.epsum{background:var(--pg-soft);border:1px solid var(--pg-line);border-left:4px solid var(--pg);border-radius:11px;padding:12px 16px;font-size:13.6px;color:#2c4258;margin-bottom:16px}
+.epsum b{color:#12293f}
+section.fig{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 4px rgba(15,40,70,.05);scroll-margin-top:64px}
+section.fig h3{font-size:18px;color:var(--dark);margin-bottom:3px}
+section.fig p.cap{font-size:13.3px;color:var(--muted);margin-bottom:16px}
+section.fig p.note{font-size:12.8px;color:var(--muted);margin-top:12px;padding:9px 13px;background:#f7f9fb;border-left:3px solid var(--line);border-radius:7px}
+.hook{margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:9px;font-size:13.2px;color:#57430d}
+.hook b{color:#78350f}
+.svgwrap{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;font-family:inherit}
+svg text{font-family:"Segoe UI",system-ui,sans-serif}
+.learns{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:8px;margin-top:14px}
+.learn{display:flex;gap:10px;align-items:flex-start;font-size:13.1px;color:#33475c;background:#fbfcfe;border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.learn .n{flex:0 0 auto;min-width:23px;height:23px;border-radius:50%;background:var(--pg);color:#fff;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.learn b{color:#12293f}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:6px}
+.tile{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:22px;color:var(--dark)}
+.tile span{font-size:12.3px;color:var(--muted)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.duo{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.panel h4{font-size:14.5px;margin-bottom:9px}
+.panel ul{margin:0 0 0 18px;font-size:13.4px;color:#33475c}
+.panel li{margin:5px 0}
+.panel li b{color:#12293f}
+.gcse{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.gcse div{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfe;font-size:13.2px;color:var(--muted)}
+.gcse b{display:flex;align-items:center;gap:9px;font-size:14.5px;color:#12293f;margin-bottom:6px}
+.gcse b i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;color:#fff;font-weight:800;font-size:16px;flex:0 0 auto}
+.matrix{overflow-x:auto;margin:4px 0 8px}
+.matrix table{border-collapse:collapse;width:100%;font-size:13.2px;min-width:560px}
+.matrix th{background:#f6f8fb;text-align:left;font-weight:700;color:#334155;padding:8px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+.matrix td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#33475c}
+.matrix td:first-child{font-weight:700;color:#12293f;white-space:nowrap}
+.matrix tr:last-child td{border-bottom:none}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+.pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;text-decoration:none;color:#33475c;font-size:13px}
+.pager a:hover{border-color:var(--pg)}
+.pager a b{display:block;color:var(--pg-ink);font-size:14.5px;margin-top:2px}
+.pager a.next{text-align:right}
+footer.src{text-align:center;color:var(--muted);font-size:12.3px;padding:8px 16px 30px}
+footer.src a{color:var(--pg-ink)}
+@media print{nav.bar,.toc,.pager{display:none}section.fig{break-inside:avoid;border:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="badge">AB-100 · Video Course Companion · Unit 4 of 5</div>
+  <h1>Design — Components, Orchestration, Copilots &amp; Well-Architected AI</h1>
+  <p class="sub">Episodes 4.1–4.10 in pictures: the six-component anatomy, five orchestration patterns, Copilot Studio's design vocabulary, prebuilt copilots across Dynamics 365 and Microsoft 365, grounding with RAG, advanced extensibility, the Well-Architected pillars, and custom models in Foundry.</p>
+  <div class="hero-stats">
+    <span class="hero-stat"><b>10</b>episodes covered</span>
+    <span class="hero-stat"><b>18</b>visuals</span>
+    <span class="hero-stat"><b>33</b>learn items</span>
+    <span class="hero-stat"><b>25–30%</b>Design domain weight</span>
+  </div>
+</header>
+<nav class="bar">
+  <a href="index.html">⌂ All materials</a>
+  <a href="course-1-foundations.html">1 · Foundations</a>
+  <a href="course-2-platforms.html">2 · Platforms</a>
+  <a href="course-3-plan.html">3 · Plan</a>
+  <a href="course-4-design.html" class="here">4 · Design</a>
+  <a href="course-5-operate.html">5 · Operate</a>
+  <a href="AB100notes2design.html">📚 Design notes</a>
+</nav>
+<div class="wrap">
+
+<div class="toc">
+  <h2>Jump to a visual</h2>
+  <div class="row"><span class="gl">Architecture</span><a href="#f1">Six components</a><a href="#f2">Autonomy levels</a><a href="#f3">Five patterns</a><a href="#f4">Reorder scenario</a><a href="#f5">Handoffs &amp; failure design</a></div>
+  <div class="row"><span class="gl">Copilot Studio</span><a href="#f6">Ears · hands · brain</a><a href="#f7">Three orchestration methods</a><a href="#f8">Prompt actions &amp; agent types</a></div>
+  <div class="row"><span class="gl">Dynamics 365</span><a href="#f9">Sales &amp; Service copilots</a><a href="#f10">Business terms</a><a href="#f11">Extension ladder</a><a href="#f12">Finance &amp; SCM + cross-module</a></div>
+  <div class="row"><span class="gl">Microsoft 365</span><a href="#f13">Four extensibility routes</a><a href="#f14">HR agent design</a></div>
+  <div class="row"><span class="gl">Foundations</span><a href="#f15">RAG architecture</a><a href="#f16">MCP · RPA · behaviors</a><a href="#f17">WAF pillars</a><a href="#f18">Custom-model workflow</a></div>
+</div>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 4.1 · System components &amp; autonomy</h2><span class="w">the anatomy of every agent</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> every agentic system — from a Studio chatbot to a Foundry multi-agent fleet — has six components: perception, reasoning, memory, tools, execution runtime, and guardrails, each with a specific Microsoft platform home. They run as a cycle, illustrated by a Teams order-status inquiry that remembers a repeat customer. The other core design choice is autonomy — copilot mode, semi-autonomous, or fully autonomous — decided by business risk, not technology, and shiftable per action within one agent.</div>
+
+<section class="fig" id="f1">
+  <h3>1 · The six components — and their Microsoft homes</h3>
+  <p class="cap">The exam describes a business need and expects you to name the relevant (or missing) component and its platform mapping.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0e7490">👁️</i>Perception</b>the front door — Teams messages, Dataverse events, Power Automate triggers, sensor events.</div>
+    <div><b><i style="background:#0b2a4a">🧠</i>Reasoning</b>the brain — Azure OpenAI models (GPT-4o) via generative orchestration; chain-of-thought, ReAct.</div>
+    <div><b><i style="background:#166534">💾</i>Memory</b>short-term = conversation context; long-term = Dataverse / Azure AI Search vectors / SharePoint knowledge.</div>
+    <div><b><i style="background:#b45309">🔧</i>Tools</b>the hands — Power Platform connectors, MCP servers, Power Automate flows, custom APIs.</div>
+    <div><b><i style="background:#7c3aed">☁️</i>Execution runtime</b>Copilot Studio (most agents) · Foundry Agent Service (multi-agent) · Container Apps (custom).</div>
+    <div><b><i style="background:#c62828">🛡️</i>Guardrails</b>content safety filters, DLP, Entra ID auth, escalation when confidence drops — non-negotiable.</div>
+  </div>
+  <p class="note"><b>The cycle in one story:</b> a Teams message about an order (perception) → reasoning finds a repeat inquiry in memory → calls the Dynamics connector via the runtime (tool) → drafts a reply → guardrails verify authentication and data-sharing safety → responds, proactively mentioning the shipping delay it flagged last time.</p>
+  <div class="learns">
+    <div class="learn"><span class="n">1</span><span><b>None of the six are optional</b> — exam scenarios often test what's <em>missing</em> from a proposed design.</span></div>
+    <div class="learn"><span class="n">2</span><span><b>Without long-term memory every conversation starts from scratch</b> — the support agent that forgets yesterday's call is the canonical bad design.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f2">
+  <h3>2 · The three autonomy levels — a business-risk decision</h3>
+  <p class="cap">How much freedom the agent gets is decided by the cost of an error, not by what's technically possible.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 210">
+    <g font-size="12">
+      <rect x="30" y="30" width="220" height="110" rx="13" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="140" y="56" text-anchor="middle" font-weight="800" fill="#6d28d9" font-size="13.5">Copilot mode</text>
+      <text x="140" y="76" text-anchor="middle" fill="#5b6b7b" font-size="11">human drives · agent assists</text>
+      <text x="140" y="93" text-anchor="middle" fill="#5b6b7b" font-size="11">suggests, surfaces, drafts —</text>
+      <text x="140" y="108" text-anchor="middle" fill="#5b6b7b" font-size="11">human makes every decision</text>
+      <text x="140" y="130" text-anchor="middle" fill="#6d28d9" font-size="10.5" font-weight="700">new legal-contract reviewer, day one</text>
+      <rect x="270" y="30" width="220" height="110" rx="13" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="380" y="56" text-anchor="middle" font-weight="800" fill="#0d5ca8" font-size="13.5">Semi-autonomous</text>
+      <text x="380" y="76" text-anchor="middle" fill="#5b6b7b" font-size="11">agent proposes · human approves</text>
+      <text x="380" y="93" text-anchor="middle" fill="#5b6b7b" font-size="11">"I recommend reordering 500 units.</text>
+      <text x="380" y="108" text-anchor="middle" fill="#5b6b7b" font-size="11">Do you approve?"</text>
+      <text x="380" y="130" text-anchor="middle" fill="#0d5ca8" font-size="10.5" font-weight="700">regulated industries: finance, health, gov</text>
+      <rect x="510" y="30" width="220" height="110" rx="13" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="620" y="56" text-anchor="middle" font-weight="800" fill="#166534" font-size="13.5">Fully autonomous</text>
+      <text x="620" y="76" text-anchor="middle" fill="#5b6b7b" font-size="11">agent acts · human monitors</text>
+      <text x="620" y="93" text-anchor="middle" fill="#5b6b7b" font-size="11">thousands of daily actions,</text>
+      <text x="620" y="108" text-anchor="middle" fill="#5b6b7b" font-size="11">exceptions reviewed after the fact</text>
+      <text x="620" y="130" text-anchor="middle" fill="#166534" font-size="10.5" font-weight="700">high-volume, low-risk: ticket routing, FAQs</text>
+      <text x="380" y="172" text-anchor="middle" fill="#5b6b7b" font-size="12.5">error cost <tspan font-weight="800" fill="#c62828">high → human in the loop</tspan> · error cost <tspan font-weight="800" fill="#166534">low → automate</tspan></text>
+      <text x="380" y="196" text-anchor="middle" fill="#5b6b7b" font-size="12">same agent, shifting autonomy: answers "when do you close?" alone, <tspan font-weight="700" fill="#1a2733">pauses on "cancel my $50K contract"</tspan></text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">3</span><span><b>Autonomy is a business-risk decision, not a technology decision</b> — can the company afford the consequence of a mistake?</span></div>
+    <div class="learn"><span class="n">4</span><span><b>Autonomy isn't all-or-nothing within one agent</b> — design it to shift by the risk of each specific action.</span></div>
+    <div class="learn"><span class="n">5</span><span>The exam rewards <b>safe and auditable over clever</b> — balance autonomy with strong governance in every answer.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 4.2 · Orchestration patterns</h2><span class="w">making agents work together</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> orchestration is the conductor: needed whenever a problem takes more than one step or agent. Five patterns — sequential, parallel, hierarchical, dynamic, event-driven — each with a signature example and trade-off; real solutions mix them, as in the manufacturing reorder scenario that layers an event trigger, a supervisor, three parallel specialists, and a human above $50K. Agents hand off via A2A (speed), MCP-wrapped tools (governance), or shared Dataverse tables (async + audit), and reliability patterns — circuit breakers, backoff, timeouts, fallbacks, observability — keep multi-agent systems from cascading failure.</div>
+
+<section class="fig" id="f3">
+  <h3>3 · The five patterns at a glance</h3>
+  <p class="cap">Signature example and key trade-off for each — the exam asks "which pattern?" and "what's the risk?"</p>
+  <div class="matrix"><table>
+    <tr><th>Pattern</th><th>Shape</th><th>Signature example</th><th>Strength</th><th>Watch out</th></tr>
+    <tr><td>Sequential</td><td>A → B → C → D</td><td>loan approval: validate → credit → underwrite → decide</td><td>predictable, easy to govern</td><td>latency stacks (4 × 3 s = 12 s)</td></tr>
+    <tr><td>Parallel</td><td>A + B + C → merge</td><td>claims: policy lookup ∥ fraud check ∥ identity verify</td><td>fast</td><td>design the partial-failure plan up front</td></tr>
+    <tr><td>Hierarchical</td><td>supervisor → specialists</td><td>financial analysis: revenue, expense, cash-flow, benchmark analysts</td><td>add specialists freely; supervisor controls governance</td><td>supervisor is the bottleneck</td></tr>
+    <tr><td>Dynamic</td><td>path decided per step</td><td>research that re-plans as results arrive</td><td>handles ambiguity</td><td>harder to test &amp; audit — path varies</td></tr>
+    <tr><td>Event-driven</td><td>event → cascade</td><td>order placed → inventory check → procurement → shipping</td><td>real-time responsiveness</td><td><b>idempotency required</b> — same event twice, same result</td></tr>
+  </table></div>
+  <div class="learns">
+    <div class="learn"><span class="n">6</span><span>Without idempotency, a double-fired event means <b>duplicate orders and duplicate payments</b> — the event-driven pattern's non-negotiable.</span></div>
+    <div class="learn"><span class="n">7</span><span>Tooling map: <b>Copilot Studio flows</b> within one agent · <b>Foundry Agent Service</b> across agents at scale · <b>Power Automate</b> across applications.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f4">
+  <h3>4 · Patterns combined — the manufacturing reorder scenario</h3>
+  <p class="cap">Four patterns in one system: the exact layered design the exam rewards.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 290">
+    <defs><marker id="arrO" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="11.5">
+      <rect x="20" y="20" width="200" height="50" rx="11" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="120" y="41" text-anchor="middle" font-weight="700" fill="#92400e">⚡ Event: stock &lt; threshold</text>
+      <text x="120" y="58" text-anchor="middle" fill="#7a5c22" font-size="10.5">Dataverse event → event-driven trigger</text>
+      <rect x="290" y="20" width="200" height="50" rx="11" fill="#0b2a4a"/>
+      <text x="390" y="41" text-anchor="middle" font-weight="700" fill="#fff">Supervisor agent</text>
+      <text x="390" y="58" text-anchor="middle" fill="#c9d8ea" font-size="10.5">hierarchical coordination</text>
+      <line x1="220" y1="45" x2="288" y2="45" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrO)"/>
+      <rect x="60" y="110" width="190" height="58" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="155" y="132" text-anchor="middle" font-weight="700" fill="#6d28d9">Demand agent</text>
+      <text x="155" y="150" text-anchor="middle" fill="#5b6b7b" font-size="10.5">90-day forecast from sales data</text>
+      <rect x="285" y="110" width="190" height="58" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="380" y="132" text-anchor="middle" font-weight="700" fill="#6d28d9">Supplier agent</text>
+      <text x="380" y="150" text-anchor="middle" fill="#5b6b7b" font-size="10.5">lead times &amp; pricing via MCP connector</text>
+      <rect x="510" y="110" width="190" height="58" rx="11" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="605" y="132" text-anchor="middle" font-weight="700" fill="#6d28d9">Budget agent</text>
+      <text x="605" y="150" text-anchor="middle" fill="#5b6b7b" font-size="10.5">spending authority in the ERP</text>
+      <line x1="350" y1="70" x2="170" y2="108" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrO)"/>
+      <line x1="390" y1="70" x2="385" y2="108" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrO)"/>
+      <line x1="430" y1="70" x2="595" y2="108" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrO)"/>
+      <text x="735" y="140" text-anchor="end" fill="#6d28d9" font-weight="700" font-size="10.5"></text>
+      <text x="380" y="96" text-anchor="middle" fill="#6d28d9" font-weight="700" font-size="10.5">three delegations, run in parallel</text>
+      <rect x="180" y="200" width="400" height="52" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="380" y="221" text-anchor="middle" font-weight="700" fill="#166534">Synthesize: 2,000 units × $4 = $8,000 → auto-generate PO</text>
+      <text x="380" y="239" text-anchor="middle" fill="#3c6947" font-size="10.5">over $50,000 authority? → escalate to a human buyer instead</text>
+      <line x1="155" y1="168" x2="330" y2="198" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrO)"/>
+      <line x1="380" y1="168" x2="380" y2="198" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrO)"/>
+      <line x1="605" y1="168" x2="430" y2="198" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrO)"/>
+      <text x="380" y="280" text-anchor="middle" fill="#5b6b7b" font-size="12">event-driven trigger + hierarchical coordination + parallel specialists + <tspan font-weight="700" fill="#1a2733">human-in-the-loop above the risk threshold</tspan></text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">8</span><span><b>Real solutions mix patterns</b> — hierarchical at the top, parallel within, event-driven to start, human oversight on high-risk decisions.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f5">
+  <h3>5 · Handoffs &amp; designing for failure</h3>
+  <p class="cap">How agents pass work, and the five reliability patterns that keep production multi-agent systems alive.</p>
+  <div class="matrix"><table>
+    <tr><th>Handoff method</th><th>Character</th><th>Pick it when the scenario stresses…</th></tr>
+    <tr><td>A2A protocol</td><td>direct, fast, synchronous — co-located Foundry agents</td><td><b>speed</b></td></tr>
+    <tr><td>MCP-wrapped tools</td><td>agent B exposed as a tool; security, permissions &amp; logging automatic</td><td><b>security &amp; governance</b> — the usual enterprise answer</td></tr>
+    <tr><td>Shared Dataverse tables</td><td>write / read — simple, inherently asynchronous</td><td><b>audit trail or async processing</b></td></tr>
+  </table></div>
+  <div class="gcse" style="margin-top:12px">
+    <div><b><i style="background:#c62828">⛔</i>Circuit breakers</b>five failures in a row → stop calling; use cache or escalate.</div>
+    <div><b><i style="background:#b45309">🔁</i>Retry w/ backoff</b>wait 1 s, 2 s, 4 s — give the service room to recover.</div>
+    <div><b><i style="background:#7c3aed">⏱️</i>Timeouts</b>never wait forever — 30 s silence = stuck, escalate. One slow agent can stall everything.</div>
+    <div><b><i style="background:#0e7490">🪂</i>Fallbacks</b>primary model down → simpler rule-based path; degraded beats dead.</div>
+    <div><b><i style="background:#166534">🔭</i>Observability</b>log every handoff, monitor latency, alert on failure-rate thresholds.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">9</span><span>The question isn't <em>whether</em> agents will fail — it's whether the design handles failure gracefully. <b>Design for failure from day one.</b></span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 4.3 · Copilot Studio design</h2><span class="w">topics · tools · flows — and three methods by name</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> every Studio agent is topics (ears — what it understands), tools (hands — what it does), and flows (brain — the wiring, including every failure path). The exam tests three topic-routing methods <em>by name</em>: classic NLU (trigger phrases, brittle), CLU (trained intent model with entities), and generative orchestration (the LLM routes by your descriptions — now the default). Prompt actions turn the LLM itself into a tool, and the three agent types return with design considerations and a password-reset walkthrough.</div>
+
+<section class="fig" id="f6">
+  <h3>6 · Ears, hands, brain</h3>
+  <p class="cap">Keep them separate: one topic = one job, tools reusable across topics, flows owning branching and error paths.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 150">
+    <g font-size="12.5" text-anchor="middle">
+      <rect x="40" y="30" width="200" height="86" rx="13" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="140" y="58" font-size="22">👂</text>
+      <text x="140" y="82" font-weight="800" fill="#6d28d9">Topics — the ears</text>
+      <text x="140" y="100" fill="#5b6b7b" font-size="11">what it understands · trigger + conversation</text>
+      <rect x="280" y="30" width="200" height="86" rx="13" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="380" y="58" font-size="22">✋</text>
+      <text x="380" y="82" font-weight="800" fill="#92400e">Tools — the hands</text>
+      <text x="380" y="100" fill="#5b6b7b" font-size="11">REST APIs · D365 queries · flows · email</text>
+      <rect x="520" y="30" width="200" height="86" rx="13" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="620" y="58" font-size="22">🧠</text>
+      <text x="620" y="82" font-weight="800" fill="#0d5ca8">Flows — the wiring</text>
+      <text x="620" y="100" fill="#5b6b7b" font-size="11">sequence · branching · loops · error paths</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">10</span><span><b>One topic, one job</b> — balance, history, and settings crammed into one topic is an untestable mess.</span></div>
+    <div class="learn"><span class="n">11</span><span><b>Tools are reusable:</b> five topics needing a customer lookup share one "fetch customer" tool — fix a bug once, fixed everywhere.</span></div>
+    <div class="learn"><span class="n">12</span><span><b>Every flow explicitly handles failure</b> — API timeout, missing account — not just the happy path.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f7">
+  <h3>7 · The three orchestration methods — tested by name</h3>
+  <p class="cap">How the agent decides which topic or action fires when a message arrives.</p>
+  <div class="matrix"><table>
+    <tr><th>Method</th><th>How it routes</th><th>Best for</th><th>Trade-off</th></tr>
+    <tr><td>Classic NLU</td><td>rule-based trigger phrases per topic</td><td>predictable language, well-defined intents</td><td>simple, fast, debuggable — but <b>brittle</b> on unseen phrasing</td></tr>
+    <tr><td>CLU</td><td>ML model trained on labeled utterances; extracts entities (amounts, dates, accounts)</td><td>intent recognition across varied phrasing</td><td>generalizes — but needs training data + ongoing tuning</td></tr>
+    <tr><td>Generative orchestration</td><td>the LLM reads the message and routes using your topic/action <b>descriptions</b></td><td>natural, flexible, multi-intent conversations</td><td>most flexible — <b>less predictable; testing &amp; monitoring matter more</b></td></tr>
+  </table></div>
+  <div class="learns">
+    <div class="learn"><span class="n">13</span><span><b>Generative orchestration is the default for new agents</b> — and your topic descriptions become the routing logic, so write them well.</span></div>
+  </div>
+  <div class="hook">🧠 <b>Hook:</b> NLU matches <b>phrases</b>, CLU matches <b>patterns</b>, generative matches <b>meaning</b>.</div>
+</section>
+
+<section class="fig" id="f8">
+  <h3>8 · Prompt actions, the three agent types &amp; the password-reset walkthrough</h3>
+  <p class="cap">A prompt action uses the LLM itself as the tool — no API, no code. Then match the agent type to the task.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">⚙️ Prompt actions — LLM as a tool</h4>
+      <ul>
+        <li>Define inputs → natural-language prompt template → expected output shape</li>
+        <li><b>Ticket triage:</b> "one-sentence summary + severity low/medium/high" for hundreds of tickets daily</li>
+        <li><b>Sales recs:</b> purchase history in → three likely next products with reasons out</li>
+        <li>Shines at <b>transform, summarize, classify, generate structure</b> — iterate by editing the prompt</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid var(--pg)">
+      <h4 style="color:var(--pg-ink)">🧩 The three agent types, with design duties</h4>
+      <ul>
+        <li><b>Prompt &amp; response</b> — knowledge-grounded Q&amp;A (HR facts agent): current sources, clear system prompts, out-of-scope fallback</li>
+        <li><b>Task</b> — multi-step workflows (IT password reset): clear action chains, every failure path, escalation to humans</li>
+        <li><b>Autonomous</b> — scheduled/event-run (2 a.m. expense processor, auto-approve &lt; $500): strongest guardrails, monitoring, spending limits, audit logs</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note"><b>Walkthrough:</b> "password reset" topic (triggers: "I can't log in", "locked out") under generative orchestration → action 1 verifies identity via the Entra ID connector → action 2 triggers the reset through a Power Automate flow → guardrail: <b>two failed verifications → stop and escalate to the help desk</b> (anti-social-engineering) → task agent, because it acts on request but isn't scheduled.</p>
+  <div class="learns">
+    <div class="learn"><span class="n">14</span><span>The exam penalizes <b>over-engineering</b> (autonomous agent for simple facts) and <b>under-engineering</b> (prompt-and-response for multi-step work) equally.</span></div>
+    <div class="learn"><span class="n">15</span><span>Autonomous agents run with no human watching — <b>the controls built into the agent are all you have</b>.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 4.4 · Copilot for Sales &amp; Service</h2><span class="w">prebuilt, then extended</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> Copilot for Sales lives in Dynamics 365 Sales <em>and</em> Outlook/Teams — a bidirectional CRM↔productivity bridge powering lead scoring, two-minute meeting prep, contextual email drafting, and automatic win-loss analysis. Copilot for Service pairs with Contact Center (the omnichannel infrastructure) to summarize cases, suggest resolutions, draft knowledge articles, and route intelligently. Know the business vocabulary the exam won't define, and extend progressively: configuration → Studio topics → connectors → Power Automate.</div>
+
+<section class="fig" id="f9">
+  <h3>9 · What the two copilots actually do</h3>
+  <p class="cap">Capabilities with the course's own numbers attached.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid #0f6cbd">
+      <h4 style="color:#0d5ca8">💼 Copilot for Sales — D365 Sales + Outlook + Teams</h4>
+      <ul>
+        <li><b>Lead &amp; opportunity scoring</b> — focus on the 10 most likely of 50; pipeline velocity +20–40%</li>
+        <li><b>Meeting prep</b> — deals, issues, emails, notes assembled: 20 min → 2 min</li>
+        <li><b>Email drafting</b> — personalized from deal context: 15 min → 2 min</li>
+        <li><b>Win-loss analysis</b> — automatic, feeds coaching &amp; forecasting</li>
+        <li><b>The bridge:</b> surfaces CRM insight in Outlook/Teams, pushes activity back to CRM — bidirectional</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid #b45309">
+      <h4 style="color:#92400e">🎧 Copilot for Service — D365 Customer Service + Contact Center</h4>
+      <ul>
+        <li><b>Case summarization</b> — the whole trail in one synthesis; pick up cases instantly</li>
+        <li><b>Resolution suggestions</b> — ranked matches from resolved cases &amp; KB articles; every rep gets the veterans' knowledge</li>
+        <li><b>KB authoring</b> — novel fix detected → drafts the article from case notes</li>
+        <li><b>Intelligent routing</b> — issue type, segment, urgency, sentiment: angry enterprise billing dispute → senior specialist</li>
+        <li><b>Division of labor:</b> Contact Center = omnichannel infrastructure; Copilot = the AI layer on top</li>
+      </ul>
+    </div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">16</span><span><b>Copilot for Sales is a connector between Dynamics 365 and Microsoft 365</b> — that bidirectional detail is exam bait.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f10">
+  <h3>10 · The business terms the exam won't define for you</h3>
+  <p class="cap">Scenario questions use these as signals pointing at the right copilot capability.</p>
+  <div class="matrix"><table>
+    <tr><th>Term</th><th>Meaning</th><th>When a scenario says it, think…</th></tr>
+    <tr><td>Pipeline</td><td>total value of all open opportunities across stages</td><td>"pipeline visibility" → Copilot for Sales</td></tr>
+    <tr><td>Opportunity</td><td>qualified lead with revenue potential + deal stage (qualify → develop → propose → close)</td><td>deals moving through stages = opportunity lifecycle</td></tr>
+    <tr><td>Case</td><td>customer issue tracked creation → resolution (active / resolved / cancelled)</td><td>service scenarios</td></tr>
+    <tr><td>SLA</td><td>contractual response &amp; resolution time promise (e.g., respond 4 h, resolve 24 h)</td><td>"SLA compliance" → Copilot for Service</td></tr>
+    <tr><td>CSAT</td><td>post-interaction satisfaction score</td><td>"CSAT dropped 15%" → routing + resolution suggestions</td></tr>
+    <tr><td>FCR</td><td>% of cases resolved without escalation or transfer</td><td>higher FCR via better suggestions &amp; smarter routing</td></tr>
+  </table></div>
+</section>
+
+<section class="fig" id="f11">
+  <h3>11 · The four-level extension ladder</h3>
+  <p class="cap">Use the simplest level that solves the problem — the exam consistently rewards starting at the bottom.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 210">
+    <g font-size="11.5">
+      <rect x="40" y="152" width="680" height="42" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="380" y="170" text-anchor="middle" font-weight="800" fill="#166534" font-size="12.5">1 · Configuration — settings, field mappings, scoring weights, routing rules</text>
+      <text x="380" y="186" text-anchor="middle" fill="#3c6947" font-size="10.5">no code, no Copilot Studio — START HERE (VIP customers → dedicated team)</text>
+      <rect x="90" y="106" width="580" height="40" rx="10" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="380" y="123" text-anchor="middle" font-weight="800" fill="#0e7490" font-size="12.5">2 · Copilot Studio topics &amp; tools — custom business logic</text>
+      <text x="380" y="139" text-anchor="middle" fill="#155e6e" font-size="10.5">credit-check topic before lead qualification · sentiment prompt action → escalate angry customers</text>
+      <rect x="140" y="60" width="480" height="40" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="380" y="77" text-anchor="middle" font-weight="800" fill="#6d28d9" font-size="12.5">3 · Connectors — external data not in Dynamics 365</text>
+      <text x="380" y="93" text-anchor="middle" fill="#5b6b7b" font-size="10.5">Dun &amp; Bradstreet lead enrichment · warranty status from an external ERP</text>
+      <rect x="190" y="14" width="380" height="40" rx="10" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="380" y="31" text-anchor="middle" font-weight="800" fill="#92400e" font-size="12.5">4 · Power Automate — cross-app workflows</text>
+      <text x="380" y="47" text-anchor="middle" fill="#7a5c22" font-size="10.5">deal approval through finance → legal → management · SLA-breach alerting</text>
+    </g>
+  </svg>
+  </div>
+  <p class="note"><b>Design example:</b> opportunity moves to "proposal sent" → "proposal follow-up" topic pulls the stakeholder map from Dataverse + engagement data from Outlook → prompt action summarizes each stakeholder's likely concerns and drafts the follow-up → guardrail: <b>deals over $500K route to the sales manager before sending</b>. Ready-to-send in two minutes; big deals get oversight.</p>
+  <div class="learns">
+    <div class="learn"><span class="n">17</span><span><b>Don't propose Azure ML when configuration solves it</b>; don't build custom connectors when standard ones exist — match the level to the need.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 4.5 · Finance &amp; Supply Chain AI</h2><span class="w">the operations side + cross-module</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> Copilot for Finance automates three-way invoice matching, anomaly detection, compliance checks, accruals, and variance analysis — always with audit trails. The Supply Chain copilot is more autonomous: stockout prediction, quality flagging, logistics optimization, inventory monitoring — event-driven agents governed by confidence thresholds and escalation rules. The real enterprise value is cross-module orchestration over the shared Dataverse backbone, and F&amp;O agent chat can be extended with custom knowledge sources mapped to user roles.</div>
+
+<section class="fig" id="f12">
+  <h3>12 · Finance vs SCM copilots — and the warranty-claim relay</h3>
+  <p class="cap">Two operating personalities, one shared backbone.</p>
+  <div class="duo">
+    <div class="panel" style="border-left:4px solid #166534">
+      <h4 style="color:#166534">🧾 Copilot for Finance — checks &amp; balances</h4>
+      <ul>
+        <li><b>Three-way matching:</b> invoice vs PO vs receiving — all match → auto-approve; mismatch → human review. Hours per batch → seconds</li>
+        <li><b>Anomaly detection:</b> invoice 30% above vendor norm → flagged (price rise? typo? fraud?)</li>
+        <li><b>Compliance checks:</b> blacklisted vendor, blown budget, exceeded authority → routed to the right approver</li>
+        <li><b>Month-end:</b> accrual automation + variance analysis — investigate outliers, not everything</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:4px solid #b45309">
+      <h4 style="color:#92400e">🚚 Copilot for Supply Chain — autonomous watchkeeper</h4>
+      <ul>
+        <li><b>Stockout prediction:</b> demand forecast × inventory × lead times — "component X runs out Wednesday, three lines halt" → alert or auto-reorder</li>
+        <li><b>Quality flagging:</b> defect rate 2% → 8% on a shipment → investigate before accepting</li>
+        <li><b>Logistics optimization:</b> consolidate shipments, pick carriers by cost vs deadline</li>
+        <li><b>Inventory watch:</b> slow movers → clearance; fast movers → order ahead of demand</li>
+      </ul>
+    </div>
+  </div>
+  <div class="svgwrap" style="margin-top:12px">
+  <svg viewBox="0 0 760 130">
+    <defs><marker id="arrW" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="11" text-anchor="middle">
+      <rect x="20" y="24" width="160" height="52" rx="10" fill="#fdecea" stroke="#f2c7c3"/>
+      <text x="100" y="45" font-weight="700" fill="#c62828">1 · Service</text><text x="100" y="62" fill="#7a3b36" font-size="10">defect reported → case + warranty verified</text>
+      <rect x="210" y="24" width="160" height="52" rx="10" fill="#fffbeb" stroke="#f3e3bb"/>
+      <text x="290" y="45" font-weight="700" fill="#92400e">2 · Supply chain</text><text x="290" y="62" fill="#7a5c22" font-size="10">nearest-warehouse stock → replacement ships</text>
+      <rect x="400" y="24" width="160" height="52" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="480" y="45" font-weight="700" fill="#166534">3 · Finance</text><text x="480" y="62" fill="#3c6947" font-size="10">credit memo + vendor chargeback</text>
+      <rect x="590" y="24" width="150" height="52" rx="10" fill="#fdecea" stroke="#f2c7c3"/>
+      <text x="665" y="45" font-weight="700" fill="#c62828">4 · Service</text><text x="665" y="62" fill="#7a3b36" font-size="10">tracking number → customer notified</text>
+      <line x1="180" y1="50" x2="208" y2="50" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrW)"/>
+      <line x1="370" y1="50" x2="398" y2="50" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrW)"/>
+      <line x1="560" y1="50" x2="588" y2="50" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrW)"/>
+      <text x="380" y="112" fill="#5b6b7b" font-size="12"><tspan font-weight="700" fill="#1a2733">Dataverse is the shared backbone</tspan> — every handoff logged and auditable; agents in different modules react to shared data events</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">18</span><span>SCM agents are <b>autonomous and event-driven</b> — governance questions target confidence thresholds, escalation rules, and monitoring.</span></div>
+    <div class="learn"><span class="n">19</span><span><b>F&amp;O agent chat extends with custom knowledge sources</b> (internal policies, supplier procedures) — mapped to roles: AP clerks get invoice policy, planners get procurement rules.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 4.6 · Microsoft 365 Copilot &amp; Teams agents</h2><span class="w">four extensibility routes</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> M365 Copilot extends four ways — Copilot Studio plugins (multi-step logic), declarative agents (JSON-manifest, no-code, the exam's favorite new concept), Graph connectors (external data as native M365 content, with mandatory item-level ACLs), and message extensions (quick card actions in Teams). Governance rides on data classification: sensitivity labels first, then DLP, conditional access, and audit logging; admins scope agent availability through the Teams admin center. The HR worked example combines a Graph connector, SharePoint policies, and a declarative agent.</div>
+
+<section class="fig" id="f13">
+  <h3>13 · Match the route to the scenario</h3>
+  <p class="cap">Four options, one selection rule: choose by complexity.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0f6cbd">🔌</i>Copilot Studio plugin</b>custom agent surfaced in Teams/Outlook — for <b>multi-step workflows &amp; external APIs</b> (query monday.com from Teams).</div>
+    <div><b><i style="background:#7c3aed">📄</i>Declarative agent</b>defined <b>entirely by a JSON manifest</b> — instructions + knowledge sources + capabilities. No code; deployed via Teams admin center. For <b>simple scoped Q&amp;A</b>.</div>
+    <div><b><i style="background:#0e7490">🕸️</i>Graph connector</b>external data exposed through Microsoft Graph <b>as if native M365</b> — searchable by Copilot like SharePoint. For <b>external system data</b>.</div>
+    <div><b><i style="background:#b45309">🃏</i>Message extension</b>card-based actions in the Teams compose box — <b>quick lookups, approvals, data entry</b>.</div>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">20</span><span>Declarative agent manifests have three sections: <b>instructions (scope) · knowledge sources (SharePoint/files/URLs) · capabilities (e.g., code interpreter on/off)</b>. Out-of-scope questions are declined back to normal Copilot.</span></div>
+    <div class="learn"><span class="n">21</span><span><b>Graph connectors must carry item-level ACLs</b> — without them Copilot can surface confidential data to unauthorized users. That's a governance failure the exam tests.</span></div>
+    <div class="learn"><span class="n">22</span><span><b>Classification comes first, then governance:</b> without sensitivity labels (public / internal / confidential / restricted), Copilot has no boundaries to enforce. DLP, conditional access, and audit logging build on top.</span></div>
+    <div class="learn"><span class="n">23</span><span>Admins control discovery: <b>integrated apps catalog + M365 admin center</b> — enable, disable, or scope agents per user group; monitor adoption via usage analytics.</span></div>
+  </div>
+</section>
+
+<section class="fig" id="f14">
+  <h3>14 · The HR agent — a complete M365 design</h3>
+  <p class="cap">Hundreds of repetitive HR tickets per week, answered by three building blocks and a well-written manifest.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 240">
+    <defs><marker id="arrH" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="11.5">
+      <rect x="30" y="26" width="210" height="60" rx="11" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="135" y="49" text-anchor="middle" font-weight="700" fill="#0e7490">Graph connector → HRIS</text>
+      <text x="135" y="67" text-anchor="middle" fill="#5b6b7b" font-size="10.5">employee records with row-level security — each employee sees only their own data</text>
+      <rect x="30" y="110" width="210" height="60" rx="11" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="135" y="133" text-anchor="middle" font-weight="700" fill="#166534">SharePoint knowledge</text>
+      <text x="135" y="151" text-anchor="middle" fill="#5b6b7b" font-size="10.5">leave policy · benefits guide · 401k · code of conduct</text>
+      <rect x="300" y="62" width="220" height="76" rx="12" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="410" y="88" text-anchor="middle" font-weight="700" fill="#6d28d9">Declarative agent (manifest)</text>
+      <text x="410" y="106" text-anchor="middle" fill="#5b6b7b" font-size="10.5">scoped to HR · "always cite the source ·</text>
+      <text x="410" y="121" text-anchor="middle" fill="#5b6b7b" font-size="10.5">escalate personal advice to an HR partner"</text>
+      <rect x="580" y="70" width="160" height="60" rx="11" fill="#e8f1fa" stroke="#bcd6ee"/>
+      <text x="660" y="93" text-anchor="middle" font-weight="700" fill="#0b2a4a">Teams deployment</text>
+      <text x="660" y="111" text-anchor="middle" fill="#5b6b7b" font-size="10.5">via Teams admin center, org-wide</text>
+      <line x1="240" y1="56" x2="298" y2="88" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrH)"/>
+      <line x1="240" y1="140" x2="298" y2="112" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrH)"/>
+      <line x1="520" y1="100" x2="578" y2="100" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrH)"/>
+      <rect x="140" y="192" width="480" height="38" rx="10" fill="#fbfcfe" stroke="#e3e8ee"/>
+      <text x="380" y="209" text-anchor="middle" fill="#12293f" font-size="11" font-weight="600">"Do I accrue sick days?" → "You accrue 10/year, used 3, 7 left — source: Leave Policy §…"</text>
+      <text x="380" y="224" text-anchor="middle" fill="#5b6b7b" font-size="10.5">"Should I take leave now?" → "That's a personal decision — talk to your HR partner."</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">24</span><span>The pattern to reuse: <b>connector for personal data (row-level security) + SharePoint for policy + declarative agent for scope + admin-center deployment</b>.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 4.7 · Grounding, knowledge sources &amp; RAG</h2><span class="w">real data in, accurate answers out</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> an ungrounded agent answers "30 days" because that's common in training data, when your refund policy says 60. RAG — retrieve, augment, generate — is the fix and the most important enterprise pattern. Sources match data types (Dataverse for structured, SharePoint + Azure AI Search for documents, Graph for M365 context, MCP for legacy), Copilot Studio combines five knowledge-source types in one agent, and data processing (chunking, embeddings, hybrid search, cleaning, freshness) makes retrieval precise. Citations and verification are not optional.</div>
+
+<section class="fig" id="f15">
+  <h3>15 · The full RAG pipeline — plus the source-selection table</h3>
+  <p class="cap">Seven stages from question to cited answer, with escalation when confidence is low.</p>
+  <div class="svgwrap">
+  <svg viewBox="0 0 760 150">
+    <defs><marker id="arrRG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="10.5" text-anchor="middle">
+      <rect x="10" y="34" width="96" height="54" rx="10" fill="#f6f9fc" stroke="#d9e4ee"/>
+      <text x="58" y="56" font-weight="700" fill="#12293f" font-size="11">Question</text><text x="58" y="72" fill="#5b6b7b">"my VPN keeps dropping"</text>
+      <rect x="118" y="34" width="96" height="54" rx="10" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="166" y="56" font-weight="700" fill="#0e7490" font-size="11">Retrieve</text><text x="166" y="72" fill="#5b6b7b">top 3–5 chunks</text>
+      <rect x="226" y="34" width="96" height="54" rx="10" fill="#ecfeff" stroke="#bfe9f2"/>
+      <text x="274" y="56" font-weight="700" fill="#0e7490" font-size="11">Re-rank</text><text x="274" y="72" fill="#5b6b7b">relevance + recency</text>
+      <rect x="334" y="34" width="96" height="54" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="382" y="56" font-weight="700" fill="#6d28d9" font-size="11">Augment</text><text x="382" y="72" fill="#5b6b7b">context → prompt</text>
+      <rect x="442" y="34" width="96" height="54" rx="10" fill="#f5f3ff" stroke="#ddd0f8"/>
+      <text x="490" y="56" font-weight="700" fill="#6d28d9" font-size="11">Generate</text><text x="490" y="72" fill="#5b6b7b">grounded response</text>
+      <rect x="550" y="34" width="96" height="54" rx="10" fill="#e7f4ea" stroke="#c4e2cb"/>
+      <text x="598" y="56" font-weight="700" fill="#166534" font-size="11">Cite</text><text x="598" y="72" fill="#5b6b7b">source + date attached</text>
+      <rect x="658" y="34" width="96" height="54" rx="10" fill="#fdecea" stroke="#f2c7c3"/>
+      <text x="706" y="56" font-weight="700" fill="#c62828" font-size="11">Verify</text><text x="706" y="72" fill="#a94442">vs retrieved context</text>
+      <line x1="106" y1="61" x2="116" y2="61" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrRG)"/>
+      <line x1="214" y1="61" x2="224" y2="61" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrRG)"/>
+      <line x1="322" y1="61" x2="332" y2="61" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrRG)"/>
+      <line x1="430" y1="61" x2="440" y2="61" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrRG)"/>
+      <line x1="538" y1="61" x2="548" y2="61" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrRG)"/>
+      <line x1="646" y1="61" x2="656" y2="61" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrRG)"/>
+      <text x="380" y="126" fill="#5b6b7b" font-size="12">confidence below threshold (e.g., <tspan font-weight="700" fill="#c62828">70%</tspan>) → <tspan font-weight="700" fill="#1a2733">escalate to a human rather than guess</tspan></text>
+    </g>
+  </svg>
+  </div>
+  <div class="matrix"><table>
+    <tr><th>Data type</th><th>Source</th><th>Why</th></tr>
+    <tr><td>Structured, real-time</td><td>Dataverse</td><td>customer records, orders, balances — built-in role access control</td></tr>
+    <tr><td>Unstructured documents</td><td>SharePoint + Azure AI Search</td><td>policies &amp; guides — hybrid vector + keyword search out of the box</td></tr>
+    <tr><td>M365 context</td><td>Microsoft Graph</td><td>emails, calendar, recent files for personalized answers</td></tr>
+    <tr><td>Proprietary / legacy</td><td>MCP / custom APIs</td><td>secure wrapped access to systems with no modern interface</td></tr>
+  </table></div>
+  <div class="learns">
+    <div class="learn"><span class="n">25</span><span>Copilot Studio's five knowledge-source types — <b>public websites, SharePoint, Dataverse, uploaded files, Graph</b> — can combine in one agent; the orchestrator searches across all of them.</span></div>
+    <div class="learn"><span class="n">26</span><span>Processing that makes retrieval work: <b>chunk</b> by section (or one question returns a 50-page manual), <b>embed</b> for semantic match ("return a gift" finds "gift returns…30 days"), <b>hybrid search</b>, <b>clean duplicates</b>, <b>manage freshness</b> — last year's pricing is worse than no agent.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 4.8 · MCP, RPA &amp; agent behaviors</h2><span class="w">advanced extensibility</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> MCP puts a governed middleman between agents and APIs — permission checks, input validation, rate limits, full logging, and no API keys in agent hands; REST API tools and prebuilt skills are the lighter-weight alternatives for single integrations. UI automation/RPA drives legacy screens when no API exists — always with whitelisted actions, confirmations, and timeouts. Configurable behaviors round it out: reasoning mode, voice mode, autonomous triggers, and grounded generative answers.</div>
+
+<section class="fig" id="f16">
+  <h3>16 · The extensibility decision rules</h3>
+  <p class="cap">One table the exam draws from repeatedly — plus the four configurable behaviors.</p>
+  <div class="matrix"><table>
+    <tr><th>Scenario signal</th><th>Answer</th><th>Why / required guardrails</th></tr>
+    <tr><td>Simple, direct API for one agent</td><td>REST API tool</td><td>OpenAPI spec — simpler than MCP for a single integration</td></tr>
+    <tr><td>Common AI task (extraction, summarization)</td><td>Skills</td><td>prebuilt building blocks, no custom work</td></tr>
+    <tr><td>"Securely integrate", "full traceability", shared tools</td><td><b>MCP</b></td><td>agents never see API keys; every call logged with user context; shared across Studio, Foundry, custom apps</td></tr>
+    <tr><td>Legacy system, <b>no API</b></td><td>UI automation / RPA</td><td>only with <b>whitelisted actions + user confirmation + timeouts</b> — misclicks are real</td></tr>
+    <tr><td>Complex multi-step reasoning</td><td>Reasoning mode</td><td>chain-of-thought accuracy at higher latency — show a progress indicator</td></tr>
+    <tr><td>Phone / hands-busy users</td><td>Voice mode</td><td>latency is the constraint — a 2 s pause is fine in text, awkward in voice; handle transcription variance</td></tr>
+    <tr><td>Act on events, no user prompt</td><td>Autonomous triggers</td><td>confidence thresholds + escalation rules — no human is in the loop</td></tr>
+    <tr><td>No topic matches</td><td>Generative answers</td><td><b>must be grounded</b> — configure which knowledge sources they may use; ungrounded fallback = hallucination source</td></tr>
+  </table></div>
+  <div class="learns">
+    <div class="learn"><span class="n">27</span><span>The rule in one line: <b>API exists → MCP (or REST tool if single-agent); no API → RPA with strict controls</b>.</span></div>
+    <div class="learn"><span class="n">28</span><span>MCP's three wins: <b>security</b> (no keys in agents), <b>auditability</b> (logged with user + timestamp), <b>interoperability</b> (same tools for every platform's agents).</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 4.9 · Power Platform Well-Architected</h2><span class="w">five pillars + responsible AI</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> the Power Platform Well-Architected Framework adapts Azure's five pillars — reliability, security, cost optimization, operational excellence, performance efficiency — for agentic AI, and layers responsible AI (fairness, transparency, accountability, safety) on top. WAF questions are scenario-based: "which principle is most at risk?" — and the best answers apply several pillars at once, as the health-insurance claims walkthrough shows. Generative pages, the AI Hub, and AI Builder each tie back to specific pillars.</div>
+
+<section class="fig" id="f17">
+  <h3>17 · Six lenses on one design</h3>
+  <p class="cap">The pillars with their signature patterns — then all six applied to the claims-processing agent.</p>
+  <div class="gcse">
+    <div><b><i style="background:#0e7490">🛠️</i>Reliability</b>retry with backoff · circuit breakers · graceful degradation — keep functioning when dependencies fail.</div>
+    <div><b><i style="background:#c62828">🔐</i>Security</b>least privilege (agent sees only the user's data) · MCP wrapping (no keys) · prompt-injection defense (validate inputs).</div>
+    <div><b><i style="background:#166534">💰</i>Cost optimization</b>model routing (80–90% of requests fit the cheap model) · caching · batch processing.</div>
+    <div><b><i style="background:#b45309">📟</i>Operational excellence</b>dashboards (latency, errors, escalation, tokens) · alerts on spikes · runbooks for common failures.</div>
+    <div><b><i style="background:#7c3aed">⚡</i>Performance efficiency</b>parallelize independent steps · async notifications · retrieve 3–5 chunks, not 100.</div>
+    <div><b><i style="background:#0b2a4a">🧭</i>Responsible AI</b>fairness (bias audits) · transparency (plain-language decisions + appeal path) · accountability (logs + human owners) · safety (filters + human review for high stakes).</div>
+  </div>
+  <p class="note"><b>Claims-agent walkthrough:</b> queue-and-retry if the necessity model is down, auto-approve only low-risk (reliability) · claims via MCP, PII encrypted, role-based patient access (security) · cheap model triages the 90% of straightforward claims (cost) · claims/hour + escalation-rate dashboard with alerts (op-ex) · validation, coverage, and necessity checks in parallel, emails async (performance) · monthly bias audit of denial rates by demographic, every denial explained with appeal instructions (responsible AI).</p>
+  <div class="learns">
+    <div class="learn"><span class="n">29</span><span><b>Address all six lenses in every design</b> — a loan-approval system needs security <em>and</em> fairness; the keyed answer usually applies multiple pillars.</span></div>
+    <div class="learn"><span class="n">30</span><span>Platform tie-ins: <b>AI Hub</b> = tenant-wide AI usage/cost visibility (op-ex + cost) · <b>generative pages</b> = performance + grounding · <b>AI Builder</b> for repeatable tasks vs <b>Copilot control</b> for free-form chat.</span></div>
+    <div class="learn"><span class="n">31</span><span><b>Responsible AI is a foundation, not a feature</b> — it applies to every agent that makes or influences decisions.</span></div>
+  </div>
+</section>
+
+<div class="ghead"><div class="gbar"></div><h2>Ep 4.10 · Custom models in Foundry</h2><span class="w">the end-to-end toolchain</span></div>
+
+<div class="epsum"><b>Narration in brief:</b> the design-level decision framework: prebuilt models for standard tasks, fine-tuned for specialized language, custom-trained only for truly unique problems, SLMs for high-volume cost-sensitive work. Foundry covers the whole lifecycle — model catalog, prompt flow for prototyping, evaluation tools, fine-tuning, managed-endpoint deployment — and a seven-step workflow runs from task definition to integrated, drift-monitored production models connected to agents via MCP or Copilot Studio actions.</div>
+
+<section class="fig" id="f18">
+  <h3>18 · The decision framework &amp; the seven-step workflow</h3>
+  <p class="cap">Pragmatism first, then the pipeline for when custom is genuinely justified.</p>
+  <div class="matrix"><table>
+    <tr><th>Situation</th><th>Choice</th><th>Note</th></tr>
+    <tr><td>Standard task (Q&amp;A, summarize, generate)</td><td>Prebuilt (GPT-4o)</td><td>prompt engineering only — most enterprise scenarios start and end here</td></tr>
+    <tr><td>Specialized language (medical, legal, financial)</td><td>Fine-tuned</td><td>base model + your domain data → understands the nuances</td></tr>
+    <tr><td>Truly unique task (proprietary defect classes, your churn patterns)</td><td>Custom-trained</td><td>most effort, most differentiation</td></tr>
+    <tr><td>High-volume, cost-sensitive (thousands of tickets/hour)</td><td>SLM</td><td>lower token cost, faster inference, good-enough accuracy</td></tr>
+  </table></div>
+  <div class="svgwrap" style="margin-top:10px">
+  <svg viewBox="0 0 760 120">
+    <defs><marker id="arrCM" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8ea3b8"/></marker></defs>
+    <g font-size="10.5" text-anchor="middle">
+      <rect x="10" y="30" width="92" height="52" rx="9" fill="#f6f9fc" stroke="#d9e4ee"/><text x="56" y="52" font-weight="700" fill="#12293f">1 Define task</text><text x="56" y="68" fill="#5b6b7b" font-size="9.5">classify? extract? generate?</text>
+      <rect x="114" y="30" width="92" height="52" rx="9" fill="#f6f9fc" stroke="#d9e4ee"/><text x="160" y="52" font-weight="700" fill="#12293f">2 Prep data</text><text x="160" y="68" fill="#5b6b7b" font-size="9.5">labeled · representative · unbiased</text>
+      <rect x="218" y="30" width="92" height="52" rx="9" fill="#f6f9fc" stroke="#d9e4ee"/><text x="264" y="52" font-weight="700" fill="#12293f">3 Base model</text><text x="264" y="68" fill="#5b6b7b" font-size="9.5">size ↔ task complexity</text>
+      <rect x="322" y="30" width="92" height="52" rx="9" fill="#f6f9fc" stroke="#d9e4ee"/><text x="368" y="52" font-weight="700" fill="#12293f">4 Fine-tune</text><text x="368" y="68" fill="#5b6b7b" font-size="9.5">Foundry runs the compute</text>
+      <rect x="426" y="26" width="92" height="58" rx="9" fill="#fdecea" stroke="#f2c7c3"/><text x="472" y="50" font-weight="800" fill="#c62828">5 EVALUATE</text><text x="472" y="66" fill="#a94442" font-size="9.5">held-out data: accuracy, latency, bias</text>
+      <rect x="530" y="30" width="92" height="52" rx="9" fill="#f6f9fc" stroke="#d9e4ee"/><text x="576" y="52" font-weight="700" fill="#12293f">6 Deploy</text><text x="576" y="68" fill="#5b6b7b" font-size="9.5">managed endpoint · auto-scale</text>
+      <rect x="634" y="30" width="112" height="52" rx="9" fill="#e7f4ea" stroke="#c4e2cb"/><text x="690" y="52" font-weight="700" fill="#166534">7 Integrate</text><text x="690" y="68" fill="#3c6947" font-size="9.5">MCP / Studio actions + drift monitoring</text>
+      <line x1="102" y1="56" x2="112" y2="56" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrCM)"/>
+      <line x1="206" y1="56" x2="216" y2="56" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrCM)"/>
+      <line x1="310" y1="56" x2="320" y2="56" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrCM)"/>
+      <line x1="414" y1="56" x2="424" y2="56" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrCM)"/>
+      <line x1="518" y1="56" x2="528" y2="56" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrCM)"/>
+      <line x1="622" y1="56" x2="632" y2="56" stroke="#8ea3b8" stroke-width="2" marker-end="url(#arrCM)"/>
+      <text x="380" y="108" fill="#5b6b7b" font-size="11.5">evaluation fails → loop back to steps 2–3 · Foundry stage tools: <tspan font-weight="700" fill="#1a2733">prompt flow</tspan> (prototype) · <tspan font-weight="700" fill="#1a2733">evaluation</tspan> (test) · <tspan font-weight="700" fill="#1a2733">deployment</tspan> (production)</text>
+    </g>
+  </svg>
+  </div>
+  <div class="learns">
+    <div class="learn"><span class="n">32</span><span>Multi-model pipelines are legitimate designs: <b>one model extracts, one classifies, one summarizes</b> — each specialized, routed for cost.</span></div>
+    <div class="learn"><span class="n">33</span><span>Govern custom models with <b>versioning (rollback), prediction auditing (compliance), drift monitoring</b> — production models degrade as real-world data shifts.</span></div>
+  </div>
+  <div class="hook">🧠 <b>Hook:</b> the Foundry stage question — "where are we?" Prototyping = <b>prompt flow</b> · testing = <b>evaluation tools</b> · production = <b>deployment &amp; monitoring</b>.</div>
+</section>
+
+<div class="pager">
+  <a href="course-3-plan.html"><span>Previous unit</span><b>← 3 · Plan Solutions</b></a>
+  <a class="next" href="course-5-operate.html"><span>Next unit</span><b>5 · Deploy, Govern &amp; Secure →</b></a>
+</div>
+
+</div>
+<footer class="src">Companion notes to Unit 4 (Eps 4.1–4.10) of the <a href="https://www.youtube.com/playlist?list=PLXd94bZTzZ-SGw8yMHD44d9xKgMKTZUVF" target="_blank" rel="noopener">Microsoft AB-100 Agentic AI Exam Prep</a> video course — summaries and visuals are original study notes; watch the episodes for the full narration.</footer>
+</body>
+</html>
